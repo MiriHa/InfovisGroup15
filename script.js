@@ -14,18 +14,68 @@ var svg = d3.select("body").append("svg")
 
 json = {
     "nodes": [{
-        "x": 150,
-        "r": 40,
+        "x": 250,
+         "y": 250,
+        "r": 50,
         "c" : "orange", 
-        "label": "analog"
-        
-    }, {
-        "x": 300,
+        "label": "analog"        
+    }, { 
+        "x": 450,
+        "y": 250,
         "r": 60,
         "c" : "blue",
         "label": "digital"        
-    }]
+    }, {
+        "x": 150,
+         "y": 100,
+        "r": 40,
+        "c" : "orange", 
+        "label": "Board Games"
+        
+    },{
+        "x": 100,
+         "y": 250,
+        "r": 40,
+        "c" : "orange", 
+        "label": "books"
+        
+    },{
+        "x": 150,
+         "y": 400,
+        "r": 40,
+        "c" : "orange", 
+        "label": "News paper"
+        
+    },{
+        "x": 550,
+        "y": 400,
+        "r": 60,
+        "c" : "blue",
+        "label": "Streaming"        
+    }, {
+        "x": 500,
+        "y": 80,
+        "r": 50,
+        "c" : "blue",
+        "label": "Social Media"        
+    }, {
+        "x": 650,
+        "y": 200,
+        "r": 40,
+        "c" : "blue",
+        "label": "Games"        
+    }, {
+        "x": 350,
+        "y": 400,
+        "r": 50,
+        "c" : "blue",
+        "label": "Television"        
+    }
+    
+    
+    ]
 }
+
 
 /* Define the data for the circles */
 var elem = svg.selectAll("g")
@@ -35,7 +85,7 @@ var elem = svg.selectAll("g")
 var elemEnter = elem.enter()
     .append("g")
     .attr("transform", function (d) {
-    return "translate(" + d.x + ",80)"
+    return "translate(" + d.x + "," + d.y + ")"
 })
 
 /*Create the circle for each block */
@@ -49,13 +99,14 @@ var circle = elemEnter.append("circle")
 /* Create the text for each block */
 elemEnter.append("text")
     .attr("dx", function (d) {
-    return -20
+    return -30
     
 })
-		.attr("dy", 3)
+		.attr("dy", 3)    
     .text(function (d) {
     return d.label
 })
+
 
 //Versuch für Animation, kleines und größer
 /*
