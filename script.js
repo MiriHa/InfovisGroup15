@@ -5,60 +5,60 @@ function visualizeSlider(){
 
 json = {
     "nodes": [{
-        "x": 250,
-         "y": 250,
-        "r": 50,
+        "x": 310,
+         "y": 310,
+        "r": 100,
         "c" : "orange", 
         "label": "analog"        
     }, { 
-        "x": 450,
-        "y": 250,
-        "r": 60,
+        "x": 510,
+        "y": 310,
+        "r": 100,
         "c" : "blue",
         "label": "digital"        
     }, {
         "x": 150,
          "y": 100,
-        "r": 40,
+        "r": 100,
         "c" : "orange", 
         "label": "Board Games"
         
     },{
         "x": 100,
-         "y": 250,
-        "r": 40,
+         "y": 310,
+        "r": 100,
         "c" : "orange", 
         "label": "books"
         
     },{
         "x": 150,
-         "y": 400,
-        "r": 40,
+         "y": 510,
+        "r": 100,
         "c" : "orange", 
         "label": "News paper"
         
     },{
-        "x": 550,
-        "y": 400,
-        "r": 60,
+        "x": 500,
+        "y": 515,
+        "r": 100,
         "c" : "blue",
         "label": "Streaming"        
     }, {
         "x": 500,
-        "y": 80,
-        "r": 50,
+        "y": 100,
+        "r": 100,
         "c" : "blue",
         "label": "Social Media"        
     }, {
-        "x": 650,
-        "y": 200,
-        "r": 40,
+        "x": 700,
+        "y": 190,
+        "r": 100,
         "c" : "blue",
         "label": "Games"        
     }, {
-        "x": 350,
-        "y": 400,
-        "r": 50,
+        "x": 700,
+        "y": 410,
+        "r": 100,
         "c" : "blue",
         "label": "Television"        
     }
