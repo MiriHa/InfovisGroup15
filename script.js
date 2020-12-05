@@ -67,14 +67,17 @@ json = {
     ]
 }
 
-function visualizeBubbles(var json){
-  var width = 960,
+function visualizeBubbles(){
+    var width = 960,
     height = 500;
     
 
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height)
+
+
+
 
 /* Define the data for the circles */
 var elem = svg.selectAll("g")
@@ -106,11 +109,10 @@ elemEnter.append("text")
     return d.label
 })
 
-
-//Versuch für Animation, kleines und größer
+//kreisAnimation
 /*
 var width = 500,
-height = 500,
+height = 600,
 minRadius = 50,
     maxRadius = 100;
 
@@ -127,12 +129,16 @@ svg.append("circle")
     .attr("stroke","black")
     .attr("fill", "blue")
     .call(transition, minRadius, maxRadius);
-*/
 
+*/
 function transition(element, start, end) {
     element.transition()
         .duration(duration)
         .attr("r", end)
         .each("end", function() { d3.select(this).call(transition, end, start); });
 }
+
 }
+
+
+visualizeBubbles(json);
