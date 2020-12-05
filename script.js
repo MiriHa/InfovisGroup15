@@ -11,7 +11,7 @@ json = {
         "c" : "orange", 
         "label": "analog"        
     }, { 
-        "x": 510,
+        "x": 520,
         "y": 310,
         "r": 100,
         "c" : "blue",
