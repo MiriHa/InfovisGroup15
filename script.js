@@ -3,15 +3,6 @@ function visualizeSlider(){
   
 }
 
-function visualizeBubbles(){
-  var width = 960,
-    height = 500;
-    
-
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height)
-
 json = {
     "nodes": [{
         "x": 250,
@@ -76,6 +67,14 @@ json = {
     ]
 }
 
+function visualizeBubbles(var json){
+  var width = 960,
+    height = 500;
+    
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height)
 
 /* Define the data for the circles */
 var elem = svg.selectAll("g")
