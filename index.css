@@ -1,21 +1,24 @@
 .circumference{
     fill: #fff;
-    stroke: #f2f2f2;
-    stroke-width: 7px;
+    stroke: #d4d4d4;
+    stroke-width: 15px;
 }
 
-.dot circle:hover{
+.handle circle:hover{
     cursor: pointer;
 }
 
-.dot circle{
-    fill: lightseagreen;
-    stroke: steelblue;
+.handle circle{
+    fill: blue;
+    stroke: black;
     stroke-width: 2px;
 }
 
-.dot circle.dragging{
-    fill: red;
+.handle circle.dragging{
+    fill: darkblue;
     stroke: black;
 }
 
+#innerCircle{
+    fill: darkred;
+}
