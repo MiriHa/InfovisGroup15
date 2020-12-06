@@ -62,30 +62,7 @@ function visualiseDiagram () {
         .call(d3.axisLeft(yScale));
 
 /*
-
-    g.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(xScale))
-        .append("text")
-        .attr("y", height - 250)
-        .attr("x", width - 100)
-        .attr("text-anchor", "end")
-        .attr("stroke", "black")
-        .text("Year");
-
-    g.append("g")
-        .call(d3.axisLeft(yScale).tickFormat(function(d){
-            return "$" + d;
-        })
-            .ticks(10))
-        .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 6)
-        .attr("dy", "-5.1em")
-        .attr("text-anchor", "end")
-        .attr("stroke", "black")
-        .text("Number");
-
+    // Bars
     g.selectAll(".bar")
         .data(data)
         .enter().append("rect")
