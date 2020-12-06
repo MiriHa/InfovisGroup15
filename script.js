@@ -112,25 +112,7 @@ var circle = elemEnter.append("circle")
     .attr("r", function (d) {return d.r})
     .attr("stroke", "black")
     .attr("fill", function(d) { return d.c}) 
-    .on("click", function(d) {
-        d3.select(this).attr("fill", function(d) { return "red"}); //noch rausnehmen nur damit klar was gedrückt wurde
-        console.log("ID = " + d3.select(this).attr("id")); //-> zugriff auf Attribute der angeklickten Bubble
-        if(d3.select(this).attr("id") == 2){
-            console.log("if");
-            return ClickforDig(d);
-        }
-        if(d3.select(this).attr("id") == 1){
-            console.log("else if");
-            return ClickforAna(d);
-        }else{
-            //Click auf keine Hauptbubble -> Diagramm anzeigen lassen für diese Bubble
-            console.log("else" + d.id);
-            return showDiagram(d.label);
-            
-        }
-        
-        
-    })
+    .on("click", function(d) { return Bubbleclick(d3.select(this))})
 
 /* Create the text for each block */
 elemEnter.append("text")
@@ -149,6 +131,8 @@ elemEnter.append("circle")
 .attr("fill", function(d) { return d.c}) 
 .style("opacity", 0.2)
 
+
+
  //MouseEvent
 /*
 // On Click, we want to add data to the array and chart
@@ -165,6 +149,22 @@ circle.on("click", function() {
   })
 */
 
+function Bubbleclick(d){
+    console.log("ID = " + d.attr("id")); //-> zugriff auf Attribute der angeklickten Bubble
+    if(d.attr("id") == 2){
+        console.log("if");
+        return ClickforDig(d);
+    }
+    if(d.attr("id") == 1){
+        console.log("else if");
+        return ClickforAna(d);
+    }else{
+        //Click auf keine Hauptbubble -> Diagramm anzeigen lassen für diese Bubble
+        console.log("else");
+        return showDiagram(d.attr("label"));
+        
+    }
+}
 
 function ClickforAna(d){
     //analoge sichtbar 
@@ -175,6 +175,7 @@ function ClickforAna(d){
     .attr("stroke", "black")
     .attr("fill", function(d) { return d.c}) 
     .style("opacity", 1)
+    .on("click", function(d) { return Bubbleclick(d3.select(this))})
     //Texte anzeigen
     elemEnter.append("text")
     //.filter(function(d) {return d.id < 3})
@@ -184,12 +185,15 @@ function ClickforAna(d){
 
     //digitale Bubble transparent
     var circle = elemEnter.append("circle")
-    //.filter(function(d) {return 2})
+    .filter(function(d) {return (d.id > 2)})
     .attr("id", function (d) {return d.id})
     .attr("r", function (d) {return d.r})
     .attr("stroke", "black")
     .attr("fill", function(d) { return d.c}) 
     .style("opacity", 0.2)
+    //noch fehlerhaft
+    //.on("mouseover", handleMouseOver)
+    //.on("mouseout", handleMouseOut);
 }
 
 function ClickforDig(d){
@@ -200,6 +204,7 @@ function ClickforDig(d){
     .attr("stroke", "black")
     .attr("fill", function(d) { return d.c}) 
     .style("opacity", 1)
+    .on("click", function(d) { return Bubbleclick(d3.select(this))})
     //Texte anzeigen
     elemEnter.append("text")
     //.filter(function(d) {return d.id < 3})
@@ -207,42 +212,34 @@ function ClickforDig(d){
 	.attr("dy", 3)    
     .text(function (d) {return d.label})
     
-    //analoge Bubbles transparent
+    //analoge Bubbles transparent    
     var circle = elemEnter.append("circle")
-    //.filter(function(d) {return 2})
+    .filter(function(d) {return (d.id >2 || d.id <=5)})
     .attr("id", function (d) {return d.id})
     .attr("r", function (d) {return d.r})
     .attr("stroke", "black")
     .attr("fill", function(d) { return d.c}) 
     .style("opacity", 0.2)
+    //noch fehlerhaft
+    //.on("mouseover", handleMouseOver) 
+    //.on("mouseout", handleMouseOut);
 }
  // Create Event Handlers for mouse
  function handleMouseOver(d, i) {  // Add interactivity
-
-    // Use D3 to select element, change color and size
-    d3.select(this).attr({
-      fill: "orange",
-      r: radius * 2
-    });
-
+    console.log("inMouseOVER");
     // Specify where to put label of text
     svg.append("text").attr({
-       id: "t" + d.label + "-" + i,  // Create an id for text so we can select it later for removing on mouseout        
+       id: "t" + d3.select(this).attr("label") + "-" + i,  // Create an id for text so we can select it later for removing on mouseout        
     })
     .text(function() {
-      return [d.label];  // Value of the text
+      return [d3.select(this).attr("label")];  // Value of the text
     });
   }
 
 function handleMouseOut(d, i) {
-    // Use D3 to select element, change color back to normal
-    d3.select(this).attr({
-      fill: "black",
-      r: radius
-    });
-
+    console.log("inMouseOUT");
     // Select text by id and then remove
-    d3.select("#t" + d.label + "-" + i).remove();  // Remove text location
+    d3.select("#t" + d3.select(this).attr("label") + "-" + i).remove();  // Remove text location
   }
 
   
@@ -283,4 +280,3 @@ function transition(element, start, end) {
 
 
 visualizeBubbles(json1);
-
