@@ -6,55 +6,86 @@ function visualizeBubbles(){
   
 }
 
-visualiseDiagram();
+
 function visualiseDiagram () {
 
-    // Test Data
-    var data = {
-        header: ["Year", "Number"],
-        rows: [
-            ["2015", 1500],
-            ["2016", 87000],
-            ["2017", 175000],
-            ["2018", 10000],
-            ["2019", 242000],
-            ["2020", 25000]
-        ]}
+    // Test data
+    let tickLabels = ["2015", "2016", "2017", "2018", "2019", "2020"];
+    var year = [2015, 2016, 2017, 2018, 2019, 2020];
+    var data = [0, 10, 50, 60, 70, 20, 80, 100];
 
     let margin = {top: 10, right: 30, bottom: 30, left:60},
-        width = 460 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom,
-        color = "steelblue";
+        width = 660 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
 
     var svg = d3.select("#diagrammContainer")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", width + margin.top + margin.bottom)
         .append("g") // Group to container
-        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+        .attr("transform", `translate(${margin.left}, ${margin.top})`)
 
-    var xAxis = d3.scaleLinear()
-        //.domain([d3.extent(data, item => Number(item.jahr))])
-        .range([0, width])
 
+    var xScale = d3.scaleLinear()
+        //.domain([d3.min(year), d3.max(year)])
+        .range([0, width]);
+
+    let xAxisGenerator = d3.axisBottom(xScale)
+        .tickFormat((d,i) => tickLabels[i])
+        .ticks(6);
+
+    let xAxis = svg.append("g")
+        .attr("transform", `translate(0, ${height})`)
+        .call(xAxisGenerator)
+        .selectAll("text")
+        .style("text-anchor", "end")
+        .attr("transform", "rotate(-45)" );;
+
+
+    var yScale = d3.scaleLinear()
+        .domain([d3.min(data), d3.max(data)])
+        .range([height, 0]);
+/*
     svg.append("g")
         .attr("transform", `translate(0, ${height})`)
-        .call(d3.axisBottom(xAxis));
-
-    var yAxis = d3.scaleLinear()
-        //.domain([(d3.min(data, item => Number(item.wert)))-1, d3.max(data, item => Number(item.wert))])
-        .range([height, 0]);
+        .call(d3.axisBottom(xScale));*/
 
     svg.append("g")
-        .call(d3.axisLeft(yAxis));
-    
-    svg.selectAll("bar")
+        .call(d3.axisLeft(yScale));
+
+/*
+
+    g.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(xScale))
+        .append("text")
+        .attr("y", height - 250)
+        .attr("x", width - 100)
+        .attr("text-anchor", "end")
+        .attr("stroke", "black")
+        .text("Year");
+
+    g.append("g")
+        .call(d3.axisLeft(yScale).tickFormat(function(d){
+            return "$" + d;
+        })
+            .ticks(10))
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", "-5.1em")
+        .attr("text-anchor", "end")
+        .attr("stroke", "black")
+        .text("Number");
+
+    g.selectAll(".bar")
         .data(data)
         .enter().append("rect")
-        .style("fill", color)
-        .attr("x", function(d) { return x(d.date); })
-        .attr("width", x.rangeBand())
-        .attr("y", function(d) { return y(d.value); })
-        .attr("height", function(d) { return height - y(d.value); });
-
+        .attr("class", "bar")
+        .attr("x", function(d) { return xScale(d.year); })
+        .attr("y", function(d) { return yScale(d.value); })
+        .attr("width", xScale.bandwidth())
+        .attr("height", function(d) { return height - yScale(d.value); });
+*/
 }
+visualiseDiagram();
