@@ -12,9 +12,11 @@
     var width = 600,
     //  width = (radiuas+ margin)*
         height = 300,
-        //radians = 0.0174532925
+        radians = 0.0174532925
         tickStart = circumference_r + 18,
-        tickLength = -26;
+        tickLength = -26,
+        MonthLabelRadius = circumference_r + 24,
+        MonthLabelYOffset = 5;
 
     var tickScale = d3.scaleLinear()
         .range([0,330])
@@ -53,7 +55,29 @@
                 .attr('transform', function(d){ 
                     return 'rotate('+tickScale(d) + ')';
                  });
-                 
+
+    var lable = face.append('text')
+            .text("January")
+            .attr('x', 0 - 25)
+            .attr('y', - tickStart -1.5);
+   
+    /* Month lables, currently numbers
+    face.selectAll('.monthLabel')
+                 .data(d3.range(3,13,3))
+                 .enter()
+                 .append('text')
+                 .attr('class', 'monthLabel')
+                 .attr('text-anchor', 'middle')
+                 .attr('x', function(d){
+                            return MonthLabelRadius*Math.sin(tickScale(d)*radians);
+                 })
+                 .attr('y', function(d){
+                            return -MonthLabelRadius*Math.cos(tickScale(d)*radians) + MonthLabelYOffset;
+                 })
+                 .text(function(d){
+                     return d;
+                 });
+    */
 
     var circumference = container.append('circle')
         .attr("id", "sliderCircle")
@@ -92,10 +116,9 @@
         .attr("x", function (d) {return d.x-3})
         .attr("y", function(d) {return d.y})
         .attr("dy", ".35em")
-        .text("text");
-    
-
-   
+        .text(function(d){
+            return d;
+        });
 
     
 
