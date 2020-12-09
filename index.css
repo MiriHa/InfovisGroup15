@@ -2,6 +2,7 @@
     fill: #fff;
     stroke: #d4d4d4;
     stroke-width: 15px;
+    opacity: 0.6;
 }
 
 .handle circle:hover{
@@ -9,14 +10,20 @@
 }
 
 .handle circle{
-    fill: blue;
+    fill: darkgrey;
     stroke: black;
     stroke-width: 2px;
 }
 
 .handle circle.dragging{
-    fill: darkblue;
+    fill: grey;
     stroke: black;
+}
+
+.tick{
+    stroke-width: 4;
+    stroke: black;
+    fill: black;
 }
 
 #innerCircle{

@@ -4,12 +4,22 @@
  */
 
     var margin = {top: 10, right:100, bottom: 30, left: 60};
-    var width = 600,
-        height = 300;
 
     var circumference_handle = 12;
     var circumference_r = 120; 
     var circumference_inner = 100;
+
+    var width = 600,
+    //  width = (radiuas+ margin)*
+        height = 300,
+        //radians = 0.0174532925
+        tickStart = circumference_r + 18,
+        tickLength = -26;
+
+    var tickScale = d3.scaleLinear()
+        .range([0,330])
+        .domain([0,11]);
+
 
     var drag = d3.drag()
         .subject(function (event, d) { return event, d; })
@@ -27,12 +37,30 @@
     var container = svg.append("g")
         .attr("id", "sliderGroup");
         
+    var face = container.append("g")
+		.attr('id','scale-face');
+    
+        
+    face.selectAll('.tick')
+        .data(d3.range(0,12))
+                .enter()
+                .append('line')
+                .attr('class', 'tick')
+                .attr('x1', 0)
+                .attr('x2', 0)
+                .attr('y1', tickStart)
+                .attr('y2', tickStart + tickLength)
+                .attr('transform', function(d){ 
+                    return 'rotate('+tickScale(d) + ')';
+                 });
+                 
 
     var circumference = container.append('circle')
         .attr("id", "sliderCircle")
         .attr('r', circumference_r)
         .attr('class', 'circumference');
 
+                 
     handle = [{
         x: 0,
         y: -circumference_r
@@ -49,6 +77,7 @@
         .attr("cy", function (d) { return d.y; })
         .call(drag);
 
+    
     var innerContainer = container.append("g")
         .attr("id", "innerCircle");
 
@@ -64,6 +93,9 @@
         .attr("y", function(d) {return d.y})
         .attr("dy", ".35em")
         .text("text");
+    
+
+   
 
     
 
