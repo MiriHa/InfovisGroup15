@@ -85,6 +85,7 @@ function visualizeBubbles(json){
     state = 0; //nur analog und digital anzeigen
     
     
+    
     var width = 960,
     height = 500;
     
@@ -105,6 +106,8 @@ var elemEnter = elem.enter()
 })
 
 console.log("hello Blub");
+
+
 /*Create the circles: analog, digital */
 var circle = elemEnter.append("circle")
 .filter(function(d) {return d.id < 3}) //nur Hauptbubbles
@@ -113,14 +116,21 @@ var circle = elemEnter.append("circle")
     .attr("stroke", "black")
     .attr("fill", function(d) { return d.c}) 
     .on("click", function(d) { return Bubbleclick(d3.select(this))})
+    //noch testen
+    .on("mouseover", function(d) { return handleMouseOver(d3.select(this))})
+    .style("opacity", 0.9)
 
-/* Create the text for each block */
+
+elemEnter.selectAll("text").remove()
+//Texte einfügen und später filtern
 elemEnter.append("text")
-    //.filter(function(d) {return d.id < 3})
+    .filter(function(d) {return d.id < 3})
     .attr("dx", function (d) {return -30 })
 	.attr("dy", 3)    
     .text(function (d) {return d.label})
+    .style("fill", function(d) {return Choosetextcolor(d)})
 
+.filter(function(d) {return d.id < 3})
 
     //andere Bubbles transparent
 elemEnter.append("circle")
@@ -149,6 +159,17 @@ circle.on("click", function() {
   })
 */
 
+function Choosetextcolor(d) {
+    if(d.c == "blue") {
+        return "white";
+    }
+    if(d.c == "orange") {
+        return "black";
+    }
+    console.log("keine Farbe");
+    return "black";
+}
+
 function Bubbleclick(d){
     console.log("ID = " + d.attr("id")); //-> zugriff auf Attribute der angeklickten Bubble
     if(d.attr("id") == 2){
@@ -166,81 +187,139 @@ function Bubbleclick(d){
     }
 }
 
+
+
 function ClickforAna(d){
     //analoge sichtbar 
-    var circle = elemEnter.append("circle")
-    .filter(function(d) {return (d.id <= 5 | d.id == 1)}) //nur analoge
+    elemEnter.selectAll("circle")//.append("circle")
+    .filter(function(d) {return (d.id <= 5 && d.id != 2)}) //nur analoge
     .attr("id", function (d) {return d.id})
     .attr("r", function (d) {return d.r})
     .attr("stroke", "black")
     .attr("fill", function(d) { return d.c}) 
-    .style("opacity", 1)
+    .style("opacity", 5)
+    //.on("mouseover", handleMouseOver(d)) //klappt
+    .on("mouseover", function(d) { return handleMouseOver(d3.select(this))})
     .on("click", function(d) { return Bubbleclick(d3.select(this))})
+   
+    //alte Texte entfernen
+    elemEnter.selectAll("text").remove()
     //Texte anzeigen
     elemEnter.append("text")
-    //.filter(function(d) {return d.id < 3})
+    .filter(function(d) {return (d.id <= 5)}) //nur analoge und hauptbubble
     .attr("dx", function (d) {return -30 })
 	.attr("dy", 3)    
     .text(function (d) {return d.label})
-
-    //digitale Bubble transparent
-    var circle = elemEnter.append("circle")
-    .filter(function(d) {return (d.id > 2)})
+    .style("fill", function(d) {return Choosetextcolor(d)});    
+    
+    //digitale Bubble transparent -> noch nicht richtig
+     elemEnter//.append("circle")
+    .selectAll("circle")
+    .filter(function(d) {return (d.id > 5 )})
     .attr("id", function (d) {return d.id})
     .attr("r", function (d) {return d.r})
     .attr("stroke", "black")
     .attr("fill", function(d) { return d.c}) 
     .style("opacity", 0.2)
     //noch fehlerhaft
-    //.on("mouseover", handleMouseOver)
-    //.on("mouseout", handleMouseOut);
+    //.on("mouseover", handleMouseOver(d3.select(this)))
+    //.on("mouseout", handleMouseOut(d3.select(this)))
+    //.on("click", function(d) { return Bubbleclick(d3.select(this))});
+    
 }
 
 function ClickforDig(d){
-    var circle = elemEnter.append("circle")
-    .filter(function(d) {return (d.id > 5 | d.id == 2)}) //nur digitale
+     elemEnter
+     .selectAll("circle")
+     //.append("circle")
+    .filter(function(d) {return (d.id > 5 || d.id == 2)}) //nur digitale
     .attr("id", function (d) {return d.id})
     .attr("r", function (d) {return d.r})
     .attr("stroke", "black")
     .attr("fill", function(d) { return d.c}) 
-    .style("opacity", 1)
-    .on("click", function(d) { return Bubbleclick(d3.select(this))})
+    .style("opacity", 2)
+    //.on("mouseover", handleMouseOver(d)) //klappt
+    .on("mouseover", function(d) { return handleMouseOver(d3.select(this))})
+    .on("click", function(d) { return Bubbleclick(d3.select(this))});
+
+    //alte Texte entfernen
+    elemEnter.selectAll("text").remove()
     //Texte anzeigen
     elemEnter.append("text")
-    //.filter(function(d) {return d.id < 3})
+    .filter(function(d) {return (d.id > 5 || d.id <= 2)}) //nur digitale und hauptbubble
     .attr("dx", function (d) {return -30 })
 	.attr("dy", 3)    
     .text(function (d) {return d.label})
+    .style("fill", function(d) {return Choosetextcolor(d)})
+    
     
     //analoge Bubbles transparent    
-    var circle = elemEnter.append("circle")
-    .filter(function(d) {return (d.id >2 || d.id <=5)})
+    elemEnter//.append("circle")
+    .selectAll("circle")
+    .filter(function(d) {return (d.id > 2 && d.id <=5)})
     .attr("id", function (d) {return d.id})
     .attr("r", function (d) {return d.r})
     .attr("stroke", "black")
     .attr("fill", function(d) { return d.c}) 
     .style("opacity", 0.2)
     //noch fehlerhaft
-    //.on("mouseover", handleMouseOver) 
-    //.on("mouseout", handleMouseOut);
+    //.on("mouseover", handleMouseOver(d3.select(this))) 
+    //.on("mouseout", handleMouseOut(d3.select(this)))
+    //.on("click", function(d) { return Bubbleclick(d3.select(this))});
+    
+}
+
+function idToLabel(id){
+    if(id == 3) {return "Board Games"}
+    if(id == 4) {return "Books"}
+    if(id == 5) {return "News Paper"}
+    if(id == 6) {return "Streaming"}
+    if(id == 7) {return "Social Media"}
+    if(id == 8) {return "Digital Games"}
+    if(id == 9) {return "Television"}
+    return " ";
 }
  // Create Event Handlers for mouse
- function handleMouseOver(d, i) {  // Add interactivity
+ function handleMouseOver(d) {  // Add interactivity
     console.log("inMouseOVER");
+    
+    var aktT = idToLabel(d.attr("id"));
+    console.log(aktT); //-> zugriff auf Attribute der angeklickten Bubble
+    var xpos = d.attr("x");
+    var ypos = d.attr("y");
+    //d.attr("fill", "red");
     // Specify where to put label of text
-    svg.append("text").attr({
-       id: "t" + d3.select(this).attr("label") + "-" + i,  // Create an id for text so we can select it later for removing on mouseout        
-    })
-    .text(function() {
-      return [d3.select(this).attr("label")];  // Value of the text
-    });
+    //Mouse Position
+    svg.append("text")
+    .attr("x", 800 )
+    .attr("y", 80 )
+    .attr("id", "t" + aktT)
+    .text(aktT);
   }
 
 function handleMouseOut(d, i) {
     console.log("inMouseOUT");
     // Select text by id and then remove
-    d3.select("#t" + d3.select(this).attr("label") + "-" + i).remove();  // Remove text location
+    d3.select("#t" + idToLabel(d.attr("id")) ); //+ "-" + d.attr("id")).remove();  // Remove text location
+
   }
+
+
+  //Auswahl in den Vordergrund verschieben
+  /*
+  d3.selection.prototype.moveToFront = function() {
+    return this.each(function(){
+      this.parentNode.appendChild(this);
+    });
+  };
+  */
+
+  /* beim Mouseovering
+  circles.on("mouseover",function(){
+  var sel = d3.select(this);
+  sel.moveToFront();
+    });
+  */
 
   
 
@@ -277,6 +356,5 @@ function transition(element, start, end) {
 }
 
 
-
-
 visualizeBubbles(json1);
+
