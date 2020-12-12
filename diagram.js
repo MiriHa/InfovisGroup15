@@ -106,7 +106,7 @@ barGroups
             .duration(300)
             .attr('opacity', 0.6)
             .attr('x', (a) => xScale(a.month) - 5)
-            .attr('width', xScale.bandwidth() + 10)
+            .attr('width', xScale.bandwidth() + 15)
 
         const y = yScale(actual.value)
 
