@@ -78,15 +78,18 @@ function visualizeDiagram() {
         .range([height, 0])
         .domain([0, 100]);
 
-    //
     const makeYLines = () => d3.axisLeft()
         .scale(yScale)
 
+    // Show xScale
     chart.append('g')
+        .attr('class', 'tick_Scales')
         .attr('transform', `translate(0, ${height})`)
         .call(d3.axisBottom(xScale));
 
+    // Show yScale
     chart.append('g')
+        .attr('class', 'tick_Scales')
         .call(d3.axisLeft(yScale));
 
     // Lines
@@ -149,6 +152,7 @@ function visualizeDiagram() {
                 })
 
         })
+        // When leaving the mouse reset to default
         .on('mouseleave', function () {
             d3.selectAll('.value')
                 .attr('opacity', 1)
@@ -164,6 +168,7 @@ function visualizeDiagram() {
             chart.selectAll('.divergence').remove()
         })
 
+    // Bar values
     barGroups
         .append('text')
         .attr('class', 'value')
