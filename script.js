@@ -1,5 +1,4 @@
 
-
 /**
  * VISUALIZE SLIDER
  */
@@ -236,13 +235,3 @@ function dragended(event, d) {
 /**
  * VISUALIZE SLIDER END
  */
-
-
-
-
-
-
-function visualizeBubbles() {
-
-}
-

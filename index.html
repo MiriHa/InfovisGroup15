@@ -7,6 +7,7 @@
     <body>
         <h1>Medienkonsum während der Corona Pandemie</h1>
         <link rel="stylesheet" href="index.css">
+        <script src ="https://d3js.org/d3.v6.min.js"></script>
 
         <div id="dataWrapper">
             <div id="bubbleChartContainer">
@@ -19,18 +20,18 @@
             </div>
         
             <div id="diagrammContainer">
-                <div id="upperDiagramm"></div>
+                <div id="upperDiagramm">
+                    <svg />
+                </div>
+                <script src = "./diagram.js"></script>
+
                 <div id="bottomDiagramm"></div>
 
             </div>
-
         </div>
-     
         <script src ="https://d3js.org/d3.v6.min.js"></script>
         <script src = "./script.js"></script>
         <script src = "./values.js"></script>
         <!--<script src = "./slider.js"></script> -->
-
-        
     </body>
 </html>
