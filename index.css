@@ -22,7 +22,12 @@ svg {
     fill: #80cbc4;
 }
 
-text {
+.title {
+    font-size: 12px;
+    fill: #fff;
+}
+
+.lable {
     font-size: 12px;
     fill: #fff;
 }
