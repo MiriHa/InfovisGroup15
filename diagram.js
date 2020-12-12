@@ -1,78 +1,84 @@
+/**
+ * Visualize the bar diagrams.
+**/
 function visualizeDiagram() {
 
     // Test Data
     const sample = [
         {
             month: 'Jan',
-            value: 78
+            value: 78.0
         },
         {
             month: 'Feb',
-            value: 75
+            value: 75.0
         },
         {
             month: 'Mar',
-            value: 68
+            value: 68.0
         },
         {
             month: 'Apr',
-            value: 67
+            value: 67.0
         },
         {
             month: 'May',
-            value: 65
+            value: 65.0
         },
         {
             month: 'Jun',
-            value: 65
+            value: 65.0
         },
         {
             month: 'Jul',
-            value: 61
+            value: 61.0
         },
         {
             month: 'Aug',
-            value: 60
+            value: 60.0
         },
         {
             month: 'Sep',
-            value: 59
+            value: 59.0
         },
         {
             month: 'Okt',
-            value: 70
+            value: 70.0
         },
         {
             month: 'Nov',
-            value: 80
+            value: 80.0
         },
         {
             month: 'Dec',
-            value: 100
+            value: 100.0
         }
     ];
 
-    //const svg = d3.select('svg');
-    //const svgContainer = d3.select('#upperDiagramm');
+    // Choose Container + Append 'svg'
+    let svg = d3.select('#upperDiagramm').append('svg');
 
-    var svg = d3.select('#upperDiagramm').append('svg');
-
+    // Set Margins
     const margin = 80;
     const width = 1000 - 2 * margin;
     const height = 600 - 2 * margin;
 
+    // Init Chart
     const chart = svg.append('g')
         .attr('transform', `translate(${margin}, ${margin})`);
 
+    // Init xScale
     const xScale = d3.scaleBand()
         .range([0, width])
         .domain(sample.map((s) => s.month))
         .padding(0.4)
 
+    // Init yScale
     const yScale = d3.scaleLinear()
         .range([height, 0])
         .domain([0, 100]);
 
+    //
     const makeYLines = () => d3.axisLeft()
         .scale(yScale)
 
@@ -83,6 +89,7 @@ function visualizeDiagram() {
     chart.append('g')
         .call(d3.axisLeft(yScale));
 
+    // Lines
     chart.append('g')
         .attr('class', 'grid')
         .call(makeYLines()
@@ -91,10 +98,12 @@ function visualizeDiagram() {
         )
 
     const barGroups = chart.selectAll()
+        // Input Data: sample
         .data(sample)
         .enter()
         .append('g')
 
+    // Bars
     barGroups
         .append('rect')
         .attr('class', 'bar')
@@ -113,9 +122,10 @@ function visualizeDiagram() {
                 .attr('x', (a) => xScale(a.month) - 5)
                 .attr('width', xScale.bandwidth() + 15)
 
-            const y = yScale(actual.value)
+            // Set value for pointed line
+            let y = yScale(i.value)
 
-            line = chart.append('line')
+            chart.append('line')
                 .attr('id', 'limit')
                 .attr('x1', 0)
                 .attr('y1', y)
@@ -129,11 +139,11 @@ function visualizeDiagram() {
                 .attr('fill', 'white')
                 .attr('text-anchor', 'middle')
                 .text((a, idx) => {
-                    const divergence = (a.value - actual.value).toFixed(1)
+                    const divergence = (a.value - i.value).toFixed(1)
 
                     let text = ''
                     if (divergence > 0) text += '+'
-                    text += `${divergence}%`
+                    text += `${divergence}`
 
                     return idx !== i ? text : '';
                 })
@@ -162,8 +172,8 @@ function visualizeDiagram() {
         .attr('text-anchor', 'middle')
         .text((a) => `${a.value}`)
 
-    svg
-        .append('text')
+    // Label for yScale
+    svg.append('text')
         .attr('class', 'label')
         .attr('x', -(height / 2) - margin)
         .attr('y', margin / 2.4)
@@ -171,6 +181,7 @@ function visualizeDiagram() {
         .attr('text-anchor', 'middle')
         .text('Fälle')
 
+    // Label for xScale
     svg.append('text')
         .attr('class', 'label')
         .attr('x', width / 2 + margin)
@@ -178,6 +189,7 @@ function visualizeDiagram() {
         .attr('text-anchor', 'middle')
         .text('Monate')
 
+    // Title
     svg.append('text')
         .attr('class', 'title')
         .attr('x', width / 2 + margin)
@@ -185,10 +197,11 @@ function visualizeDiagram() {
         .attr('text-anchor', 'middle')
         .text('Corona Fälle ')
 
+    // Source
     svg.append('text')
         .attr('class', 'source')
         .attr('x', width - margin / 2)
         .attr('y', height + margin * 1.7)
         .attr('text-anchor', 'start')
-        .text('Quelle: spiegel-online.de')
+        .text('Quelle: example.de')
 }

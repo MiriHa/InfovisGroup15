@@ -600,6 +600,7 @@ visualizeBubbles(json1);
 
 visualizeDiagram();
 /*
-//Visualize Diagram
+    Visualize Diagram
+    !DO NOT DELETE!
 */
 
