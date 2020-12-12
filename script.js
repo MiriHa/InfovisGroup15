@@ -10,13 +10,13 @@ function visualizeBubbles(){
 function visualiseDiagram () {
 
     // Test data
-    let tickLabels = ["2015", "2016", "2017", "2018", "2019", "2020"];
-    var year = [2015, 2016, 2017, 2018, 2019, 2020];
+    let tickLabels_year = ["2015", "2016", "2017", "2018", "2019", "2020"];
+    let tickLabels_month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"];
     var data = [0, 10, 50, 60, 70, 20, 80, 100];
 
     // Margin + geometry
     let margin = {top: 50, right: 30, bottom: 30, left:60},
-        width = 660 - margin.left - margin.right,
+        width = 670 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
 
     // Container
@@ -35,14 +35,16 @@ function visualiseDiagram () {
         .text("Title of Graph");
 
     // Init xAxis
-    let xScale = d3.scaleLinear()
-        //.domain([d3.min(year), d3.max(year)])
+    //let xScale = d3.scaleLinear()
+    let xScale = d3.scaleBand()
         .range([0, width]);
 
     // Use Generator to customize tickLabels of Axis
     let xAxisGenerator = d3.axisBottom(xScale)
-        .tickFormat((d,i) => tickLabels[i])
+        .tickFormat((d,i) => tickLabels_year[i])
+        //.tickFormat((d,i) => tickLabels_month[i])
         .ticks(6);
+        //.ticks(12);
 
     // Set attributes & show xAxis
     svg.append("g")
@@ -50,7 +52,7 @@ function visualiseDiagram () {
         .call(xAxisGenerator)
         .selectAll("text")
         .style("text-anchor", "end")
-        .attr("transform", "rotate(-45)" );;
+        .attr("transform", "rotate(-45)" );
 
     // Init yAxis
     let yScale = d3.scaleLinear()
@@ -60,7 +62,15 @@ function visualiseDiagram () {
     // Show yAxis
     svg.append("g")
         .call(d3.axisLeft(yScale));
-
+/*
+    svg.selectAll()
+        .data(tickLabels_year)
+        .enter()
+        .append('rect')
+        .attr('x', (s) => xScale(s.language))
+        .attr('y', (s) => yScale(s.value))
+        .attr('height', (s) => height - yScale(s.value))
+        .attr('width', xScale.bandwidth())*/
 /*
     // Bars
     g.selectAll(".bar")

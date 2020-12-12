@@ -1,3 +1,27 @@
+<!--
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>Bar chart with D3.js</title>
+
+    <link href="index.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+<div id='layout'>
+    <div id='container'>
+        <svg />
+    </div>
+    <script src = "./diagram.js"></script>
+</div>
+
+</body>
+</html>
+-->
+
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head>
@@ -7,6 +31,7 @@
     <body>
         <h1>Medienkonsum während der Corona Pandemie</h1>
         <link rel="stylesheet" href="index.css">
+        <script src ="https://d3js.org/d3.v6.min.js"></script>
 
         <div id="dataWrapper">
             <div id="bubbleChartContainer">
@@ -20,15 +45,16 @@
             </div>
         
             <div id="diagrammContainer">
-                <div id="upperDiagramm"></div>
+                <div id="upperDiagramm">
+                    <svg />
+                </div>
+                <script src = "./diagram.js"></script>
+
                 <div id="bottomDiagramm"></div>
 
             </div>
-
         </div>
-     
-        <script src ="https://d3js.org/d3.v6.min.js"></script>
-        <script src = "./script.js"></script>
-        <script src = "./values.js"></script>
+<!--        <script src = "./script.js"></script>-->
+<!--        <script src = "./values.js"></script>-->
     </body>
 </html>
