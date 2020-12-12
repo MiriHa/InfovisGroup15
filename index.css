@@ -72,3 +72,35 @@ text.label {
 text.source {
     font-size: 10px;
 }
+
+.circumference{
+    fill: #fff;
+    stroke: #d4d4d4;
+    stroke-width: 15px;
+    opacity: 0.6;
+}
+
+.handle circle:hover{
+    cursor: pointer;
+}
+
+.handle circle{
+    fill: darkgrey;
+    stroke: black;
+    stroke-width: 2px;
+}
+
+.handle circle.dragging{
+    fill: grey;
+    stroke: black;
+}
+
+.tick{
+    stroke-width: 4;
+    stroke: black;
+    fill: black;
+}
+
+.monthLable{
+    font-size: 28px;
+}
