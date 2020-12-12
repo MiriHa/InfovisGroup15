@@ -19,17 +19,6 @@ tickStart = circumference_r + 18,
     MonthLabelRadius = circumference_r + 24,
     MonthLabelYOffset = 5;
 
-//TODO calculate roatet way
-/*
-// 0,   30,            60,         90,  
-var tickphiright_right = [0, 0.5235987755, 1.04719755, 1.570796325,
-    //120,       150,          180
-    2.0943951, 2.617993875, 3.14159265,
-    //210,         240,       270
-    3.665191425, 4.1887902, 4.712388975,
-    //300,         330
-    5.23598775, 5.759586525]
-*/
 
 //0  Jan        30  Feb          60 Mär
 var tickphiright = [4.712388975, 5.23598775, 5.759586525,
@@ -151,10 +140,6 @@ var lockdownIndicator = innerContainer.append("text")
     .attr("font-size", "17px")
     .attr("fill", "white")
     .text(" ");
-
-
-
-
 
 //Functions to handle the Slider drag
 function dragstarted(event, d) {
