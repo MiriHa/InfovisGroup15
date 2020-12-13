@@ -1,4 +1,3 @@
-
 /**
  * VISUALIZE SLIDER
  */
@@ -32,7 +31,7 @@ var tickphiright = [4.712388975, 5.23598775, 5.759586525,
 var monthNames = ["Januray", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
 
-//Define Drag for the slider, functions at the end
+//Define drag for the slider, functions at the end
 var drag = d3.drag()
     .subject(function (event, d) { return event, d; })
     .on("start", dragstarted)
@@ -57,7 +56,7 @@ var tickScale = d3.scaleLinear()
     .range([0, 330])
     .domain([0, 11]);
 
-//Make the Monthticks     
+//Make the monthticks     
 face.selectAll('.tick')
     .data(d3.range(0, 12))
     .enter()
@@ -72,7 +71,7 @@ face.selectAll('.tick')
     });
 
 
-//Make the round Slider bar
+//Make the round slider bar
 var circumference = container.append('circle')
     .attr("id", "sliderCircle")
     .attr('r', circumference_r)
@@ -101,14 +100,14 @@ var innerContainer = container.append("g")
     .attr("id", "innerCircleContainer");
 
 
-//Make the inner Circle that displays Month and Corona Cases
+//Make the inner circle that displays month and corona cases
 var inner_circle = innerContainer.append("circle")
     .attr("id", "innerCircle")
     .attr("class", "circle")
     .attr("r", circumference_inner)
     .attr("fill", "grey")
 
-//Make the Month Lable, corona cases and lockdown indicator, changes with Slider
+//Make the month lable, corona cases and lockdown indicator, changes with slider
 var circleLableTime = innerContainer.append("text")
     .attr("id", "monthLable")
     .attr("dy", "-1.4em")
@@ -179,13 +178,13 @@ function dragended(event, d) {
         //phi = 2*Math.PI - Math.asin(sinPhi)
     }
 
-    //Finde the closest Tick:
+    //Find the closest tick:
     var closestPhi = tickphiright[0];
     var diff = Math.abs(phi - closestPhi);
     var postion = 0
 
     // TODO 
-    // between hightst and 0 value it wil always take highest and not 0
+    // between hightst and 0 value it will always take highest and not 0
     for (var val = 0; val < tickphiright.length; val++) {
         var newdiff = Math.abs(phi - tickphiright[val]);
         if (newdiff < diff) {
@@ -207,7 +206,7 @@ function dragended(event, d) {
         .text(monthNames[postion]);
 
     //TODO set Corona cases
-    //TOdo set Lockdown indicator -> make it mor dinamic
+    //TOdo set Lockdown indicator -> make it more dynamic
     if (postion == 4 || postion == 5 || postion == 6) {
         d3.select("#innerCircle")
             .attr("fill", "darkred");
@@ -595,5 +594,12 @@ function visualizeBubbles(json) {
 visualizeBubbles(json1);
 /*
 //Visualize Bubbles end
+*/
+
+
+visualizeDiagram();
+/*
+    Visualize Diagram
+    !DO NOT DELETE!
 */
 
