@@ -11,6 +11,16 @@ div#topDiagram {
     height: 600px;
     margin: auto;
     background-color: #f3f4ff;
+
+}div#slider {
+    width: 1000px;
+    height: 800px;
+    margin: auto;
+
+}div#bubbles {
+    width: 1000px;
+    height: 800px;
+    margin: auto;
 }
 
 div#bottomDiagram {
