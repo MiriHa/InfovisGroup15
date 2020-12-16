@@ -10,21 +10,24 @@ json1 = {
         "y": 310,
         "r": 100,
         "c": "orange",
-        "label": "analog"
+        "label": "analog",
+        "img" : ""
     }, {
         "id": 2,
         "x": 510,
         "y": 310,
         "r": 100,
         "c": "blue",
-        "label": "digital"
+        "label": "digital",
+        "img" : ""
     }, {
         "id": 3,
         "x": 150,
         "y": 100,
         "r": 100,
         "c": "orange",
-        "label": "Board Games"
+        "label": "Board Games",
+        "img" : "puzzles_icon.png"
 
     }, {
         "id": 4,
@@ -32,7 +35,8 @@ json1 = {
         "y": 310,
         "r": 100,
         "c": "orange",
-        "label": "books"
+        "label": "books",
+        "img": "books_icon.png"
 
     }, {
         "id": 5,
@@ -40,7 +44,8 @@ json1 = {
         "y": 510,
         "r": 100,
         "c": "orange",
-        "label": "News paper"
+        "label": "News paper",
+        "img": "newsPaper_icon.png"
 
     }, {
         "id": 6,
@@ -48,31 +53,36 @@ json1 = {
         "y": 515,
         "r": 100,
         "c": "blue",
-        "label": "Streaming"
+        "label": "Streaming",
+        "img": "Streaming.png"
     }, {
         "id": 7,
         "x": 500,
         "y": 100,
         "r": 100,
         "c": "blue",
-        "label": "Social Media"
+        "label": "Social Media",
+        "img": "socialMedia_icon.png"
     }, {
         "id": 8,
         "x": 700,
         "y": 190,
         "r": 100,
         "c": "blue",
-        "label": "Games"
+        "label": "Games",
+        "img": "games_icons.png"
     }, {
         "id": 9,
         "x": 700,
         "y": 410,
         "r": 100,
         "c": "blue",
-        "label": "Television"
+        "label": "Television",
+        "img": "tv_icon.png"
     }
     ]
 }
+
 
 json2 = {
     "bubbles": [{
@@ -81,29 +91,33 @@ json2 = {
         "y": 310,
         "r": 80,
         "c": "orange",
-        "label": "analog"
+        "label": "analog",
+        "img" : ""
     }, {
         "id": 2,
         "x": 510,
         "y": 310,
-        "r": 30,
+        "r": 70,
         "c": "blue",
-        "label": "digital"
+        "label": "digital",
+        "img" : ""
     }, {
         "id": 3,
         "x": 150,
         "y": 100,
-        "r": 40,
+        "r": 50,
         "c": "orange",
-        "label": "Board Games"
+        "label": "Board Games",
+        "img" : "puzzles_icon.png"
 
     }, {
         "id": 4,
         "x": 100,
         "y": 310,
-        "r": 50,
+        "r": 90,
         "c": "orange",
-        "label": "books"
+        "label": "books",
+        "img": "books_icon.png"
 
     }, {
         "id": 5,
@@ -111,36 +125,41 @@ json2 = {
         "y": 510,
         "r": 60,
         "c": "orange",
-        "label": "News paper"
+        "label": "News paper",
+        "img": "newsPaper_icon.png"
 
     }, {
         "id": 6,
         "x": 500,
         "y": 515,
-        "r": 100,
+        "r": 30,
         "c": "blue",
-        "label": "Streaming"
+        "label": "Streaming",
+        "img": "Streaming.png"
     }, {
         "id": 7,
         "x": 500,
         "y": 100,
-        "r": 40,
+        "r": 20,
         "c": "blue",
-        "label": "Social Media"
+        "label": "Social Media",
+        "img": "socialMedia_icon.png"
     }, {
         "id": 8,
         "x": 700,
         "y": 190,
-        "r": 60,
+        "r": 70,
         "c": "blue",
-        "label": "Games"
+        "label": "Games",
+        "img": "games_icons.png"
     }, {
         "id": 9,
         "x": 700,
         "y": 410,
-        "r": 70,
+        "r": 60,
         "c": "blue",
-        "label": "Television"
+        "label": "Television",
+        "img": "tv_icon.png"
     }
     ]
 }
@@ -187,6 +206,7 @@ function visualizeBubbles(json) {
         .on("click", function (d) { return Bubbleclick(d3.select(this)) })
         //noch testen
         .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
+        .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
         .style("opacity", 0.9)
 
 
@@ -198,7 +218,6 @@ function visualizeBubbles(json) {
         .attr("dy", 3)
         .text(function (d) { return d.label })
         .style("fill", function (d) { return Choosetextcolor(d) })
-
         .filter(function (d) { return d.id < 3 })
 
     //andere Bubbles transparent
@@ -210,7 +229,14 @@ function visualizeBubbles(json) {
         .attr("fill", function (d) { return d.c })
         .style("opacity", 0.2)
 
-
+    elemEnter.append("svg:image")
+        .filter(function (d) { return d.id > 2 })
+        .attr("x", -50)
+        .attr("y", -50)
+        .attr("width", 100)
+        .attr("height", 80)
+        .attr("xlink:href", function (d) {return "icons/" + d.img })
+        .style("opacity", 0.5)
 
     //MouseEvent
     /*
@@ -266,20 +292,12 @@ function visualizeBubbles(json) {
             .attr("r", function (d) { return d.r })
             .attr("stroke", "black")
             .attr("fill", function (d) { return d.c })
-            .style("opacity", 5)
+            .style("opacity", 2)
             //.on("mouseover", handleMouseOver(d)) //klappt
             .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
+            .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
             .on("click", function (d) { return Bubbleclick(d3.select(this)) })
 
-        //alte Texte entfernen
-        elemEnter.selectAll("text").remove()
-        //Texte anzeigen
-        elemEnter.append("text")
-            .filter(function (d) { return (d.id <= 5) }) //nur analoge und hauptbubble
-            .attr("dx", function (d) { return -30 })
-            .attr("dy", 3)
-            .text(function (d) { return d.label })
-            .style("fill", function (d) { return Choosetextcolor(d) });
 
         //digitale Bubble transparent -> noch nicht richtig
         elemEnter//.append("circle")
@@ -290,9 +308,44 @@ function visualizeBubbles(json) {
             .attr("stroke", "black")
             .attr("fill", function (d) { return d.c })
             .style("opacity", 0.2)
+
+
+        elemEnter.append("text")
+            .filter(function (d) { return (d.id <= 2) }) //nur analoge und hauptbubble
+            .attr("dx", function (d) { return -30 })
+            .attr("dy", 3)
+            .text(function (d) { return d.label })
+            .style("fill", function (d) { return Choosetextcolor(d) });
+
+
+        elemEnter.selectAll("svg:image").remove()
+        elemEnter.selectAll("svg:image")
+            .filter(function (d) { return (d.id <= 5) }) //nur analoge und hauptbubble
+            .attr("x", -50)
+            .attr("y", -50)
+            .attr("width", 100)
+            .attr("height", 80)
+            .attr("xlink:href", function (d) {return "icons/" + d.img })
+            .style("opacity", 5)
+
+
+        /*
+        //alte Texte entfernen
+        elemEnter.selectAll("text").remove()
+        //Texte anzeigen
+        elemEnter.append("text")
+            .filter(function (d) { return (d.id <= 5) }) //nur analoge und hauptbubble
+            .attr("dx", function (d) { return -30 })
+            .attr("dy", 3)
+            .text(function (d) { return d.label })
+            .style("fill", function (d) { return Choosetextcolor(d) });
+
+        */
+
+
         //noch fehlerhaft
-        //.on("mouseover", handleMouseOver(d3.select(this)))
-        //.on("mouseout", handleMouseOut(d3.select(this)))
+        //.on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
+        //.on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
         //.on("click", function(d) { return Bubbleclick(d3.select(this))});
 
     }
@@ -308,18 +361,9 @@ function visualizeBubbles(json) {
             .attr("fill", function (d) { return d.c })
             .style("opacity", 2)
             //.on("mouseover", handleMouseOver(d)) //klappt
-            //.on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
+            .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
+            .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
             .on("click", function (d) { return Bubbleclick(d3.select(this)) });
-
-        //alte Texte entfernen
-        elemEnter.selectAll("text").remove()
-        //Texte anzeigen
-        elemEnter.append("text")
-            .filter(function (d) { return (d.id > 5 || d.id <= 2) }) //nur digitale und hauptbubble
-            .attr("dx", function (d) { return -30 })
-            .attr("dy", 3)
-            .text(function (d) { return d.label })
-            .style("fill", function (d) { return Choosetextcolor(d) })
 
 
         //analoge Bubbles transparent
@@ -331,6 +375,39 @@ function visualizeBubbles(json) {
             .attr("stroke", "black")
             .attr("fill", function (d) { return d.c })
             .style("opacity", 0.2)
+
+        elemEnter.append("text")
+            .filter(function (d) { return (d.id <= 2) }) //nur analoge und hauptbubble
+            .attr("dx", function (d) { return -30 })
+            .attr("dy", 3)
+            .text(function (d) { return d.label })
+            .style("fill", function (d) { return Choosetextcolor(d) })
+
+
+        elemEnter.selectAll("svg:image").remove()
+        elemEnter.selectAll("svg:image")
+            .filter(function (d) { return (d.id <= 5) }) //nur analoge und hauptbubble
+            .attr("x", -50)
+            .attr("y", -50)
+            .attr("width", 100)
+            .attr("height", 80)
+            .attr("xlink:href", function (d) {return "icons/" + d.img })
+            .style("opacity", 5)
+
+        /*
+    //alte Texte entfernen
+    elemEnter.selectAll("text").remove()
+    //Texte anzeigen
+    elemEnter.append("text")
+        .filter(function (d) { return (d.id > 5 || d.id <= 2) }) //nur digitale und hauptbubble
+        .attr("dx", function (d) { return -30 })
+        .attr("dy", 3)
+        .text(function (d) { return d.label })
+        .style("fill", function (d) { return Choosetextcolor(d) })
+
+        */
+
+
         //noch fehlerhaft
         //.on("mouseover", handleMouseOver(d3.select(this)))
         //.on("mouseout", handleMouseOut(d3.select(this)))
@@ -339,12 +416,12 @@ function visualizeBubbles(json) {
     }
 
     function idToLabel(id) {
-        if (id == 3) { return "Board Games" }
+        if (id == 3) { return "BoardGames" }
         if (id == 4) { return "Books" }
-        if (id == 5) { return "News Paper" }
+        if (id == 5) { return "NewsPaper" }
         if (id == 6) { return "Streaming" }
-        if (id == 7) { return "Social Media" }
-        if (id == 8) { return "Digital Games" }
+        if (id == 7) { return "SocialMedia" }
+        if (id == 8) { return "DigitalGames" }
         if (id == 9) { return "Television" }
         return " ";
     }
@@ -366,10 +443,11 @@ function visualizeBubbles(json) {
             .text(aktT);
     }
 
-    function handleMouseOut(d, i) {
-        console.log("inMouseOUT");
+    function handleMouseOut(d) {
+        var aktT = idToLabel(d.attr("id"));
+        console.log("inMouseOUT - remove:" + "#t" + aktT);
         // Select text by id and then remove
-        d3.select("#t" + idToLabel(d.attr("id"))); //+ "-" + d.attr("id")).remove();  // Remove text location
+        d3.select("#t" + aktT).remove();  // Remove text location
 
     }
 
