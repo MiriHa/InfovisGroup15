@@ -1,5 +1,5 @@
 /**
- * Visualize the bar diagrams.
+ * VISUALIZE DIAGRAM START
 **/
 function visualizeDiagram() {
 
@@ -210,3 +210,11 @@ function visualizeDiagram() {
         .attr('text-anchor', 'start')
         .text('Quelle: example.de')
 }
+/**
+ * VISUALIZE DIAGRAM START
+ **/
+
+visualizeDiagram();
+/*
+    !DO NOT DELETE!
+*/

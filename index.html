@@ -19,16 +19,18 @@
             }
             .divL {
                 /* OPTIONAL WIDTH */
-                width: 40%
+                width: 50%;
             }
             .divR {
                 /* OPTIONAL WIDTH */
-                width: 60%
+                width: 50%
             }
         </style>
 
         <div class="container" id="dataWrapper">
             <div class="divL" id="bubbleChartContainer">
+                <div id="slider"></div>
+                <div id="bubbles"></div>
             </div>
         
             <div class="divR" id="diagrammContainer">
@@ -39,7 +41,8 @@
         </div>
         <script src ="https://d3js.org/d3.v6.min.js"></script>
         <script type="text/javascript" src="./diagram.js"></script>
-        <script src = "./script.js"></script>
-        <!--<script src = "./slider.js"></script> -->
+        <script src = "./bubbles.js"></script>
+        <script type="text/javascript" src = "./slider.js"></script>
+        <script type="text/javascript" src = "./bubbles.js"></script>
     </body>
 </html>
