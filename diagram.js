@@ -211,7 +211,7 @@ function visualizeDiagram() {
         .text('Quelle: example.de')
 }
 /**
- * VISUALIZE DIAGRAM START
+ * VISUALIZE DIAGRAM ENDE
  **/
 
 visualizeDiagram();
