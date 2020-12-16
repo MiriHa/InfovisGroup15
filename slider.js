@@ -236,16 +236,16 @@ function dragended(event, d) {
      **/
     if (postion == 1)  visualizeBubbles(json2)
     else if (postion == 2) visualizeBubbles(json1)
-    else if (postion == 3) visualizeBubbles(json2)
+    else if (postion == 3) visualizeBubbles(json3)
     else if (postion == 4) visualizeBubbles(json1)
     else if (postion == 5) visualizeBubbles(json2)
-    else if (postion == 6) visualizeBubbles(json1)
+    else if (postion == 6) visualizeBubbles(json3)
     else if (postion == 7) visualizeBubbles(json2)
     else if (postion == 8) visualizeBubbles(json1)
-    else if (postion == 9) visualizeBubbles(json2)
+    else if (postion == 9) visualizeBubbles(json3)
     else if (postion == 10) visualizeBubbles(json1)
     else if (postion == 11) visualizeBubbles(json2)
-    else if (postion == 12) visualizeBubbles(json1)
+    else if (postion == 12) visualizeBubbles(json3)
     else visualizeBubbles(json1)
     /** KLAUS TEST ENDE**/
 }

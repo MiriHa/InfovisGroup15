@@ -8,7 +8,7 @@ json1 = {
         "id": 1,
         "x": 310,
         "y": 310,
-        "r": 100,
+        "r": 90,
         "c": "orange",
         "label": "analog",
         "img" : ""
@@ -16,7 +16,7 @@ json1 = {
         "id": 2,
         "x": 510,
         "y": 310,
-        "r": 100,
+        "r": 90,
         "c": "blue",
         "label": "digital",
         "img" : ""
@@ -24,88 +24,7 @@ json1 = {
         "id": 3,
         "x": 150,
         "y": 100,
-        "r": 100,
-        "c": "orange",
-        "label": "Board Games",
-        "img" : "puzzles_icon.png"
-
-    }, {
-        "id": 4,
-        "x": 100,
-        "y": 310,
-        "r": 100,
-        "c": "orange",
-        "label": "books",
-        "img": "books_icon.png"
-
-    }, {
-        "id": 5,
-        "x": 150,
-        "y": 510,
-        "r": 100,
-        "c": "orange",
-        "label": "News paper",
-        "img": "newsPaper_icon.png"
-
-    }, {
-        "id": 6,
-        "x": 500,
-        "y": 515,
-        "r": 100,
-        "c": "blue",
-        "label": "Streaming",
-        "img": "Streaming.png"
-    }, {
-        "id": 7,
-        "x": 500,
-        "y": 100,
-        "r": 100,
-        "c": "blue",
-        "label": "Social Media",
-        "img": "socialMedia_icon.png"
-    }, {
-        "id": 8,
-        "x": 700,
-        "y": 190,
-        "r": 100,
-        "c": "blue",
-        "label": "Games",
-        "img": "games_icons.png"
-    }, {
-        "id": 9,
-        "x": 700,
-        "y": 410,
-        "r": 100,
-        "c": "blue",
-        "label": "Television",
-        "img": "tv_icon.png"
-    }
-    ]
-}
-
-
-json2 = {
-    "bubbles": [{
-        "id": 1,
-        "x": 310,
-        "y": 310,
-        "r": 80,
-        "c": "orange",
-        "label": "analog",
-        "img" : ""
-    }, {
-        "id": 2,
-        "x": 510,
-        "y": 310,
-        "r": 70,
-        "c": "blue",
-        "label": "digital",
-        "img" : ""
-    }, {
-        "id": 3,
-        "x": 150,
-        "y": 100,
-        "r": 50,
+        "r": 90,
         "c": "orange",
         "label": "Board Games",
         "img" : "puzzles_icon.png"
@@ -123,7 +42,7 @@ json2 = {
         "id": 5,
         "x": 150,
         "y": 510,
-        "r": 60,
+        "r": 90,
         "c": "orange",
         "label": "News paper",
         "img": "newsPaper_icon.png"
@@ -132,7 +51,7 @@ json2 = {
         "id": 6,
         "x": 500,
         "y": 515,
-        "r": 30,
+        "r": 90,
         "c": "blue",
         "label": "Streaming",
         "img": "Streaming.png"
@@ -140,7 +59,169 @@ json2 = {
         "id": 7,
         "x": 500,
         "y": 100,
-        "r": 20,
+        "r": 90,
+        "c": "blue",
+        "label": "Social Media",
+        "img": "socialMedia_icon.png"
+    }, {
+        "id": 8,
+        "x": 700,
+        "y": 190,
+        "r": 90,
+        "c": "blue",
+        "label": "Games",
+        "img": "games_icons.png"
+    }, {
+        "id": 9,
+        "x": 700,
+        "y": 410,
+        "r": 90,
+        "c": "blue",
+        "label": "Television",
+        "img": "tv_icon.png"
+    }
+    ]
+}
+
+
+json2 = {
+    "bubbles": [{
+        "id": 1,
+        "x": 310,
+        "y": 310,
+        "r": 70,
+        "c": "orange",
+        "label": "analog",
+        "img" : ""
+    }, {
+        "id": 2,
+        "x": 510,
+        "y": 310,
+        "r": 100,
+        "c": "blue",
+        "label": "digital",
+        "img" : ""
+    }, {
+        "id": 3,
+        "x": 150,
+        "y": 100,
+        "r": 50,
+        "c": "orange",
+        "label": "Board Games",
+        "img" : "puzzles_icon.png"
+
+    }, {
+        "id": 4,
+        "x": 100,
+        "y": 310,
+        "r": 60,
+        "c": "orange",
+        "label": "books",
+        "img": "books_icon.png"
+
+    }, {
+        "id": 5,
+        "x": 150,
+        "y": 510,
+        "r": 50,
+        "c": "orange",
+        "label": "News paper",
+        "img": "newsPaper_icon.png"
+
+    }, {
+        "id": 6,
+        "x": 500,
+        "y": 515,
+        "r": 90,
+        "c": "blue",
+        "label": "Streaming",
+        "img": "Streaming.png"
+    }, {
+        "id": 7,
+        "x": 500,
+        "y": 100,
+        "r": 80,
+        "c": "blue",
+        "label": "Social Media",
+        "img": "socialMedia_icon.png"
+    }, {
+        "id": 8,
+        "x": 700,
+        "y": 190,
+        "r": 90,
+        "c": "blue",
+        "label": "Games",
+        "img": "games_icons.png"
+    }, {
+        "id": 9,
+        "x": 700,
+        "y": 410,
+        "r": 60,
+        "c": "blue",
+        "label": "Television",
+        "img": "tv_icon.png"
+    }
+    ]
+}
+
+
+json3 = {
+    "bubbles": [{
+        "id": 1,
+        "x": 310,
+        "y": 310,
+        "r": 60,
+        "c": "orange",
+        "label": "analog",
+        "img" : ""
+    }, {
+        "id": 2,
+        "x": 510,
+        "y": 310,
+        "r": 90,
+        "c": "blue",
+        "label": "digital",
+        "img" : ""
+    }, {
+        "id": 3,
+        "x": 150,
+        "y": 100,
+        "r": 70,
+        "c": "orange",
+        "label": "Board Games",
+        "img" : "puzzles_icon.png"
+
+    }, {
+        "id": 4,
+        "x": 100,
+        "y": 310,
+        "r": 50,
+        "c": "orange",
+        "label": "books",
+        "img": "books_icon.png"
+
+    }, {
+        "id": 5,
+        "x": 150,
+        "y": 510,
+        "r": 80,
+        "c": "orange",
+        "label": "News paper",
+        "img": "newsPaper_icon.png"
+
+    }, {
+        "id": 6,
+        "x": 500,
+        "y": 515,
+        "r": 70,
+        "c": "blue",
+        "label": "Streaming",
+        "img": "Streaming.png"
+    }, {
+        "id": 7,
+        "x": 500,
+        "y": 100,
+        "r": 60,
         "c": "blue",
         "label": "Social Media",
         "img": "socialMedia_icon.png"
@@ -156,13 +237,14 @@ json2 = {
         "id": 9,
         "x": 700,
         "y": 410,
-        "r": 60,
+        "r": 80,
         "c": "blue",
         "label": "Television",
         "img": "tv_icon.png"
     }
     ]
 }
+
 
 function visualizeBubbles(json) {
     //json Datei nutzen:
