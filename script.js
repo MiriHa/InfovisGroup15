@@ -1,6 +1,6 @@
 /**
- * VISUALIZE SLIDER
- */
+ * VISUALIZE SLIDER START
+ **/
 
 var margin = { top: 10, right: 100, bottom: 30, left: 60 };
 
@@ -25,7 +25,7 @@ var tickphiright = [4.712388975, 5.23598775, 5.759586525,
     0, 0.5235987755, 1.04719755, 1.570796325,
     //210 Aug       240 Sep     270 Okt
     2.0943951, 2.617993875, 3.14159265,
-    //300 NOv       330 Dez      
+    //300 NOv       330 Dez
     3.665191425, 4.1887902]
 
 var monthNames = ["Januray", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -38,7 +38,7 @@ var drag = d3.drag()
     .on("drag", dragged)
     .on("end", dragended);
 
-var svg = d3.select("#bubbleChartContainer").append("svg")
+var svg = d3.select("#slider").append("svg")
     .attr("id", "sliderContainer")
     .attr("width", width_slider + margin.left + margin.right)
     .attr("height", height_slider)
@@ -56,7 +56,7 @@ var tickScale = d3.scaleLinear()
     .range([0, 330])
     .domain([0, 11]);
 
-//Make the monthticks     
+//Make the monthticks
 face.selectAll('.tick')
     .data(d3.range(0, 12))
     .enter()
@@ -183,7 +183,7 @@ function dragended(event, d) {
     var diff = Math.abs(phi - closestPhi);
     var postion = 0
 
-    // TODO 
+    // TODO
     // between hightst and 0 value it will always take highest and not 0
     for (var val = 0; val < tickphiright.length; val++) {
         var newdiff = Math.abs(phi - tickphiright[val]);
@@ -229,11 +229,31 @@ function dragended(event, d) {
             .text(" ");
     }
 
+    /** KLAUS TEST START **/
+    /**
+     * For each slider position render a different .json file.
+     * Remove old rendering bevore appending a new "svg".
+     **/
+    if (postion == 1)  visualizeBubbles(json2)
+    else if (postion == 2) visualizeBubbles(json1)
+    else if (postion == 3) visualizeBubbles(json2)
+    else if (postion == 4) visualizeBubbles(json1)
+    else if (postion == 5) visualizeBubbles(json2)
+    else if (postion == 6) visualizeBubbles(json1)
+    else if (postion == 7) visualizeBubbles(json2)
+    else if (postion == 8) visualizeBubbles(json1)
+    else if (postion == 9) visualizeBubbles(json2)
+    else if (postion == 10) visualizeBubbles(json1)
+    else if (postion == 11) visualizeBubbles(json2)
+    else if (postion == 12) visualizeBubbles(json1)
+    else visualizeBubbles(json1)
+    /** KLAUS TEST ENDE**/
 }
 
 /**
  * VISUALIZE SLIDER END
  */
+
 
 
 /*
@@ -320,6 +340,87 @@ json1 = {
     ]
 }
 
+
+json2 = {
+    "bubbles": [{
+        "id": 1,
+        "x": 310,
+        "y": 310,
+        "r": 80,
+        "c": "orange",
+        "label": "analog",
+        "img" : ""
+    }, {
+        "id": 2,
+        "x": 510,
+        "y": 310,
+        "r": 70,
+        "c": "blue",
+        "label": "digital",
+        "img" : ""
+    }, {
+        "id": 3,
+        "x": 150,
+        "y": 100,
+        "r": 50,
+        "c": "orange",
+        "label": "Board Games",
+        "img" : "puzzles_icon.png"
+
+    }, {
+        "id": 4,
+        "x": 100,
+        "y": 310,
+        "r": 90,
+        "c": "orange",
+        "label": "books",
+        "img": "books_icon.png"
+
+    }, {
+        "id": 5,
+        "x": 150,
+        "y": 510,
+        "r": 60,
+        "c": "orange",
+        "label": "News paper",
+        "img": "newsPaper_icon.png"
+
+    }, {
+        "id": 6,
+        "x": 500,
+        "y": 515,
+        "r": 30,
+        "c": "blue",
+        "label": "Streaming",
+        "img": "Streaming.png"
+    }, {
+        "id": 7,
+        "x": 500,
+        "y": 100,
+        "r": 20,
+        "c": "blue",
+        "label": "Social Media",
+        "img": "socialMedia_icon.png"
+    }, {
+        "id": 8,
+        "x": 700,
+        "y": 190,
+        "r": 70,
+        "c": "blue",
+        "label": "Games",
+        "img": "games_icons.png"
+    }, {
+        "id": 9,
+        "x": 700,
+        "y": 410,
+        "r": 60,
+        "c": "blue",
+        "label": "Television",
+        "img": "tv_icon.png"
+    }
+    ]
+}
+
 function visualizeBubbles(json) {
     //json Datei nutzen:
     //id: analog(1,2-5) und digital (2, 6-9)
@@ -333,8 +434,8 @@ function visualizeBubbles(json) {
 
     var margin = { top: 10, right: 100, bottom: 30, left: 60 };
 
-
-    var svg = d3.select("#bubbleChartContainer").append("svg")
+    var svg = d3.select("#bubbles").selectAll("svg").remove()
+    svg = d3.select("#bubbles").append("svg")
         .attr("width", width)
         .attr("height", height)
 
@@ -664,11 +765,3 @@ visualizeBubbles(json1);
 /*
 //Visualize Bubbles end
 */
-
-
-visualizeDiagram();
-/*
-    Visualize Diagram
-    !DO NOT DELETE!
-*/
-
