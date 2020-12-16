@@ -1,6 +1,9 @@
 # InfovisGroup15
 ## Medienkonsum während Covid-19
 
+* Checkout visualization at http://www.cip.ifi.lmu.de/~moserk/ :-)
+* Running prototype on branch: Release
+
 ### Feature table:
 |Feature      |Status    |To-Do |
 |-----------|----------|------------|
