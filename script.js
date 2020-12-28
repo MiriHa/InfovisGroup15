@@ -159,6 +159,22 @@ function dragged(event, d) {
         .attr("cy", d.y = event.y < 0 ? -circumference_r * Math.sin(alpha) : circumference_r * Math.sin(alpha));
 }
 
+//for bubbles to handle the radius
+bubbleRadi = [
+    [0,0,0,0,0,0,0,0,0,0],
+    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Jan
+    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Feb
+    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Mrz
+    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Apr
+    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Mai
+    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Jun
+    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Jul
+    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Aug
+    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Sep
+    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Okt
+    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Nov
+    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100]   // Dez
+]
 
 function dragended(event, d) {
     d3.select(this)
@@ -234,6 +250,9 @@ function dragended(event, d) {
      * For each slider position render a different .json file.
      * Remove old rendering bevore appending a new "svg".
      **/
+   
+    
+    /*
     if (postion == 1)  visualizeBubbles(json2)
     else if (postion == 2) visualizeBubbles(json1)
     else if (postion == 3) visualizeBubbles(json2)
@@ -247,7 +266,18 @@ function dragended(event, d) {
     else if (postion == 11) visualizeBubbles(json2)
     else if (postion == 12) visualizeBubbles(json1)
     else visualizeBubbles(json1)
+    */
     /** KLAUS TEST ENDE**/
+
+    //annaTest mit Zeitungen
+    if(position > 0 && positon < 13){
+        visualizeBubbles(json1, bubbleRadi, postion);
+    }else{
+        visualizeBubbles(json1, bubbleRadi, 1);
+    }
+    
+
+
 }
 
 /**
