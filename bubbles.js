@@ -6,7 +6,7 @@ Create Bubble Diagram
 json1 = {
     "bubbles": [{
         "id": 1,
-        "x": 310,
+        "x": 350,
         "y": 310,
         "r": 90,
         "c": "orange",
@@ -14,239 +14,108 @@ json1 = {
         "img" : ""
     }, {
         "id": 2,
-        "x": 510,
+        "x": 550,
         "y": 310,
         "r": 90,
         "c": "blue",
         "label": "digital",
         "img" : ""
-    }, {
+    }, 
+    //analog
+    {
         "id": 3,
-        "x": 150,
+        "x": 350,
         "y": 100,
         "r": 90,
         "c": "orange",
-        "label": "Board Games",
+        "label": "health",
         "img" : "puzzles_icon.png"
 
     }, {
         "id": 4,
-        "x": 100,
-        "y": 310,
+        "x": 150,
+        "y": 190,
         "r": 90,
         "c": "orange",
-        "label": "books",
-        "img": "books_icon.png"
+        "label": "News",
+        "img": "newsPaper_icon.png"
 
     }, {
         "id": 5,
         "x": 150,
+        "y": 410,
+        "r": 90,
+        "c": "orange",
+        "label": "sports",
+        "img": "newsPaper_icon.png"
+    }, 
+    {
+        "id": 6,
+        "x": 350,
         "y": 510,
         "r": 90,
         "c": "orange",
-        "label": "News paper",
-        "img": "newsPaper_icon.png"
-
-    }, {
-        "id": 6,
-        "x": 500,
-        "y": 515,
+        "label": "music",
+        "img": "books_icon.png"
+    }, 
+    //digital
+    {
+        "id": 7,
+        "x": 550,
+        "y": 510,
         "r": 90,
         "c": "blue",
-        "label": "Streaming",
+        "label": "health",
         "img": "Streaming.png"
     }, {
-        "id": 7,
-        "x": 500,
+        "id": 8,
+        "x": 550,
         "y": 100,
         "r": 90,
         "c": "blue",
-        "label": "Social Media",
-        "img": "socialMedia_icon.png"
+        "label": "news",
+        "img": "newsPaper_icon.png"
     }, {
-        "id": 8,
-        "x": 700,
+        "id": 9,
+        "x": 750,
         "y": 190,
         "r": 90,
         "c": "blue",
-        "label": "Games",
+        "label": "sport",
         "img": "games_icons.png"
     }, {
-        "id": 9,
-        "x": 700,
+        "id": 10,
+        "x": 750,
         "y": 410,
         "r": 90,
         "c": "blue",
-        "label": "Television",
+        "label": "music",
         "img": "tv_icon.png"
     }
     ]
 }
 
-
-json2 = {
-    "bubbles": [{
-        "id": 1,
-        "x": 310,
-        "y": 310,
-        "r": 70,
-        "c": "orange",
-        "label": "analog",
-        "img" : ""
-    }, {
-        "id": 2,
-        "x": 510,
-        "y": 310,
-        "r": 100,
-        "c": "blue",
-        "label": "digital",
-        "img" : ""
-    }, {
-        "id": 3,
-        "x": 150,
-        "y": 100,
-        "r": 50,
-        "c": "orange",
-        "label": "Board Games",
-        "img" : "puzzles_icon.png"
-
-    }, {
-        "id": 4,
-        "x": 100,
-        "y": 310,
-        "r": 60,
-        "c": "orange",
-        "label": "books",
-        "img": "books_icon.png"
-
-    }, {
-        "id": 5,
-        "x": 150,
-        "y": 510,
-        "r": 50,
-        "c": "orange",
-        "label": "News paper",
-        "img": "newsPaper_icon.png"
-
-    }, {
-        "id": 6,
-        "x": 500,
-        "y": 515,
-        "r": 90,
-        "c": "blue",
-        "label": "Streaming",
-        "img": "Streaming.png"
-    }, {
-        "id": 7,
-        "x": 500,
-        "y": 100,
-        "r": 80,
-        "c": "blue",
-        "label": "Social Media",
-        "img": "socialMedia_icon.png"
-    }, {
-        "id": 8,
-        "x": 700,
-        "y": 190,
-        "r": 90,
-        "c": "blue",
-        "label": "Games",
-        "img": "games_icons.png"
-    }, {
-        "id": 9,
-        "x": 700,
-        "y": 410,
-        "r": 60,
-        "c": "blue",
-        "label": "Television",
-        "img": "tv_icon.png"
-    }
-    ]
-}
+//wird hier benötigt also nicht nur bei script updaten
+//for bubbles to handle the radius
+bubbleRadi = [
+    [0,0,0,0,0,0,0,0,0,0],
+    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Jan
+    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Feb
+    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Mrz
+    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Apr
+    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Mai
+    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Jun
+    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Jul
+    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Aug
+    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Sep
+    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Okt
+    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Nov
+    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100]   // Dez
+]
 
 
-json3 = {
-    "bubbles": [{
-        "id": 1,
-        "x": 310,
-        "y": 310,
-        "r": 60,
-        "c": "orange",
-        "label": "analog",
-        "img" : ""
-    }, {
-        "id": 2,
-        "x": 510,
-        "y": 310,
-        "r": 90,
-        "c": "blue",
-        "label": "digital",
-        "img" : ""
-    }, {
-        "id": 3,
-        "x": 150,
-        "y": 100,
-        "r": 70,
-        "c": "orange",
-        "label": "Board Games",
-        "img" : "puzzles_icon.png"
-
-    }, {
-        "id": 4,
-        "x": 100,
-        "y": 310,
-        "r": 50,
-        "c": "orange",
-        "label": "books",
-        "img": "books_icon.png"
-
-    }, {
-        "id": 5,
-        "x": 150,
-        "y": 510,
-        "r": 80,
-        "c": "orange",
-        "label": "News paper",
-        "img": "newsPaper_icon.png"
-
-    }, {
-        "id": 6,
-        "x": 500,
-        "y": 515,
-        "r": 70,
-        "c": "blue",
-        "label": "Streaming",
-        "img": "Streaming.png"
-    }, {
-        "id": 7,
-        "x": 500,
-        "y": 100,
-        "r": 60,
-        "c": "blue",
-        "label": "Social Media",
-        "img": "socialMedia_icon.png"
-    }, {
-        "id": 8,
-        "x": 700,
-        "y": 190,
-        "r": 70,
-        "c": "blue",
-        "label": "Games",
-        "img": "games_icons.png"
-    }, {
-        "id": 9,
-        "x": 700,
-        "y": 410,
-        "r": 80,
-        "c": "blue",
-        "label": "Television",
-        "img": "tv_icon.png"
-    }
-    ]
-}
-
-
-function visualizeBubbles(json) {
+function visualizeBubbles(json, bubbleRadi, aktmounth) {
+    
     //json Datei nutzen:
     //id: analog(1,2-5) und digital (2, 6-9)
 
@@ -276,13 +145,15 @@ function visualizeBubbles(json) {
         })
 
     console.log("hello Blub");
-
+    console.log("Monat: " + aktmounth);
 
     /*Create the circles: analog, digital */
     var circle = elemEnter.append("circle")
         .filter(function (d) { return d.id < 3 }) //nur Hauptbubbles
         .attr("id", function (d) { return d.id })
-        .attr("r", function (d) { return d.r })
+        .attr("r", function (d) { 
+            //console.log("Radius von " + d.id + ":" + bubbleRadi[aktmounth][d.id]) + "[" + aktmounth + "][" + d.id + "]";
+            return bubbleRadi[aktmounth][d.id] })
         .attr("stroke", "black")
         .attr("fill", function (d) { return d.c })
         .on("click", function (d) { return Bubbleclick(d3.select(this)) })
@@ -306,7 +177,7 @@ function visualizeBubbles(json) {
     elemEnter.append("circle")
         .filter(function (d) { return d.id > 2 })
         .attr("id", function (d) { return d.id })
-        .attr("r", function (d) { return d.r })
+        .attr("r", function (d) { return bubbleRadi[aktmounth][d.id] })
         .attr("stroke", "black")
         .attr("fill", function (d) { return d.c })
         .style("opacity", 0.2)
@@ -369,9 +240,9 @@ function visualizeBubbles(json) {
     function ClickforAna(d) {
         //analoge sichtbar
         elemEnter.selectAll("circle")//.append("circle")
-            .filter(function (d) { return (d.id <= 5 && d.id != 2) }) //nur analoge
+            .filter(function (d) { return (d.id <= 6 && d.id != 2) }) //nur analoge
             .attr("id", function (d) { return d.id })
-            .attr("r", function (d) { return d.r })
+            .attr("r", function (d) { return bubbleRadi[aktmounth][d.id] })
             .attr("stroke", "black")
             .attr("fill", function (d) { return d.c })
             .style("opacity", 2)
@@ -384,9 +255,9 @@ function visualizeBubbles(json) {
         //digitale Bubble transparent -> noch nicht richtig
         elemEnter//.append("circle")
             .selectAll("circle")
-            .filter(function (d) { return (d.id > 5) })
+            .filter(function (d) { return (d.id > 6) })
             .attr("id", function (d) { return d.id })
-            .attr("r", function (d) { return d.r })
+            .attr("r", function (d) { return bubbleRadi[aktmounth][d.id] })
             .attr("stroke", "black")
             .attr("fill", function (d) { return d.c })
             .style("opacity", 0.2)
@@ -436,9 +307,9 @@ function visualizeBubbles(json) {
         elemEnter
             .selectAll("circle")
             //.append("circle")
-            .filter(function (d) { return (d.id > 5 || d.id == 2) }) //nur digitale
+            .filter(function (d) { return (d.id > 6 || d.id == 2) }) //nur digitale
             .attr("id", function (d) { return d.id })
-            .attr("r", function (d) { return d.r })
+            .attr("r", function (d) { return bubbleRadi[aktmounth][d.id] })
             .attr("stroke", "black")
             .attr("fill", function (d) { return d.c })
             .style("opacity", 2)
@@ -451,9 +322,9 @@ function visualizeBubbles(json) {
         //analoge Bubbles transparent
         elemEnter//.append("circle")
             .selectAll("circle")
-            .filter(function (d) { return (d.id > 2 && d.id <= 5) })
+            .filter(function (d) { return (d.id > 2 && d.id <= 6) })
             .attr("id", function (d) { return d.id })
-            .attr("r", function (d) { return d.r })
+            .attr("r", function (d) { return bubbleRadi[aktmounth][d.id] })
             .attr("stroke", "black")
             .attr("fill", function (d) { return d.c })
             .style("opacity", 0.2)
@@ -498,13 +369,14 @@ function visualizeBubbles(json) {
     }
 
     function idToLabel(id) {
-        if (id == 3) { return "BoardGames" }
-        if (id == 4) { return "Books" }
-        if (id == 5) { return "NewsPaper" }
-        if (id == 6) { return "Streaming" }
-        if (id == 7) { return "SocialMedia" }
-        if (id == 8) { return "DigitalGames" }
-        if (id == 9) { return "Television" }
+        if (id == 3) { return "health" }
+        if (id == 4) { return "news" }
+        if (id == 5) { return "sports" }
+        if (id == 6) { return "music" }
+        if (id == 7) { return "helth" }
+        if (id == 8) { return "news" }
+        if (id == 9) { return "sports" }
+        if (id == 10) { return "music" }
         return " ";
     }
     // Create Event Handlers for mouse
@@ -584,4 +456,4 @@ function visualizeBubbles(json) {
     //http://bl.ocks.org/WilliamQLiu/76ae20060e19bf42d774 -> Mouse_Events
 }
 
-visualizeBubbles(json1);
+visualizeBubbles(json1, bubbleRadi, 1);
