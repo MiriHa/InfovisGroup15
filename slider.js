@@ -18,9 +18,9 @@ tickStart = circumference_r + 18,
     MonthLabelRadius = circumference_r + 24,
     MonthLabelYOffset = 5;
 
-
-//0  Jan        30  Feb          60 Mär
-var tickphiright = [4.712388975, 5.23598775, 5.759586525,
+//use for 12 months
+                 //0  Jan        30  Feb          60 Mär
+var tickphiright_many = [4.712388975, 5.23598775, 5.759586525,
     //90 Apr    120   Mai    150  Jun     180 Junly
     0, 0.5235987755, 1.04719755, 1.570796325,
     //210 Aug       240 Sep     270 Okt
@@ -29,6 +29,10 @@ var tickphiright = [4.712388975, 5.23598775, 5.759586525,
     3.665191425, 4.1887902]
 
 var monthNames = ["Januray", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+//use for Quartals
+var tickphiright = [4.712388975, 6.2831853, 0, 1.570796325, 3.14159265]
+var quartalNames = ["Jan -Mar", "Apr-Jun", "Apr-Jun", "July-Sept","Oct-Dec"]
 
 
 //Define drag for the slider, functions at the end
@@ -53,12 +57,15 @@ var face = container.append("g")
 
 //Scale for the MonthTick scale
 var tickScale = d3.scaleLinear()
-    .range([0, 330])
-    .domain([0, 11]);
+    .range([0, 360])
+    .domain([0, 4]);
+    // for months : 
+    //.range([0,330])
+    //.domain([0, 11]);
 
 //Make the monthticks
 face.selectAll('.tick')
-    .data(d3.range(0, 12))
+    .data(d3.range(0, 4))
     .enter()
     .append('line')
     .attr('class', 'tick')
@@ -114,7 +121,7 @@ var circleLableTime = innerContainer.append("text")
     .style("text-anchor", "middle")
     .attr("font-size", "28px")
     .attr("fill", "white")
-    .text("January");
+    .text("Jan-March");
 
 var coronaCasesLable = innerContainer.append("text")
     .attr("id", "casesLable")
@@ -203,23 +210,24 @@ function dragended(event, d) {
 
     //Set the Month Lable
     d3.select("#monthLable")
-        .text(monthNames[postion]);
+        .text(quartalNames[postion]);
 
     //TODO set Corona cases
     //TOdo set Lockdown indicator -> make it more dynamic
-    if (postion == 4 || postion == 5 || postion == 6) {
+    console.log("Slider in position ", postion)
+    if (postion == 1 || postion == 2) {
         d3.select("#innerCircle")
             .attr("fill", "darkred");
 
         d3.select("#lockdownIndicator")
             .text("Lockdown");
     }
-    else if (postion == 10 || postion == 11) {
+    else if (postion == 4) {
         d3.select("#innerCircle")
-            .attr("fill", "red");
+            .attr("fill", "darkred");
 
         d3.select("#lockdownIndicator")
-            .text("Lockdown Light");
+            .text("Lockdown");
     }
     else {
         d3.select("#innerCircle")
