@@ -6,18 +6,28 @@ div#diagrammContainer {
     text-align: center;
 }
 
-div#upperDiagramm {
+div#topDiagram {
     width: 1000px;
     height: 600px;
     margin: auto;
     background-color: #f3f4ff;
+}
 
-}div#slider {
+div#bottomDiagram {
+    width: 1000px;
+    height: 600px;
+    margin: auto;
+    background-color: #f3f4ff;
+}
+
+div#slider {
     width: 1000px;
     height: 800px;
     margin: auto;
 
-}div#bubbles {
+}
+
+div#bubbles {
     width: 1000px;
     height: 800px;
     margin: auto;

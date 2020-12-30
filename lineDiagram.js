@@ -56,7 +56,7 @@ function visualizeDiagram() {
     ];
 
     // Choose Container + Append 'svg'
-    let svg = d3.select('#upperDiagramm').append('svg');
+    let svg = d3.select('#bottomDiagram').append('svg');
 
     // Set Margins
     const margin = 80;
