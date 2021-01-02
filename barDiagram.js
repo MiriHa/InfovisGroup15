@@ -200,7 +200,7 @@ function visualizeDiagram() {
         .attr('x', width / 2 + margin)
         .attr('y', 40)
         .attr('text-anchor', 'middle')
-        .text('Corona Fälle ')
+        .text('Überschrift')
 
     // Source
     svg.append('text')
