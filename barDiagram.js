@@ -185,7 +185,7 @@ function visualizeDiagram() {
         .attr('y', margin / 2.4)
         .attr('transform', 'rotate(-90)')
         .attr('text-anchor', 'middle')
-        .text('Fälle')
+        .text('Text')
 
     // Label for xScale
     svg.append('text')
@@ -193,7 +193,7 @@ function visualizeDiagram() {
         .attr('x', width / 2 + margin)
         .attr('y', height + margin * 1.7)
         .attr('text-anchor', 'middle')
-        .text('Monate')
+        .text('Text')
 
     // Title
     svg.append('text')
