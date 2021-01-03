@@ -21,6 +21,7 @@ function visualiseChart (data) {
         .range([0, width])
 
     svg.append("g")
+        .attr('class', 'tick_Scales')
         .attr("transform", `translate(0, ${height})`)
         .call(d3.axisBottom(xAxis));
 
@@ -29,6 +30,7 @@ function visualiseChart (data) {
         .range([height, 0]);
 
     svg.append("g")
+        .attr('class', 'tick_Scales')
         .call(d3.axisLeft(yAxis));
 
     var curve = svg.append("path")
