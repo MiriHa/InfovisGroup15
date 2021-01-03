@@ -1,3 +1,4 @@
+
 function filterData(data) {
     const maxTempYear = data.filter(item => item.name === "Jahreshöchsttemperatur");
     visualiseChart(maxTempYear);
@@ -62,4 +63,37 @@ function visualiseChart (data) {
                 .y(item => yAxis(Number(item.wert)))
             );
     })
+
+    /* Label for yScale
+    svg.append('text')
+        .attr('class', 'label')
+        .attr('x', -(height / 2) - margin)
+        .attr('y', margin / 2.4)
+        .attr('transform', 'rotate(-90)')
+        .attr('text-anchor', 'middle')
+        .text('Fälle')
+
+    // Label for xScale
+    svg.append('text')
+        .attr('class', 'label')
+        .attr('x', width / 2 + margin)
+        .attr('y', height + margin * 1.7)
+        .attr('text-anchor', 'middle')
+        .text('Monate')
+
+    // Title
+    svg.append('text')
+        .attr('class', 'title')
+        .attr('x', width / 2 + margin)
+        .attr('y', 40)
+        .attr('text-anchor', 'middle')
+        .text('Überschrift')
+
+    // Source
+    svg.append('text')
+        .attr('class', 'source')
+        .attr('x', width - margin / 2)
+        .attr('y', height + margin * 1.7)
+        .attr('text-anchor', 'start')
+        .text('Quelle: example.de')*/
 }
