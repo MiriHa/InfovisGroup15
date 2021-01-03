@@ -7,15 +7,13 @@ var data1 = [
     {ser1: 4, ser2: 4},
     {ser1: 5, ser2: 16},
     {ser1: 6, ser2: 8}
-];
+]
 
-var data2 = [
-    {ser1: 1, ser2: 2},
-    {ser1: 2, ser2: 3},
-    {ser1: 3, ser2: 7},
-    {ser1: 4, ser2: 4},
-    {ser1: 5, ser2: 16},
-    {ser1: 6, ser2: 0}
+;var data2 = [
+    {ser1: "Q1", ser2: 4},
+    {ser1: "Q2", ser2: 16},
+    {ser1: "Q3", ser2: 15},
+    {ser1: "Q4", ser2: 8}
 ];
 
 // set the dimensions and margins of the graph
@@ -32,7 +30,8 @@ const chart = svg.append('g')
     .attr("transform", "translate(" + Margin + "," + Margin + ")");
 
 // Initialise a X axis:
-var x = d3.scaleLinear().range([0,width]);
+//var x = d3.scaleLinear().range([0,width]);
+var x = d3.scalePoint().range([0,width]);
 var xAxis = d3.axisBottom().scale(x);
 chart.append('g')
     .attr("transform", "translate(0," + height + ")")
@@ -92,10 +91,11 @@ svg.append('text')
 function update(data) {
 
     // Create the X axis:
-    x.domain([0, d3.max(data, function(d) { return d.ser1 }) ]);
+    //x.domain([0, d3.max(data, function(d) { return d.ser1 }) ]);
+    x.domain(data.map((s) => s.ser1))
     chart.selectAll(".myXaxis")
         .transition()
-        .duration(3000)
+        .duration(1000)
         .attr('class', 'tick_Scales')
         .call(xAxis);
 
@@ -103,7 +103,7 @@ function update(data) {
     y.domain([0, d3.max(data, function(d) { return d.ser2  }) ]);
     chart.selectAll(".myYaxis")
         .transition()
-        .duration(3000)
+        .duration(1000)
         .attr('class', 'tick_Scales')
         .call(yAxis);
 
@@ -128,7 +128,7 @@ function update(data) {
 }
 
 // At the beginning, I run the update function on the first dataset:
-update(data1);
+update(data2);
 /*
     !DO NOT DELETE!
 */
