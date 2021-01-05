@@ -28,8 +28,8 @@ json1 = {
         "y": 100,
         "r": 90,
         "c": "orange",
-        "label": "health",
-        "img" : "puzzles_icon.png"
+        "label": "Health",
+        "img": "health.png"
 
     }, {
         "id": 4,
@@ -46,8 +46,8 @@ json1 = {
         "y": 410,
         "r": 90,
         "c": "orange",
-        "label": "sports",
-        "img": "newsPaper_icon.png"
+        "label": "music",
+        "img": "music.PNG"
     }, 
     {
         "id": 6,
@@ -55,8 +55,8 @@ json1 = {
         "y": 510,
         "r": 90,
         "c": "orange",
-        "label": "music",
-        "img": "books_icon.png"
+        "label": "sports",
+        "img": "sport.PNG"
     }, 
     //digital
     {
@@ -65,24 +65,24 @@ json1 = {
         "y": 510,
         "r": 90,
         "c": "blue",
-        "label": "health",
-        "img": "Streaming.png"
+        "label": "sports",
+        "img": "sport.PNG"
     }, {
         "id": 8,
         "x": 550,
         "y": 100,
         "r": 90,
         "c": "blue",
-        "label": "news",
-        "img": "newsPaper_icon.png"
+        "label": "Health",
+        "img": "health.png"
     }, {
         "id": 9,
         "x": 750,
         "y": 190,
         "r": 90,
         "c": "blue",
-        "label": "sport",
-        "img": "games_icons.png"
+        "label": "News",
+        "img": "newsPaper_icon.png"
     }, {
         "id": 10,
         "x": 750,
@@ -90,11 +90,10 @@ json1 = {
         "r": 90,
         "c": "blue",
         "label": "music",
-        "img": "tv_icon.png"
+        "img": "music.PNG"
     }
     ]
 }
-
 //wird hier benötigt also nicht nur bei script updaten
 //for bubbles to handle the radius
 bubbleRadi = [
@@ -185,7 +184,7 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
     elemEnter.append("svg:image")
         .filter(function (d) { return d.id > 2 })
         .attr("x", -50)
-        .attr("y", -50)
+        .attr("y", -40)
         .attr("width", 100)
         .attr("height", 80)
         .attr("xlink:href", function (d) {return "icons/" + d.img })
@@ -275,7 +274,7 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         elemEnter.selectAll("svg:image")
             .filter(function (d) { return (d.id <= 5) }) //nur analoge und hauptbubble
             .attr("x", -50)
-            .attr("y", -50)
+            .attr("y", -40)
             .attr("width", 100)
             .attr("height", 80)
             .attr("xlink:href", function (d) {return "icons/" + d.img })
@@ -341,7 +340,7 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         elemEnter.selectAll("svg:image")
             .filter(function (d) { return (d.id <= 5) }) //nur analoge und hauptbubble
             .attr("x", -50)
-            .attr("y", -50)
+            .attr("y", -40)
             .attr("width", 100)
             .attr("height", 80)
             .attr("xlink:href", function (d) {return "icons/" + d.img })
