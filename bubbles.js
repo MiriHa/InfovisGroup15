@@ -240,12 +240,12 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
             if (d.attr("id") == 9) {
                 console.log("9");
                 // code
-
+                visualizeLineDiagram("data1");
             }
             if (d.attr("id") == 10) {
                 console.log("10");
                 // code
-
+                visualizeLineDiagram("data2");
             }
             return showDiagram(d.attr("label"));
 

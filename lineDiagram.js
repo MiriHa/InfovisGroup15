@@ -122,7 +122,7 @@ function visualizeLineDiagram(str) {
 }
 
 //visualizeLineDiagram(data2);
-visualizeLineDiagram().apply(d3);
+//visualizeLineDiagram().apply(d3);
 /*
     !DO NOT DELETE!
 */

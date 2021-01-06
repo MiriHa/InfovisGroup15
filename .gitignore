@@ -89,8 +89,3 @@ lerna-debug.log
 # System Files
 .DS_Store
 Thumbs.db
-values.js
-
-sample.json
-
-lineDiagram_tut.js
