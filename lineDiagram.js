@@ -1,69 +1,60 @@
-// Test data
-var data1 = [
-    {ser1: 0, ser2: 4},
-    {ser1: 1, ser2: 16},
-    {ser1: 2, ser2: 15},
-    {ser1: 3, ser2: 8},
-    {ser1: 4, ser2: 4},
-    {ser1: 5, ser2: 16},
-    {ser1: 6, ser2: 8}
-]
+function visualizeLineDiagram(str) {
+    //var str = str
+    var data1 =     [
+        {ser1: "Q1", ser2: 16},
+        {ser1: "Q2", ser2: 1},
+        {ser1: "Q3", ser2: 11},
+        {ser1: "Q4", ser2: 9}
+    ];
 
-;var data2 = [
-    {ser1: "Q1", ser2: 4},
-    {ser1: "Q2", ser2: 16},
-    {ser1: "Q3", ser2: 15},
-    {ser1: "Q4", ser2: 8}
-];
+    var data2 = [
+        {ser1: "Q1", ser2: 4},
+        {ser1: "Q2", ser2: 16},
+        {ser1: "Q3", ser2: 3},
+        {ser1: "Q4", ser2: 8}
+    ];
 
-// set the dimensions and margins of the graph
-const Margin = 80;
-const width = 1000 - 2 * Margin;
-const height = 600 - 2 * Margin;
+    if (str == "data1")
+    {
+        data = data1
+    }else {
+        data = data2
+    }
+    // set the dimensions and margins of the graph
+    const Margin = 80;
+    const width = 1000 - 2 * Margin;
+    const height = 600 - 2 * Margin;
 
-// append the svg object to the body of the page
-var svg = d3.select("#bottomDiagram")
-    .append("svg")
+    // Remove old diagram
+    var svg = d3.select("#bottomDiagram").selectAll("svg").remove()
+    // append the svg object to the body of the page
+    var svg = d3.select("#bottomDiagram")
+        .append("svg")
 
-// Init Chart
-const chart = svg.append('g')
-    .attr("transform", "translate(" + Margin + "," + Margin + ")");
+    // Init Chart
+    const chart = svg.append('g')
+        .attr("transform", "translate(" + Margin + "," + Margin + ")");
 
-// Initialise a X axis:
-//var x = d3.scaleLinear().range([0,width]);
-var x = d3.scalePoint().range([0,width]);
-var xAxis = d3.axisBottom().scale(x);
-chart.append('g')
-    .attr("transform", "translate(0," + height + ")")
-    .attr("class","myXaxis")
+    // Initialise a X axis:
+    //var x = d3.scaleLinear().range([0,width]);
+    var x = d3.scalePoint().range([0,width]);
+    var xAxis = d3.axisBottom().scale(x);
+    chart.append('g')
+        .attr("transform", "translate(0," + height + ")")
+        .attr("class","myXaxis")
 
-// Initialize an Y axis
-var y = d3.scaleLinear().range([height, 0]);
-var yAxis = d3.axisLeft().scale(y);
-chart.append('g')
-    .attr("class","myYaxis")
-
-/* Horizontal Lines
-const makeYLines = () => d3.axisLeft()
-    .scale(y)
-
-chart.append('g')
-    .attr('class', 'grid')
-    .call(makeYLines()
-        .tickSize(-width, 0, 0)
-        .tickFormat('')
-    )*/
-
-
-// Create a function that takes a dataset as input and update the plot:
-function update(data) {
+    // Initialize an Y axis
+    var y = d3.scaleLinear().range([height, 0]);
+    var yAxis = d3.axisLeft().scale(y);
+    chart.append('g')
+        .attr("class","myYaxis")
 
     // Create the X axis:
     //x.domain([0, d3.max(data, function(d) { return d.ser1 }) ]);
     x.domain(data.map((s) => s.ser1))
     chart.selectAll(".myXaxis")
         .transition()
-        .duration(1000)
+        .duration(2000)
         .attr('class', 'tick_Scales')
         .call(xAxis);
 
@@ -71,22 +62,22 @@ function update(data) {
     y.domain([0, d3.max(data, function(d) { return d.ser2  }) ]);
     chart.selectAll(".myYaxis")
         .transition()
-        .duration(1000)
+        .duration(2000)
         .attr('class', 'tick_Scales')
         .call(yAxis);
 
-    // Create a update selection: bind to the new data
+    // Create a visualizeLineDiagram selection: bind to the new data
     var u = chart.selectAll(".lineTest")
         .data([data], function(d){ return d.ser1 });
 
-    // Update the line
+    // visualizeLineDiagram the line
     u
         .enter()
         .append("path")
         .attr("class","lineTest")
         .merge(u)
         .transition()
-        .duration(3000)
+        .duration(2000)
         .attr("d", d3.line()
             .x(function(d) { return x(d.ser1); })
             .y(function(d) { return y(d.ser2); }))
@@ -103,6 +94,7 @@ function update(data) {
         .attr('transform', 'rotate(-90)')
         .attr('text-anchor', 'middle')
         .text('Text')
+
 
     // Label for xAxis
     svg.append('text')
@@ -129,8 +121,8 @@ function update(data) {
         .text('Quelle: example.de')
 }
 
-
-update(data2);
+//visualizeLineDiagram(data2);
+visualizeLineDiagram().apply(d3);
 /*
     !DO NOT DELETE!
 */

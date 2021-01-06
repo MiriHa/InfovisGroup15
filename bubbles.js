@@ -143,8 +143,8 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
             return "translate(" + d.x + "," + d.y + ")"
         })
 
-    console.log("hello Blub");
-    console.log("Monat: " + aktmounth);
+    //console.log("hello Blub");
+    //console.log("Monat: " + aktmounth);
 
     /*Create the circles: analog, digital */
     var circle = elemEnter.append("circle")
@@ -194,6 +194,8 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         .style("opacity", 0.5)
         .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
         .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
+        // Klaus: Added this .on() to be able to click the sub-bubbles
+        .on("click", function (d) { return Bubbleclick(d3.select(this)) })
             
 
     //MouseEvent
@@ -235,11 +237,20 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         } else {
             //Click auf keine Hauptbubble -> Diagramm anzeigen lassen für diese Bubble
             console.log("else");
+            if (d.attr("id") == 9) {
+                console.log("9");
+                // code
+
+            }
+            if (d.attr("id") == 10) {
+                console.log("10");
+                // code
+
+            }
             return showDiagram(d.attr("label"));
 
         }
     }
-
 
 
     function ClickforAna(d) {

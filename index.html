@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" xmlns="http://www.w3.org/1999/html">
     <head>
         <meta charset="utf-8">
         <title>Project Group 15</title>
@@ -30,7 +30,10 @@
         <div class="container" id="dataWrapper">
             <div class="divL" id="bubbleChartContainer">
                 <div id="slider"></div>
-                <div id="bubbles"></div>
+                <div id="bubbles">
+                    <button onclick="visualizeLineDiagram('data1')">Dataset 1</button>
+                    <button onclick="visualizeLineDiagram('data2')">Dataset 2</button>
+                </div>
             </div>
         
             <div class="divR" id="diagrammContainer">
@@ -39,9 +42,9 @@
             </div>
 
         </div>
-        <script type="text/javascript" src = "slider.js"></script>
-        <script type="text/javascript" src = "bubbles.js"></script>
         <script type="text/javascript" src = "barDiagram.js"></script>
         <script type="text/javascript" src = "lineDiagram.js"></script>
+        <script type="text/javascript" src = "slider.js"></script>
+        <script type="text/javascript" src = "bubbles.js"></script>
     </body>
 </html>
