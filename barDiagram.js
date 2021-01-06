@@ -56,7 +56,8 @@ function visualizeDiagram() {
     ];
 
     // Choose Container + Append 'svg'
-    let svg = d3.select('#upperDiagramm').append('svg');
+    let svg = d3.select('#topDiagram')
+        .append('svg');
 
     // Set Margins
     const margin = 80;
@@ -73,24 +74,24 @@ function visualizeDiagram() {
         .domain(sample.map((s) => s.month))
         .padding(0.4)
 
-    // Init yScale
-    const yScale = d3.scaleLinear()
-        .range([height, 0])
-        .domain([0, 100]);
-
-    const makeYLines = () => d3.axisLeft()
-        .scale(yScale)
-
     // Show xScale
     chart.append('g')
         .attr('class', 'tick_Scales')
         .attr('transform', `translate(0, ${height})`)
         .call(d3.axisBottom(xScale));
 
+    // Init yScale
+    const yScale = d3.scaleLinear()
+        .range([height, 0])
+        .domain([0, 100]);
+
     // Show yScale
     chart.append('g')
         .attr('class', 'tick_Scales')
         .call(d3.axisLeft(yScale));
+
+    const makeYLines = () => d3.axisLeft()
+        .scale(yScale)
 
     // Lines
     chart.append('g')
@@ -184,7 +185,7 @@ function visualizeDiagram() {
         .attr('y', margin / 2.4)
         .attr('transform', 'rotate(-90)')
         .attr('text-anchor', 'middle')
-        .text('Fälle')
+        .text('Text')
 
     // Label for xScale
     svg.append('text')
@@ -192,7 +193,7 @@ function visualizeDiagram() {
         .attr('x', width / 2 + margin)
         .attr('y', height + margin * 1.7)
         .attr('text-anchor', 'middle')
-        .text('Monate')
+        .text('Text')
 
     // Title
     svg.append('text')
@@ -200,7 +201,7 @@ function visualizeDiagram() {
         .attr('x', width / 2 + margin)
         .attr('y', 40)
         .attr('text-anchor', 'middle')
-        .text('Corona Fälle ')
+        .text('Überschrift')
 
     // Source
     svg.append('text')
