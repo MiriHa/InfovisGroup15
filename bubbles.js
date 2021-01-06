@@ -166,11 +166,13 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
     //Texte einfügen und später filtern
     elemEnter.append("text")
         .filter(function (d) { return d.id < 3 })
-        .attr("dx", function (d) { return -30 })
+        .attr("dx", function (d) { return -40 })
         .attr("dy", 3)
         .text(function (d) { return d.label })
         .style("fill", function (d) { return Choosetextcolor(d) })
+        .style("font-size", "24px")
         .filter(function (d) { return d.id < 3 })
+        
 
     //andere Bubbles transparent
     elemEnter.append("circle")
@@ -244,7 +246,7 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         //analoge sichtbar
         elemEnter.selectAll("circle")//.append("circle")
             .filter(function (d) { return (d.id <= 6 && d.id != 2) }) //nur analoge
-            .attr("id", function (d) { return d.id })
+            .attr("id", function (d) { return d.id })            
             .attr("r", function (d) { return bubbleRadi[aktmounth][d.id] })
             .attr("stroke", "black")
             .attr("fill", function (d) { return d.c })
@@ -268,10 +270,11 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
 
         elemEnter.append("text")
             .filter(function (d) { return (d.id <= 2) }) //nur analoge und hauptbubble
-            .attr("dx", function (d) { return -30 })
+            .attr("dx", function (d) { return -40 })
             .attr("dy", 3)
             .text(function (d) { return d.label })
-            .style("fill", function (d) { return Choosetextcolor(d) });
+            .style("fill", function (d) { return Choosetextcolor(d) })
+            .style("font-size", "24px");
 
 
         elemEnter.selectAll("svg:image").remove()
@@ -294,7 +297,7 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         //Texte anzeigen
         elemEnter.append("text")
             .filter(function (d) { return (d.id <= 5) }) //nur analoge und hauptbubble
-            .attr("dx", function (d) { return -30 })
+            .attr("dx", function (d) { return -40 })
             .attr("dy", 3)
             .text(function (d) { return d.label })
             .style("fill", function (d) { return Choosetextcolor(d) });
@@ -337,10 +340,11 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
 
         elemEnter.append("text")
             .filter(function (d) { return (d.id <= 2) }) //nur analoge und hauptbubble
-            .attr("dx", function (d) { return -30 })
+            .attr("dx", function (d) { return -40 })
             .attr("dy", 3)
             .text(function (d) { return d.label })
             .style("fill", function (d) { return Choosetextcolor(d) })
+            .style("font-size", "24px")
 
 
         elemEnter.selectAll("svg:image").remove()
@@ -362,7 +366,7 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
     //Texte anzeigen
     elemEnter.append("text")
         .filter(function (d) { return (d.id > 5 || d.id <= 2) }) //nur digitale und hauptbubble
-        .attr("dx", function (d) { return -30 })
+        .attr("dx", function (d) { return -40 })
         .attr("dy", 3)
         .text(function (d) { return d.label })
         .style("fill", function (d) { return Choosetextcolor(d) })
@@ -403,7 +407,8 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
             .attr("x", 800)
             .attr("y", 80)
             .attr("id", "t" + aktT)
-            .text(aktT);
+            .text(aktT)
+            .style("font-size", "32px");
     }
 
     function handleMouseOut(d) {
