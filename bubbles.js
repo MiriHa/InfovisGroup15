@@ -46,7 +46,7 @@ json1 = {
         "y": 410,
         "r": 90,
         "c": "orange",
-        "label": "music",
+        "label": "freetime",
         "img": "music.PNG"
     }, 
     {
@@ -89,7 +89,7 @@ json1 = {
         "y": 410,
         "r": 90,
         "c": "blue",
-        "label": "music",
+        "label": "freetime",
         "img": "music.PNG"
     }
     ]
@@ -187,8 +187,12 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         .attr("y", -40)
         .attr("width", 100)
         .attr("height", 80)
+        .attr("id", function (d) { return d.id })
         .attr("xlink:href", function (d) {return "icons/" + d.img })
         .style("opacity", 0.5)
+        .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
+        .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
+            
 
     //MouseEvent
     /*
@@ -279,6 +283,9 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
             .attr("height", 80)
             .attr("xlink:href", function (d) {return "icons/" + d.img })
             .style("opacity", 5)
+            .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
+            .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
+            
 
 
         /*
@@ -345,6 +352,9 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
             .attr("height", 80)
             .attr("xlink:href", function (d) {return "icons/" + d.img })
             .style("opacity", 5)
+            .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
+            .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
+            
 
         /*
     //alte Texte entfernen
@@ -370,12 +380,12 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
     function idToLabel(id) {
         if (id == 3) { return "health" }
         if (id == 4) { return "news" }
-        if (id == 5) { return "sports" }
-        if (id == 6) { return "music" }
-        if (id == 7) { return "helth" }
-        if (id == 8) { return "news" }
-        if (id == 9) { return "sports" }
-        if (id == 10) { return "music" }
+        if (id == 5) { return "freetime" }
+        if (id == 6) { return "sport" }
+        if (id == 7) { return "sport" }
+        if (id == 8) { return "health" }
+        if (id == 9) { return "news" }
+        if (id == 10) { return "freetime" }
         return " ";
     }
     // Create Event Handlers for mouse
