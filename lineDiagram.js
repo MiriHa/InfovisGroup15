@@ -1,4 +1,4 @@
-// Create 2 datasets
+// Test data
 var data1 = [
     {ser1: 0, ser2: 4},
     {ser1: 1, ser2: 16},
@@ -54,38 +54,6 @@ chart.append('g')
         .tickFormat('')
     )*/
 
-// Label for yAxis
-svg.append('text')
-    .attr('class', 'label')
-    .attr('x', -(height / 2) - Margin)
-    .attr('y', Margin / 2.4)
-    .attr('transform', 'rotate(-90)')
-    .attr('text-anchor', 'middle')
-    .text('Text')
-
-// Label for xAxis
-svg.append('text')
-    .attr('class', 'label')
-    .attr('x', width / 2 + Margin)
-    .attr('y', height + Margin * 1.7)
-    .attr('text-anchor', 'middle')
-    .text('Text')
-
-// Title
-svg.append('text')
-    .attr('class', 'title')
-    .attr('x', width / 2 + Margin)
-    .attr('y', 40)
-    .attr('text-anchor', 'middle')
-    .text('Überschrift')
-
-// Source
-svg.append('text')
-    .attr('class', 'source')
-    .attr('x', width - Margin / 2)
-    .attr('y', height + Margin * 1.7)
-    .attr('text-anchor', 'start')
-    .text('Quelle: example.de')
 
 // Create a function that takes a dataset as input and update the plot:
 function update(data) {
@@ -125,9 +93,43 @@ function update(data) {
         .attr("fill", "none")
         .attr("stroke", "steelblue")
         .attr("stroke-width", 2.5)
+
+
+    // Label for yAxis
+    svg.append('text')
+        .attr('class', 'label')
+        .attr('x', -(height / 2) - Margin)
+        .attr('y', Margin / 2.4)
+        .attr('transform', 'rotate(-90)')
+        .attr('text-anchor', 'middle')
+        .text('Text')
+
+    // Label for xAxis
+    svg.append('text')
+        .attr('class', 'label')
+        .attr('x', width / 2 + Margin)
+        .attr('y', height + Margin * 1.7)
+        .attr('text-anchor', 'middle')
+        .text('Text')
+
+    // Title
+    svg.append('text')
+        .attr('class', 'title')
+        .attr('x', width / 2 + Margin)
+        .attr('y', 40)
+        .attr('text-anchor', 'middle')
+        .text('Überschrift')
+
+    // Source
+    svg.append('text')
+        .attr('class', 'source')
+        .attr('x', width - Margin / 2)
+        .attr('y', height + Margin * 1.7)
+        .attr('text-anchor', 'start')
+        .text('Quelle: example.de')
 }
 
-// At the beginning, I run the update function on the first dataset:
+
 update(data2);
 /*
     !DO NOT DELETE!
