@@ -14,7 +14,7 @@ function parser(analog, digital) {
         // (...)
     }
 
-    // Check parameter
+    // Check/parse parameter
     if (analog != null) {
         path_csv_analog = path + csv_files[analog]
         console.log(path_csv_analog)
@@ -36,15 +36,15 @@ function parser(analog, digital) {
         var file2Data = files[1]
 
         file1Data.forEach(function (d){
-            // Build data blocks (fill arrays)
-            var feed = {ser1: d.Quartal, ser2: d.Verkauf};
+            // Build analogData block (fill array)
+            var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
             console.log("quartal_a " + feed)
             analogData.push(feed);
         })
 
         file2Data.forEach(function (d){
-            // Build data blocks (fill arrays)
-            var feed = {ser1: d.Quartal, ser2: d.Verkauf};
+            // Build digitalData block (fill array)
+            var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
             console.log("quartal_d " + feed)
             digitalData.push(feed);
         })
@@ -54,14 +54,14 @@ function parser(analog, digital) {
         console.log("loading error" + err)
     })
 
-    // Test
+    // Test print()
     console.log("analogData");
     console.log(analogData);
     console.log("digitalData");
     console.log(digitalData);
 
     // Visualize data
-    //visualizeLineDiagram(analogData, digitalData);
+    visualizeLineDiagram(analogData, digitalData);
 }
 
 
