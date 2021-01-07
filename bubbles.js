@@ -9,16 +9,16 @@ json1 = {
         "x": 350,
         "y": 310,
         "r": 90,
-        "c": "orange",
-        "label": "analog",
+        "c": COLOR_ANALOG,
+        "label": ANALOG,
         "img" : ""
     }, {
         "id": 2,
         "x": 550,
         "y": 310,
         "r": 90,
-        "c": "blue",
-        "label": "digital",
+        "c": COLOR_DIGITAL,
+        "label": DIGITAL,
         "img" : ""
     }, 
     //analog
@@ -27,8 +27,8 @@ json1 = {
         "x": 350,
         "y": 100,
         "r": 90,
-        "c": "orange",
-        "label": "Health",
+        "c": COLOR_ANALOG,
+        "label": HEALTH,
         "img": "health.png"
 
     }, {
@@ -36,8 +36,8 @@ json1 = {
         "x": 150,
         "y": 190,
         "r": 90,
-        "c": "orange",
-        "label": "News",
+        "c": COLOR_ANALOG,
+        "label": NEWS,
         "img": "newsPaper_icon.png"
 
     }, {
@@ -45,8 +45,8 @@ json1 = {
         "x": 150,
         "y": 410,
         "r": 90,
-        "c": "orange",
-        "label": "freetime",
+        "c": COLOR_ANALOG,
+        "label": FREETIME,
         "img": "music.PNG"
     }, 
     {
@@ -54,8 +54,8 @@ json1 = {
         "x": 350,
         "y": 510,
         "r": 90,
-        "c": "orange",
-        "label": "sports",
+        "c": COLOR_ANALOG,
+        "label": SPORT,
         "img": "sport.PNG"
     }, 
     //digital
@@ -64,32 +64,32 @@ json1 = {
         "x": 550,
         "y": 510,
         "r": 90,
-        "c": "blue",
-        "label": "sports",
+        "c": COLOR_DIGITAL,
+        "label": SPORT,
         "img": "sport.PNG"
     }, {
         "id": 8,
         "x": 550,
         "y": 100,
         "r": 90,
-        "c": "blue",
-        "label": "Health",
+        "c": COLOR_DIGITAL,
+        "label": HEALTH,
         "img": "health.png"
     }, {
         "id": 9,
         "x": 750,
         "y": 190,
         "r": 90,
-        "c": "blue",
-        "label": "News",
+        "c": COLOR_DIGITAL,
+        "label": NEWS,
         "img": "newsPaper_icon.png"
     }, {
         "id": 10,
         "x": 750,
         "y": 410,
         "r": 90,
-        "c": "blue",
-        "label": "freetime",
+        "c": COLOR_DIGITAL,
+        "label": FREETIME,
         "img": "music.PNG"
     }
     ]
@@ -215,10 +215,10 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
     */
 
     function Choosetextcolor(d) {
-        if (d.c == "blue") {
+        if (d.c == COLOR_DIGITAL) {
             return "white";
         }
-        if (d.c == "orange") {
+        if (d.c == COLOR_ANALOG) {
             return "black";
         }
         console.log("keine Farbe");
@@ -395,14 +395,14 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
     }
 
     function idToLabel(id) {
-        if (id == 3) { return "health" }
-        if (id == 4) { return "news" }
-        if (id == 5) { return "freetime" }
-        if (id == 6) { return "sport" }
-        if (id == 7) { return "sport" }
-        if (id == 8) { return "health" }
-        if (id == 9) { return "news" }
-        if (id == 10) { return "freetime" }
+        if (id == 3) { return HEALTH }
+        if (id == 4) { return NEWS }
+        if (id == 5) { return FREETIME }
+        if (id == 6) { return SPORT }
+        if (id == 7) { return SPORT }
+        if (id == 8) { return HEALTH }
+        if (id == 9) { return NEWS }
+        if (id == 10) { return FREETIME }
         return " ";
     }
     // Create Event Handlers for mouse
