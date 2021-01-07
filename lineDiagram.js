@@ -1,28 +1,32 @@
-function visualizeLineDiagram(str) {
-    //var str = str
-    var data1 =     [
-        {ser1: "Q1", ser2: 16},
-        {ser1: "Q2", ser2: 1},
-        {ser1: "Q3", ser2: 11},
-        {ser1: "Q4", ser2: 9}
-    ];
+function parser(analog, digital) {
 
-    var data2 = [
-        {ser1: "Q1", ser2: 4},
-        {ser1: "Q2", ser2: 16},
-        {ser1: "Q3", ser2: 3},
-        {ser1: "Q4", ser2: 8}
-    ];
+    // Variables
+    let path = "./data/"
+    var analogData = []
+    var digitalData = []
+    var path_csv_analog = null
+    var path_csv_analog = null
 
-    if (str == "data1")
-    {
-        data = data1
-    }else {
-        data = data2
+    // Create Dictionary
+    const csv_files = {
+        "label1" : "./analog/data_zeitschrif_klettern.csv",
+        "label2" : "./analog/data_zeitschrift_ApothekenUmschau.csv"
+        // (...)
     }
+
+    // Check parameter
+    if (analog != null) {
+        path_csv_analog = path + csv_files[analog]
+    }
+    if (digital != null) {
+        path_csv_analog = path + csv_files[digital]
+    }
+
+    // Parse Data
     Promise.all([
-        d3.csv("data/analog/data_zeitschrif_klettern.csv"),
-        d3.csv("data/analog/data_zeitschrift_ApothekenUmschau.csv"),
+        // Open file(s)
+        d3.csv(path_csv_analog),
+        d3.csv(path_csv_digital),
     ]).then(function(files) {
         // files[0] will contain file1.csv
         // files[1] will contain file2.csv
@@ -41,6 +45,29 @@ function visualizeLineDiagram(str) {
         // handle error here
         console.log("loading error" + err)
     })
+
+    // Built data blocks
+
+
+
+
+    var data1 =     [
+        {ser1: "Q1", ser2: 16},
+        {ser1: "Q2", ser2: 1},
+        {ser1: "Q3", ser2: 11},
+        {ser1: "Q4", ser2: 9}
+    ];
+
+    // Visualize data
+    visualizeLineDiagram(analogData, digitalData);
+}
+
+
+
+function visualizeLineDiagram(analogData, digitalData) {
+
+    // Todo: data weiterverarbeiten
+    // code
 
 
     // set the dimensions and margins of the graph
