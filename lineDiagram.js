@@ -5,21 +5,23 @@ function parser(analog, digital) {
     var analogData = []
     var digitalData = []
     var path_csv_analog = null
-    var path_csv_analog = null
+    var path_csv_digital = null
 
-    // Create Dictionary
+    // Dictionary of all .csv files (aka data sets)
     const csv_files = {
-        "label1" : "./analog/data_zeitschrif_klettern.csv",
-        "label2" : "./analog/data_zeitschrift_ApothekenUmschau.csv"
+        "label1" : "analog/data_zeitschrif_klettern.csv",
+        "label2" : "digital/data_online_apothekenUmschau.csv"
         // (...)
     }
 
     // Check parameter
     if (analog != null) {
         path_csv_analog = path + csv_files[analog]
+        console.log(path_csv_analog)
     }
     if (digital != null) {
-        path_csv_analog = path + csv_files[digital]
+        path_csv_digital = path + csv_files[digital]
+        console.log(path_csv_digital)
     }
 
     // Parse Data
@@ -30,36 +32,36 @@ function parser(analog, digital) {
     ]).then(function(files) {
         // files[0] will contain file1.csv
         // files[1] will contain file2.csv
-        var kletternData = files[0]
-        var apothekenData = files[1]
-        kletternData.forEach(function (d){
-            var kletternDataQuartal = d.Quartal
-            console.log("quartal " + kletternDataQuartal)
+        var file1Data = files[0]
+        var file2Data = files[1]
+
+        file1Data.forEach(function (d){
+            // Build data blocks (fill arrays)
+            var feed = {ser1: d.Quartal, ser2: d.Verkauf};
+            console.log("quartal_a " + feed)
+            analogData.push(feed);
         })
 
-        apothekenData.forEach(function (d){
-            var apothekeTitel = d.Titel
-            console.log("titel apotheke " + apothekeTitel)
+        file2Data.forEach(function (d){
+            // Build data blocks (fill arrays)
+            var feed = {ser1: d.Quartal, ser2: d.Verkauf};
+            console.log("quartal_d " + feed)
+            digitalData.push(feed);
         })
+
     }).catch(function(err) {
         // handle error here
         console.log("loading error" + err)
     })
 
-    // Built data blocks
-
-
-
-
-    var data1 =     [
-        {ser1: "Q1", ser2: 16},
-        {ser1: "Q2", ser2: 1},
-        {ser1: "Q3", ser2: 11},
-        {ser1: "Q4", ser2: 9}
-    ];
+    // Test
+    console.log("analogData");
+    console.log(analogData);
+    console.log("digitalData");
+    console.log(digitalData);
 
     // Visualize data
-    visualizeLineDiagram(analogData, digitalData);
+    //visualizeLineDiagram(analogData, digitalData);
 }
 
 

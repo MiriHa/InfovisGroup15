@@ -240,16 +240,14 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
             if (d.attr("id") == 4) {
                 console.log("4");
                 // code
-                visualizeLineDiagram("data1");
-
             }
             if (d.attr("id") == 3) {
                 console.log("3");
                 // code
-                visualizeLineDiagram("data2");
-
             }
-            return showDiagram(d.attr("label"));
+            // Test
+            parser("label1", "label2");
+            // return showDiagram(d.attr("label"));
 
         }
     }
