@@ -112,6 +112,8 @@ bubbleRadi = [
     [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100]   // Dez
 ]
 
+var selectedAnalogBubble = ""
+var selectedDigitalBubble = ""
 
 function visualizeBubbles(json, bubbleRadi, aktmounth) {
     
@@ -237,6 +239,31 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         } else {
             //Click auf keine Hauptbubble -> Diagramm anzeigen lassen für diese Bubble
             console.log("else");
+            if(d.attr("id") >= 3 && d.attr("id") <= 6){
+                console.log("analog sub-bubble clicked")
+                // was selected before, so remove selection
+                if(selectedAnalogBubble === d.attr("label")){
+                    selectedAnalogBubble = ""
+                }
+                // add new selection
+                else{
+                    selectedAnalogBubble = d.attr("label")
+                }
+            } else if(d.attr("id") >= 7 && d.attr("id") <= 10){
+                console.log("digital sub-bubble clicked")
+                // was selected before, so remove selection
+                if(selectedDigitalBubble === d.attr("label")){
+                    selectedDigitalBubble = ""
+                }
+                // add new selection
+                else{
+                    selectedDigitalBubble = d.attr("label")
+                }
+            }
+
+            parser(selectedAnalogBubble, selectedDigitalBubble)
+
+            /*
             if (d.attr("id") == 4) {
                 console.log("4");
                 // code
@@ -249,7 +276,7 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
                 visualizeLineDiagram("data2");
 
             }
-            return showDiagram(d.attr("label"));
+            return showDiagram(d.attr("label"));*/
 
         }
     }
