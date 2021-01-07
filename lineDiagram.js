@@ -20,6 +20,29 @@ function visualizeLineDiagram(str) {
     }else {
         data = data2
     }
+    Promise.all([
+        d3.csv("data/analog/data_zeitschrif_klettern.csv"),
+        d3.csv("data/analog/data_zeitschrift_ApothekenUmschau.csv"),
+    ]).then(function(files) {
+        // files[0] will contain file1.csv
+        // files[1] will contain file2.csv
+        var kletternData = files[0]
+        var apothekenData = files[1]
+        kletternData.forEach(function (d){
+            var kletternDataQuartal = d.Quartal
+            console.log("quartal " + kletternDataQuartal)
+        })
+
+        apothekenData.forEach(function (d){
+            var apothekeTitel = d.Titel
+            console.log("titel apotheke " + apothekeTitel)
+        })
+    }).catch(function(err) {
+        // handle error here
+        console.log("loading error" + err)
+    })
+
+
     // set the dimensions and margins of the graph
     const Margin = 80;
     const width = 1000 - 2 * Margin;

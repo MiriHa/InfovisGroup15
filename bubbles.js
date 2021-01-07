@@ -237,15 +237,17 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         } else {
             //Click auf keine Hauptbubble -> Diagramm anzeigen lassen für diese Bubble
             console.log("else");
-            if (d.attr("id") == 9) {
-                console.log("9");
+            if (d.attr("id") == 4) {
+                console.log("4");
                 // code
                 visualizeLineDiagram("data1");
+
             }
-            if (d.attr("id") == 10) {
-                console.log("10");
+            if (d.attr("id") == 3) {
+                console.log("3");
                 // code
                 visualizeLineDiagram("data2");
+
             }
             return showDiagram(d.attr("label"));
 
