@@ -8,20 +8,36 @@ function parser(analog, digital) {
     var path_csv_digital = null
 
     // Dictionary of all .csv files (aka data sets)
-    const csv_files = {
-        "label1" : "analog/data_zeitschrif_klettern.csv",
-        "label2" : "digital/data_online_apothekenUmschau.csv"
-        // (...)
+    // TODO: check all file names
+    const csv_files_analog = {
+        SPORT : "analog/data_zeitschrif_klettern.csv",
+        NEWS : "analog/data_zeitschrif_klettern.csv",
+        HEALTH : "analog/data_zeitschrif_klettern.csv",
+        FREETIME : "analog/data_zeitschrif_klettern.csv"
     }
+    // TODO: check all file names
+    const csv_files_digital = {
+        SPORT : "digital/data_zeitschrif_klettern.csv",
+        NEWS : "digital/data_zeitschrif_klettern.csv",
+        HEALTH : "digital/data_zeitschrif_klettern.csv",
+        FREETIME : "digital/data_zeitschrif_klettern.csv"
+    }
+
 
     // Check/parse parameter
     if (analog != null) {
-        path_csv_analog = path + csv_files[analog]
+        path_csv_analog = path + csv_files_analog[analog]
         console.log(path_csv_analog)
+    } else {
+        // TODO: if parameter is empty => no rendering
+        // code
     }
     if (digital != null) {
-        path_csv_digital = path + csv_files[digital]
+        path_csv_digital = path + csv_files_digital[digital]
         console.log(path_csv_digital)
+    } else {
+        // TODO: if parameter is empty => no rendering
+        // code
     }
 
     // Parse Data
@@ -37,6 +53,7 @@ function parser(analog, digital) {
 
         file1Data.forEach(function (d){
             // Build analogData block (fill array)
+            // TODO: filtern; same number of quartals in both files
             var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
             console.log("quartal_a " + feed)
             analogData.push(feed);
@@ -44,13 +61,14 @@ function parser(analog, digital) {
 
         file2Data.forEach(function (d){
             // Build digitalData block (fill array)
+            // TODO: filtern; same number of quartals in both files
             var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
             console.log("quartal_d " + feed)
             digitalData.push(feed);
         })
 
     }).catch(function(err) {
-        // handle error here
+        // handle error
         console.log("loading error" + err)
     })
 
@@ -60,7 +78,7 @@ function parser(analog, digital) {
     console.log("digitalData");
     console.log(digitalData);
 
-    // Visualize data
+    // Visualize data/diagram
     visualizeLineDiagram(analogData, digitalData);
 }
 
@@ -68,9 +86,17 @@ function parser(analog, digital) {
 
 function visualizeLineDiagram(analogData, digitalData) {
 
-    // Todo: data weiterverarbeiten
+    // TODO: check, which lines to render
     // code
-
+    if (){
+        // only digital
+    } else if () {
+        // only digital
+    } else if () {
+        // both
+    } else {
+        // none
+    }
 
     // set the dimensions and margins of the graph
     const Margin = 80;
@@ -102,7 +128,8 @@ function visualizeLineDiagram(analogData, digitalData) {
         .attr("class","myYaxis")
 
     // Create the X axis:
-    //x.domain([0, d3.max(data, function(d) { return d.ser1 }) ]);
+    // TODO: parameter 'data' is obsolete
+    // PARAMETER: 'analogData', 'digitalData'
     x.domain(data.map((s) => s.ser1))
     chart.selectAll(".myXaxis")
         .transition()
@@ -123,6 +150,8 @@ function visualizeLineDiagram(analogData, digitalData) {
         .data([data], function(d){ return d.ser1 });
 
     // visualizeLineDiagram the line
+    // TODO: visualize one, both or none!?
+    // Code:
     u
         .enter()
         .append("path")
@@ -172,9 +201,3 @@ function visualizeLineDiagram(analogData, digitalData) {
         .attr('text-anchor', 'start')
         .text('Quelle: example.de')
 }
-
-//visualizeLineDiagram(data2);
-//visualizeLineDiagram().apply(d3);
-/*
-    !DO NOT DELETE!
-*/
