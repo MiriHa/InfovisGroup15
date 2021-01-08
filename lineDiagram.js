@@ -1,7 +1,12 @@
 function parser(analog, digital) {
 
+    console.log("Parser:")
+    console.log(analog)
+    console.log(digital)
+
     // Variables
-    let path = "./data/"
+    let folder_analog = "./data/analog/"
+    let folder_digital = "./data/digital/format/"
     var analogData = []
     var digitalData = []
     var path_csv_analog = ""
@@ -10,28 +15,28 @@ function parser(analog, digital) {
     // Dictionary of all .csv files (aka data sets)
     // TODO: check all file names
     const csv_files_analog = new Map([
-        [SPORT , "analog/data_zeitschrif_klettern.csv"],
-        [NEWS , "analog/data_zeitschrif_klettern.csv"],
-        [HEALTH , "analog/data_zeitschrif_klettern.csv"],
-        [FREETIME , "analog/data_zeitschrif_klettern.csv"]
+        [SPORT , "data_zeitschrif_klettern.csv"],
+        [NEWS , "data_zeitung_sz.csv"],
+        [HEALTH , "data_zeitschrift_ApothekenUmschau.csv"],
+        [FREETIME , "data_zeitschrift_essenUndTrinken.csv"]
         ]
     )
     // TODO: check all file names
     const csv_files_digital = new Map([
-            [SPORT , "analog/data_zeitschrif_klettern.csv"],
-            [NEWS , "analog/data_zeitschrif_klettern.csv"],
-            [HEALTH , "analog/data_zeitschrif_klettern.csv"],
-            [FREETIME , "analog/data_zeitschrif_klettern.csv"]
+            [SPORT , "digital_bergsteiger.csv"],
+            [NEWS , "digital_sueddeutsche.csv"],
+            [HEALTH , "digital_apothekenUmschau.csv"],
+            [FREETIME , "digital_chefkoch.csv"]
         ]
     )
 
     // Check/parse parameter
     if (analog != "") {
-        path_csv_analog = path + csv_files_analog.get(analog)
+        path_csv_analog = folder_analog + csv_files_analog.get(analog)
         console.log(path_csv_analog)
     }
     if (digital != "") {
-        path_csv_digital = path + csv_files_digital.get(digital)
+        path_csv_digital = folder_digital + csv_files_digital.get(digital)
         console.log(path_csv_digital)
     }
 
@@ -60,21 +65,76 @@ function parser(analog, digital) {
         load_data(path_csv_digital)
     }
 
-    // Test print()
+    /* Idee
+    if (path_csv_digital != "" && path_csv_analog != "") {
+        // Load both
+        // promise()
+    } else if () {
+        // Load only digital
+        // load_data(path_csv_digital);
+    } else if () {
+        // Loade only analog
+        // load_data(path_csv_analog);
+    } else {
+        // Nothing
+    }*/
+
+    /* Promise()
+    Promise.all([
+        // Open file(s)
+        d3.csv(path_csv_analog),
+        d3.csv(path_csv_digital),
+    ]).then(function(files) {
+        // files[0] will contain file1.csv
+        // files[1] will contain file2.csv
+        var file1Data = files[0]
+        var file2Data = files[1]
+
+        file1Data.forEach(function (d){
+            // Build analogData block (fill array)
+            // TODO: filtern; same number of quartals in both files
+            var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
+            console.log("quartal_a " + feed)
+            analogData.push(feed);
+        })
+
+        file2Data.forEach(function (d){
+            // Build digitalData block (fill array)
+            // TODO: filtern; same number of quartals in both files
+            var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
+            console.log("quartal_d " + feed)
+            digitalData.push(feed);
+        })
+
+    }).catch(function(err) {
+        // handle error
+        console.log("loading error" + err)
+    })*/
+
+    /* Test print()
     console.log("Testprint")
     console.log("analogData:");
     console.log(analogData);
     console.log("digitalData:");
-    console.log(digitalData);
+    console.log(digitalData);*/
 
-    // Visualize data/diagram
+    // Visualize diagrams
+    // Parameter:
+    // analogData -> array OR ""
+    // digitalData -> array OR ""
     visualizeLineDiagram(analogData, digitalData);
 }
 
 
 
 function visualizeLineDiagram(analogData, digitalData) {
+    data = []
+    // Test
+    var aData = analogData
+    var dData = digitalData
 
+    console.log("aData " + aData.length)
+    console.log("dData " + dData.length)
     // TODO: check, which lines to render
     // code
     /*if (){
