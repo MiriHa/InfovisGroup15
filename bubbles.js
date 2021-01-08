@@ -239,25 +239,26 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         } else {
             //Click auf keine Hauptbubble -> Diagramm anzeigen lassen für diese Bubble
             console.log("else");
+            var currentLabel = idToLabel(d.attr("id"));
             if(d.attr("id") >= 3 && d.attr("id") <= 6){
-                console.log("analog sub-bubble clicked")
+                console.log("analog sub-bubble clicked: " + currentLabel)
                 // was selected before, so remove selection
-                if(selectedAnalogBubble === d.attr("label")){
+                if(selectedAnalogBubble === currentLabel){
                     selectedAnalogBubble = ""
                 }
                 // add new selection
                 else{
-                    selectedAnalogBubble = d.attr("label")
+                    selectedAnalogBubble = currentLabel
                 }
             } else if(d.attr("id") >= 7 && d.attr("id") <= 10){
-                console.log("digital sub-bubble clicked")
+                console.log("digital sub-bubble clicked: " + currentLabel)
                 // was selected before, so remove selection
-                if(selectedDigitalBubble === d.attr("label")){
+                if(selectedDigitalBubble === currentLabel){
                     selectedDigitalBubble = ""
                 }
                 // add new selection
                 else{
-                    selectedDigitalBubble = d.attr("label")
+                    selectedDigitalBubble = currentLabel
                 }
             }
 

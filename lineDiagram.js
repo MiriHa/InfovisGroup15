@@ -9,31 +9,33 @@ function parser(analog, digital) {
 
     // Dictionary of all .csv files (aka data sets)
     // TODO: check all file names
-    const csv_files_analog = {
-        SPORT : "analog/data_zeitschrif_klettern.csv",
-        NEWS : "analog/data_zeitschrif_klettern.csv",
-        HEALTH : "analog/data_zeitschrif_klettern.csv",
-        FREETIME : "analog/data_zeitschrif_klettern.csv"
-    }
+    const csv_files_analog = new Map([
+        [SPORT , "analog/data_zeitschrif_klettern.csv"],
+        [NEWS , "analog/data_zeitschrif_klettern.csv"],
+        [HEALTH , "analog/data_zeitschrif_klettern.csv"],
+        [FREETIME , "analog/data_zeitschrif_klettern.csv"]
+        ]
+    )
     // TODO: check all file names
-    const csv_files_digital = {
-        SPORT : "digital/data_zeitschrif_klettern.csv",
-        NEWS : "digital/data_zeitschrif_klettern.csv",
-        HEALTH : "digital/data_zeitschrif_klettern.csv",
-        FREETIME : "digital/data_zeitschrif_klettern.csv"
-    }
+    const csv_files_digital = new Map([
+            [SPORT , "analog/data_zeitschrif_klettern.csv"],
+            [NEWS , "analog/data_zeitschrif_klettern.csv"],
+            [HEALTH , "analog/data_zeitschrif_klettern.csv"],
+            [FREETIME , "analog/data_zeitschrif_klettern.csv"]
+        ]
+    )
 
 
     // Check/parse parameter
-    if (analog != null) {
-        path_csv_analog = path + csv_files_analog[analog]
+    if (analog != "") {
+        path_csv_analog = path + csv_files_analog.get(analog)
         console.log(path_csv_analog)
     } else {
         // TODO: if parameter is empty => no rendering
         // code
     }
-    if (digital != null) {
-        path_csv_digital = path + csv_files_digital[digital]
+    if (digital != "") {
+        path_csv_digital = path + csv_files_digital.get(digital)
         console.log(path_csv_digital)
     } else {
         // TODO: if parameter is empty => no rendering
@@ -50,6 +52,8 @@ function parser(analog, digital) {
         // files[1] will contain file2.csv
         var file1Data = files[0]
         var file2Data = files[1]
+        console.log("file1" + file1Data)
+        console.log("file2" +file2Data)
 
         file1Data.forEach(function (d){
             // Build analogData block (fill array)
@@ -88,7 +92,7 @@ function visualizeLineDiagram(analogData, digitalData) {
 
     // TODO: check, which lines to render
     // code
-    if (){
+    /*if (){
         // only digital
     } else if () {
         // only digital
@@ -96,7 +100,7 @@ function visualizeLineDiagram(analogData, digitalData) {
         // both
     } else {
         // none
-    }
+    }*/
 
     // set the dimensions and margins of the graph
     const Margin = 80;
