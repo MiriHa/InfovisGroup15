@@ -1,7 +1,12 @@
 function parser(analog, digital) {
 
+    console.log("Parser:")
+    console.log(analog)
+    console.log(digital)
+
     // Variables
-    let path = "./data/"
+    let folder_analog = "./data/analog/"
+    let folder_digital = "./data/digital/format/"
     var analogData = []
     var digitalData = []
     var path_csv_analog = ""
@@ -10,24 +15,24 @@ function parser(analog, digital) {
     // Dictionary of all .csv files (aka data sets)
     // TODO: check all file names
     const csv_files_analog = new Map([
-        [SPORT , "analog/data_zeitschrif_klettern.csv"],
-        [NEWS , "analog/data_zeitschrif_klettern.csv"],
-        [HEALTH , "analog/data_zeitschrif_klettern.csv"],
-        [FREETIME , "analog/data_zeitschrif_klettern.csv"]
+        [SPORT , "data_zeitschrif_klettern.csv"],
+        [NEWS , "data_zeitung_sz.csv"],
+        [HEALTH , "data_zeitschrift_ApothekenUmschau.csv"],
+        [FREETIME , "data_zeitschrift_essenUndTrinken.csv"]
         ]
     )
     // TODO: check all file names
     const csv_files_digital = new Map([
-            [SPORT , "analog/data_zeitschrif_klettern.csv"],
-            [NEWS , "analog/data_zeitschrif_klettern.csv"],
-            [HEALTH , "analog/data_zeitschrift_ApothekenUmschau.csv"],
-            [FREETIME , "analog/data_zeitschrif_klettern.csv"]
+            [SPORT , "digital_bergsteiger.csv"],
+            [NEWS , "digital_sueddeutsche.csv"],
+            [HEALTH , "digital_apothekenUmschau.csv"],
+            [FREETIME , "digital_chefkoch.csv"]
         ]
     )
 
     // Check/parse parameter
     if (analog != "") {
-        path_csv_analog = path + csv_files_analog.get(analog)
+        path_csv_analog = folder_analog + csv_files_analog.get(analog)
         console.log(path_csv_analog)
     } else {
         // TODO: if parameter is empty => no rendering
@@ -35,7 +40,7 @@ function parser(analog, digital) {
         path_csv_analog = null
     }
     if (digital != "") {
-        path_csv_digital = path + csv_files_digital.get(digital)
+        path_csv_digital = folder_digital + csv_files_digital.get(digital)
         console.log(path_csv_digital)
     } else {
         // TODO: if parameter is empty => no rendering
@@ -149,6 +154,10 @@ function parser(analog, digital) {
 
 
 function visualizeLineDiagram(analogData, digitalData) {
+    data = []
+    // Test
+    var aData = analogData
+    var dData = digitalData
 
     // set the dimensions and margins of the graph
     const Margin = 80;
