@@ -4,8 +4,8 @@ function parser(analog, digital) {
     let path = "./data/"
     var analogData = []
     var digitalData = []
-    var path_csv_analog = null
-    var path_csv_digital = null
+    var path_csv_analog = ""
+    var path_csv_digital = ""
 
     // Dictionary of all .csv files (aka data sets)
     // TODO: check all file names
@@ -25,61 +25,46 @@ function parser(analog, digital) {
         ]
     )
 
-
     // Check/parse parameter
     if (analog != "") {
         path_csv_analog = path + csv_files_analog.get(analog)
         console.log(path_csv_analog)
-    } else {
-        // TODO: if parameter is empty => no rendering
-        // code
     }
     if (digital != "") {
         path_csv_digital = path + csv_files_digital.get(digital)
         console.log(path_csv_digital)
-    } else {
-        // TODO: if parameter is empty => no rendering
-        // code
     }
 
-    // Parse Data
-    Promise.all([
-        // Open file(s)
-        d3.csv(path_csv_analog),
-        d3.csv(path_csv_digital),
-    ]).then(function(files) {
-        // files[0] will contain file1.csv
-        // files[1] will contain file2.csv
-        var file1Data = files[0]
-        var file2Data = files[1]
-        console.log("file1" + file1Data)
-        console.log("file2" +file2Data)
+    // Define function to load data
+    function load_data(csv_file) {
+        d3.csv(csv_file)
+            .then(function (data) {
+                console.log("loaded successfully")
 
-        file1Data.forEach(function (d){
-            // Build analogData block (fill array)
-            // TODO: filtern; same number of quartals in both files
-            var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
-            console.log("quartal_a " + feed)
-            analogData.push(feed);
-        })
+                data.forEach(function (d) {
+                    var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
+                    console.log("quartal_a " + feed)
+                    analogData.push(feed);
+                })
+            })
+            .catch(function (error) {
+                console.log("loading error " + error)
+            })
+    }
 
-        file2Data.forEach(function (d){
-            // Build digitalData block (fill array)
-            // TODO: filtern; same number of quartals in both files
-            var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
-            console.log("quartal_d " + feed)
-            digitalData.push(feed);
-        })
-
-    }).catch(function(err) {
-        // handle error
-        console.log("loading error" + err)
-    })
+    // Load data from .csv if path is set
+    if (path_csv_analog != "") {
+        load_data(path_csv_analog)
+    }
+    if (path_csv_digital != "") {
+        load_data(path_csv_digital)
+    }
 
     // Test print()
-    console.log("analogData");
+    console.log("Testprint")
+    console.log("analogData:");
     console.log(analogData);
-    console.log("digitalData");
+    console.log("digitalData:");
     console.log(digitalData);
 
     // Visualize data/diagram
