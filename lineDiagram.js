@@ -33,6 +33,7 @@ function parser(analog, digital) {
     } else {
         // TODO: if parameter is empty => no rendering
         // code
+        path_csv_analog = null
     }
     if (digital != "") {
         path_csv_digital = path + csv_files_digital.get(digital)
@@ -40,10 +41,44 @@ function parser(analog, digital) {
     } else {
         // TODO: if parameter is empty => no rendering
         // code
+        path_csv_digital = null
+    }
+
+    if(path_csv_analog != null){
+        d3.csv(path_csv_analog)
+            .then(function(data) {
+                console.log("loaded analog successfully")
+                data.forEach(function (d){
+                    // Build analogData block (fill array)
+                    // TODO: filtern; same number of quartals in both files
+                    var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
+                    console.log("quartal_a " + feed)
+                    analogData.push(feed);
+                })
+            })
+            .catch(function(error){
+                console.log("loading analog error " + error)
+            })
+    }
+    if(path_csv_digital != null){
+        d3.csv(path_csv_digital)
+            .then(function(data) {
+                console.log("loaded digital successfully")
+                data.forEach(function (d){
+                    // Build analogData block (fill array)
+                    // TODO: filtern; same number of quartals in both files
+                    var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
+                    console.log("quartal_a " + feed)
+                    digitalData.push(feed);
+                })
+            })
+            .catch(function(error){
+                console.log("loading digital error " + error)
+            })
     }
 
     // Parse Data
-    Promise.all([
+    /*Promise.all([
         // Open file(s)
         d3.csv(path_csv_analog),
         d3.csv(path_csv_digital),
@@ -74,7 +109,7 @@ function parser(analog, digital) {
     }).catch(function(err) {
         // handle error
         console.log("loading error" + err)
-    })
+    })*/
 
     // Test print()
     console.log("analogData");
