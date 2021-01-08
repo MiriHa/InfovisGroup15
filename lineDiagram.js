@@ -4,8 +4,8 @@ function parser(analog, digital) {
     let path = "./data/"
     var analogData = []
     var digitalData = []
-    var path_csv_analog = null
-    var path_csv_digital = null
+    var path_csv_analog = ""
+    var path_csv_digital = ""
 
     // Dictionary of all .csv files (aka data sets)
     // TODO: check all file names
@@ -24,7 +24,6 @@ function parser(analog, digital) {
             [FREETIME , "analog/data_zeitschrif_klettern.csv"]
         ]
     )
-
 
     // Check/parse parameter
     if (analog != "") {
