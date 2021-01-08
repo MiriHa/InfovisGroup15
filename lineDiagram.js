@@ -20,7 +20,7 @@ function parser(analog, digital) {
     const csv_files_digital = new Map([
             [SPORT , "analog/data_zeitschrif_klettern.csv"],
             [NEWS , "analog/data_zeitschrif_klettern.csv"],
-            [HEALTH , "analog/data_zeitschrif_klettern.csv"],
+            [HEALTH , "analog/data_zeitschrift_ApothekenUmschau.csv"],
             [FREETIME , "analog/data_zeitschrif_klettern.csv"]
         ]
     )
@@ -53,6 +53,7 @@ function parser(analog, digital) {
                 d3.csv(path_csv_analog),
                 d3.csv(path_csv_digital),
             ]).then(function(files) {
+                console.log("loading both successfull")
                 // files[0] will contain file1.csv
                 // files[1] will contain file2.csv
                 var file1Data = files[0]
@@ -63,18 +64,34 @@ function parser(analog, digital) {
                 file1Data.forEach(function (d){
                     // Build analogData block (fill array)
                     // TODO: filtern; same number of quartals in both files
-                    var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
-                    console.log("quartal_a " + feed)
-                    analogData.push(feed);
+                    if(Number(d.Quartal) >= 20171 && Number(d.Quartal) <= 20203) {
+                        var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
+                        console.log("quartal_a " + feed)
+                        analogData.push(feed);
+                    }
+
                 })
 
                 file2Data.forEach(function (d){
                     // Build digitalData block (fill array)
                     // TODO: filtern; same number of quartals in both files
-                    var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
-                    console.log("quartal_d " + feed)
-                    digitalData.push(feed);
+                    if(Number(d.Quartal) >= 20171 && Number(d.Quartal) <= 20203) {
+                        var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
+                        console.log("quartal_d " + feed)
+                        digitalData.push(feed);
+                    }
+
                 })
+
+                //
+
+
+                console.log("analogData got:")
+                console.log(analogData)
+
+                console.log("digitalData got:")
+                console.log(digitalData)
+
                 visualizeLineDiagram(analogData,digitalData)
 
             }).catch(function(err) {
@@ -89,12 +106,13 @@ function parser(analog, digital) {
                     data.forEach(function (d) {
                         // Build analogData block (fill array)
                         // TODO: filtern; same number of quartals in both files
-                        var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
-                        console.log("quartal_a " + feed)
-                        analogData.push(feed);
-                        console.log("after push: " + analogData.length)
+                        if (Number(d.Quartal) >= 20171 && Number(d.Quartal) <= 20203) {
+                            var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
+                            console.log("quartal_a " + feed)
+                            analogData.push(feed);
+                        }
                     })
-                    console.log("after for each: " + analogData.length)
+
 
                     visualizeLineDiagram(analogData, digitalData)
                 })
@@ -111,9 +129,11 @@ function parser(analog, digital) {
                 data.forEach(function (d) {
                     // Build analogData block (fill array)
                     // TODO: filtern; same number of quartals in both files
-                    var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
-                    console.log("quartal_a " + feed)
-                    digitalData.push(feed);
+                    if (Number(d.Quartal) >= 20171 && Number(d.Quartal) <= 20203) {
+                        var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
+                        console.log("quartal_a " + feed)
+                        digitalData.push(feed);
+                    }
                 })
 
                 visualizeLineDiagram(analogData, digitalData)
@@ -122,23 +142,6 @@ function parser(analog, digital) {
                 console.log("loading digital error " + error)
             })
     }
-    // Test print()
-    /*console.log("analogData in parser");
-    console.log(analogData);
-    var a = analogData
-    console.log("a")
-    console.log(a)
-    console.log("length: ")
-    console.log(analogData.length)
-    console.log("an 0")
-    console.log(analogData[0])
-    console.log("an 1")
-    console.log(analogData[1])
-    console.log("digitalData");
-    console.log(digitalData);
-
-    // Visualize data/diagram
-    visualizeLineDiagram(analogData, digitalData);*/
 }
 
 
@@ -187,17 +190,32 @@ function visualizeLineDiagram(analogData, digitalData) {
         if (aData > 0 && dData === 0) {
             console.log("only analog data")
             axes(analogData);
-            line(analogData);
+            line(analogData, "analog");
 
         } else if (aData === 0 && dData > 0) {
             console.log("only digital data")
             axes(digitalData);
-            line(digitalData);
+            line(digitalData, "digital");
 
         } else if (aData > 0 && dData > 0) {
-            console.log("both data")
             // both
-            // TODO
+            console.log("both data")
+            var max = 0
+            analogData.forEach(function (a){
+                if(a.ser2 > max){
+                    max = a.ser2
+                }
+            })
+
+            digitalData.forEach(function (d){
+                if(d.ser2 > max){
+                    max = d.ser2
+                }
+            })
+
+            axesSpecial(analogData, max)
+            line(analogData, ANALOG)
+            line(digitalData, DIGITAL)
         }
     }
 
@@ -275,12 +293,37 @@ function visualizeLineDiagram(analogData, digitalData) {
             .call(yAxis);
     }
 
-    function line(data) {
+    function axesSpecial(data, yMax) {
+        x.domain(data.map((s) => s.ser1))
+        chart.selectAll(".myXaxis")
+            .transition()
+            .duration(2000)
+            .attr('class', 'tick_Scales')
+            .call(xAxis);
+
+        // create the Y axis
+        y.domain([0, yMax]);
+        chart.selectAll(".myYaxis")
+            .transition()
+            .duration(2000)
+            .attr('class', 'tick_Scales')
+            .call(yAxis);
+    }
+
+    function line(data, aOrD) {
         // Create a visualizeLineDiagram selection: bind to the new data
-        var u = chart.selectAll(".lineTest")
+        var u = chart.selectAll("." + aOrD)
             .data([data], function (d) {
                 return d.ser1
             });
+
+        var color
+
+        if(aOrD === ANALOG){
+            color = COLOR_ANALOG
+        } else{
+            color = COLOR_DIGITAL
+        }
 
         // visualizeLineDiagram the line
         // TODO: visualize one, both or none!?
@@ -288,7 +331,7 @@ function visualizeLineDiagram(analogData, digitalData) {
         u
             .enter()
             .append("path")
-            .attr("class", "lineTest")
+            .attr("class", aOrD)
             .merge(u)
             .transition()
             .duration(2000)
@@ -300,7 +343,7 @@ function visualizeLineDiagram(analogData, digitalData) {
                     return y(d.ser2);
                 }))
             .attr("fill", "none")
-            .attr("stroke", "steelblue")
+            .attr("stroke", color)
             .attr("stroke-width", 2.5)
     }
 }
