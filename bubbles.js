@@ -170,6 +170,7 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         .text(function (d) { return d.label })
         .style("fill", function (d) { return Choosetextcolor(d) })
         .style("font-size", "24px")
+        .style("font-weight", "bold")
         .filter(function (d) { return d.id < 3 })
         
 
@@ -220,9 +221,6 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         }
         console.log("keine Farbe");
         return "black";
-        
-       
-       
     }
 
     function Bubbleclick(d) {
@@ -241,8 +239,6 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
 
         }
     }
-
-
 
     function ClickforAna(d) {
         //analoge sichtbar
@@ -276,7 +272,9 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
             .attr("dy", 3)
             .text(function (d) { return d.label })
             .style("fill", function (d) { return Choosetextcolor(d) })
-            .style("font-size", "24px");
+            .style("font-size", "24px")
+            .style("font-weight", "bold") // new
+            
 
 
         elemEnter.selectAll("svg:image").remove()
@@ -347,6 +345,7 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
             .text(function (d) { return d.label })
             .style("fill", function (d) { return Choosetextcolor(d) })
             .style("font-size", "24px")
+            .style("font-weight", "bold") // new
 
 
         elemEnter.selectAll("svg:image").remove()
@@ -410,7 +409,8 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
             .attr("y", 80)
             .attr("id", "t" + aktT)
             .text(aktT)
-            .style("font-size", "32px");
+            .style("font-size", "24px")
+            .style("font-style", "italic"); // new
     }
 
     function handleMouseOut(d) {

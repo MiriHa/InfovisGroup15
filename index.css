@@ -1,10 +1,11 @@
 body {
-    font-family: 'Microsoft JhengHei', sans-serif; /*font-family: 'Open Sans', sans-serif;*/
+    font-family: 'Microsoft JhengHei', Verdana, sans-serif; /*font-family: 'Open Sans', sans-serif; oder Tahoma*/
     background: #1b2636; /*background: #293950;*/
 }
 
 h1 {
     font-size: 36px;
+    font-weight: bold;
     text-align: center;
     color: #DBDBDB;
 }
