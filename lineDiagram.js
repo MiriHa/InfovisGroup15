@@ -141,6 +141,9 @@ function parser(analog, digital) {
             .catch(function (error) {
                 console.log("loading digital error " + error)
             })
+    } else {
+        // no data
+        visualizeLineDiagram(analogData, digitalData)
     }
 }
 
@@ -159,43 +162,36 @@ function visualizeLineDiagram(analogData, digitalData) {
     var y
     var yAxis
 
-    // Remove old diagram
+    // always remove old diagram
     var svg = d3.select("#bottomDiagram").selectAll("svg").remove()
-    // append the svg object to the body of the page
-    var svg = d3.select("#bottomDiagram")
-        .append("svg")
+
 
     var aData = analogData.length
     var dData = digitalData.length
 
-    console.log("analogData lengt1 : ")
-    console.log(analogData.length)
-    //console.log("aData 1 : " + analogData.length)
-    console.log("analogData: ")
-    console.log(analogData)
-    //console.log("aData " + aData)
-    console.log("analogData lengt2 : ")
-    console.log(analogData.length)
+    console.log("analogData length : " + aData)
+    console.log("digitalData length : " + dData)
 
-    //if(!analogData && !digitalData)
     if (aData === 0 && dData === 0) {
-        console.log("no data")
-        // none
+        console.log("no data to draw")
         // only remove diagram
     } else {
         // remove diagram and...
+        // append the svg object to the body of the page
+        var svg = d3.select("#bottomDiagram")
+            .append("svg")
         // Init Chart
         initChart();
 
         if (aData > 0 && dData === 0) {
-            console.log("only analog data")
+            console.log("draw only analog data")
             axes(analogData);
-            line(analogData, "analog");
+            line(analogData, ANALOG);
 
         } else if (aData === 0 && dData > 0) {
-            console.log("only digital data")
+            console.log("draw only digital data")
             axes(digitalData);
-            line(digitalData, "digital");
+            line(digitalData, DIGITAL);
 
         } else if (aData > 0 && dData > 0) {
             // both
@@ -326,7 +322,6 @@ function visualizeLineDiagram(analogData, digitalData) {
         }
 
         // visualizeLineDiagram the line
-        // TODO: visualize one, both or none!?
         // Code:
         u
             .enter()
