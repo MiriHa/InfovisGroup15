@@ -1,4 +1,3 @@
-
 /*
 Create Bubble Diagram
 */
@@ -9,7 +8,7 @@ json1 = {
         "x": 350,
         "y": 310,
         "r": 90,
-        "c": "orange",
+        "c": "#e28743", /* orange */
         "label": "analog",
         "img" : ""
     }, {
@@ -17,7 +16,7 @@ json1 = {
         "x": 550,
         "y": 310,
         "r": 90,
-        "c": "blue",
+        "c": "#1e81b0", /* blue */
         "label": "digital",
         "img" : ""
     }, 
@@ -27,7 +26,7 @@ json1 = {
         "x": 350,
         "y": 100,
         "r": 90,
-        "c": "orange",
+        "c": "#e28743", /* orange */
         "label": "Health",
         "img": "health.png"
 
@@ -36,7 +35,7 @@ json1 = {
         "x": 150,
         "y": 190,
         "r": 90,
-        "c": "orange",
+        "c": "#e28743", /* orange */
         "label": "News",
         "img": "newsPaper_icon.png"
 
@@ -45,7 +44,7 @@ json1 = {
         "x": 150,
         "y": 410,
         "r": 90,
-        "c": "orange",
+        "c": "#e28743", /* orange */
         "label": "freetime",
         "img": "music.PNG"
     }, 
@@ -54,7 +53,7 @@ json1 = {
         "x": 350,
         "y": 510,
         "r": 90,
-        "c": "orange",
+        "c": "#e28743", /* orange */
         "label": "sports",
         "img": "sport.PNG"
     }, 
@@ -64,7 +63,7 @@ json1 = {
         "x": 550,
         "y": 510,
         "r": 90,
-        "c": "blue",
+        "c": "#1e81b0", /* blue */
         "label": "sports",
         "img": "sport.PNG"
     }, {
@@ -72,7 +71,7 @@ json1 = {
         "x": 550,
         "y": 100,
         "r": 90,
-        "c": "blue",
+        "c": "#1e81b0", /* blue */
         "label": "Health",
         "img": "health.png"
     }, {
@@ -80,7 +79,7 @@ json1 = {
         "x": 750,
         "y": 190,
         "r": 90,
-        "c": "blue",
+        "c": "#1e81b0", /* blue */
         "label": "News",
         "img": "newsPaper_icon.png"
     }, {
@@ -88,7 +87,7 @@ json1 = {
         "x": 750,
         "y": 410,
         "r": 90,
-        "c": "blue",
+        "c": "#1e81b0", /* blue */
         "label": "freetime",
         "img": "music.PNG"
     }
@@ -213,14 +212,17 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
     */
 
     function Choosetextcolor(d) {
-        if (d.c == "blue") {
-            return "white";
+        if (d.c == "#1e81b0") { /* blue */
+            return "black"; /* white */
         }
-        if (d.c == "orange") {
+        if (d.c == "#e28743e") { /* orange */
             return "black";
         }
         console.log("keine Farbe");
         return "black";
+        
+       
+       
     }
 
     function Bubbleclick(d) {

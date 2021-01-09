@@ -1,5 +1,12 @@
 body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Microsoft JhengHei', sans-serif; /*font-family: 'Open Sans', sans-serif;*/
+    background: #1b2636; /*background: #293950;*/
+}
+
+h1 {
+    font-size: 36px;
+    text-align: center;
+    color: #DBDBDB;
 }
 
 div#diagrammContainer {
@@ -10,14 +17,16 @@ div#topDiagram {
     width: 1000px;
     height: 600px;
     margin: auto;
-    background-color: #f3f4ff;
+    /*background-color: #f3f4ff;*/
+    background-color: #39475c;
 }
 
 div#bottomDiagram {
     width: 1000px;
     height: 600px;
     margin: auto;
-    background-color: #f3f4ff;
+    /*background-color: #f3f4ff;*/
+    background-color: #39475c;
 }
 
 div#slider {
