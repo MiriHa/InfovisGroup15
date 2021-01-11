@@ -29,10 +29,12 @@ var tickphiright_many = [4.712388975, 5.23598775, 5.759586525,
     3.665191425, 4.1887902]
 
 var monthNames = ["Januray", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+var coronaCases = [5, 74, 71729,91201,20401,12008,14981, 34403,48111,238877,538122,690608]
 
 //use for Quartals
 var tickphiright = [4.712388975, 6.2831853, 0, 1.570796325, 3.14159265]
 var quartalNames = ["Jan -Mar", "Apr-Jun", "Apr-Jun", "July-Sept","Oct-Dec"]
+var coronaCasesQuartal = [71808, 123610, 123610, 97495, 1467607]
 
 
 //Define drag for the slider, functions at the end
@@ -118,34 +120,26 @@ var inner_circle = innerContainer.append("circle")
 //Make the month lable, corona cases and lockdown indicator, changes with slider
 var circleLableTime = innerContainer.append("text")
     .attr("id", "monthLable")
-    .attr("dy", "-1.4em")
+    .attr("dy", "-1.1em")
     .style("text-anchor", "middle")
-    .attr("font-size", "28px")
-    .attr("fill", "white")
     .text("Jan-March");
 
 var coronaCasesLable = innerContainer.append("text")
     .attr("id", "casesLable")
     .attr("dy", "-0.1em")
     .style("text-anchor", "middle")
-    .attr("font-size", "17px")
-    .attr("fill", "white")
     .text("Corona Cases");
 
 var coronaCasesNumbers = innerContainer.append("text")
     .attr("id", "casesNumbers")
     .attr("dy", "0.8em")
     .style("text-anchor", "middle")
-    .attr("font-size", "38px")
-    .attr("fill", "white")
     .text("00000000");
 
 var lockdownIndicator = innerContainer.append("text")
     .attr("id", "lockdownIndicator")
     .attr("dy", "3.6em")
     .style("text-anchor", "middle")
-    .attr("font-size", "17px")
-    .attr("fill", "white")
     .text(" ");
 
 //Functions to handle the Slider drag
@@ -212,6 +206,9 @@ function dragended(event, d) {
     //Set the Month Lable
     d3.select("#monthLable")
         .text(quartalNames[postion]);
+
+    d3.select("#casesNumbers")
+        .text(coronaCasesQuartal[postion]);
 
     //TODO set Corona cases
     //TOdo set Lockdown indicator -> make it more dynamic
