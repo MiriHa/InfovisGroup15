@@ -5,35 +5,20 @@
         <title>Project Group 15</title>
     </head>
     <body>
-        <h1>Medienkonsum während der Corona Pandemie</h1>
         <link rel="stylesheet" href="index.css">
         <script src ="https://d3js.org/d3.v6.min.js"></script>
 
-        <style>
-            .container {
-                display: flex;
-            }
-            .divL, .divR {
-                box-sizing: border-box;
-                padding: 10px;
-            }
-            .divL {
-                /* OPTIONAL WIDTH */
-                width: 50%;
-            }
-            .divR {
-                /* OPTIONAL WIDTH */
-                width: 50%
-            }
-        </style>
+        <div class="header">
+            <h1>Medienkonsum während der Corona Pandemie</h1>
+        </div>
 
         <div class="container" id="dataWrapper">
-            <div class="divL" id="bubbleChartContainer">
+            <div class="divConL" id="bubbleChartContainer">
                 <div id="slider"></div>
                 <div id="bubbles"></div>
             </div>
         
-            <div class="divR" id="diagrammContainer">
+            <div class="divConR" id="diagrammContainer">
                 <div id="topDiagram"></div>
                 <div id="bottomDiagram"></div>
             </div>
