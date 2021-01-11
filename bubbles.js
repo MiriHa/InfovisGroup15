@@ -400,14 +400,14 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
 
         var aktT = idToLabel(d.attr("id"));
         console.log(aktT); //-> zugriff auf Attribute der angeklickten Bubble
-        var xpos = d.attr("x") +30;
-        var ypos = d.attr("y") +100;
+        var xpos = d.attr("x")+100;
+        var ypos = d.attr("y")+100;
         //d.attr("fill", "red");
         // Specify where to put label of text
         //Mouse Position
         svg.append("text")
-            .attr("x", xpos)/*800)*/
-            .attr("y", ypos)/*80)*/
+            .attr("x", 800)/*800)*/
+            .attr("y", 80)/*80)*/
             .attr("id", "t" + aktT)
             .text(aktT)
             .style("font-size", "20px")

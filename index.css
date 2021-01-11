@@ -20,6 +20,7 @@ div#topDiagram {
     margin: auto;
     /*background-color: #f3f4ff;*/
     background-color: #1b2636;
+    border-radius: 25px;
 }
 
 div#bottomDiagram {
@@ -28,6 +29,7 @@ div#bottomDiagram {
     margin: auto;
     /*background-color: #f3f4ff;*/
     background-color: #1b2636;
+    border-radius: 25px;
 }
 
 div#slider {
@@ -35,6 +37,7 @@ div#slider {
     height: 600px;
     margin: auto;
     background-color: #1b2636;
+    border-radius: 25px;
 }
 
 div#bubbles {
@@ -42,6 +45,7 @@ div#bubbles {
     height: 600px;
     margin: auto;
     background-color: #1b2636;
+    border-radius: 25px;
 }
 
 svg {
@@ -88,13 +92,14 @@ text.divergence {
 text.value {
     /*Values on bars.*/
     font-size: 18px;
+    fill: #ffffff
 }
 
 text.title {
     /*Title of the chart.*/
     font-size: 20px;
     font-weight: 600;
-    fill: #FFFFFF;
+    fill: #DBDBDB;
 }
 
 text.label {
