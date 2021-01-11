@@ -4,18 +4,18 @@
 
 var margin = { top: 10, right: 100, bottom: 30, left: 60 };
 
-var circumference_handle = 12;
-var circumference_r = 120;
-var circumference_inner = 100;
+var circumference_handle = 20;
+var circumference_r = 170;
+var circumference_inner = 150;
 
-var width_slider = 400,
+var width_slider = 500,
     //  width = (radiuas+ margin)*
-    height_slider = 130,
+    height_slider = 220,
     radians = 0.0174532925
 //Value for the MonthTicks
-tickStart = circumference_r + 18,
-    tickLength = -26,
-    MonthLabelRadius = circumference_r + 24,
+tickStart = circumference_r + 35,
+    tickLength = -80,
+    MonthLabelRadius = circumference_r + 30,
     MonthLabelYOffset = 5;
 
 //use for 12 months
@@ -44,10 +44,11 @@ var drag = d3.drag()
 
 var svg = d3.select("#slider").append("svg")
     .attr("id", "sliderContainer")
-    .attr("width", width_slider + margin.left + margin.right)
+    .attr("width", width_slider)
     .attr("height", height_slider)
     .append("g")
-    .attr("transform", `translate(${width_slider}, ${height_slider + 40})`);
+    .attr("id","slider_tranform")
+    .attr("transform", `translate(${width_slider/2}, ${height_slider})`);
 
 var container = svg.append("g")
     .attr("id", "sliderGroup");

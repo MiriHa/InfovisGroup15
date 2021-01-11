@@ -122,7 +122,7 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
 
 
     var width = 960,
-        height = 500;
+        height = 800;
 
     var margin = { top: 10, right: 100, bottom: 30, left: 60 };
 
