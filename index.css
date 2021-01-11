@@ -3,7 +3,8 @@
 }
 
 .header {
-    padding: 10px;
+    padding: 5px;
+    margin-top: 10px;
 }
 
 .container {
@@ -34,7 +35,7 @@ body {
 }
 
 h1 {
-    font-size: 38px;
+    font-size: 48px;
     font-weight: bold;
     text-align: center;
     color: #DBDBDB;
@@ -43,6 +44,12 @@ h1 {
 div#diagrammContainer {
     text-align: center;
     max-height: 1200px;
+}
+
+div#bubbleChartContainer {
+    text-align: center;
+    max-height: 1200px;
+    border-radius: 25px;
 }
 
 div#topDiagram {
