@@ -246,7 +246,7 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
             .filter(function (d) { return (d.id <= 6 && d.id != 2) }) //nur analoge
             .attr("id", function (d) { return d.id })            
             .attr("r", function (d) { return bubbleRadi[aktmounth][d.id] })
-            .attr("stroke", "black")
+            .attr("stroke", "#DBDBDB")
             .attr("fill", function (d) { return d.c })
             .style("opacity", 2)
             //.on("mouseover", handleMouseOver(d)) //klappt
@@ -319,7 +319,7 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
             .filter(function (d) { return (d.id > 6 || d.id == 2) }) //nur digitale
             .attr("id", function (d) { return d.id })
             .attr("r", function (d) { return bubbleRadi[aktmounth][d.id] })
-            .attr("stroke", "black")
+            .attr("stroke", "#DBDBDB")
             .attr("fill", function (d) { return d.c })
             .style("opacity", 2)
             //.on("mouseover", handleMouseOver(d)) //klappt
@@ -345,7 +345,7 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
             .text(function (d) { return d.label })
             .style("fill", function (d) { return Choosetextcolor(d) })
             .style("font-size", "24px")
-            .style("font-weight", "bold") // new
+            .style("font-weight", "bold") 
 
 
         elemEnter.selectAll("svg:image").remove()
@@ -393,24 +393,26 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         if (id == 10) { return "freetime" }
         return " ";
     }
+
     // Create Event Handlers for mouse
     function handleMouseOver(d) {  // Add interactivity
         console.log("inMouseOVER");
 
         var aktT = idToLabel(d.attr("id"));
         console.log(aktT); //-> zugriff auf Attribute der angeklickten Bubble
-        var xpos = d.attr("x");
-        var ypos = d.attr("y");
+        var xpos = d.attr("x") +30;
+        var ypos = d.attr("y") +100;
         //d.attr("fill", "red");
         // Specify where to put label of text
         //Mouse Position
         svg.append("text")
-            .attr("x", 800)
-            .attr("y", 80)
+            .attr("x", xpos)/*800)*/
+            .attr("y", ypos)/*80)*/
             .attr("id", "t" + aktT)
             .text(aktT)
-            .style("font-size", "24px")
-            .style("font-style", "italic"); // new
+            .style("font-size", "20px")
+            .style("font-style", "italic")
+            .style("fill", "#DBDBDB");
     }
 
     function handleMouseOut(d) {

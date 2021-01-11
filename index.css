@@ -31,11 +31,11 @@
 
 body {
     font-family: 'Microsoft JhengHei', Verdana, sans-serif; /*font-family: 'Open Sans', sans-serif; oder Tahoma*/
-    background: #1b2636; /*background: #293950;*/
+    background:  #39475c; /*#1b2636 */ /*background: #293950;*/
 }
 
 h1 {
-    font-size: 36px;
+    font-size: 38px;
     font-weight: bold;
     text-align: center;
     color: #DBDBDB;
@@ -50,7 +50,7 @@ div#topDiagram {
     height: 600px;
     margin: auto;
     /*background-color: #f3f4ff;*/
-    background-color: #39475c;
+    background-color: #1b2636;
     display:inline-block;
 }
 
@@ -59,7 +59,7 @@ div#bottomDiagram {
     height: 600px;
     margin: auto;
     /*background-color: #f3f4ff;*/
-    background-color: #39475c;
+    background-color: #1b2636;
     display:inline-block;
 }
 
@@ -77,6 +77,7 @@ svg#sliderContainer{
     width: 100%;
     height: 450px; 
     margin: 0 auto;
+    background-color: #1b2636;
 }
 
 div#bubbles {
@@ -91,11 +92,11 @@ div#bubbles {
 svg {
     /*Do not delete*/
     width: 100%;
-    height: 100%;
+    height: 100%;  
 }
 
 .bar {
-    fill: #2b59d8;
+    fill: #1e81b0; /*old: #2b59d8; orange: #e28743*/
 }
 
 line {
@@ -106,7 +107,7 @@ line {
 }
 
 line#limit {
-    stroke: #ff0000;
+    stroke: #DBDBDB; /* #ff0000;*/
     stroke-width: 3;
     stroke-dasharray: 3 6;
 }
@@ -117,7 +118,7 @@ line#limit {
 
 .tick_Scales .tick{
     /*Tick-Settings of the chart (X & Y-Scale!).*/
-    stroke: #2f2f2f;
+    stroke: #FFFFFF; /* #2f2f2f;*/
     stroke-opacity: 0.5;
     stroke-width: 1;
     font-size: 14px;
@@ -126,7 +127,7 @@ line#limit {
 text.divergence {
     /*Difference in bars.*/
     font-size: 18px;
-    fill: #000000;
+    fill: #FFFFFF; /*#000000;*/
 }
 
 text.value {
@@ -138,18 +139,21 @@ text.title {
     /*Title of the chart.*/
     font-size: 20px;
     font-weight: 600;
+    fill: #FFFFFF;
 }
 
 text.label {
     /*Label of the X/Y-Scale.*/
     font-size: 16px;
     font-weight: 600;
+    fill: #FFFFFF;
 }
 
 text.source {
     /*Text of the Source.*/
     font-size: 14px;
     font-style: italic;
+    fill: #DBDBDB;
 }
 
 
@@ -168,7 +172,7 @@ text.source {
 .handle circle{
     fill: darkgrey;
     stroke: black;
-    stroke-width: 2px;
+    stroke-width: 3px;
 }
 
 .handle circle.dragging{
