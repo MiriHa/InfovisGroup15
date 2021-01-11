@@ -1,4 +1,4 @@
-* {
+*{
     box-sizing: border-box;
 }
 
@@ -72,6 +72,7 @@ div#slider {
       margin-right: auto;
       margin-top: 40px;
       display: block;
+      border-radius: 25px;
 }
 
 svg#sliderContainer{
@@ -79,7 +80,7 @@ svg#sliderContainer{
     height: 450px;
     margin: 0 auto;
     background-color: #1b2636;
-    border-radius: 25px;
+    
 }
 
 div#bubbles {
