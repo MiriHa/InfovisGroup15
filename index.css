@@ -49,6 +49,7 @@ div#diagrammContainer {
 div#bubbleChartContainer {
     text-align: center;
     max-height: 1200px;
+    border-radius: 25px;
 }
 
 div#topDiagram {
