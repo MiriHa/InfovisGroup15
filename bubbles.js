@@ -245,20 +245,24 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
                 // was selected before, so remove selection
                 if(selectedAnalogBubble === currentLabel){
                     selectedAnalogBubble = ""
+                    // TODO: change color back
                 }
                 // add new selection
                 else{
                     selectedAnalogBubble = currentLabel
+                    // TODO: change color etc
                 }
             } else if(d.attr("id") >= 7 && d.attr("id") <= 10){
                 console.log("digital sub-bubble clicked: " + currentLabel)
                 // was selected before, so remove selection
                 if(selectedDigitalBubble === currentLabel){
                     selectedDigitalBubble = ""
+                    // TODO: change color back
                 }
                 // add new selection
                 else{
                     selectedDigitalBubble = currentLabel
+                    // TODO: change color etc
                 }
             }
 

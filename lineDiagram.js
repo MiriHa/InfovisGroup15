@@ -1,7 +1,10 @@
 function parser(analog, digital) {
 
+    console.log("Parser:")
+    console.log(analog)
+    console.log(digital)
+
     // Variables
-    let path = "./data/"
     var analogData = []
     var digitalData = []
     var path_csv_analog = null
@@ -10,25 +13,25 @@ function parser(analog, digital) {
     // Dictionary of all .csv files (aka data sets)
     // TODO: check all file names
     const csv_files_analog = new Map([
-        [SPORT , "analog/data_zeitschrif_klettern.csv"],
-        [NEWS , "analog/data_zeitschrif_klettern.csv"],
-        [HEALTH , "analog/data_zeitschrif_klettern.csv"],
-        [FREETIME , "analog/data_zeitschrif_klettern.csv"]
+        [SPORT , PATH_ANALOG_SPORT],
+        [NEWS , PATH_ANALOG_NEWS],
+        [HEALTH , PATH_ANALOG_HEALTH],
+        [FREETIME , PATH_ANALOG_FREETIME]
         ]
     )
     // TODO: check all file names
     const csv_files_digital = new Map([
-            [SPORT , "analog/data_zeitschrif_klettern.csv"],
-            [NEWS , "analog/data_zeitschrif_klettern.csv"],
-            [HEALTH , "analog/data_zeitschrift_ApothekenUmschau.csv"],
-            [FREETIME , "analog/data_zeitschrif_klettern.csv"]
+            [SPORT , PATH_DIGITAL_SPORT],
+            [NEWS , PATH_DIGITAL_NEWS],
+            [HEALTH , PATH_DIGITAL_HEALTH],
+            [FREETIME , PATH_DIGITAL_FREETIME]
         ]
     )
 
 
     // Check/parse parameter
     if (analog != "") {
-        path_csv_analog = path + csv_files_analog.get(analog)
+        path_csv_analog = csv_files_analog.get(analog)
         console.log(path_csv_analog)
     } else {
         // TODO: if parameter is empty => no rendering
@@ -36,7 +39,7 @@ function parser(analog, digital) {
         path_csv_analog = null
     }
     if (digital != "") {
-        path_csv_digital = path + csv_files_digital.get(digital)
+        path_csv_digital = csv_files_digital.get(digital)
         console.log(path_csv_digital)
     } else {
         // TODO: if parameter is empty => no rendering
@@ -76,7 +79,7 @@ function parser(analog, digital) {
                     // Build digitalData block (fill array)
                     // TODO: filtern; same number of quartals in both files
                     if(Number(d.Quartal) >= 20171 && Number(d.Quartal) <= 20203) {
-                        var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
+                        var feed = {ser1: d.Quartal, ser2: Number(d.KatVisits)};
                         console.log("quartal_d " + feed)
                         digitalData.push(feed);
                     }
@@ -130,7 +133,7 @@ function parser(analog, digital) {
                     // Build analogData block (fill array)
                     // TODO: filtern; same number of quartals in both files
                     if (Number(d.Quartal) >= 20171 && Number(d.Quartal) <= 20203) {
-                        var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
+                        var feed = {ser1: d.Quartal, ser2: Number(d.KatVisits)};
                         console.log("quartal_a " + feed)
                         digitalData.push(feed);
                     }
