@@ -126,7 +126,7 @@ var circleLableTime = innerContainer.append("text")
 
 var coronaCasesLable = innerContainer.append("text")
     .attr("id", "casesLable")
-    .attr("dy", "-0.1em")
+    .attr("dy", "-0.3em")
     .style("text-anchor", "middle")
     .text("Corona Cases");
 
@@ -134,7 +134,7 @@ var coronaCasesNumbers = innerContainer.append("text")
     .attr("id", "casesNumbers")
     .attr("dy", "0.8em")
     .style("text-anchor", "middle")
-    .text("00000000");
+    .text(coronaCasesQuartal[0]);
 
 var lockdownIndicator = innerContainer.append("text")
     .attr("id", "lockdownIndicator")
