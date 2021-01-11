@@ -8,16 +8,15 @@
 
 .container {
     padding: 30px;
-   /* border: 1px solid red;*/
 }
 
 .divConL, .divConR {
     float: left;
     padding: 10px;
-    /* border: 1px solid red;*/
 }
 .divConL {
     width: 60%;
+    background-color: #1b2636;
 }
 .divConR {
     width: 40%;
@@ -43,6 +42,7 @@ h1 {
 
 div#diagrammContainer {
     text-align: center;
+    max-height: 1200px;
 }
 
 div#topDiagram {
@@ -70,6 +70,7 @@ div#slider {
       max-width: 500px;
       margin-left: auto;
       margin-right: auto;
+      margin-top: 40px;
       display: block;
 }
 
@@ -84,6 +85,7 @@ div#bubbles {
       width: auto;
       height: auto;
       max-width: 960px;
+      max-height: 700px;
       margin-left: auto;
       margin-right: auto;
 }
