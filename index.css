@@ -23,7 +23,7 @@
 
 .bubbleChartItem {
     text-align: center;
-    max-height: 89vh;
+    max-height: auto;
     border-radius: 22px;
     background-color: #1b2636;
     padding: 10px;
