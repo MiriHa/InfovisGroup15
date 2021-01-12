@@ -6,8 +6,8 @@ const NEWS = "news"
 const FREETIME = "freetime"
 const SPORT = "sport"
 
-const COLOR_ANALOG = "orange"
-const COLOR_DIGITAL = "blue"
+const COLOR_ANALOG = "#e28743"
+const COLOR_DIGITAL = "#1e81b0"
 
 // Where to find csv
 const PATH_ANALOG_SPORT = "data/analog/data_zeitschrif_klettern.csv"

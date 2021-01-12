@@ -8,16 +8,16 @@ json1 = {
         "x": 350,
         "y": 310,
         "r": 90,
-        "c": "#e28743", /* orange */
-        "label": "analog",
+        "c": COLOR_ANALOG, /* orange */
+        "label": ANALOG,
         "img" : ""
     }, {
         "id": 2,
         "x": 550,
         "y": 310,
         "r": 90,
-        "c": "#1e81b0", /* blue */
-        "label": "digital",
+        "c": COLOR_DIGITAL, /* blue */
+        "label": DIGITAL,
         "img" : ""
     }, 
     //analog
@@ -26,8 +26,8 @@ json1 = {
         "x": 350,
         "y": 100,
         "r": 90,
-        "c": "#e28743", /* orange */
-        "label": "Health",
+        "c": COLOR_ANALOG, /* orange */
+        "label": HEALTH,
         "img": "health.png"
 
     }, {
@@ -35,8 +35,8 @@ json1 = {
         "x": 150,
         "y": 190,
         "r": 90,
-        "c": "#e28743", /* orange */
-        "label": "News",
+        "c": COLOR_ANALOG, /* orange */
+        "label": NEWS,
         "img": "newsPaper_icon.png"
 
     }, {
@@ -44,8 +44,8 @@ json1 = {
         "x": 150,
         "y": 410,
         "r": 90,
-        "c": "#e28743", /* orange */
-        "label": "freetime",
+        "c": COLOR_ANALOG, /* orange */
+        "label": FREETIME,
         "img": "music.PNG"
     }, 
     {
@@ -53,8 +53,8 @@ json1 = {
         "x": 350,
         "y": 510,
         "r": 90,
-        "c": "#e28743", /* orange */
-        "label": "sports",
+        "c": COLOR_ANALOG, /* orange */
+        "label": SPORT,
         "img": "sport.PNG"
     }, 
     //digital
@@ -63,32 +63,32 @@ json1 = {
         "x": 550,
         "y": 510,
         "r": 90,
-        "c": "#1e81b0", /* blue */
-        "label": "sports",
+        "c": COLOR_DIGITAL, /* blue */
+        "label": SPORT,
         "img": "sport.PNG"
     }, {
         "id": 8,
         "x": 550,
         "y": 100,
         "r": 90,
-        "c": "#1e81b0", /* blue */
-        "label": "Health",
+        "c": COLOR_DIGITAL, /* blue */
+        "label": HEALTH,
         "img": "health.png"
     }, {
         "id": 9,
         "x": 750,
         "y": 190,
         "r": 90,
-        "c": "#1e81b0", /* blue */
-        "label": "News",
+        "c": COLOR_DIGITAL, /* blue */
+        "label": NEWS,
         "img": "newsPaper_icon.png"
     }, {
         "id": 10,
         "x": 750,
         "y": 410,
         "r": 90,
-        "c": "#1e81b0", /* blue */
-        "label": "freetime",
+        "c": COLOR_DIGITAL, /* blue */
+        "label": FREETIME,
         "img": "music.PNG"
     }
     ]
@@ -217,10 +217,10 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
     */
 
     function Choosetextcolor(d) {
-        if (d.c == "#1e81b0") { /* blue */
+        if (d.c == COLOR_DIGITAL) { /* blue */
             return "black"; /* white */
         }
-        if (d.c == "#e28743e") { /* orange */
+        if (d.c == COLOR_ANALOG) { /* orange */
             return "black";
         }
         console.log("keine Farbe");
