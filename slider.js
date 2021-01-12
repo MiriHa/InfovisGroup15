@@ -4,18 +4,18 @@
 
 var margin = { top: 10, right: 100, bottom: 30, left: 60 };
 
-var circumference_handle = 20;
-var circumference_r = 170;
-var circumference_inner = 150;
+var circumference_handle = 12;
+var circumference_r = 90;
+var circumference_inner = 70;
 
-var width_slider = 500,
+var width_slider = 200,
     //  width = (radiuas+ margin)*
-    height_slider = 220,
+    height_slider = 80,
     radians = 0.0174532925
 //Value for the MonthTicks
-tickStart = circumference_r + 35,
-    tickLength = -80,
-    MonthLabelRadius = circumference_r + 30,
+tickStart = circumference_r + 20,
+    tickLength = -60,
+    MonthLabelRadius = circumference_r + 10,
     MonthLabelYOffset = 5;
 
 //use for 12 months
@@ -50,7 +50,7 @@ var svg = d3.select("#slider").append("svg")
     .attr("height", height_slider)
     .append("g")
     .attr("id","slider_tranform")
-    .attr("transform", `translate(${width_slider/2}, ${height_slider})`);
+    .attr("transform", `translate(${width_slider/1.3}, ${height_slider*1.7})`);
 
 var container = svg.append("g")
     .attr("id", "sliderGroup");
@@ -126,7 +126,7 @@ var circleLableTime = innerContainer.append("text")
 
 var coronaCasesLable = innerContainer.append("text")
     .attr("id", "casesLable")
-    .attr("dy", "-0.1em")
+    .attr("dy", "-0.2em")
     .style("text-anchor", "middle")
     .text("Corona Cases");
 
@@ -134,11 +134,11 @@ var coronaCasesNumbers = innerContainer.append("text")
     .attr("id", "casesNumbers")
     .attr("dy", "0.8em")
     .style("text-anchor", "middle")
-    .text("00000000");
+    .text(coronaCasesQuartal[0]);
 
 var lockdownIndicator = innerContainer.append("text")
     .attr("id", "lockdownIndicator")
-    .attr("dy", "3.6em")
+    .attr("dy", "6em")
     .style("text-anchor", "middle")
     .text(" ");
 

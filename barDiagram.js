@@ -62,12 +62,13 @@ function visualizeBarDiagram() {
         .append('svg');
 
     // Set Margins
-    const margin = 80;
-    const width = 1000 - 2 * margin;
-    const height = 600 - 2 * margin;
+    const margin = 60;
+    const width = 600 - 2 * margin;
+    const height = 350 - 2 * margin;
 
     // Init Chart
     const chart = svg.append('g')
+        .attr("viewBox", `0 0 ${width} ${height}`)
         .attr('transform', `translate(${margin}, ${margin})`);
 
     // Init xScale
