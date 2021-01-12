@@ -10,6 +10,11 @@ function parser(analog, digital) {
     var path_csv_analog = null
     var path_csv_digital = null
 
+    var analogSource = ""
+    var digitalSource = ""
+    var analogTitel = ""
+    var digitalTitel = ""
+
     // Dictionary of all .csv files (aka data sets)
     // TODO: check all file names
     const csv_files_analog = new Map([
@@ -69,6 +74,12 @@ function parser(analog, digital) {
                     // TODO: filtern; same number of quartals in both files
                     if(Number(d.Quartal) >= 20171 && Number(d.Quartal) <= 20203) {
                         var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
+                        if(analogSource === ""){
+                            analogSource = SOURCE_ANALOG + d.Quellzusatz
+                        }
+                        if(analogTitel === ""){
+                            analogTitel = d.Titel
+                        }
                         console.log("quartal_a " + feed)
                         analogData.push(feed);
                     }
@@ -79,7 +90,13 @@ function parser(analog, digital) {
                     // Build digitalData block (fill array)
                     // TODO: filtern; same number of quartals in both files
                     if(Number(d.Quartal) >= 20171 && Number(d.Quartal) <= 20203) {
-                        var feed = {ser1: d.Quartal, ser2: Number(d.KatVisits)};
+                        var feed = {ser1: d.Quartal, ser2: Number(d.KatVisits), titel: d.Bezeichnung};
+                        if(digitalSource === ""){
+                            digitalSource = SOURCE_DIGITAL
+                        }
+                        if(digitalTitel === ""){
+                            digitalTitel = d.Bezeichnung
+                        }
                         console.log("quartal_d " + feed)
                         digitalData.push(feed);
                     }
@@ -95,7 +112,7 @@ function parser(analog, digital) {
                 console.log("digitalData got:")
                 console.log(digitalData)
 
-                visualizeLineDiagram(analogData,digitalData)
+                visualizeLineDiagram(analogData,digitalData, analogSource, digitalSource, analogTitel, digitalTitel)
 
             }).catch(function(err) {
                 // handle error
@@ -111,13 +128,19 @@ function parser(analog, digital) {
                         // TODO: filtern; same number of quartals in both files
                         if (Number(d.Quartal) >= 20171 && Number(d.Quartal) <= 20203) {
                             var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
+                            if(analogSource === ""){
+                                analogSource = SOURCE_ANALOG + d.Quellzusatz
+                            }
+                            if(analogTitel === ""){
+                                analogTitel = d.Titel
+                            }
                             console.log("quartal_a " + feed)
                             analogData.push(feed);
                         }
                     })
 
 
-                    visualizeLineDiagram(analogData, digitalData)
+                    visualizeLineDiagram(analogData,digitalData, analogSource, digitalSource, analogTitel, digitalTitel)
                 })
                 .catch(function (error) {
                     console.log("loading analog error " + error)
@@ -134,12 +157,18 @@ function parser(analog, digital) {
                     // TODO: filtern; same number of quartals in both files
                     if (Number(d.Quartal) >= 20171 && Number(d.Quartal) <= 20203) {
                         var feed = {ser1: d.Quartal, ser2: Number(d.KatVisits)};
+                        if(digitalSource === ""){
+                            digitalSource = SOURCE_DIGITAL
+                        }
+                        if(digitalTitel === ""){
+                            digitalTitel = d.Bezeichnung
+                        }
                         console.log("quartal_a " + feed)
                         digitalData.push(feed);
                     }
                 })
 
-                visualizeLineDiagram(analogData, digitalData)
+                visualizeLineDiagram(analogData,digitalData, analogSource, digitalSource, analogTitel, digitalTitel)
             })
             .catch(function (error) {
                 console.log("loading digital error " + error)
@@ -152,7 +181,7 @@ function parser(analog, digital) {
 
 
 
-function visualizeLineDiagram(analogData, digitalData) {
+function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitel, digitalTitel) {
 
     // set the dimensions and margins of the graph
     const Margin = 80;
@@ -245,13 +274,22 @@ function visualizeLineDiagram(analogData, digitalData) {
         .attr('text-anchor', 'middle')
         .text('Überschrift')
 
+    var source = "Quelle: "
+    if(analogSource !== "" && digitalSource === ""){
+        source += analogSource
+    } else if(analogSource === "" && digitalSource !== ""){
+        source += digitalSource
+    } else if(analogSource !== "" && digitalSource !== ""){
+        source = source + analogSource + ", " + digitalSource
+    }
+
     // Source
     svg.append('text')
         .attr('class', 'source')
         .attr('x', width - Margin / 2)
         .attr('y', height + Margin * 1.7)
         .attr('text-anchor', 'start')
-        .text('Quelle: example.de')
+        .text(source)
 
 
     function initChart() {
