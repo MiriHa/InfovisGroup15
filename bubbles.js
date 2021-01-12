@@ -111,6 +111,8 @@ bubbleRadi = [
     [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100]   // Dez
 ]
 
+var selectedAnalogBubble = ""
+var selectedDigitalBubble = ""
 
 function visualizeBubbles(json, bubbleRadi, aktmounth) {
     
@@ -142,8 +144,8 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
             return "translate(" + d.x + "," + d.y + ")"
         })
 
-    console.log("hello Blub");
-    console.log("Monat: " + aktmounth);
+    //console.log("hello Blub");
+    //console.log("Monat: " + aktmounth);
 
     /*Create the circles: analog, digital */
     var circle = elemEnter.append("circle")
@@ -194,6 +196,8 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         .style("opacity", 0.5)
         .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
         .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
+        // Klaus: Added this .on() to be able to click the sub-bubbles
+        .on("click", function (d) { return Bubbleclick(d3.select(this)) })
             
 
     //MouseEvent
@@ -235,7 +239,45 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         } else {
             //Click auf keine Hauptbubble -> Diagramm anzeigen lassen für diese Bubble
             console.log("else");
-            return showDiagram(d.attr("label"));
+            var currentLabel = idToLabel(d.attr("id"));
+            if(d.attr("id") >= 3 && d.attr("id") <= 6){
+                console.log("analog sub-bubble clicked: " + currentLabel)
+                // was selected before, so remove selection
+                if(selectedAnalogBubble === currentLabel){
+                    selectedAnalogBubble = ""
+                    // TODO: change color back
+                }
+                // add new selection
+                else{
+                    selectedAnalogBubble = currentLabel
+                    // TODO: change color etc
+                }
+            } else if(d.attr("id") >= 7 && d.attr("id") <= 10){
+                console.log("digital sub-bubble clicked: " + currentLabel)
+                // was selected before, so remove selection
+                if(selectedDigitalBubble === currentLabel){
+                    selectedDigitalBubble = ""
+                    // TODO: change color back
+                }
+                // add new selection
+                else{
+                    selectedDigitalBubble = currentLabel
+                    // TODO: change color etc
+                }
+            }
+
+            parser(selectedAnalogBubble, selectedDigitalBubble)
+
+            /*
+            if (d.attr("id") == 4) {
+                console.log("4");
+                // code
+            }
+            if (d.attr("id") == 3) {
+                console.log("3");
+                // code
+            }
+            return showDiagram(d.attr("label"));*/
 
         }
     }
@@ -383,14 +425,14 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
     }
 
     function idToLabel(id) {
-        if (id == 3) { return "health" }
-        if (id == 4) { return "news" }
-        if (id == 5) { return "freetime" }
-        if (id == 6) { return "sport" }
-        if (id == 7) { return "sport" }
-        if (id == 8) { return "health" }
-        if (id == 9) { return "news" }
-        if (id == 10) { return "freetime" }
+        if (id == 3) { return HEALTH }
+        if (id == 4) { return NEWS }
+        if (id == 5) { return FREETIME }
+        if (id == 6) { return SPORT }
+        if (id == 7) { return SPORT }
+        if (id == 8) { return HEALTH }
+        if (id == 9) { return NEWS }
+        if (id == 10) { return FREETIME }
         return " ";
     }
 

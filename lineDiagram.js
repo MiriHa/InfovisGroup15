@@ -184,9 +184,9 @@ function parser(analog, digital) {
 function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitel, digitalTitel) {
 
     // set the dimensions and margins of the graph
-    const Margin = 80;
-    const width = 1000 - 2 * Margin;
-    const height = 600 - 2 * Margin;
+    const Margin = 60;
+    const width = 600 - 2 * Margin;
+    const height = 350 - 2 * Margin;
 
     var x
     var xAxis

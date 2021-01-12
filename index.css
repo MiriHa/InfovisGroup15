@@ -6,7 +6,7 @@
 .dataWrapper {
     display: grid;
     grid-template-columns: 60% 40%;
-    grid-row: 2% 49% 49%;
+    grid-template-rows: 2% 49% 49%;
     gap: 10px;
     justify-items: stretch;
     grid-template-areas: 
