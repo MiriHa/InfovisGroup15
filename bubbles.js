@@ -1,4 +1,3 @@
-
 /*
 Create Bubble Diagram
 */
@@ -9,16 +8,16 @@ json1 = {
         "x": 350,
         "y": 310,
         "r": 90,
-        "c": COLOR_ANALOG,
-        "label": ANALOG,
+        "c": "#e28743", /* orange */
+        "label": "analog",
         "img" : ""
     }, {
         "id": 2,
         "x": 550,
         "y": 310,
         "r": 90,
-        "c": COLOR_DIGITAL,
-        "label": DIGITAL,
+        "c": "#1e81b0", /* blue */
+        "label": "digital",
         "img" : ""
     }, 
     //analog
@@ -27,8 +26,8 @@ json1 = {
         "x": 350,
         "y": 100,
         "r": 90,
-        "c": COLOR_ANALOG,
-        "label": HEALTH,
+        "c": "#e28743", /* orange */
+        "label": "Health",
         "img": "health.png"
 
     }, {
@@ -36,8 +35,8 @@ json1 = {
         "x": 150,
         "y": 190,
         "r": 90,
-        "c": COLOR_ANALOG,
-        "label": NEWS,
+        "c": "#e28743", /* orange */
+        "label": "News",
         "img": "newsPaper_icon.png"
 
     }, {
@@ -45,8 +44,8 @@ json1 = {
         "x": 150,
         "y": 410,
         "r": 90,
-        "c": COLOR_ANALOG,
-        "label": FREETIME,
+        "c": "#e28743", /* orange */
+        "label": "freetime",
         "img": "music.PNG"
     }, 
     {
@@ -54,8 +53,8 @@ json1 = {
         "x": 350,
         "y": 510,
         "r": 90,
-        "c": COLOR_ANALOG,
-        "label": SPORT,
+        "c": "#e28743", /* orange */
+        "label": "sports",
         "img": "sport.PNG"
     }, 
     //digital
@@ -64,32 +63,32 @@ json1 = {
         "x": 550,
         "y": 510,
         "r": 90,
-        "c": COLOR_DIGITAL,
-        "label": SPORT,
+        "c": "#1e81b0", /* blue */
+        "label": "sports",
         "img": "sport.PNG"
     }, {
         "id": 8,
         "x": 550,
         "y": 100,
         "r": 90,
-        "c": COLOR_DIGITAL,
-        "label": HEALTH,
+        "c": "#1e81b0", /* blue */
+        "label": "Health",
         "img": "health.png"
     }, {
         "id": 9,
         "x": 750,
         "y": 190,
         "r": 90,
-        "c": COLOR_DIGITAL,
-        "label": NEWS,
+        "c": "#1e81b0", /* blue */
+        "label": "News",
         "img": "newsPaper_icon.png"
     }, {
         "id": 10,
         "x": 750,
         "y": 410,
         "r": 90,
-        "c": COLOR_DIGITAL,
-        "label": FREETIME,
+        "c": "#1e81b0", /* blue */
+        "label": "freetime",
         "img": "music.PNG"
     }
     ]
@@ -125,7 +124,7 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
 
 
     var width = 960,
-        height = 500;
+        height = 800;
 
     var margin = { top: 10, right: 100, bottom: 30, left: 60 };
 
@@ -173,6 +172,7 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         .text(function (d) { return d.label })
         .style("fill", function (d) { return Choosetextcolor(d) })
         .style("font-size", "24px")
+        .style("font-weight", "bold")
         .filter(function (d) { return d.id < 3 })
         
 
@@ -217,10 +217,10 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
     */
 
     function Choosetextcolor(d) {
-        if (d.c == COLOR_DIGITAL) {
-            return "white";
+        if (d.c == "#1e81b0") { /* blue */
+            return "black"; /* white */
         }
-        if (d.c == COLOR_ANALOG) {
+        if (d.c == "#e28743e") { /* orange */
             return "black";
         }
         console.log("keine Farbe");
@@ -282,14 +282,13 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         }
     }
 
-
     function ClickforAna(d) {
         //analoge sichtbar
         elemEnter.selectAll("circle")//.append("circle")
             .filter(function (d) { return (d.id <= 6 && d.id != 2) }) //nur analoge
             .attr("id", function (d) { return d.id })            
             .attr("r", function (d) { return bubbleRadi[aktmounth][d.id] })
-            .attr("stroke", "black")
+            .attr("stroke", "#DBDBDB")
             .attr("fill", function (d) { return d.c })
             .style("opacity", 2)
             //.on("mouseover", handleMouseOver(d)) //klappt
@@ -315,7 +314,9 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
             .attr("dy", 3)
             .text(function (d) { return d.label })
             .style("fill", function (d) { return Choosetextcolor(d) })
-            .style("font-size", "24px");
+            .style("font-size", "24px")
+            .style("font-weight", "bold") // new
+            
 
 
         elemEnter.selectAll("svg:image").remove()
@@ -360,7 +361,7 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
             .filter(function (d) { return (d.id > 6 || d.id == 2) }) //nur digitale
             .attr("id", function (d) { return d.id })
             .attr("r", function (d) { return bubbleRadi[aktmounth][d.id] })
-            .attr("stroke", "black")
+            .attr("stroke", "#DBDBDB")
             .attr("fill", function (d) { return d.c })
             .style("opacity", 2)
             //.on("mouseover", handleMouseOver(d)) //klappt
@@ -386,6 +387,7 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
             .text(function (d) { return d.label })
             .style("fill", function (d) { return Choosetextcolor(d) })
             .style("font-size", "24px")
+            .style("font-weight", "bold") 
 
 
         elemEnter.selectAll("svg:image").remove()
@@ -433,23 +435,26 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         if (id == 10) { return FREETIME }
         return " ";
     }
+
     // Create Event Handlers for mouse
     function handleMouseOver(d) {  // Add interactivity
         console.log("inMouseOVER");
 
         var aktT = idToLabel(d.attr("id"));
         console.log(aktT); //-> zugriff auf Attribute der angeklickten Bubble
-        var xpos = d.attr("x");
-        var ypos = d.attr("y");
+        var xpos = d.attr("x")+100;
+        var ypos = d.attr("y")+100;
         //d.attr("fill", "red");
         // Specify where to put label of text
         //Mouse Position
         svg.append("text")
-            .attr("x", 800)
-            .attr("y", 80)
+            .attr("x", 800)/*800)*/
+            .attr("y", 80)/*80)*/
             .attr("id", "t" + aktT)
             .text(aktT)
-            .style("font-size", "32px");
+            .style("font-size", "20px")
+            .style("font-style", "italic")
+            .style("fill", "#DBDBDB");
     }
 
     function handleMouseOut(d) {
