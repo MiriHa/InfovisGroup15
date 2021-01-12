@@ -3,41 +3,24 @@
     <head>
         <meta charset="utf-8">
         <title>Project Group 15</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <h1 style="text-align: center">Medienkonsum während der Corona Pandemie</h1>
         <link rel="stylesheet" href="index.css">
         <script src ="https://d3js.org/d3.v6.min.js"></script>
 
-        <style>
-            .container {
-                display: flex;
-            }
-            .divL, .divR {
-                box-sizing: border-box;
-                padding: 10px;
-            }
-            .divL {
-                /* OPTIONAL WIDTH */
-                width: 50%;
-            }
-            .divR {
-                /* OPTIONAL WIDTH */
-                width: 50%
-            }
-        </style>
+        <div class="dataWrapper" id="dataWrapper">
+            <div class="header">
+                <h1>Medienkonsum während der Corona Pandemie</h1>
+            </div>
 
-        <div class="container" id="dataWrapper">
-            <div class="divL" id="bubbleChartContainer">
+            <div class="bubbleChartItem" id="bubbleChartContainer">
                 <div id="slider"></div>
                 <div id="bubbles"></div>
             </div>
         
-            <div class="divR" id="diagrammContainer">
-                <div id="topDiagram"></div>
-                <div id="bottomDiagram"></div>
-            </div>
-
+                <div class="diagrammItemTop" id="topDiagram"></div>
+                <div class="diagrammItemBottom" id="bottomDiagram"></div>
         </div>
         <script type="text/javascript" src = "constants.js"></script>
         <script type="text/javascript" src = "barDiagram.js"></script>
