@@ -6,29 +6,27 @@
 .dataWrapper {
     display: grid;
     grid-template-columns: 60% 40%;
-    grid-row: 50% 50%;
-    gap: 20px;
+    grid-row: 2% 49% 49%;
+    gap: 10px;
     justify-items: stretch;
     grid-template-areas: 
         "header header"
         "bubbleChart diagrammTop"
         "bubbleChart diagrammBottom";
-    padding: 30px;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .header{
-    margin-top: 10px;
     grid-area: header;
 }
 
 .bubbleChartItem {
     text-align: center;
-    max-height: 1200px;
-    border-radius: 25px;
+    max-height: auto;
+    border-radius: 22px;
     background-color: #1b2636;
-    padding: 15px;
+    padding: 10px;
     grid-area: bubbleChart;
 }
 
@@ -40,7 +38,9 @@
     border-radius: 25px;
     grid-area: diagrammTop;
     text-align: center;
-    max-height: 1200px;
+    place-self: center;
+    align-self: stretch;
+
 
 }
 .diagrammItemBottom{
@@ -51,7 +51,6 @@
     border-radius: 25px;
     grid-area: diagrammBottom;
     text-align: center;
-    max-height: 1200px;
 
 }
 
@@ -61,7 +60,7 @@ body {
 }
 
 h1 {
-    font-size: 48px;
+    font-size: 20px;
     font-weight: bold;
     text-align: center;
     color: #DBDBDB;
@@ -71,18 +70,15 @@ h1 {
 div#slider {
       height: auto;
       width: auto;
-      max-height: 450px;
-      max-width: 500px;
+      max-height: 270px;
+      max-width: 300px;
       margin-left: auto;
       margin-right: auto;
-      margin-top: 40px;
-      display: block;
-      border-radius: 25px;
 }
 
 svg#sliderContainer{
     width: 100%;
-    height: 450px;
+    height: 300px;
     margin: 0 auto;
     background-color: #1b2636;
     
@@ -191,48 +187,74 @@ text.source {
 }
 
 .tick{
-    stroke-width: 10;
+    stroke-width: 5;
     stroke: white;
     fill: white;
+    border-radius: 5px;
 }
 
 .monthLable{
-    font-size: 28px;
+    font-size: 18px;
 }
 
 /* text of slider*/
 #monthLable{
     text-anchor: middle;
-    font-size: 38px;
+    font-size: 18px;
     fill: white;
 }
 
 #casesLable{
-    font-size: 27px;
+    font-size: 12px;
     fill: white;
 }
 
 #casesNumbers{
-    font-size: 48px;
+    font-size: 28px;
     fill: white
 }
 
 #lockdownIndicator{
-    font-size: 27px;
+    font-size: 7px;
     fill: white;
 }
 
 
-@media only screen and (max-width: 768px) {
-    /* For mobile phones: */
-    .divConL {
-        width: 100%;
-        display: inline-block;
+@media only screen and (max-width: 1000px) {
+    .dataWrapper {
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 5% 1fr 600px 600px;
+        gap: 1em;
+        justify-items: stretch;
+        grid-template-areas: 
+            "header "
+            "bubbleChart"
+            "diagrammTop"
+            "diagrammBottom";
+        padding: 10px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .bubbleChartItem {
+        grid-area: bubbleChart;
     
     }
-    .divConR {
+    .diagrammItemTop {
+        grid-area: diagrammTop;
         width: 100%;
-        display: inline-block;
+        height: 100%;
+        /*background-color: #f3f4ff;*/
+        background-color: #1b2636;
+        border-radius: 25px;
+        grid-area: diagrammTop;
+        text-align: center;
+        max-height: 1200px;
       
+    }
+    .diagrammItemBottom {
+        width: 100%;
+        grid-area: diagrammBottom;
     }
   }

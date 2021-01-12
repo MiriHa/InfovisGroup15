@@ -4,23 +4,23 @@
 
 var margin = { top: 10, right: 100, bottom: 30, left: 60 };
 
-var circumference_handle = 20;
-var circumference_r = 170;
-var circumference_inner = 150;
+var circumference_handle = 12;
+var circumference_r = 90;
+var circumference_inner = 70;
 
-var width_slider = 500,
+var width_slider = 200,
     //  width = (radiuas+ margin)*
-    height_slider = 220,
+    height_slider = 80,
     radians = 0.0174532925
 //Value for the MonthTicks
-tickStart = circumference_r + 35,
-    tickLength = -80,
-    MonthLabelRadius = circumference_r + 30,
+tickStart = circumference_r + 7,
+    tickLength = -60,
+    MonthLabelRadius = circumference_r + 10,
     MonthLabelYOffset = 5;
 
 //use for 12 months
                  //0  Jan        30  Feb          60 Mär
-var tickphiright_many = [4.712388975, 5.23598775, 5.759586525,
+var tickphiright = [4.712388975, 5.23598775, 5.759586525,
     //90 Apr    120   Mai    150  Jun     180 Junly
     0, 0.5235987755, 1.04719755, 1.570796325,
     //210 Aug       240 Sep     270 Okt
@@ -28,11 +28,12 @@ var tickphiright_many = [4.712388975, 5.23598775, 5.759586525,
     //300 NOv       330 Dez
     3.665191425, 4.1887902]
 
+    //use for months
 var monthNames = ["Januray", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 var coronaCases = [5, 74, 71729,91201,20401,12008,14981, 34403,48111,238877,538122,690608]
 
 //use for Quartals
-var tickphiright = [4.712388975, 6.2831853, 0, 1.570796325, 3.14159265]
+var tickphiright_quartal = [4.712388975, 6.2831853, 0, 1.570796325, 3.14159265]
 var quartalNames = ["Jan -Mar", "Apr-Jun", "Apr-Jun", "July-Sept","Oct-Dec"]
 var coronaCasesQuartal = [71808, 123610, 123610, 97495, 1467607]
 
@@ -50,7 +51,7 @@ var svg = d3.select("#slider").append("svg")
     .attr("height", height_slider)
     .append("g")
     .attr("id","slider_tranform")
-    .attr("transform", `translate(${width_slider/2}, ${height_slider})`);
+    .attr("transform", `translate(${width_slider/1.3}, ${height_slider*1.7})`);
 
 var container = svg.append("g")
     .attr("id", "sliderGroup");
@@ -60,15 +61,18 @@ var face = container.append("g")
 
 //Scale for the MonthTick scale
 var tickScale = d3.scaleLinear()
-    .range([0, 360])
-    .domain([0, 4]);
-    // for months : 
-    //.range([0,330])
-    //.domain([0, 11]);
+    //for quartals
+    // .range([0, 360])
+    // .domain([0, 4]);
+    //for months : 
+    .range([0,330])
+    .domain([0, 11]);
 
 //Make the monthticks
 face.selectAll('.tick')
-    .data(d3.range(0, 4))
+    //for quartal
+    // .data(d3.range(0, 4))
+    .data(d3.range(0, 12))
     .enter()
     .append('line')
     .attr('class', 'tick')
@@ -122,11 +126,11 @@ var circleLableTime = innerContainer.append("text")
     .attr("id", "monthLable")
     .attr("dy", "-1.1em")
     .style("text-anchor", "middle")
-    .text("Jan-March");
+    .text(monthNames[0]);
 
 var coronaCasesLable = innerContainer.append("text")
     .attr("id", "casesLable")
-    .attr("dy", "-0.1em")
+    .attr("dy", "-0.2em")
     .style("text-anchor", "middle")
     .text("Corona Cases");
 
@@ -134,11 +138,11 @@ var coronaCasesNumbers = innerContainer.append("text")
     .attr("id", "casesNumbers")
     .attr("dy", "0.8em")
     .style("text-anchor", "middle")
-    .text("00000000");
+    .text(coronaCases[0]);
 
 var lockdownIndicator = innerContainer.append("text")
     .attr("id", "lockdownIndicator")
-    .attr("dy", "3.6em")
+    .attr("dy", "6em")
     .style("text-anchor", "middle")
     .text(" ");
 
@@ -205,22 +209,45 @@ function dragended(event, d) {
 
     //Set the Month Lable
     d3.select("#monthLable")
-        .text(quartalNames[postion]);
+        // .text(quartalNames[postion]);
+        .text(monthNames[postion]);
 
     d3.select("#casesNumbers")
-        .text(coronaCasesQuartal[postion]);
+        .text(coronaCases[postion]);
 
     //TODO set Corona cases
     //TOdo set Lockdown indicator -> make it more dynamic
     console.log("Slider in position ", postion)
-    if (postion == 1 || postion == 2) {
+    // if (postion == 1 || postion == 2) {
+    //     d3.select("#innerCircle")
+    //         .attr("fill", "darkred");
+
+    //     d3.select("#lockdownIndicator")
+    //         .text("Lockdown");
+    // }
+    // else if (postion == 4) {
+    //     d3.select("#innerCircle")
+    //         .attr("fill", "darkred");
+
+    //     d3.select("#lockdownIndicator")
+    //         .text("Lockdown");
+    // }
+    // else {
+    //     d3.select("#innerCircle")
+    //         .attr("fill", "grey");
+
+    //     d3.select("#lockdownIndicator")
+    //         .text(" ");
+    // }
+
+    if (postion == 3 || postion == 4 || postion == 5) {
         d3.select("#innerCircle")
             .attr("fill", "darkred");
 
         d3.select("#lockdownIndicator")
             .text("Lockdown");
     }
-    else if (postion == 4) {
+    else if (postion == 10 || postion == 11) {
         d3.select("#innerCircle")
             .attr("fill", "darkred");
 
