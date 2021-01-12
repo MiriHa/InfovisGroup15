@@ -507,6 +507,17 @@ function visualizeBubbles(json) {
         .style("fill", function (d) { return Choosetextcolor(d) })
         .filter(function (d) { return d.id < 3 })
 
+    elemEnter.selectAll("text").remove()
+    //Texte einfügen und später filtern
+    elemEnter.append("text")
+        .filter(function (d) { return d.id < 3 })
+        .attr("dx", function (d) { return -30 })
+        .attr("dy", 3)
+        .text(function (d) { return d.label })
+        .style("fill", function (d) { return Choosetextcolor(d) })
+
+        .filter(function (d) { return d.id < 3 })
+
     //andere Bubbles transparent
     elemEnter.append("circle")
         .filter(function (d) { return d.id > 2 })
@@ -654,6 +665,15 @@ function visualizeBubbles(json) {
             .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
             .on("click", function (d) { return Bubbleclick(d3.select(this)) });
 
+        //alte Texte entfernen
+        elemEnter.selectAll("text").remove()
+        //Texte anzeigen
+        elemEnter.append("text")
+            .filter(function (d) { return (d.id > 5 || d.id <= 2) }) //nur digitale und hauptbubble
+            .attr("dx", function (d) { return -30 })
+            .attr("dy", 3)
+            .text(function (d) { return d.label })
+            .style("fill", function (d) { return Choosetextcolor(d) })
 
         //analoge Bubbles transparent    
         elemEnter//.append("circle")

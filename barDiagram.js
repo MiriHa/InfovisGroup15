@@ -1,7 +1,7 @@
 /**
  * VISUALIZE DIAGRAM START
 **/
-function visualizeDiagram() {
+function visualizeBarDiagram() {
 
     // Test Data
     const sample = [
@@ -55,17 +55,20 @@ function visualizeDiagram() {
         }
     ];
 
+    // Remove old diagram
+    // var svg = d3.select("#topDiagram").selectAll("svg").remove()
     // Choose Container + Append 'svg'
     let svg = d3.select('#topDiagram')
         .append('svg');
 
     // Set Margins
-    const margin = 80;
-    const width = 1000 - 2 * margin;
-    const height = 600 - 2 * margin;
+    const margin = 60;
+    const width = 600 - 2 * margin;
+    const height = 350 - 2 * margin;
 
     // Init Chart
     const chart = svg.append('g')
+        .attr("viewBox", `0 0 ${width} ${height}`)
         .attr('transform', `translate(${margin}, ${margin})`);
 
     // Init xScale
@@ -106,6 +109,7 @@ function visualizeDiagram() {
         .data(sample)
         .enter()
         .append('g')
+
 
     // Bars
     barGroups
@@ -215,7 +219,7 @@ function visualizeDiagram() {
  * VISUALIZE DIAGRAM ENDE
  **/
 
-visualizeDiagram();
+visualizeBarDiagram();
 /*
     !DO NOT DELETE!
 */

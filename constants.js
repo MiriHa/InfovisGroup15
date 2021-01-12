@@ -1,0 +1,24 @@
+// Lables
+const ANALOG = "analog"
+const DIGITAL = "digital"
+const HEALTH = "health"
+const NEWS = "news"
+const FREETIME = "freetime"
+const SPORT = "sport"
+
+const COLOR_ANALOG = "#e28743"
+const COLOR_DIGITAL = "#1e81b0"
+
+// Where to find csv
+const PATH_ANALOG_SPORT = "data/analog/data_zeitschrif_klettern.csv"
+const PATH_ANALOG_NEWS = "data/analog/data_zeitung_sz.csv"
+const PATH_ANALOG_HEALTH = "data/analog/data_zeitschrift_ApothekenUmschau.csv"
+const PATH_ANALOG_FREETIME = "data/analog/data_zeitschrift_burdaStyle.csv"
+
+const SOURCE_ANALOG = "https://www.ivw.eu/aw/print/qa/titel/"
+const SOURCE_DIGITAL = "Informationsgemeinschaft zur Feststellung der Verbreitung von Werbeträgern e.V. (IVW)"
+
+const PATH_DIGITAL_SPORT = "data/digital/format/quartal/digital_quartal_bergsteiger.CSV"
+const PATH_DIGITAL_NEWS = "data/digital/format/quartal/digital_quartal_welt.CSV"
+const PATH_DIGITAL_HEALTH = "data/digital/format/quartal/digital_quartal_apothekenUmschau.CSV"
+const PATH_DIGITAL_FREETIME = "data/digital/format/quartal/digital_quartal_burdaStyle.CSV"
