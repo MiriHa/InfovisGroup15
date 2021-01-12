@@ -5,8 +5,11 @@ Create Bubble Diagram
 function bubbleChart(){
 
     
-    var width = 660,
-    height = 400;
+    var width = 860,
+    height = 350;
+
+    var maxverkauf_dig = 4567568;
+    var maxverkauf_an = 2342345;
 
     var center = {x: width/2, y: height/2};
 
@@ -61,16 +64,21 @@ function bubbleChart(){
         }
     }
 
+    var maxAmount = 13457835
+
+    const radiusScale = d3.scaleSqrt()
+    .domain([0, maxAmount])
+    .range([0, 80])
 
 
     function createNodes(){
     
         // var maxAmount = d3.max(rawData, function (d){return +d.verkauf;});
-        var maxAmount = 13457835
+        // var maxAmount = 13457835
 
-        const radiusScale = d3.scaleSqrt()
-            .domain([0, maxAmount])
-            .range([0, 80])
+        // const radiusScale = d3.scaleSqrt()
+        //     .domain([0, maxAmount])
+        //     .range([0, 80])
 
 
         // var radiusScale = d3.scalePow()
@@ -101,8 +109,8 @@ function bubbleChart(){
                 value: +d.verkauf,
                 name: d.title,
                 group: d.group,
-                x: Math.random() * 460,
-                y: Math.random() * 300
+                x: Math.random() * 560,
+                y: Math.random() * 200
             };
         });
 
@@ -132,6 +140,17 @@ function bubbleChart(){
 
     var chart = function chart(selector){
         nodes = createNodes();
+
+       d3.select(selector)
+            // return categoryCenters[d.group].x;
+            //radiusScale(+d.verkauf),
+            //.enter()
+            .append('circle')
+            .classed('bubblecentr', true)
+            .attr('r', radiusScale(maxverkauf_an))
+            .attr('fill', 'red')
+            .attr('cx', categoryCenters[1].x)
+            .attr('cy', categoryCenters[1].y);
 
         svg = d3.select(selector)
             .append('svg')
@@ -167,7 +186,7 @@ function bubbleChart(){
         // .attr('fill',  '#1e81b0')
         .attr('fill', function (d) { return fillColor(d.group) })
         //.attr('stroke', function (d) { return d3.rgb(fillColor(d.group)).darker(); })
-        .attr('stroke-width', 2)
+        //.attr('stroke-width', 2)
         //.on('mouseover', showDetail)
         // .on('mouseout', hideDetail);
 
@@ -184,7 +203,7 @@ function bubbleChart(){
         bubbles = bubbles.merge(bubblesLab)
 
         bubbles.transition()
-            .duration(20000)
+            .duration(90000)
             .attr('r', function (d) { return d.radius; });
 
         simulation.nodes(nodes)
@@ -211,15 +230,9 @@ function bubbleChart(){
 
    // Provides a x value for each node to be used with the split by year
   function nodeCatPos(d) {
-      //TODO? wat is d.xear here??
       
     return categoryCenters[d.group].x;
-    // if (d.group == 1){
-    //     return centeranalog
-    // }
-    // else{
-    //     return centerdigital
-    // }
+
   }
 
   function groupBubbles(){

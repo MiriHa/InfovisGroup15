@@ -285,11 +285,11 @@ function dragended(event, d) {
         [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100]   // Dez
     ]
     //annaTest mit Zeitungen
-    if(postion > 0 && postion < 13){
-        visualizeBubbles(json1, bubbleRadi, postion);
-    }else{
-        visualizeBubbles(json1, bubbleRadi, 1);
-    }
+    // if(postion > 0 && postion < 13){
+    //     visualizeBubbles(json1, bubbleRadi, postion);
+    // }else{
+    //     visualizeBubbles(json1, bubbleRadi, 1);
+    // }
     /* 
     if (postion == 1)  visualizeBubbles(json2)
     else if (postion == 2) visualizeBubbles(json1)
