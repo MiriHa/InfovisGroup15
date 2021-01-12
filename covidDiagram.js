@@ -22,9 +22,9 @@ var data_quartaly = [
 ];
 
 // set the dimensions and margins of the graph
-const Margin = 80;
-const width = 1000 - 2 * Margin;
-const height = 600 - 2 * Margin;
+const Margin = 60;
+const width = 600 - 2 * Margin;
+const height = 350 - 2 * Margin;
 
 // append the svg object to the body of the page
 var svg = d3.select("#topDiagram")
@@ -32,6 +32,7 @@ var svg = d3.select("#topDiagram")
 
 // Init Chart
 const chart = svg.append('g')
+    .attr("viewBox", `0 0 ${width} ${height}`)
     .attr("transform", "translate(" + Margin + "," + Margin + ")");
 
 // Initialise a X axis:
