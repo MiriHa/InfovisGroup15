@@ -93,23 +93,6 @@ json1 = {
     }
     ]
 }
-//wird hier benötigt also nicht nur bei script updaten
-//for bubbles to handle the radiushttp://vallandingham.me/bubble_chart_v4/#
-bubbleRadi = [
-    [0,0,0,0,0,0,0,0,0,0],
-    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Jan
-    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Feb
-    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Mrz
-    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Apr
-    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Mai
-    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Jun
-    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Jul
-    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Aug
-    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Sep
-    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Okt
-    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Nov
-    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100]   // Dez
-]
 
 function bubbleChart(){
     
@@ -121,7 +104,6 @@ function bubbleChart(){
     var categoryCenters = {
         2020: {x: width/3, y: height/2},
         2021: {x: 2* width/3, y: height/2}
-    
     }
 
     //x locations of analog titels
@@ -132,8 +114,9 @@ function bubbleChart(){
 
     var forceStrength = 0.02;
 
-    var ssvg = null;
+    var svg = null;
     var bubbles = null;
+    var labels = null
     var nodes = [];
 
     function charge(d){
@@ -144,8 +127,10 @@ function bubbleChart(){
         .velocityDecay(0.2)
         .force('x', d3.forceX().strength(forceStrength).x(center.x))
         .force('y', d3.forceY().strength(forceStrength).y(center.y))
+        // .force('charge', d3.forceManyBody().strength(charge))
+        // .on('tick', ticked);
         .force('charge', d3.forceManyBody().strength(charge))
-        .on('tick', ticked);
+        .force('collision', d3.forceCollide().radius(d => d.radius + 1));
 
     simulation.stop();
 
@@ -158,10 +143,15 @@ function bubbleChart(){
     
         var maxAmount = d3.max(rawData, function (d){return +d.verkauf;});
 
-        var radiusScale = d3.scalePow()
-            .exponent(0.5)
-            .range([2 ,85])
-            .domain([0,maxAmount]);
+        const radiusScale = d3.scaleSqrt()
+            .domain([0, maxSize])
+            .range([0, 80])
+
+
+        // var radiusScale = d3.scalePow()
+        //     .exponent(0.5)
+        //     .range([2 ,85])
+        //     .domain([0,maxAmount]);
 
         //TODO convert raw data/parsed data in to node
         var myNodes = rawData.map(function(d){
@@ -176,43 +166,59 @@ function bubbleChart(){
             };
         });
 
-        myNodes.sort(function (a, b) { return b.value - a.value; });
+        // myNodes.sort(function (a, b) { return b.value - a.value; });
 
         return myNodes;
 
     }
 
 
-    var chart = function chart(rawData){
+    var chart = function chart(selector, rawData){
         nodes = createNodes(rawData);
 
-        svg = d3.select('#bubbles')
+        svg = d3.select(selector)
             .append('svg')
             .attr('width', width)
             .attr('height', height);
+        
+        const elements = svg.selectAll('.bubble')
+            .data(nodes, d=> d.id)
+            .enter()
+            .append('g')
 
+        bubbles = elements
+            .append('circle')
+            .classed('bubble', true)
+            .attr('r', d => d.radius)
+            .attr('fill', d => fillColour(d.group))
 
-        bubbles = svg.selectAll('.bubble')
-            .data(nodes, function(d){return d.id});
+        lables = elements
+            .append('text')
+            .attr('dy', '.3em')
+            .style('text-anchor', 'middle')
+            .style('font-size', 10)
+            .text(d => d.id)
 
-        var bubblesE = bubbles.enter().append('circle')
-        .classed('bubble', true)
-        .attr('r', 0)
-        .attr('fill', function (d) { return fillColor(d.group); })
-        //.attr('stroke', function (d) { return d3.rgb(fillColor(d.group)).darker(); })
-        .attr('stroke-width', 2)
-        //.on('mouseover', showDetail)
-        // .on('mouseout', hideDetail);
+        // var bubblesE = bubbles.enter().append('circle')
+        // .classed('bubble', true)
+        // .attr('r', 0)
+        // .attr('fill', function (d) { return fillColor(d.group); })
+        // //.attr('stroke', function (d) { return d3.rgb(fillColor(d.group)).darker(); })
+        // .attr('stroke-width', 2)
+        // //.on('mouseover', showDetail)
+        // // .on('mouseout', hideDetail);
 
-        bubbles = bubbles.merge(bubblesE)
+        // bubbles = bubbles.merge(bubblesE)
 
         bubbles.trasition()
             .duration(2000)
             .attr('r', function (d) { return d.radius; });
 
-        simulation.nodes(nodes);
+        simulation.nodes(nodes)
+            .on('tick', ticked)
+            .restart();
 
-        groupBubbles();
+        // groupBubbles();
 
     };
 
@@ -222,65 +228,83 @@ function bubbleChart(){
         bubbles
           .attr('cx', function (d) { return d.x; })
           .attr('cy', function (d) { return d.y; });
-      }
 
-
-   // Provides a x value for each node to be used with the split by year
-  function nodeYearPos(d) {
-      //TODO? wat is d.xear here??
-    return categoryCenters[d.year].x;
-  }
-
-  function groupBubbles(){
-    hideYearTitles()
-
-       // @v4 Reset the 'x' force to draw the bubbles to the center.
-    simulation.force('x', d3.forceX().strength(forceStrength).x(center.x));
-
-    // @v4 We can reset the alpha value and restart the simulation
-    simulation.alpha(1).restart();
-  }
-
-  function splitBubbles() {
-    showYearTitles();
-
-    // @v4 Reset the 'x' force to draw the bubbles to their year centers
-    simulation.force('x', d3.forceX().strength(forceStrength).x(nodeYearPos));
-
-    // @v4 We can reset the alpha value and restart the simulation
-    simulation.alpha(1).restart();
-  }
-
-  function hideYearTitles() {
-    svg.selectAll('.year').remove();
-  }
-
-  function showYearTitles() {
-    // Another way to do this would be to create
-    // the year texts once and then just hide them.
-    var yearsData = d3.keys(yearsTitleX);
-    var years = svg.selectAll('.year')
-      .data(yearsData);
-
-    years.enter().append('text')
-      .attr('class', 'year')
-      .attr('x', function (d) { return yearsTitleX[d]; })
-      .attr('y', 40)
-      .attr('text-anchor', 'middle')
-      .text(function (d) { return d; });
-  }
-
-  chart.toggleDisplay = function (displayName) {
-    if (displayName === 'year') {
-      splitBubbles();
-    } else {
-      groupBubbles();
+        lables
+            .attr('x', d => d.x)
+            .attr('y', d => d.y)
     }
-  };
 
+    return chart;
 
-  // return the chart function from closure.
-  return chart;
 }
 
-var myBubbleChart = bubbleChart();
+let myBubbleChart = bubbleChart();
+
+function display(data){
+    myBubbleChart('#bubbles', data);
+}
+
+dataread = d3.csv('bubbles_dummydata.csv');
+console.log(dataread)
+display(dataread);
+
+
+//    // Provides a x value for each node to be used with the split by year
+//   function nodeYearPos(d) {
+//       //TODO? wat is d.xear here??
+//     return categoryCenters[d.year].x;
+//   }
+
+//   function groupBubbles(){
+//     hideYearTitles()
+
+//        // @v4 Reset the 'x' force to draw the bubbles to the center.
+//     simulation.force('x', d3.forceX().strength(forceStrength).x(center.x));
+
+//     // @v4 We can reset the alpha value and restart the simulation
+//     simulation.alpha(1).restart();
+//   }
+
+//   function splitBubbles() {
+//     showYearTitles();
+
+//     // @v4 Reset the 'x' force to draw the bubbles to their year centers
+//     simulation.force('x', d3.forceX().strength(forceStrength).x(nodeYearPos));
+
+//     // @v4 We can reset the alpha value and restart the simulation
+//     simulation.alpha(1).restart();
+//   }
+
+//   function hideYearTitles() {
+//     svg.selectAll('.year').remove();
+//   }
+
+//   function showYearTitles() {
+//     // Another way to do this would be to create
+//     // the year texts once and then just hide them.
+//     var yearsData = d3.keys(yearsTitleX);
+//     var years = svg.selectAll('.year')
+//       .data(yearsData);
+
+//     years.enter().append('text')
+//       .attr('class', 'year')
+//       .attr('x', function (d) { return yearsTitleX[d]; })
+//       .attr('y', 40)
+//       .attr('text-anchor', 'middle')
+//       .text(function (d) { return d; });
+//   }
+
+//   chart.toggleDisplay = function (displayName) {
+//     if (displayName === 'year') {
+//       splitBubbles();
+//     } else {
+//       groupBubbles();
+//     }
+//   };
+
+
+//   // return the chart function from closure.
+// //   return chart;
+// // }
+
+// var myBubbleChart = bubbleChart();
