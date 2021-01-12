@@ -1,7 +1,7 @@
 /**
  * VISUALIZE DIAGRAM START
 **/
-function visualizeDiagram() {
+function visualizeBarDiagram() {
 
     // Test Data
     const sample = [
@@ -55,6 +55,8 @@ function visualizeDiagram() {
         }
     ];
 
+    // Remove old diagram
+    // var svg = d3.select("#topDiagram").selectAll("svg").remove()
     // Choose Container + Append 'svg'
     let svg = d3.select('#topDiagram')
         .append('svg');
@@ -106,6 +108,7 @@ function visualizeDiagram() {
         .data(sample)
         .enter()
         .append('g')
+
 
     // Bars
     barGroups
@@ -215,7 +218,7 @@ function visualizeDiagram() {
  * VISUALIZE DIAGRAM ENDE
  **/
 
-visualizeDiagram();
+visualizeBarDiagram();
 /*
     !DO NOT DELETE!
 */
