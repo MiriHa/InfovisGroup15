@@ -30,7 +30,7 @@ var tickphiright = [4.712388975, 5.23598775, 5.759586525,
 
     //use for months
 var monthNames = ["Januray", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-var coronaCases = [5, 74, 71729,91201,20401,12008,14981, 34403,48111,238877,538122,690608]
+var coronaCases = [18, 561,588179, 3942925,5427815,5670762,6265079,7024733,8023521,11653042,24564361,44141683]
 
 //use for Quartals
 var tickphiright_quartal = [4.712388975, 6.2831853, 0, 1.570796325, 3.14159265]
