@@ -72,8 +72,8 @@ function parser(analog, digital) {
                 file1Data.forEach(function (d){
                     // Build analogData block (fill array)
                     // TODO: filtern; same number of quartals in both files
-                    if(Number(d.Quartal) >= 20171 && Number(d.Quartal) <= 20203) {
-                        var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
+                    if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
+                        var feed = {ser1: d.Monat, ser2: Number(d.VerkaufLinear)};
                         if(analogSource === ""){
                             analogSource = SOURCE_ANALOG + d.Quellzusatz
                         }
@@ -89,8 +89,8 @@ function parser(analog, digital) {
                 file2Data.forEach(function (d){
                     // Build digitalData block (fill array)
                     // TODO: filtern; same number of quartals in both files
-                    if(Number(d.Quartal) >= 20171 && Number(d.Quartal) <= 20203) {
-                        var feed = {ser1: d.Quartal, ser2: Number(d.KatVisits), titel: d.Bezeichnung};
+                    if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
+                        var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
                         if(digitalSource === ""){
                             digitalSource = SOURCE_DIGITAL
                         }
@@ -126,8 +126,8 @@ function parser(analog, digital) {
                     data.forEach(function (d) {
                         // Build analogData block (fill array)
                         // TODO: filtern; same number of quartals in both files
-                        if (Number(d.Quartal) >= 20171 && Number(d.Quartal) <= 20203) {
-                            var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
+                        if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
+                            var feed = {ser1: d.Monat, ser2: Number(d.VerkaufLinear)};
                             if(analogSource === ""){
                                 analogSource = SOURCE_ANALOG + d.Quellzusatz
                             }
@@ -155,8 +155,8 @@ function parser(analog, digital) {
                 data.forEach(function (d) {
                     // Build analogData block (fill array)
                     // TODO: filtern; same number of quartals in both files
-                    if (Number(d.Quartal) >= 20171 && Number(d.Quartal) <= 20203) {
-                        var feed = {ser1: d.Quartal, ser2: Number(d.KatVisits)};
+                    if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
+                        var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};v
                         if(digitalSource === ""){
                             digitalSource = SOURCE_DIGITAL
                         }
