@@ -126,10 +126,18 @@ line#limit {
 
 .tick_Scales .tick{
     /*Tick-Settings of the chart (X & Y-Scale!).*/
-    stroke: #FFFFFF; /* #2f2f2f;*/
-    stroke-opacity: 0.5;
-    stroke-width: 1;
+    stroke-width: 0;
     font-size: 14px;
+    color: #FFFFFF;
+    opacity: 0.5;
+}
+
+.tick_Scales_lineDiagram .tick{
+    /*Tick-Settings of the chart (X & Y-Scale!).*/
+    stroke-width: 0;
+    font-size: 14px;
+    color: #FFFFFF;
+    opacity: 0.5;
 }
 
 text.divergence {
