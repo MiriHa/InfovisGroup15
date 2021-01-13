@@ -269,7 +269,7 @@ function dragended(event, d) {
      **/
 
     //for bubbles to handle the radius
-    bubbleRadi = [
+    bubbleRadi = radius /*[
         [0,0,0,0,0,0,0,0,0,0],
         [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Jan
         [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Feb
@@ -283,12 +283,14 @@ function dragended(event, d) {
         [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Okt
         [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Nov
         [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100]   // Dez
-    ]
+    ]*/
     //annaTest mit Zeitungen
     if(postion > 0 && postion < 13){
-        visualizeBubbles(json1, bubbleRadi, postion);
+        console.log("slider radius:")
+        console.log(radius)
+        visualizeBubbles(json1, postion);
     }else{
-        visualizeBubbles(json1, bubbleRadi, 1);
+        visualizeBubbles(json1, 1);
     }
     /* 
     if (postion == 1)  visualizeBubbles(json2)
