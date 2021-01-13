@@ -1,25 +1,18 @@
 // Test data
 var data_monthly = [
-        {ser1: "Jan", ser2: 5},
-        {ser1: "Feb", ser2: 79},
-        {ser1: "Mar", ser2: 71808},
-        {ser1: "Apr", ser2: 163009},
-        {ser1: "May", ser2: 183410},
-        {ser1: "Jun", ser2: 195418},
-        {ser1: "Jul", ser2: 210399},
-        {ser1: "Aug", ser2: 244802},
-        {ser1: "Sep", ser2: 292913},
-        {ser1: "Okt", ser2: 531790},
-        {ser1: "Nov", ser2: 1069912},
-        {ser1: "Dec", ser2: 1760520}
+        {ser1: "Jan", ser2: 5.0},
+        {ser1: "Feb", ser2: 79.0},
+        {ser1: "Mar", ser2: 71808.0},
+        {ser1: "Apr", ser2: 163009.0},
+        {ser1: "May", ser2: 183410.0},
+        {ser1: "Jun", ser2: 195418.0},
+        {ser1: "Jul", ser2: 210399.0},
+        {ser1: "Aug", ser2: 244802.0},
+        {ser1: "Sep", ser2: 292913.0},
+        {ser1: "Okt", ser2: 531790.0},
+        {ser1: "Nov", ser2: 1069912.0},
+        {ser1: "Dec", ser2: 1760520.0}
     ];
-
-var data_quartaly = [
-    {ser1: "Q1", ser2: 4},
-    {ser1: "Q2", ser2: 16},
-    {ser1: "Q3", ser2: 10},
-    {ser1: "Q4", ser2: 8}
-];
 
 // set the dimensions and margins of the graph
 const Margin = 60;
@@ -101,14 +94,14 @@ function update(data) {
         .attr("stroke-width", 2.5)
 
 
-    // Label for yAxis
+    /* Label for yAxis
     svg.append('text')
         .attr('class', 'label')
         .attr('x', -(height / 2) - Margin)
         .attr('y', Margin / 2.4)
         .attr('transform', 'rotate(-90)')
         .attr('text-anchor', 'middle')
-        .text('Total Cases')
+        .text('Total Cases')*/
 
     // Label for xAxis
     svg.append('text')
