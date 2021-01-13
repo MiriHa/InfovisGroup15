@@ -13,6 +13,7 @@ var data_monthly = [
         {ser1: "Nov", ser2: 1069912},
         {ser1: "Dec", ser2: 1760520}
     ];
+/*
 
 var data_quartaly = [
     {ser1: "Q1", ser2: 4},
@@ -20,6 +21,7 @@ var data_quartaly = [
     {ser1: "Q3", ser2: 10},
     {ser1: "Q4", ser2: 8}
 ];
+*/
 
 // set the dimensions and margins of the graph
 const Margin = 60;
