@@ -128,6 +128,26 @@ json1 = {
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]   // Dez
 ]*/
 
+function berechneHauptBubble(bubbleRadi, month){    
+    console.log("month = " + month)           
+    var summedig = 0;
+    for (let bubb = 3; bubb < 7; bubb++) {
+        summedig = summedig + bubbleRadi[month][bubb]
+        console.log("Summe aus: " + bubbleRadi[month][bubb] + " + ")
+    }
+    bubbleRadi[month][1] = summedig / 4;
+    console.log(" = " + summedig);
+    
+    var summeana = 0;
+    for (let bubb = 7; bubb < 11; bubb++) {
+        summeana = summeana + bubbleRadi[month][bubb]
+        console.log("Summe aus: " + bubbleRadi[month][bubb] + " + ")
+    }
+    bubbleRadi[month][2] = summeana / 4;
+    console.log("summeANA = " + summeana);
+}
+
+
 var selectedAnalogBubble = ""
 var selectedDigitalBubble = ""
 var ClickDigital = false;
@@ -138,6 +158,8 @@ var ClickAnalog = false;
 function visualizeBubbles(json, aktmounth) {
     console.log("visualize: ")
     bubbleRadi =radius
+    
+    berechneHauptBubble(bubbleRadi, aktmounth);
     console.log(bubbleRadi)
     
     //json Datei nutzen:
