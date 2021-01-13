@@ -185,7 +185,7 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
 
     // set the dimensions and margins of the graph
     const Margin = 60;
-    const width = 600 - 2 * Margin;
+    const width = 580 - 2 * Margin;
     const height = 350 - 2 * Margin;
 
     var x
@@ -272,7 +272,7 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         .attr('x', width / 2 + Margin)
         .attr('y', 40)
         .attr('text-anchor', 'middle')
-        .text('Überschrift')
+        .text('Vergleich ausgewählter Kategorien')
 
     var source = "Quelle: "
     if(analogSource !== "" && digitalSource === ""){

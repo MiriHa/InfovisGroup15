@@ -132,7 +132,7 @@ function update(data) {
         .attr('x', width - Margin / 2)
         .attr('y', height + Margin * 1.7)
         .attr('text-anchor', 'start')
-        .text('Quelle: example.de')
+        .text('https://data.europa.eu/euodp/en/data/dataset/covid-19-coronavirus-data')
 }
 
 
