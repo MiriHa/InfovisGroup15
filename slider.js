@@ -30,7 +30,7 @@ var tickphiright = [4.712388975, 5.23598775, 5.759586525,
 
     //use for months
 var monthNames = ["Januray", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-var coronaCases = [18, 561,588179, 3942925,5427815,5670762,6265079,7024733,8023521,11653042,24564361,44141683]
+var coronaCases = [18, 561, 588179, 3942925,5427815,5670762,6265079,7024733,8023521,11653042,24564361,44141683]
 
 //use for Quartals
 var tickphiright_quartal = [4.712388975, 6.2831853, 0, 1.570796325, 3.14159265]
@@ -294,7 +294,7 @@ function dragended(event, d) {
     if(postion > 0 && postion < 13){
         console.log("slider radius:")
         console.log(radius)
-        visualizeBubbles(json1, postion);
+        visualizeBubbles(json1, postion+1);
     }else{
         visualizeBubbles(json1, 1);
     }
