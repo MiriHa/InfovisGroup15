@@ -538,306 +538,7 @@ function visualizeBubbles(json, aktmounth) {
     //http://bl.ocks.org/WilliamQLiu/76ae20060e19bf42d774 -> Mouse_Events
 }
 
-function idToLabel(id) {
-    if (id == 3) { return HEALTH }
-    if (id == 4) { return NEWS }
-    if (id == 5) { return FREETIME }
-    if (id == 6) { return SPORT }
-    if (id == 7) { return SPORT }
-    if (id == 8) { return HEALTH }
-    if (id == 9) { return NEWS }
-    if (id == 10) { return FREETIME }
-    return " ";
-}
-
-function loadAnalog(id, path_csv_analog, max, min, ana) {
-    console.log("load with id " + id)
-    d3.csv(path_csv_analog)
-        .then(function (data) {
-            console.log("loaded analog successfully")
-            data.forEach(function (d) {
-                // Build analogData block (fill array)
-                // TODO: filtern; same number of quartals in both files
-                if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
-                    var date = d.Monat
-                    var month = date.substr(date.length - 2, 2)
-                    console.log("month " + month)
-                    var amount = d.VerkaufLinear
-                    var feed
-                    if (month.charAt(0) == "0") {
-                        console.log("early month")
-                        feed = {id: id, month: month.charAt(1), amount: amount};
-                    } else {
-                        console.log("late month")
-                        feed = {id: id, month: month, amount: amount};
-                    }
-
-                    ana.push(feed);
-                    /*console.log("after push ")
-                    console.log(ana)*/
-                }
-            })
-
-            console.log("mal gucken (ana): ")
-            console.log(ana)
-
-            ana.forEach(function (a) {
-                console.log("ana ForEach")
-                var id = a.id
-                var month = a.month
-                var amount = a.amount
-
-                //console.log("id: " + id)
-
-                /*const radiusScale = d3.scaleSqrt()
-                    .domain([min, max])
-                    .range([20, 50])
-                    var r = radiusScale(amount)*/
-
-                var range = max - min
-                var r = (amount - min)/range* (100-30)/100 + 30
-                //var r = (amount - min)/((100-30)/(max-min))+min
-                /*Gw - Kw = x
-                (Mw - Kw)/x * (100-30)/100 + 30 = GesuchterWert*/
-
-
-                /*console.log("r : " + r)
-
-                console.log("radius before ")
-                console.log(radius)*/
-                radius[month][id] = r
-                /*console.log("radius after ")
-                console.log(radius)*/
-            })
-
-            /*dig.forEach(function (d) {
-                console.log("digi forEach")
-                var id = a.id
-                var month = a.month
-                var amount = a.amount
-
-                const radiusScale = d3.scaleSqrt()
-                    .domain([min, max])
-                    .range([40, 100])
-
-                var r = radiusScale(amount)
-
-                radius[month][id + 1] = r
-            })*/
-
-            visualizeBubbles(json1, 1);
-        })
-        .catch(function (error) {
-            console.log("loading analog error " + error)
-        })
-}
-
-function loadDigital(path_csv_digital, max, min, i, dig) {
-    d3.csv(path_csv_digital)
-        .then(function (data) {
-            console.log("loaded digital successfully")
-            data.forEach(function (d) {
-                if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
-                    var date = d.Monat
-                    var month = date.substr(date.length - 2, 2)
-                    //console.log(month)
-                    var amount = d.KatVisits
-                    if (month.charAt(0) == "0") {
-                        console.log("early month")
-                        feed = {id: id, month: month.charAt(1), amount: amount};
-                    } else {
-                        console.log("late month")
-                        feed = {id: id, month: month, amount: amount};
-                    }
-                    dig.push(feed);
-                }
-            })
-            dig.forEach(function (a) {
-                console.log("ana ForEach")
-                var id = a.id
-                var month = a.month
-                var amount = a.amount
-
-                //console.log("id: " + id)
-
-                /*const radiusScale = d3.scaleSqrt()
-                    .domain([min, max])
-                    .range([20, 50])
-                    var r = radiusScale(amount)*/
-
-                var range = max - min
-                var r = (amount - min) / range * (100 - 30)/100 + 30
-                radius[month][id] = r
-            })
-            visualizeBubbles(json1, 1);
-        })
-        .catch(function (error) {
-            console.log("loading digital error " + error)
-        })
-}
-
-function calculateBubbleSize(max, min) {
-
-    console.log("calculateBubbles")
-
-    const csv_files_analog = new Map([
-            [SPORT , PATH_ANALOG_SPORT],
-            [NEWS , PATH_ANALOG_NEWS],
-            [HEALTH , PATH_ANALOG_HEALTH],
-            [FREETIME , PATH_ANALOG_FREETIME]
-        ]
-    )
-    const csv_files_digital = new Map([
-            [SPORT , PATH_DIGITAL_SPORT],
-            [NEWS , PATH_DIGITAL_NEWS],
-            [HEALTH , PATH_DIGITAL_HEALTH],
-            [FREETIME , PATH_DIGITAL_FREETIME]
-        ]
-    )
-
-    var ana = []
-    var dig = []
-
-
-    var i
-
-    for(i=0; i<10; i++){
-        console.log("for loop")
-        var currentLabel = idToLabel(i)
-        if(i>=3 && i<=6){
-            // analog
-            var path_csv_analog = csv_files_analog.get(currentLabel)
-            //paths.push(d3.csv(path_csv_analog))
-
-            var id = i
-            console.log("id: i " + id)
-
-            loadAnalog(id, path_csv_analog, max, min, ana);
-
-        } else if(i>=7 && i<=10){
-            // digital
-            var path_csv_digital = csv_files_digital.get(currentLabel)
-            //paths.push(d3.csv(path_csv_digital))
-
-            loadDigital(path_csv_digital, max, min, i, dig);
-
-        }
-
-
-    }
-    /*if (paths.length == 8) {
-        var promises = Promise.all(paths)
-        promises.then(function (files) {
-            files[0]
-
-
-
-                ana.forEach(function (a) {
-                    console.log("ana ForEach")
-                    var id = a.id
-                    var month = a.month
-                    var amount = a.amount
-
-                    const radiusScale = d3.scaleSqrt()
-                        .domain([min, max])
-                        .range([40, 100])
-
-                    var r = radiusScale(amount)
-
-                    radius[month][id + 1] = r
-                })
-
-                dig.forEach(function (d) {
-                    console.log("digi forEach")
-                    var id = a.id
-                    var month = a.month
-                    var amount = a.amount
-
-                    const radiusScale = d3.scaleSqrt()
-                        .domain([min, max])
-                        .range([40, 100])
-
-                    var r = radiusScale(amount)
-
-                    radius[month][id + 1] = r
-                })
-
-                visualizeBubbles(json1, radius, 1);
-
-            })
-            .catch(function (err) {
-                // handle error
-                console.log("loading error" + err)
-            })
-    }*/
-
-
-
-
-
-    /*Promise.all([
-        // Open file(s)
-        d3.csv(PATH_ANALOG_FREETIME),
-        d3.csv(PATH_ANALOG_HEALTH),
-        d3.csv(PATH_ANALOG_NEWS),
-        d3.csv(PATH_ANALOG_SPORT),
-        d3.csv(PATH_DIGITAL_FREETIME),
-        d3.csv(PATH_DIGITAL_HEALTH),
-        d3.csv(PATH_DIGITAL_NEWS),
-        d3.csv(PATH_DIGITAL_SPORT),
-    ]).then(function (files) {
-        console.log("loading both successfull")
-        // files[0] will contain file1.csv
-        // files[1] will contain file2.csv
-        var fileAFreetime = files[0]
-        var fileAHealth = files[1]
-        var fileANews = files[2]
-        var fileASport = files[3]
-        var fileDFreetime = files[4]
-        var fileDHealth = files[5]
-        var fileDNews = files[6]
-        var fileDSport = files[7]
-
-        file1Data.forEach(function (d) {
-            // Build analogData block (fill array)
-            // TODO: filtern; same number of quartals in both files
-            if (Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
-                var feed = {ser1: d.Monat, ser2: Number(d.VerkaufLinear)};
-                if (analogSource === "") {
-                    analogSource = SOURCE_ANALOG + d.Quellzusatz
-                }
-                if (analogTitel === "") {
-                    analogTitel = d.Titel
-                }
-                console.log("quartal_a " + feed)
-                analogData.push(feed);
-            }
-
-        })
-
-        file2Data.forEach(function (d) {
-            // Build digitalData block (fill array)
-            // TODO: filtern; same number of quartals in both files
-            if (Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
-                var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
-                if (digitalSource === "") {
-                    digitalSource = SOURCE_DIGITAL
-                }
-                if (digitalTitel === "") {
-                    digitalTitel = d.Bezeichnung
-                }
-                console.log("quartal_d " + feed)
-                digitalData.push(feed);
-            }
-
-        })
-    }).catch(function (err) {
-        // handle error
-        console.log("loading error" + err)
-    })*/
-}
-
-function calculateMaxAndMin(){
+function bubbleSizeInOne(){
     Promise.all([
         // Open file(s)
         d3.csv(PATH_ANALOG_FREETIME),
@@ -861,30 +562,16 @@ function calculateMaxAndMin(){
         var fileDNews = files[6]
         var fileDSport = files[7]
 
-
+        var bubbleRadius = []
         var max = 0
         var min = 0
-        fileAFreetime.forEach(function (d) {
-            // Build analogData block (fill array)
-            // TODO: filtern; same number of quartals in both files
-            if (Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
-                var amount = d.VerkaufLinear
-                if(amount > max){
-                    max = amount
-                }
-                if(min != 0 && amount < min){
-                    min = amount
-                } else if(min == 0){
-                    min = amount
-                }
-            }
-        })
 
         fileAHealth.forEach(function (d) {
-            // Build analogData block (fill array)
-            // TODO: filtern; same number of quartals in both files
-            if (Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
-                var amount = d.VerkaufLinear
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                console.log("month " + month)
+                var amount = Number(d.VerkaufLinear)
                 if(amount > max){
                     max = amount
                 }
@@ -893,14 +580,24 @@ function calculateMaxAndMin(){
                 } else if(min == 0){
                     min = amount
                 }
+                var feed
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 3, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 3, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
             }
         })
 
         fileANews.forEach(function (d) {
-            // Build analogData block (fill array)
-            // TODO: filtern; same number of quartals in both files
-            if (Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
-                var amount = d.VerkaufLinear
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                console.log("month " + month)
+                var amount = Number(d.VerkaufLinear)
                 if(amount > max){
                     max = amount
                 }
@@ -909,14 +606,50 @@ function calculateMaxAndMin(){
                 } else if(min == 0){
                     min = amount
                 }
+                var feed
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 4, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 4, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
+            }
+        })
+
+        fileAFreetime.forEach(function (d) {
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                console.log("month " + month)
+                var amount = Number(d.VerkaufLinear)
+                if(amount > max){
+                    max = amount
+                }
+                if(min != 0 && amount < min){
+                    min = amount
+                } else if(min == 0){
+                    min = amount
+                }
+                var feed
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 5, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 5, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
             }
         })
 
         fileASport.forEach(function (d) {
-            // Build analogData block (fill array)
-            // TODO: filtern; same number of quartals in both files
-            if (Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
-                var amount = d.VerkaufLinear
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                console.log("month " + month)
+                var amount = Number(d.VerkaufLinear)
                 if(amount > max){
                     max = amount
                 }
@@ -925,62 +658,24 @@ function calculateMaxAndMin(){
                 } else if(min == 0){
                     min = amount
                 }
-            }
-        })
-
-        fileDFreetime.forEach(function (d) {
-            // Build analogData block (fill array)
-            // TODO: filtern; same number of quartals in both files
-            if (Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
-                var amount = d.KatVisits
-                if(amount > max){
-                    max = amount
+                var feed
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 6, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 6, month: month, amount: amount};
                 }
-                if(min != 0 && amount < min){
-                    min = amount
-                } else if(min == 0){
-                    min = amount
-                }
-            }
-        })
-
-        fileDHealth.forEach(function (d) {
-            // Build analogData block (fill array)
-            // TODO: filtern; same number of quartals in both files
-            if (Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
-                var amount = d.KatVisits
-                if(amount > max){
-                    max = amount
-                }
-                if(min != 0 && amount < min){
-                    min = amount
-                } else if(min == 0){
-                    min = amount
-                }
-            }
-        })
-
-        fileDNews.forEach(function (d) {
-            // Build analogData block (fill array)
-            // TODO: filtern; same number of quartals in both files
-            if (Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
-                var amount = d.KatVisits
-                if(amount > max){
-                    max = amount
-                }
-                if(min != 0 && amount < min){
-                    min = amount
-                } else if(min == 0){
-                    min = amount
-                }
+                bubbleRadius.push(feed);
             }
         })
 
         fileDSport.forEach(function (d) {
-            // Build analogData block (fill array)
-            // TODO: filtern; same number of quartals in both files
-            if (Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
-                var amount = d.KatVisits
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                //console.log(month)
+                var amount = Number(d.KatVisits)
                 if(amount > max){
                     max = amount
                 }
@@ -989,16 +684,118 @@ function calculateMaxAndMin(){
                 } else if(min == 0){
                     min = amount
                 }
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 7, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 7, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
             }
         })
 
-        calculateBubbleSize(max, min);
+        fileDHealth.forEach(function (d) {
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                //console.log(month)
+                var amount = Number(d.KatVisits)
+                if(amount > max){
+                    max = amount
+                }
+                if(min != 0 && amount < min){
+                    min = amount
+                } else if(min == 0){
+                    min = amount
+                }
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 8, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 8, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
+            }
+        })
+
+        fileDNews.forEach(function (d) {
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                //console.log(month)
+                var amount = Number(d.KatVisits)
+                if(amount > max){
+                    max = amount
+                }
+                if(min != 0 && amount < min){
+                    min = amount
+                } else if(min == 0){
+                    min = amount
+                }
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 9, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 9, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
+            }
+        })
+
+        fileDFreetime.forEach(function (d) {
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                //console.log(month)
+                var amount = Number(d.KatVisits)
+                if(amount > max){
+                    max = amount
+                }
+                if(min != 0 && amount < min){
+                    min = amount
+                } else if(min == 0){
+                    min = amount
+                }
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 10, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 10, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
+            }
+        })
+
+        bubbleRadius.forEach(function (a) {
+            console.log("ana ForEach")
+            var id = a.id
+            var month = a.month
+            var amount = a.amount
+
+            const radiusScale = d3.scaleSqrt()
+                .domain([min, max])
+                .range([30, 100])
+            var r = radiusScale(amount)
+
+            console.log("max: " + max)
+            console.log("min: " + min)
+
+            radius[month][id] = r
+        })
+        visualizeBubbles(json1, 1);
+
+
+
     }).catch(function (err) {
         // handle error
         console.log("loading error" + err)
     })
 }
 
-calculateMaxAndMin();
+bubbleSizeInOne()
 
 //visualizeBubbles(json1, bubbleRadi, 1);
