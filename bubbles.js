@@ -46,7 +46,7 @@ json1 = {
         "r": 90,
         "c": COLOR_ANALOG, /* orange */
         "label": FREETIME,
-        "img": "music.PNG"
+        "img": "music.png"
     }, 
     {
         "id": 6,
@@ -55,7 +55,7 @@ json1 = {
         "r": 90,
         "c": COLOR_ANALOG, /* orange */
         "label": SPORT,
-        "img": "sport.PNG"
+        "img": "sport.png"
     }, 
     //digital
     {
@@ -65,7 +65,7 @@ json1 = {
         "r": 90,
         "c": COLOR_DIGITAL, /* blue */
         "label": SPORT,
-        "img": "sport.PNG"
+        "img": "sport.png"
     }, {
         "id": 8,
         "x": 550,
@@ -89,7 +89,7 @@ json1 = {
         "r": 90,
         "c": COLOR_DIGITAL, /* blue */
         "label": FREETIME,
-        "img": "music.PNG"
+        "img": "music.png"
     }
     ]
 }

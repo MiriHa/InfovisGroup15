@@ -335,7 +335,7 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         chart.selectAll(".myXaxis")
             .transition()
             .duration(2000)
-            .attr('class', 'tick_Scales')
+            .attr('class', 'tick_Scales_lineDiagram')
             .call(xAxis);
 
         // create the Y axis

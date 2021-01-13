@@ -129,6 +129,14 @@ line#limit {
     opacity: 0.5;
 }
 
+.tick_Scales_lineDiagram .tick{
+    /*Tick-Settings of the chart (X & Y-Scale!).*/
+    stroke-width: 0;
+    font-size: 14px;
+    color: #FFFFFF;
+    opacity: 0.5;
+}
+
 text.divergence {
     /*Difference in bars.*/
     font-size: 18px;
