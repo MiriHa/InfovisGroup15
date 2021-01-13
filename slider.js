@@ -122,27 +122,33 @@ var inner_circle = innerContainer.append("circle")
     .attr("fill", "grey")
 
 //Make the month lable, corona cases and lockdown indicator, changes with slider
+var circleLableYear = innerContainer.append("text")
+    .attr("id", "yearLable")
+    .attr("dy", "-1.0em")
+    .style("text-anchor", "middle")
+    .text("2020");
+
 var circleLableTime = innerContainer.append("text")
     .attr("id", "monthLable")
-    .attr("dy", "-1.1em")
+    .attr("dy", "-1.5em")
     .style("text-anchor", "middle")
     .text(monthNames[0]);
 
 var coronaCasesLable = innerContainer.append("text")
     .attr("id", "casesLable")
-    .attr("dy", "-0.2em")
+    .attr("dy", "0.5em")
     .style("text-anchor", "middle")
     .text("Corona Cases");
 
 var coronaCasesNumbers = innerContainer.append("text")
     .attr("id", "casesNumbers")
-    .attr("dy", "0.8em")
+    .attr("dy", "1.2em")
     .style("text-anchor", "middle")
     .text(coronaCases[0]);
 
 var lockdownIndicator = innerContainer.append("text")
     .attr("id", "lockdownIndicator")
-    .attr("dy", "6em")
+    .attr("dy", "4.5em")
     .style("text-anchor", "middle")
     .text(" ");
 

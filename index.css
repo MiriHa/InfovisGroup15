@@ -193,14 +193,16 @@ text.source {
     border-radius: 5px;
 }
 
-.monthLable{
-    font-size: 18px;
-}
-
 /* text of slider*/
 #monthLable{
     text-anchor: middle;
-    font-size: 18px;
+    font-size: 19px;
+    fill: white;
+}
+
+#yearLable{
+    text-anchor: middle;
+    font-size: 14px;
     fill: white;
 }
 
@@ -215,7 +217,7 @@ text.source {
 }
 
 #lockdownIndicator{
-    font-size: 7px;
+    font-size: 10px;
     fill: white;
 }
 
