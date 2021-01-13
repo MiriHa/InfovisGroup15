@@ -156,7 +156,7 @@ function parser(analog, digital) {
                     // Build analogData block (fill array)
                     // TODO: filtern; same number of quartals in both files
                     if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
-                        var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};v
+                        var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
                         if(digitalSource === ""){
                             digitalSource = SOURCE_DIGITAL
                         }
