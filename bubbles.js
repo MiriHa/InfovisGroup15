@@ -113,6 +113,8 @@ bubbleRadi = [
 
 var selectedAnalogBubble = ""
 var selectedDigitalBubble = ""
+var ClickDigital = false;
+var ClickAnalog = false;
 
 function visualizeBubbles(json, bubbleRadi, aktmounth) {
     
@@ -187,10 +189,10 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
 
     elemEnter.append("svg:image")
         .filter(function (d) { return d.id > 2 })
-        .attr("x", -50)
-        .attr("y", -40)
-        .attr("width", 100)
-        .attr("height", 80)
+        .attr("x", function (d) { return berechneImagePos(d.id) })
+        .attr("y", function (d) { return berechneImagePos(d.id) })
+        .attr("width", function (d) { return berechneImageSize(d.id) })
+        .attr("height", function (d) { return berechneImageSize(d.id) })
         .attr("id", function (d) { return d.id })
         .attr("xlink:href", function (d) {return "icons/" + d.img })
         .style("opacity", 0.5)
@@ -226,15 +228,46 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         console.log("keine Farbe");
         return "black";
     }
+    
+    function idToColor(id) {
+        if (id == 1) { return COLOR_ANALOG }
+        if (id == 2) { return COLOR_DIGITAL }
+        if(id > 2 && id < 7) {return COLOR_ANALOG }
+        if(id > 6) { return COLOR_DIGITAL }
+        return " ";
+    }
+    
+    var clickCounter = 0;
+    var idVorher = 0;
 
     function Bubbleclick(d) {
+        clickCounter = clickCounter +1;
         console.log("ID = " + d.attr("id")); //-> zugriff auf Attribute der angeklickten Bubble
+        var idClick = d.attr("id");
+        
+        elemEnter.selectAll("circle")//.append("circle")
+            .filter(function (d) { return (d.id == idClick) })
+            .attr("fill", "red")
+            .style("opacity", 0.2);
+
+        // Farbe vom vorherigen zurücksetzen
+        elemEnter.selectAll("circle")//.append("circle")
+            .filter(function (d) { return (d.id == idVorher) })
+            .attr("fill", idToColor(idVorher))
+            .style("opacity", 1);
+        
+        idVorher = idClick;
+        
         if (d.attr("id") == 2) {
-            console.log("if");
+            console.log("if - digital");
+            ClickDigital = true;
+            ClickAnalog = false;
             return ClickforDig(d);
         }
         if (d.attr("id") == 1) {
-            console.log("else if");
+            console.log("else if -analog");
+            ClickDigital = false;
+            ClickAnalog = true;
             return ClickforAna(d);
         } else {
             //Click auf keine Hauptbubble -> Diagramm anzeigen lassen für diese Bubble
@@ -322,10 +355,10 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         elemEnter.selectAll("svg:image").remove()
         elemEnter.selectAll("svg:image")
             .filter(function (d) { return (d.id <= 5) }) //nur analoge und hauptbubble
-            .attr("x", -50)
-            .attr("y", -40)
-            .attr("width", 100)
-            .attr("height", 80)
+            .attr("x", function (d) { return berechneImagePos(d.id) })
+            .attr("y", function (d) { return berechneImagePos(d.id) })
+            .attr("width", function (d) { return berechneImageSize(d.id) })
+            .attr("height", function (d) { return berechneImageSize(d.id) })
             .attr("xlink:href", function (d) {return "icons/" + d.img })
             .style("opacity", 5)
             .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
@@ -393,10 +426,10 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         elemEnter.selectAll("svg:image").remove()
         elemEnter.selectAll("svg:image")
             .filter(function (d) { return (d.id <= 5) }) //nur analoge und hauptbubble
-            .attr("x", -50)
-            .attr("y", -40)
-            .attr("width", 100)
-            .attr("height", 80)
+            .attr("x", function (d) { return berechneImagePos(d.id) })
+            .attr("y", function (d) { return berechneImagePos(d.id) })
+            .attr("width", function (d) { return berechneImageSize(d.id) })
+            .attr("height", function (d) { return berechneImageSize(d.id) })
             .attr("xlink:href", function (d) {return "icons/" + d.img })
             .style("opacity", 5)
             .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
@@ -424,6 +457,26 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
 
     }
 
+    function berechneImageSize(id){
+        
+        var bubbleid = id;   
+        var radiusBubble = bubbleRadi[aktmounth][bubbleid];
+        console.log("radiusBubble mit id " + bubbleid + " = " + radiusBubble);
+        console.log("monat: " + aktmounth);
+        var imageSize = radiusBubble;
+    
+        return imageSize;
+    }
+
+    function berechneImagePos(id){
+        
+        var bubbleid = id;   
+        var radiusBubble = bubbleRadi[aktmounth][bubbleid];
+        var imagePos = radiusBubble * (-0.5);
+    
+        return imagePos;
+    }
+    
     function idToLabel(id) {
         if (id == 3) { return HEALTH }
         if (id == 4) { return NEWS }
