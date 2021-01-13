@@ -64,6 +64,9 @@ h1 {
     font-weight: bold;
     text-align: center;
     color: #DBDBDB;
+    padding: 3px;
+    border-radius: 12px;
+    background-color: #1b2636;
 }
 
 
