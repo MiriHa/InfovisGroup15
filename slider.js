@@ -30,7 +30,8 @@ var tickphiright = [4.712388975, 5.23598775, 5.759586525,
 
     //use for months
 var monthNames = ["Januray", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-var coronaCases = [18, 561, 588179, 3942925,5427815,5670762,6265079,7024733,8023521,11653042,24564361,44141683]
+var totoalCoronaCases = [5, 79, 71808, 163009, 183410, 195418, 210399,244802,292913,531790,1069912,1760520]
+var newCoronaCases = [5,74,71729,91201,20401,12008,14981,34403,48111,238877,538122,690608]
 
 //use for Quartals
 var tickphiright_quartal = [4.712388975, 6.2831853, 0, 1.570796325, 3.14159265]
@@ -144,7 +145,7 @@ var coronaCasesNumbers = innerContainer.append("text")
     .attr("id", "casesNumbers")
     .attr("dy", "1.2em")
     .style("text-anchor", "middle")
-    .text(coronaCases[0]);
+    .text(totoalCoronaCases[0]);
 
 var lockdownIndicator = innerContainer.append("text")
     .attr("id", "lockdownIndicator")
@@ -219,7 +220,7 @@ function dragended(event, d) {
         .text(monthNames[postion]);
 
     d3.select("#casesNumbers")
-        .text(coronaCases[postion]);
+        .text(totoalCoronaCases[postion]);
 
     //TODO set Corona cases
     //TOdo set Lockdown indicator -> make it more dynamic
