@@ -95,7 +95,8 @@ json1 = {
 }
 //wird hier benötigt also nicht nur bei script updaten
 //for bubbles to handle the radius
-bubbleRadi = [
+//bubbleRadi = radius
+/*[
     [0,0,0,0,0,0,0,0,0,0],
     [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Jan
     [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Feb
@@ -109,14 +110,35 @@ bubbleRadi = [
     [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Okt
     [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Nov
     [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100]   // Dez
-]
+]*/
+
+/*var radius = [
+    [0,0,0,0,0,0,0,0,0,0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],   // Jan
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  // Feb
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],   // Mrz
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  // Apr
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],   // Mai
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  // Jun
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],   // Jul
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  // Aug
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],   // Sep
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  // Okt
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],   // Nov
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]   // Dez
+]*/
 
 var selectedAnalogBubble = ""
 var selectedDigitalBubble = ""
 var ClickDigital = false;
 var ClickAnalog = false;
 
-function visualizeBubbles(json, bubbleRadi, aktmounth) {
+
+
+function visualizeBubbles(json, aktmounth) {
+    console.log("visualize: ")
+    bubbleRadi =radius
+    console.log(bubbleRadi)
     
     //json Datei nutzen:
     //id: analog(1,2-5) und digital (2, 6-9)
@@ -569,4 +591,264 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
     //http://bl.ocks.org/WilliamQLiu/76ae20060e19bf42d774 -> Mouse_Events
 }
 
-visualizeBubbles(json1, bubbleRadi, 1);
+function bubbleSizeInOne(){
+    Promise.all([
+        // Open file(s)
+        d3.csv(PATH_ANALOG_FREETIME),
+        d3.csv(PATH_ANALOG_HEALTH),
+        d3.csv(PATH_ANALOG_NEWS),
+        d3.csv(PATH_ANALOG_SPORT),
+        d3.csv(PATH_DIGITAL_FREETIME),
+        d3.csv(PATH_DIGITAL_HEALTH),
+        d3.csv(PATH_DIGITAL_NEWS),
+        d3.csv(PATH_DIGITAL_SPORT),
+    ]).then(function (files) {
+        console.log("loading both successfull")
+        // files[0] will contain file1.csv
+        // files[1] will contain file2.csv
+        var fileAFreetime = files[0]
+        var fileAHealth = files[1]
+        var fileANews = files[2]
+        var fileASport = files[3]
+        var fileDFreetime = files[4]
+        var fileDHealth = files[5]
+        var fileDNews = files[6]
+        var fileDSport = files[7]
+
+        var bubbleRadius = []
+        var max = 0
+        var min = 0
+
+        fileAHealth.forEach(function (d) {
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                console.log("month " + month)
+                var amount = Number(d.VerkaufLinear)
+                if(amount > max){
+                    max = amount
+                }
+                if(min != 0 && amount < min){
+                    min = amount
+                } else if(min == 0){
+                    min = amount
+                }
+                var feed
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 3, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 3, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
+            }
+        })
+
+        fileANews.forEach(function (d) {
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                console.log("month " + month)
+                var amount = Number(d.VerkaufLinear)
+                if(amount > max){
+                    max = amount
+                }
+                if(min != 0 && amount < min){
+                    min = amount
+                } else if(min == 0){
+                    min = amount
+                }
+                var feed
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 4, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 4, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
+            }
+        })
+
+        fileAFreetime.forEach(function (d) {
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                console.log("month " + month)
+                var amount = Number(d.VerkaufLinear)
+                if(amount > max){
+                    max = amount
+                }
+                if(min != 0 && amount < min){
+                    min = amount
+                } else if(min == 0){
+                    min = amount
+                }
+                var feed
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 5, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 5, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
+            }
+        })
+
+        fileASport.forEach(function (d) {
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                console.log("month " + month)
+                var amount = Number(d.VerkaufLinear)
+                if(amount > max){
+                    max = amount
+                }
+                if(min != 0 && amount < min){
+                    min = amount
+                } else if(min == 0){
+                    min = amount
+                }
+                var feed
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 6, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 6, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
+            }
+        })
+
+        fileDSport.forEach(function (d) {
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                //console.log(month)
+                var amount = Number(d.KatVisits)
+                if(amount > max){
+                    max = amount
+                }
+                if(min != 0 && amount < min){
+                    min = amount
+                } else if(min == 0){
+                    min = amount
+                }
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 7, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 7, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
+            }
+        })
+
+        fileDHealth.forEach(function (d) {
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                //console.log(month)
+                var amount = Number(d.KatVisits)
+                if(amount > max){
+                    max = amount
+                }
+                if(min != 0 && amount < min){
+                    min = amount
+                } else if(min == 0){
+                    min = amount
+                }
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 8, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 8, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
+            }
+        })
+
+        fileDNews.forEach(function (d) {
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                //console.log(month)
+                var amount = Number(d.KatVisits)
+                if(amount > max){
+                    max = amount
+                }
+                if(min != 0 && amount < min){
+                    min = amount
+                } else if(min == 0){
+                    min = amount
+                }
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 9, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 9, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
+            }
+        })
+
+        fileDFreetime.forEach(function (d) {
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                //console.log(month)
+                var amount = Number(d.KatVisits)
+                if(amount > max){
+                    max = amount
+                }
+                if(min != 0 && amount < min){
+                    min = amount
+                } else if(min == 0){
+                    min = amount
+                }
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 10, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 10, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
+            }
+        })
+
+        bubbleRadius.forEach(function (a) {
+            console.log("ana ForEach")
+            var id = a.id
+            var month = a.month
+            var amount = a.amount
+
+            const radiusScale = d3.scaleSqrt()
+                .domain([min, max])
+                .range([30, 100])
+            var r = radiusScale(amount)
+
+            console.log("max: " + max)
+            console.log("min: " + min)
+
+            radius[month][id] = r
+        })
+        visualizeBubbles(json1, 1);
+
+
+
+    }).catch(function (err) {
+        // handle error
+        console.log("loading error" + err)
+    })
+}
+
+bubbleSizeInOne()
+
+//visualizeBubbles(json1, bubbleRadi, 1);
