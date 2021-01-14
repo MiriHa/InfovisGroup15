@@ -94,7 +94,7 @@ json1 = {
 }
 
 // Define the div for the tooltip
-var tooltip= d3.select("body").append("div")	
+var div= d3.select("#bubbles").append("div")	
     .attr("class", "tooltip")				
     .style("opacity", 0);
 
@@ -373,6 +373,7 @@ function visualizeBubbles(json, aktmounth) {
             //.on("mouseover", handleMouseOver(d)) //klappt
             .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
             .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
+            //.on("mousemove", moveTooltip)
             .on("click", function (d) { return Bubbleclick(d3.select(this)) })
 
          //digitale Bubble transparent -> noch nicht richtig
@@ -405,6 +406,7 @@ function visualizeBubbles(json, aktmounth) {
             .style("opacity", 5)
             .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
             .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
+            //.on("mousemove", moveTooltip )
             
             
          /*
@@ -440,6 +442,7 @@ function visualizeBubbles(json, aktmounth) {
             //.on("mouseover", handleMouseOver(d)) //klappt
             .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
             .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
+            //.on("mousemove", moveTooltip )
             .on("click", function (d) { return Bubbleclick(d3.select(this)) });
 
          //analoge Bubbles transparent
@@ -472,6 +475,7 @@ function visualizeBubbles(json, aktmounth) {
             .style("opacity", 5)
             .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
             .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
+            //.on("mousemove", moveTooltip )
         
     /*
     //alte Texte entfernen
@@ -528,7 +532,8 @@ function visualizeBubbles(json, aktmounth) {
 
         var aktT = idToLabel(d.attr("id"));
         console.log(aktT); //-> zugriff auf Attribute der angeklickten Bubble
-        /*var xpos = d.attr("x")+100;
+        /*
+        var xpos = d.attr("x")+100;
         var ypos = d.attr("y")+100;
         //d.attr("fill", "red");
         // Specify where to put label of text
@@ -542,19 +547,25 @@ function visualizeBubbles(json, aktmounth) {
             .style("font-style", "italic")
             .style("fill", "#DBDBDB");*/
         	
-            tooltip.transition()		
-                .duration(200)		
-                .style("opacity", .9);		
-            tooltip.html("hello")	
-                .style("left", (d3.event.pageX) + "px")		
-                .style("top", (d3.event.pageY - 28) + "px");	
+        div.transition()		
+            .duration(200)		
+            .style("opacity", .9);		
+        div.html(aktT)	
+            .style("left", (d3.event.pageX) + "px")		
+            .style("top", (d3.event.pageY - 28) + "px");	
+        
     }
 
+    /*var moveTooltip = function(d) {
+        tooltip
+          .style("left", (d3.mouse(this)[0]+30) + "px")
+          .style("top", (d3.mouse(this)[1]+30) + "px")
+      }*/
+
     function handleMouseOut(d) {
-        var aktT = idToLabel(d.attr("id"));
         // Select text by id and then remove
-       // d3.select("#t" + aktT).remove();  // Remove text location
-       tooltip.transition()		
+        // d3.select("#t" + aktT).remove();  // Remove text location
+        div.transition()		
             .duration(500)		
             .style("opacity", 0);
     }
