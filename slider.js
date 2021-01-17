@@ -30,7 +30,8 @@ var tickphiright = [4.712388975, 5.23598775, 5.759586525,
 
     //use for months
 var monthNames = ["Januray", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-var coronaCases = [5, 74, 71729,91201,20401,12008,14981, 34403,48111,238877,538122,690608]
+var totoalCoronaCases = [5, 79, 71808, 163009, 183410, 195418, 210399,244802,292913,531790,1069912,1760520]
+var newCoronaCases = [5,74,71729,91201,20401,12008,14981,34403,48111,238877,538122,690608]
 
 //use for Quartals
 var tickphiright_quartal = [4.712388975, 6.2831853, 0, 1.570796325, 3.14159265]
@@ -122,27 +123,33 @@ var inner_circle = innerContainer.append("circle")
     .attr("fill", "grey")
 
 //Make the month lable, corona cases and lockdown indicator, changes with slider
+var circleLableYear = innerContainer.append("text")
+    .attr("id", "yearLable")
+    .attr("dy", "-1.0em")
+    .style("text-anchor", "middle")
+    .text("2020");
+
 var circleLableTime = innerContainer.append("text")
     .attr("id", "monthLable")
-    .attr("dy", "-1.1em")
+    .attr("dy", "-1.5em")
     .style("text-anchor", "middle")
     .text(monthNames[0]);
 
 var coronaCasesLable = innerContainer.append("text")
     .attr("id", "casesLable")
-    .attr("dy", "-0.2em")
+    .attr("dy", "0.5em")
     .style("text-anchor", "middle")
     .text("Corona Cases");
 
 var coronaCasesNumbers = innerContainer.append("text")
     .attr("id", "casesNumbers")
-    .attr("dy", "0.8em")
+    .attr("dy", "1.2em")
     .style("text-anchor", "middle")
-    .text(coronaCases[0]);
+    .text(totoalCoronaCases[0]);
 
 var lockdownIndicator = innerContainer.append("text")
     .attr("id", "lockdownIndicator")
-    .attr("dy", "6em")
+    .attr("dy", "4.5em")
     .style("text-anchor", "middle")
     .text(" ");
 
@@ -213,7 +220,7 @@ function dragended(event, d) {
         .text(monthNames[postion]);
 
     d3.select("#casesNumbers")
-        .text(coronaCases[postion]);
+        .text(totoalCoronaCases[postion]);
 
     //TODO set Corona cases
     //TOdo set Lockdown indicator -> make it more dynamic
@@ -269,7 +276,7 @@ function dragended(event, d) {
      **/
 
     //for bubbles to handle the radius
-    bubbleRadi = [
+    bubbleRadi = radius /*[
         [0,0,0,0,0,0,0,0,0,0],
         [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Jan
         [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Feb
@@ -283,13 +290,15 @@ function dragended(event, d) {
         [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Okt
         [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Nov
         [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100]   // Dez
-    ]
+    ]*/
     //annaTest mit Zeitungen
-    // if(postion > 0 && postion < 13){
-    //     visualizeBubbles(json1, bubbleRadi, postion);
-    // }else{
-    //     visualizeBubbles(json1, bubbleRadi, 1);
-    // }
+    if(postion > 0 && postion < 13){
+        console.log("slider radius:")
+        console.log(radius)
+        visualizeBubbles(json1, postion+1);
+    }else{
+        visualizeBubbles(json1, 1);
+    }
     /* 
     if (postion == 1)  visualizeBubbles(json2)
     else if (postion == 2) visualizeBubbles(json1)

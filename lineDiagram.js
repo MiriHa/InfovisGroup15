@@ -72,8 +72,8 @@ function parser(analog, digital) {
                 file1Data.forEach(function (d){
                     // Build analogData block (fill array)
                     // TODO: filtern; same number of quartals in both files
-                    if(Number(d.Quartal) >= 20171 && Number(d.Quartal) <= 20203) {
-                        var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
+                    if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
+                        var feed = {ser1: d.Monat, ser2: Number(d.VerkaufLinear)};
                         if(analogSource === ""){
                             analogSource = SOURCE_ANALOG + d.Quellzusatz
                         }
@@ -89,8 +89,8 @@ function parser(analog, digital) {
                 file2Data.forEach(function (d){
                     // Build digitalData block (fill array)
                     // TODO: filtern; same number of quartals in both files
-                    if(Number(d.Quartal) >= 20171 && Number(d.Quartal) <= 20203) {
-                        var feed = {ser1: d.Quartal, ser2: Number(d.KatVisits), titel: d.Bezeichnung};
+                    if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
+                        var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
                         if(digitalSource === ""){
                             digitalSource = SOURCE_DIGITAL
                         }
@@ -126,8 +126,8 @@ function parser(analog, digital) {
                     data.forEach(function (d) {
                         // Build analogData block (fill array)
                         // TODO: filtern; same number of quartals in both files
-                        if (Number(d.Quartal) >= 20171 && Number(d.Quartal) <= 20203) {
-                            var feed = {ser1: d.Quartal, ser2: Number(d.Verkauf)};
+                        if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
+                            var feed = {ser1: d.Monat, ser2: Number(d.VerkaufLinear)};
                             if(analogSource === ""){
                                 analogSource = SOURCE_ANALOG + d.Quellzusatz
                             }
@@ -155,8 +155,8 @@ function parser(analog, digital) {
                 data.forEach(function (d) {
                     // Build analogData block (fill array)
                     // TODO: filtern; same number of quartals in both files
-                    if (Number(d.Quartal) >= 20171 && Number(d.Quartal) <= 20203) {
-                        var feed = {ser1: d.Quartal, ser2: Number(d.KatVisits)};
+                    if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
+                        var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
                         if(digitalSource === ""){
                             digitalSource = SOURCE_DIGITAL
                         }
@@ -184,9 +184,9 @@ function parser(analog, digital) {
 function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitel, digitalTitel) {
 
     // set the dimensions and margins of the graph
-    const Margin = 80;
-    const width = 1000 - 2 * Margin;
-    const height = 600 - 2 * Margin;
+    const Margin = 60;
+    const width = 580 - 2 * Margin;
+    const height = 350 - 2 * Margin;
 
     var x
     var xAxis
@@ -272,7 +272,7 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         .attr('x', width / 2 + Margin)
         .attr('y', 40)
         .attr('text-anchor', 'middle')
-        .text('Überschrift')
+        .text('Vergleich ausgewählter Kategorien')
 
     var source = "Quelle: "
     if(analogSource !== "" && digitalSource === ""){
@@ -335,7 +335,7 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         chart.selectAll(".myXaxis")
             .transition()
             .duration(2000)
-            .attr('class', 'tick_Scales')
+            .attr('class', 'tick_Scales_lineDiagram')
             .call(xAxis);
 
         // create the Y axis

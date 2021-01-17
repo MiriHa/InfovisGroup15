@@ -46,7 +46,7 @@ json1 = {
         "r": 90,
         "c": COLOR_ANALOG, /* orange */
         "label": FREETIME,
-        "img": "music.PNG"
+        "img": "music.png"
     }, 
     {
         "id": 6,
@@ -55,7 +55,7 @@ json1 = {
         "r": 90,
         "c": COLOR_ANALOG, /* orange */
         "label": SPORT,
-        "img": "sport.PNG"
+        "img": "sport.png"
     }, 
     //digital
     {
@@ -65,7 +65,7 @@ json1 = {
         "r": 90,
         "c": COLOR_DIGITAL, /* blue */
         "label": SPORT,
-        "img": "sport.PNG"
+        "img": "sport.png"
     }, {
         "id": 8,
         "x": 550,
@@ -89,13 +89,14 @@ json1 = {
         "r": 90,
         "c": COLOR_DIGITAL, /* blue */
         "label": FREETIME,
-        "img": "music.PNG"
+        "img": "music.png"
     }
     ]
 }
 //wird hier benötigt also nicht nur bei script updaten
 //for bubbles to handle the radius
-bubbleRadi = [
+//bubbleRadi = radius
+/*[
     [0,0,0,0,0,0,0,0,0,0],
     [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Jan
     [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Feb
@@ -109,10 +110,57 @@ bubbleRadi = [
     [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Okt
     [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Nov
     [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100]   // Dez
-]
+]*/
+
+/*var radius = [
+    [0,0,0,0,0,0,0,0,0,0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],   // Jan
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  // Feb
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],   // Mrz
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  // Apr
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],   // Mai
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  // Jun
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],   // Jul
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  // Aug
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],   // Sep
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  // Okt
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],   // Nov
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]   // Dez
+]*/
+
+function berechneHauptBubble(bubbleRadi, month){    
+    console.log("month = " + month)           
+    var summedig = 0;
+    for (let bubb = 3; bubb < 7; bubb++) {
+        summedig = summedig + bubbleRadi[month][bubb]
+        console.log("Summe aus: " + bubbleRadi[month][bubb] + " + ")
+    }
+    bubbleRadi[month][1] = summedig / 4;
+    console.log(" = " + summedig);
+    
+    var summeana = 0;
+    for (let bubb = 7; bubb < 11; bubb++) {
+        summeana = summeana + bubbleRadi[month][bubb]
+        console.log("Summe aus: " + bubbleRadi[month][bubb] + " + ")
+    }
+    bubbleRadi[month][2] = summeana / 4;
+    console.log("summeANA = " + summeana);
+}
 
 
-function visualizeBubbles(json, bubbleRadi, aktmounth) {
+var selectedAnalogBubble = ""
+var selectedDigitalBubble = ""
+var ClickDigital = false;
+var ClickAnalog = false;
+
+
+
+function visualizeBubbles(json, aktmounth) {
+    console.log("visualize: ")
+    bubbleRadi =radius
+    
+    berechneHauptBubble(bubbleRadi, aktmounth);
+    console.log(bubbleRadi)
     
     //json Datei nutzen:
     //id: analog(1,2-5) und digital (2, 6-9)
@@ -142,8 +190,8 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
             return "translate(" + d.x + "," + d.y + ")"
         })
 
-    console.log("hello Blub");
-    console.log("Monat: " + aktmounth);
+    //console.log("hello Blub");
+    //console.log("Monat: " + aktmounth);
 
     /*Create the circles: analog, digital */
     var circle = elemEnter.append("circle")
@@ -185,15 +233,17 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
 
     elemEnter.append("svg:image")
         .filter(function (d) { return d.id > 2 })
-        .attr("x", -50)
-        .attr("y", -40)
-        .attr("width", 100)
-        .attr("height", 80)
+        .attr("x", function (d) { return berechneImagePos(d.id) })
+        .attr("y", function (d) { return berechneImagePos(d.id) })
+        .attr("width", function (d) { return berechneImageSize(d.id) })
+        .attr("height", function (d) { return berechneImageSize(d.id) })
         .attr("id", function (d) { return d.id })
         .attr("xlink:href", function (d) {return "icons/" + d.img })
         .style("opacity", 0.5)
         .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
         .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
+        // Klaus: Added this .on() to be able to click the sub-bubbles
+        .on("click", function (d) { return Bubbleclick(d3.select(this)) })
             
 
     //MouseEvent
@@ -222,20 +272,89 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         console.log("keine Farbe");
         return "black";
     }
+    
+    function idToColor(id) {
+        if (id == 1) { return COLOR_ANALOG }
+        if (id == 2) { return COLOR_DIGITAL }
+        if(id > 2 && id < 7) {return COLOR_ANALOG }
+        if(id > 6) { return COLOR_DIGITAL }
+        return " ";
+    }
+    
+    var clickCounter = 0;
+    var idVorher = 0;
 
     function Bubbleclick(d) {
+        clickCounter = clickCounter +1;
         console.log("ID = " + d.attr("id")); //-> zugriff auf Attribute der angeklickten Bubble
+        var idClick = d.attr("id");
+        
+        elemEnter.selectAll("circle")//.append("circle")
+            .filter(function (d) { return (d.id == idClick) })
+            .attr("fill", "red")
+            .style("opacity", 0.2);
+
+        // Farbe vom vorherigen zurücksetzen
+        elemEnter.selectAll("circle")//.append("circle")
+            .filter(function (d) { return (d.id == idVorher) })
+            .attr("fill", idToColor(idVorher))
+            .style("opacity", 1);
+        
+        idVorher = idClick;
+        
         if (d.attr("id") == 2) {
-            console.log("if");
+            console.log("if - digital");
+            ClickDigital = true;
+            ClickAnalog = false;
             return ClickforDig(d);
         }
         if (d.attr("id") == 1) {
-            console.log("else if");
+            console.log("else if -analog");
+            ClickDigital = false;
+            ClickAnalog = true;
             return ClickforAna(d);
         } else {
             //Click auf keine Hauptbubble -> Diagramm anzeigen lassen für diese Bubble
             console.log("else");
-            return showDiagram(d.attr("label"));
+            var currentLabel = idToLabel(d.attr("id"));
+            if(d.attr("id") >= 3 && d.attr("id") <= 6){
+                console.log("analog sub-bubble clicked: " + currentLabel)
+                // was selected before, so remove selection
+                if(selectedAnalogBubble === currentLabel){
+                    selectedAnalogBubble = ""
+                    // TODO: change color back
+                }
+                // add new selection
+                else{
+                    selectedAnalogBubble = currentLabel
+                    // TODO: change color etc
+                }
+            } else if(d.attr("id") >= 7 && d.attr("id") <= 10){
+                console.log("digital sub-bubble clicked: " + currentLabel)
+                // was selected before, so remove selection
+                if(selectedDigitalBubble === currentLabel){
+                    selectedDigitalBubble = ""
+                    // TODO: change color back
+                }
+                // add new selection
+                else{
+                    selectedDigitalBubble = currentLabel
+                    // TODO: change color etc
+                }
+            }
+
+            parser(selectedAnalogBubble, selectedDigitalBubble)
+
+            /*
+            if (d.attr("id") == 4) {
+                console.log("4");
+                // code
+            }
+            if (d.attr("id") == 3) {
+                console.log("3");
+                // code
+            }
+            return showDiagram(d.attr("label"));*/
 
         }
     }
@@ -280,10 +399,10 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         elemEnter.selectAll("svg:image").remove()
         elemEnter.selectAll("svg:image")
             .filter(function (d) { return (d.id <= 5) }) //nur analoge und hauptbubble
-            .attr("x", -50)
-            .attr("y", -40)
-            .attr("width", 100)
-            .attr("height", 80)
+            .attr("x", function (d) { return berechneImagePos(d.id) })
+            .attr("y", function (d) { return berechneImagePos(d.id) })
+            .attr("width", function (d) { return berechneImageSize(d.id) })
+            .attr("height", function (d) { return berechneImageSize(d.id) })
             .attr("xlink:href", function (d) {return "icons/" + d.img })
             .style("opacity", 5)
             .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
@@ -351,10 +470,10 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
         elemEnter.selectAll("svg:image").remove()
         elemEnter.selectAll("svg:image")
             .filter(function (d) { return (d.id <= 5) }) //nur analoge und hauptbubble
-            .attr("x", -50)
-            .attr("y", -40)
-            .attr("width", 100)
-            .attr("height", 80)
+            .attr("x", function (d) { return berechneImagePos(d.id) })
+            .attr("y", function (d) { return berechneImagePos(d.id) })
+            .attr("width", function (d) { return berechneImageSize(d.id) })
+            .attr("height", function (d) { return berechneImageSize(d.id) })
             .attr("xlink:href", function (d) {return "icons/" + d.img })
             .style("opacity", 5)
             .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
@@ -382,15 +501,35 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
 
     }
 
+    function berechneImageSize(id){
+        
+        var bubbleid = id;   
+        var radiusBubble = bubbleRadi[aktmounth][bubbleid];
+        console.log("radiusBubble mit id " + bubbleid + " = " + radiusBubble);
+        console.log("monat: " + aktmounth);
+        var imageSize = radiusBubble;
+    
+        return imageSize;
+    }
+
+    function berechneImagePos(id){
+        
+        var bubbleid = id;   
+        var radiusBubble = bubbleRadi[aktmounth][bubbleid];
+        var imagePos = radiusBubble * (-0.5);
+    
+        return imagePos;
+    }
+    
     function idToLabel(id) {
-        if (id == 3) { return "health" }
-        if (id == 4) { return "news" }
-        if (id == 5) { return "freetime" }
-        if (id == 6) { return "sport" }
-        if (id == 7) { return "sport" }
-        if (id == 8) { return "health" }
-        if (id == 9) { return "news" }
-        if (id == 10) { return "freetime" }
+        if (id == 3) { return HEALTH }
+        if (id == 4) { return NEWS }
+        if (id == 5) { return FREETIME }
+        if (id == 6) { return SPORT }
+        if (id == 7) { return SPORT }
+        if (id == 8) { return HEALTH }
+        if (id == 9) { return NEWS }
+        if (id == 10) { return FREETIME }
         return " ";
     }
 
@@ -474,4 +613,264 @@ function visualizeBubbles(json, bubbleRadi, aktmounth) {
     //http://bl.ocks.org/WilliamQLiu/76ae20060e19bf42d774 -> Mouse_Events
 }
 
-visualizeBubbles(json1, bubbleRadi, 1);
+function bubbleSizeInOne(){
+    Promise.all([
+        // Open file(s)
+        d3.csv(PATH_ANALOG_FREETIME),
+        d3.csv(PATH_ANALOG_HEALTH),
+        d3.csv(PATH_ANALOG_NEWS),
+        d3.csv(PATH_ANALOG_SPORT),
+        d3.csv(PATH_DIGITAL_FREETIME),
+        d3.csv(PATH_DIGITAL_HEALTH),
+        d3.csv(PATH_DIGITAL_NEWS),
+        d3.csv(PATH_DIGITAL_SPORT),
+    ]).then(function (files) {
+        console.log("loading both successfull")
+        // files[0] will contain file1.csv
+        // files[1] will contain file2.csv
+        var fileAFreetime = files[0]
+        var fileAHealth = files[1]
+        var fileANews = files[2]
+        var fileASport = files[3]
+        var fileDFreetime = files[4]
+        var fileDHealth = files[5]
+        var fileDNews = files[6]
+        var fileDSport = files[7]
+
+        var bubbleRadius = []
+        var max = 0
+        var min = 0
+
+        fileAHealth.forEach(function (d) {
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                console.log("month " + month)
+                var amount = Number(d.VerkaufLinear)
+                if(amount > max){
+                    max = amount
+                }
+                if(min != 0 && amount < min){
+                    min = amount
+                } else if(min == 0){
+                    min = amount
+                }
+                var feed
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 3, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 3, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
+            }
+        })
+
+        fileANews.forEach(function (d) {
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                console.log("month " + month)
+                var amount = Number(d.VerkaufLinear)
+                if(amount > max){
+                    max = amount
+                }
+                if(min != 0 && amount < min){
+                    min = amount
+                } else if(min == 0){
+                    min = amount
+                }
+                var feed
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 4, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 4, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
+            }
+        })
+
+        fileAFreetime.forEach(function (d) {
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                console.log("month " + month)
+                var amount = Number(d.VerkaufLinear)
+                if(amount > max){
+                    max = amount
+                }
+                if(min != 0 && amount < min){
+                    min = amount
+                } else if(min == 0){
+                    min = amount
+                }
+                var feed
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 5, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 5, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
+            }
+        })
+
+        fileASport.forEach(function (d) {
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                console.log("month " + month)
+                var amount = Number(d.VerkaufLinear)
+                if(amount > max){
+                    max = amount
+                }
+                if(min != 0 && amount < min){
+                    min = amount
+                } else if(min == 0){
+                    min = amount
+                }
+                var feed
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 6, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 6, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
+            }
+        })
+
+        fileDSport.forEach(function (d) {
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                //console.log(month)
+                var amount = Number(d.KatVisits)
+                if(amount > max){
+                    max = amount
+                }
+                if(min != 0 && amount < min){
+                    min = amount
+                } else if(min == 0){
+                    min = amount
+                }
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 7, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 7, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
+            }
+        })
+
+        fileDHealth.forEach(function (d) {
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                //console.log(month)
+                var amount = Number(d.KatVisits)
+                if(amount > max){
+                    max = amount
+                }
+                if(min != 0 && amount < min){
+                    min = amount
+                } else if(min == 0){
+                    min = amount
+                }
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 8, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 8, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
+            }
+        })
+
+        fileDNews.forEach(function (d) {
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                //console.log(month)
+                var amount = Number(d.KatVisits)
+                if(amount > max){
+                    max = amount
+                }
+                if(min != 0 && amount < min){
+                    min = amount
+                } else if(min == 0){
+                    min = amount
+                }
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 9, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 9, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
+            }
+        })
+
+        fileDFreetime.forEach(function (d) {
+            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+                var date = d.Monat
+                var month = date.substr(date.length - 2, 2)
+                //console.log(month)
+                var amount = Number(d.KatVisits)
+                if(amount > max){
+                    max = amount
+                }
+                if(min != 0 && amount < min){
+                    min = amount
+                } else if(min == 0){
+                    min = amount
+                }
+                if (month.charAt(0) == "0") {
+                    console.log("early month")
+                    feed = {id: 10, month: month.charAt(1), amount: amount};
+                } else {
+                    console.log("late month")
+                    feed = {id: 10, month: month, amount: amount};
+                }
+                bubbleRadius.push(feed);
+            }
+        })
+
+        bubbleRadius.forEach(function (a) {
+            console.log("ana ForEach")
+            var id = a.id
+            var month = a.month
+            var amount = a.amount
+
+            const radiusScale = d3.scaleSqrt()
+                .domain([min, max])
+                .range([30, 100])
+            var r = radiusScale(amount)
+
+            console.log("max: " + max)
+            console.log("min: " + min)
+
+            radius[month][id] = r
+        })
+        visualizeBubbles(json1, 1);
+
+
+
+    }).catch(function (err) {
+        // handle error
+        console.log("loading error" + err)
+    })
+}
+
+bubbleSizeInOne()
+
+//visualizeBubbles(json1, bubbleRadi, 1);
