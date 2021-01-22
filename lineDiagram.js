@@ -246,13 +246,13 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         .text('Text')
 
 
-    // Label for xAxis
+    /* Label for xAxis
     svg.append('text')
         .attr('class', 'label')
         .attr('x', width / 2 + Margin)
         .attr('y', height + Margin * 1.7)
         .attr('text-anchor', 'middle')
-        .text('Text')
+        .text('Text')*/
 
     // Title
     svg.append('text')
@@ -262,6 +262,7 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         .attr('text-anchor', 'middle')
         .text('Vergleich ausgewählter Kategorien')
 
+    // Source
     var source = "Quelle: "
     if(analogSource !== "" && digitalSource === ""){
         source += analogSource
@@ -275,7 +276,7 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
     svg.append('text')
         .attr('class', 'source')
         .attr('x', width - Margin / 2)
-        .attr('y', height + Margin * 2)
+        .attr('y', height + Margin * 2.5)
         .attr('text-anchor', 'start')
         .text(source)
 
@@ -290,18 +291,25 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
             .scale(x)
             .tickFormat(function (d) {
 
-                var date = new Date(d.replace(/(\d\d\d\d)(\d\d)/, '$1-$2'))
-                console.log("+++++++++++++++++++++++++++++++++++++++++++++")
-                console.log(date.toDateString())
+                // Format number to date object
+                const date = new Date(d.replace(/(\d\d\d\d)(\d\d)/, '$1-$2'))
+                var new_date
 
+                // short = short name of the months
+                // long = full name of the months
+                const month = date.toLocaleString('default', { month: 'short' });
+                console.log(date.getFullYear());
 
-                const month = date.toLocaleString('default', { month: 'long' });
-                console.log(month);
-
-                if (d == 202001) {
-                    d = 2020
+                if (month == "Jan") {
+                    if (date.getFullYear() == 2020) {
+                        new_date = "2020 - " + month
+                    } else if (date.getFullYear() == 2019) {
+                        new_date = "2019 - " + month
+                    }
+                } else {
+                    new_date = month
                 }
-                return month;
+                return new_date;
             });
         chart.append('g')
             .attr("transform", "translate(0," + height + ")")
