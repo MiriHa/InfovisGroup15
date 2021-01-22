@@ -38,9 +38,17 @@ chart.append('g')
 
 // Initialize an Y axis
 var y = d3.scaleLinear().range([height, 0]);
-var yAxis = d3.axisLeft().scale(y);
+var yAxis = d3.axisLeft()
+    .scale(y)
+    .tickFormat(function (d) {
+        if ((d / 1000) >= 1) {
+            d = d / 1000 + "K";
+        }
+        return d;
+    });
 chart.append('g')
     .attr("class","myYaxis")
+
 
 // Horizontal Lines
 const makeYLines = () => d3.axisLeft()
@@ -67,11 +75,11 @@ function update(data) {
         .call(xAxis);
 
     // create the Y axis
-    y.domain([0, d3.max(data, function(d) { return d.ser2  }) ]);
+    y.domain([0, d3.max(data, function(d) { return Number(d.ser2)}) ]);
     chart.selectAll(".myYaxis")
         .transition()
         .duration(1000)
-        .attr('class', 'tick_Scales')
+        .attr('class', 'tick_Scales_covid')
         .call(yAxis);
 
     // Create a update selection: bind to the new data
