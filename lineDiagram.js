@@ -252,7 +252,7 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
     svg.append('text')
         .attr('class', 'label')
         .attr('x', -(height / 2) - Margin)
-        .attr('y', Margin / 2.4)
+        .attr('y', Margin / 8)
         .attr('transform', 'rotate(-90)')
         .attr('text-anchor', 'middle')
         .text('Text')
@@ -306,7 +306,16 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
 
         // Initialize an Y axis
         y = d3.scaleLinear().range([height, 0]);
-        yAxis = d3.axisLeft().scale(y);
+        yAxis = d3.axisLeft()
+            .scale(y)
+            .tickFormat(function (d) {
+                    if ((d / 1000000) >= 1) {
+                        d = d / 1000000 + "M";
+                    } else if ((d / 1000) >= 1) {
+                        d = d / 1000 + "K";
+                    }
+                return d;
+                });
         chart.append('g')
             .attr("class", "myYaxis")
     }
