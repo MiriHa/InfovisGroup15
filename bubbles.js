@@ -1,8 +1,6 @@
-/*
-Create Bubble Diagram
-*/
-
+/* Create Bubble Diagram */
 json1 = {
+    // main bubbles
     "bubbles": [{
         "id": 1,
         "x": 350,
@@ -20,7 +18,7 @@ json1 = {
         "label": DIGITAL,
         "img" : ""
     }, 
-    //analog
+    //analog sub bubbles
     {
         "id": 3,
         "x": 350,
@@ -57,7 +55,7 @@ json1 = {
         "label": SPORT,
         "img": "sport.png"
     }, 
-    //digital
+    //digital sub bubbles
     {
         "id": 7,
         "x": 550,
@@ -93,6 +91,14 @@ json1 = {
     }
     ]
 }
+
+/*
+// Define the div for the tooltip
+var div= d3.select("#bubbles").append("div")	
+    .attr("class", "tooltip")				
+    .style("opacity", 0);
+*/
+
 //wird hier benötigt also nicht nur bei script updaten
 //for bubbles to handle the radius
 //bubbleRadi = radius
@@ -128,7 +134,8 @@ json1 = {
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]   // Dez
 ]*/
 
-function berechneHauptBubble(bubbleRadi, month){    
+function computeMainBubble(bubbleRadi, month){ 
+
     console.log("month = " + month)           
     var summedig = 0;
     for (let bubb = 3; bubb < 7; bubb++) {
@@ -147,27 +154,22 @@ function berechneHauptBubble(bubbleRadi, month){
     console.log("summeANA = " + summeana);
 }
 
-
 var selectedAnalogBubble = ""
 var selectedDigitalBubble = ""
 var ClickDigital = false;
 var ClickAnalog = false;
 
-
-
 function visualizeBubbles(json, aktmounth) {
     console.log("visualize: ")
     bubbleRadi =radius
     
-    berechneHauptBubble(bubbleRadi, aktmounth);
+    computeMainBubble(bubbleRadi, aktmounth);
     console.log(bubbleRadi)
     
     //json Datei nutzen:
     //id: analog(1,2-5) und digital (2, 6-9)
 
     state = 0; //nur analog und digital anzeigen
-
-
 
     var width = 960,
         height = 800;
@@ -193,7 +195,7 @@ function visualizeBubbles(json, aktmounth) {
     //console.log("hello Blub");
     //console.log("Monat: " + aktmounth);
 
-    /*Create the circles: analog, digital */
+    /*Create the main circles: analog, digital */
     var circle = elemEnter.append("circle")
         .filter(function (d) { return d.id < 3 }) //nur Hauptbubbles
         .attr("id", function (d) { return d.id })
@@ -204,11 +206,14 @@ function visualizeBubbles(json, aktmounth) {
         .attr("fill", function (d) { return d.c })
         .on("click", function (d) { return Bubbleclick(d3.select(this)) })
         //noch testen
-        .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
-        .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
+        //.on("mouseover", function (d) { return handleMouseOver(d3.select(this)) }) // old
+        //.on("mouseout", function (d) { return handleMouseOut(d3.select(this)) }) // old
+        .on("mouseover", function (d) { return showDetail(d3.select(this)) }) // new
+        .on("mouseout", function (d) { return hideDetail(d3.select(this)) }) // new
+        //.on('mouseover', showDetail)// new
+        //.on('mouseout', hideDetail) // new
         .style("opacity", 0.9)
-
-
+        
     elemEnter.selectAll("text").remove()
     //Texte einfügen und später filtern
     elemEnter.append("text")
@@ -221,7 +226,6 @@ function visualizeBubbles(json, aktmounth) {
         .style("font-weight", "bold")
         .filter(function (d) { return d.id < 3 })
         
-
     //andere Bubbles transparent
     elemEnter.append("circle")
         .filter(function (d) { return d.id > 2 })
@@ -233,15 +237,19 @@ function visualizeBubbles(json, aktmounth) {
 
     elemEnter.append("svg:image")
         .filter(function (d) { return d.id > 2 })
-        .attr("x", function (d) { return berechneImagePos(d.id) })
-        .attr("y", function (d) { return berechneImagePos(d.id) })
-        .attr("width", function (d) { return berechneImageSize(d.id) })
-        .attr("height", function (d) { return berechneImageSize(d.id) })
+        .attr("x", function (d) { return computeImagePos(d.id) })
+        .attr("y", function (d) { return computeImagePos(d.id) })
+        .attr("width", function (d) { return computeImageSize(d.id) })
+        .attr("height", function (d) { return computeImageSize(d.id) })
         .attr("id", function (d) { return d.id })
         .attr("xlink:href", function (d) {return "icons/" + d.img })
         .style("opacity", 0.5)
-        .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
-        .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
+        //.on("mouseover", function (d) { return handleMouseOver(d3.select(this)) }) // old
+        //.on("mouseout", function (d) { return handleMouseOut(d3.select(this)) }) // old
+        .on("mouseover", function (d) { return showDetail(d3.select(this)) }) // new
+        .on("mouseout", function (d) { return hideDetail(d3.select(this)) }) // new
+        //.on('mouseover', showDetail)// new
+        //.on('mouseout', hideDetail) // new
         // Klaus: Added this .on() to be able to click the sub-bubbles
         .on("click", function (d) { return Bubbleclick(d3.select(this)) })
             
@@ -358,6 +366,7 @@ function visualizeBubbles(json, aktmounth) {
 
         }
     }
+    
 
     function ClickforAna(d) {
         //analoge sichtbar
@@ -369,12 +378,16 @@ function visualizeBubbles(json, aktmounth) {
             .attr("fill", function (d) { return d.c })
             .style("opacity", 2)
             //.on("mouseover", handleMouseOver(d)) //klappt
-            .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
-            .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
+            //.on("mouseover", function (d) { return handleMouseOver(d3.select(this)) }) // old
+            //.on("mouseout", function (d) { return handleMouseOut(d3.select(this)) }) // old
+            .on("mouseover", function (d) { return showDetail(d3.select(this)) }) // new
+            .on("mouseout", function (d) { return hideDetail(d3.select(this)) }) // new
+            //.on('mouseover', showDetail) // new
+            //.on('mouseout', hideDetail) // new
+            //.on("mousemove", moveTooltip)
             .on("click", function (d) { return Bubbleclick(d3.select(this)) })
 
-
-        //digitale Bubble transparent -> noch nicht richtig
+         //digitale Bubble transparent -> noch nicht richtig
         elemEnter//.append("circle")
             .selectAll("circle")
             .filter(function (d) { return (d.id > 6) })
@@ -383,7 +396,6 @@ function visualizeBubbles(json, aktmounth) {
             .attr("stroke", "black")
             .attr("fill", function (d) { return d.c })
             .style("opacity", 0.2)
-
 
         elemEnter.append("text")
             .filter(function (d) { return (d.id <= 2) }) //nur analoge und hauptbubble
@@ -394,23 +406,25 @@ function visualizeBubbles(json, aktmounth) {
             .style("font-size", "24px")
             .style("font-weight", "bold") // new
             
-
-
         elemEnter.selectAll("svg:image").remove()
         elemEnter.selectAll("svg:image")
             .filter(function (d) { return (d.id <= 5) }) //nur analoge und hauptbubble
-            .attr("x", function (d) { return berechneImagePos(d.id) })
-            .attr("y", function (d) { return berechneImagePos(d.id) })
-            .attr("width", function (d) { return berechneImageSize(d.id) })
-            .attr("height", function (d) { return berechneImageSize(d.id) })
+            .attr("x", function (d) { return computeImagePos(d.id) })
+            .attr("y", function (d) { return computeImagePos(d.id) })
+            .attr("width", function (d) { return computeImageSize(d.id) })
+            .attr("height", function (d) { return computeImageSize(d.id) })
             .attr("xlink:href", function (d) {return "icons/" + d.img })
             .style("opacity", 5)
-            .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
-            .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
+            //.on("mouseover", function (d) { return handleMouseOver(d3.select(this)) }) // old
+            //.on("mouseout", function (d) { return handleMouseOut(d3.select(this)) }) // old
+            .on("mouseover", function (d) { return showDetail(d3.select(this)) }) // new
+            .on("mouseout", function (d) { return hideDetail(d3.select(this)) }) // new
+            //.on('mouseover', showDetail) // new
+            //.on('mouseout', hideDetail) // new
+            //.on("mousemove", moveTooltip )
             
-
-
-        /*
+            
+         /*
         //alte Texte entfernen
         elemEnter.selectAll("text").remove()
         //Texte anzeigen
@@ -423,14 +437,13 @@ function visualizeBubbles(json, aktmounth) {
 
         */
 
-
         //noch fehlerhaft
         //.on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
         //.on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
         //.on("click", function(d) { return Bubbleclick(d3.select(this))});
-
     }
 
+    
     function ClickforDig(d) {
         elemEnter
             .selectAll("circle")
@@ -442,12 +455,16 @@ function visualizeBubbles(json, aktmounth) {
             .attr("fill", function (d) { return d.c })
             .style("opacity", 2)
             //.on("mouseover", handleMouseOver(d)) //klappt
-            .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
-            .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
+            //.on("mouseover", function (d) { return handleMouseOver(d3.select(this)) }) // old
+            //.on("mouseout", function (d) { return handleMouseOut(d3.select(this)) }) // old
+            .on("mouseover", function (d) { return showDetail(d3.select(this)) }) // new
+            .on("mouseout", function (d) { return hideDetail(d3.select(this)) }) // new
+            //.on('mouseover', showDetail) // new
+            //.on('mouseout', hideDetail) // new
+            //.on("mousemove", moveTooltip )
             .on("click", function (d) { return Bubbleclick(d3.select(this)) });
 
-
-        //analoge Bubbles transparent
+         //analoge Bubbles transparent
         elemEnter//.append("circle")
             .selectAll("circle")
             .filter(function (d) { return (d.id > 2 && d.id <= 6) })
@@ -466,21 +483,24 @@ function visualizeBubbles(json, aktmounth) {
             .style("font-size", "24px")
             .style("font-weight", "bold") 
 
-
         elemEnter.selectAll("svg:image").remove()
         elemEnter.selectAll("svg:image")
             .filter(function (d) { return (d.id <= 5) }) //nur analoge und hauptbubble
-            .attr("x", function (d) { return berechneImagePos(d.id) })
-            .attr("y", function (d) { return berechneImagePos(d.id) })
-            .attr("width", function (d) { return berechneImageSize(d.id) })
-            .attr("height", function (d) { return berechneImageSize(d.id) })
+            .attr("x", function (d) { return computeImagePos(d.id) })
+            .attr("y", function (d) { return computeImagePos(d.id) })
+            .attr("width", function (d) { return computeImageSize(d.id) })
+            .attr("height", function (d) { return computeImageSize(d.id) })
             .attr("xlink:href", function (d) {return "icons/" + d.img })
             .style("opacity", 5)
-            .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
-            .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
-            
-
-        /*
+            //.on("mouseover", function (d) { return handleMouseOver(d3.select(this)) }) // old
+            //.on("mouseout", function (d) { return handleMouseOut(d3.select(this)) }) // old
+            .on("mouseover", function (d) { return showDetail(d3.select(this)) }) // new
+            .on("mouseout", function (d) { return hideDetail(d3.select(this)) }) // new
+            //.on('mouseover', showDetail) // new
+            //.on('mouseout', hideDetail) // new
+            //.on("mousemove", moveTooltip )
+        
+    /*
     //alte Texte entfernen
     elemEnter.selectAll("text").remove()
     //Texte anzeigen
@@ -501,23 +521,19 @@ function visualizeBubbles(json, aktmounth) {
 
     }
 
-    function berechneImageSize(id){
-        
+    function computeImageSize(id){
         var bubbleid = id;   
         var radiusBubble = bubbleRadi[aktmounth][bubbleid];
         console.log("radiusBubble mit id " + bubbleid + " = " + radiusBubble);
         console.log("monat: " + aktmounth);
         var imageSize = radiusBubble;
-    
         return imageSize;
     }
 
-    function berechneImagePos(id){
-        
+    function computeImagePos(id){
         var bubbleid = id;   
         var radiusBubble = bubbleRadi[aktmounth][bubbleid];
         var imagePos = radiusBubble * (-0.5);
-    
         return imagePos;
     }
     
@@ -536,30 +552,47 @@ function visualizeBubbles(json, aktmounth) {
     // Create Event Handlers for mouse
     function handleMouseOver(d) {  // Add interactivity
         console.log("inMouseOVER");
-
-        var aktT = idToLabel(d.attr("id"));
-        console.log(aktT); //-> zugriff auf Attribute der angeklickten Bubble
+        var currentText = idToLabel(d.attr("id"));
+        console.log(currentText); 
+        
         var xpos = d.attr("x")+100;
         var ypos = d.attr("y")+100;
         //d.attr("fill", "red");
+        
         // Specify where to put label of text
         //Mouse Position
         svg.append("text")
-            .attr("x", 800)/*800)*/
-            .attr("y", 80)/*80)*/
-            .attr("id", "t" + aktT)
-            .text(aktT)
+            .attr("x", 800)
+            .attr("y", 80)
+            .attr("id", "t" + currentText)
+            .text(currentText)
             .style("font-size", "20px")
             .style("font-style", "italic")
             .style("fill", "#DBDBDB");
+        	
+        /*div.transition()		
+            .duration(200)		
+            .style("opacity", .9);		
+        div.html(currentText)	
+            .style("left", (d3.event.pageX) + "px")		
+            .style("top", (d3.event.pageY - 28) + "px");*/	
     }
+
+    /*var moveTooltip = function(d) {
+        tooltip
+          .style("left", (d3.mouse(this)[0]+30) + "px")
+          .style("top", (d3.mouse(this)[1]+30) + "px")
+      }*/
 
     function handleMouseOut(d) {
         var aktT = idToLabel(d.attr("id"));
         console.log("inMouseOUT - remove:" + "#t" + aktT);
         // Select text by id and then remove
         d3.select("#t" + aktT).remove();  // Remove text location
-
+        
+        /*div.transition()		
+            .duration(500)		
+            .style("opacity", 0);*/
     }
 
 
@@ -578,9 +611,6 @@ function visualizeBubbles(json, aktmounth) {
     sel.moveToFront();
       });
     */
-
-
-
 
     //kreisAnimation
     /*
@@ -863,13 +893,53 @@ function bubbleSizeInOne(){
         })
         visualizeBubbles(json1, 1);
 
-
-
     }).catch(function (err) {
         // handle error
         console.log("loading error" + err)
     })
 }
+
+/* ------------------------------- tooltip --------------------------------- */
+  /*
+   * Function called on mouseover to display the
+   * details of a bubble in the tooltip.
+   */
+  function showDetail(d) {
+    
+    // change outline to indicate hover state.
+    d3.select(this).attr('stroke', 'black');
+
+    //console.log("inMouseOVER"); // new
+    //var currentText = idToLabel(d.attr("id")); // new
+    //console.log(currentText); // new
+
+    /*
+    var content = '<span class="name">Title: </span><span class="value">' +
+                  d.name +
+                  '</span><br/>' +
+                  '<span class="name">Amount: </span><span class="value">$' +
+                  addCommas(d.value) +
+                  '</span><br/>' +
+                  '<span class="name">Year: </span><span class="value">' +
+                  d.year +
+                  '</span>';*/
+    //var content = currentText; // new 
+
+    var content = d.id;
+    tooltip.showTooltip(content, d3.event);
+  }
+
+  /*
+   * Hides tooltip
+   */
+  function hideDetail(d) {
+    // reset outline
+    d3.select(this)
+      .attr('stroke', d3.rgb(fillColor(d.group)).darker());
+
+    tooltip.hideTooltip();
+  }
+  /* ------------------------------- tooltip --------------------------------- */
 
 bubbleSizeInOne()
 
