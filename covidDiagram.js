@@ -79,7 +79,7 @@ function update(data) {
     chart.selectAll(".myYaxis")
         .transition()
         .duration(1000)
-        .attr('class', 'tick_Scales_covid')
+        .attr('class', 'tick_Scales')
         .call(yAxis);
 
     // Create a update selection: bind to the new data
@@ -102,14 +102,14 @@ function update(data) {
         .attr("stroke-width", 2.5)
 
 
-    /* Label for yAxis
+    // Label for yAxis
     svg.append('text')
         .attr('class', 'label')
         .attr('x', -(height / 2) - Margin)
-        .attr('y', Margin / 2.4)
+        .attr('y', Margin / 8)
         .attr('transform', 'rotate(-90)')
         .attr('text-anchor', 'middle')
-        .text('Total Cases')*/
+        .text('Total Cases')
 
     // Label for xAxis
     svg.append('text')
