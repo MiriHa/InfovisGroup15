@@ -16,7 +16,6 @@ function parser(analog, digital) {
     var digitalTitel = ""
 
     // Dictionary of all .csv files (aka data sets)
-    // TODO: check all file names
     const csv_files_analog = new Map([
         [SPORT , PATH_ANALOG_SPORT],
         [NEWS , PATH_ANALOG_NEWS],
@@ -24,7 +23,7 @@ function parser(analog, digital) {
         [FREETIME , PATH_ANALOG_FREETIME]
         ]
     )
-    // TODO: check all file names
+
     const csv_files_digital = new Map([
             [SPORT , PATH_DIGITAL_SPORT],
             [NEWS , PATH_DIGITAL_NEWS],
@@ -39,16 +38,12 @@ function parser(analog, digital) {
         path_csv_analog = csv_files_analog.get(analog)
         console.log(path_csv_analog)
     } else {
-        // TODO: if parameter is empty => no rendering
-        // code
         path_csv_analog = null
     }
     if (digital != "") {
         path_csv_digital = csv_files_digital.get(digital)
         console.log(path_csv_digital)
     } else {
-        // TODO: if parameter is empty => no rendering
-        // code
         path_csv_digital = null
     }
 
@@ -61,7 +56,7 @@ function parser(analog, digital) {
                 d3.csv(path_csv_analog),
                 d3.csv(path_csv_digital),
             ]).then(function(files) {
-                console.log("loading both successfull")
+                console.log("loading both successful")
                 // files[0] will contain file1.csv
                 // files[1] will contain file2.csv
                 var file1Data = files[0]
@@ -71,7 +66,6 @@ function parser(analog, digital) {
 
                 file1Data.forEach(function (d){
                     // Build analogData block (fill array)
-                    // TODO: filtern; same number of quartals in both files
                     if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
                         var feed = {ser1: d.Monat, ser2: Number(d.VerkaufLinear)};
                         if(analogSource === ""){
@@ -88,7 +82,6 @@ function parser(analog, digital) {
 
                 file2Data.forEach(function (d){
                     // Build digitalData block (fill array)
-                    // TODO: filtern; same number of quartals in both files
                     if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
                         var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
                         if(digitalSource === ""){
@@ -100,11 +93,7 @@ function parser(analog, digital) {
                         console.log("quartal_d " + feed)
                         digitalData.push(feed);
                     }
-
                 })
-
-                //
-
 
                 console.log("analogData got:")
                 console.log(analogData)
@@ -125,7 +114,6 @@ function parser(analog, digital) {
                     console.log("loaded analog successfully")
                     data.forEach(function (d) {
                         // Build analogData block (fill array)
-                        // TODO: filtern; same number of quartals in both files
                         if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
                             var feed = {ser1: d.Monat, ser2: Number(d.VerkaufLinear)};
                             if(analogSource === ""){
@@ -297,9 +285,24 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
             .attr("transform", "translate(" + Margin + "," + Margin + ")");
 
         // Initialise a X axis:
-        //var x = d3.scaleLinear().range([0,width]);
         x = d3.scalePoint().range([0, width]);
-        xAxis = d3.axisBottom().scale(x);
+        xAxis = d3.axisBottom()
+            .scale(x)
+            .tickFormat(function (d) {
+
+                var date = new Date(d.replace(/(\d\d\d\d)(\d\d)/, '$1-$2'))
+                console.log("+++++++++++++++++++++++++++++++++++++++++++++")
+                console.log(date.toDateString())
+
+
+                const month = date.toLocaleString('default', { month: 'long' });
+                console.log(month);
+
+                if (d == 202001) {
+                    d = 2020
+                }
+                return month;
+            });
         chart.append('g')
             .attr("transform", "translate(0," + height + ")")
             .attr("class", "myXaxis")
@@ -319,14 +322,15 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         chart.append('g')
             .attr("class", "myYaxis")
     }
-
+    // TODO: Reihenfolge der Daten ändern. Nicht 2020 nach 2016 sondern aufsteigend
     function axes(data) {
         x.domain(data.map((s) => s.ser1))
         chart.selectAll(".myXaxis")
-            .transition()
-            .duration(2000)
             .attr('class', 'tick_Scales')
-            .call(xAxis);
+            .call(xAxis)
+                .selectAll('text')
+                .style("text-anchor", "end")
+                .attr("transform", "rotate(-45)");
 
         // create the Y axis
         y.domain([0, d3.max(data, function (d) {

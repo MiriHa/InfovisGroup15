@@ -50,6 +50,7 @@ chart.append('g')
 
 
 // Horizontal Lines
+// TODO: BUG -> horizontal lines dont fit to the actual values on the scale
 const makeYLines = () => d3.axisLeft()
     .scale(y)
 
