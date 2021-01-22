@@ -243,7 +243,7 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         .attr('y', Margin / 8)
         .attr('transform', 'rotate(-90)')
         .attr('text-anchor', 'middle')
-        .text('Text')
+        .text('Verkauf / Visits')
 
 
     /* Label for xAxis
@@ -271,8 +271,6 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
     } else if(analogSource !== "" && digitalSource !== ""){
         source = source + analogSource + ", " + digitalSource
     }
-
-    // Source
     svg.append('text')
         .attr('class', 'source')
         .attr('x', width - Margin / 2)
@@ -354,10 +352,11 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
     function axesSpecial(data, yMax) {
         x.domain(data.map((s) => s.ser1))
         chart.selectAll(".myXaxis")
-            .transition()
-            .duration(2000)
-            .attr('class', 'tick_Scales_lineDiagram')
-            .call(xAxis);
+            .attr('class', 'tick_Scales')
+            .call(xAxis)
+                .selectAll('text')
+                .style("text-anchor", "end")
+                .attr("transform", "rotate(-45)");
 
         // create the Y axis
         y.domain([0, yMax]);
