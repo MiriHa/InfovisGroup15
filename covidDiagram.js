@@ -2,16 +2,16 @@
 const data_monthly = [
     {ser1: "Jan", ser2: 5.0},
     {ser1: "Feb", ser2: 79.0},
-    {ser1: "Mar", ser2: 71808.0},
+    {ser1: "Mär", ser2: 71808.0},
     {ser1: "Apr", ser2: 163009.0},
-    {ser1: "May", ser2: 183410.0},
+    {ser1: "Mai", ser2: 183410.0},
     {ser1: "Jun", ser2: 195418.0},
     {ser1: "Jul", ser2: 210399.0},
     {ser1: "Aug", ser2: 244802.0},
     {ser1: "Sep", ser2: 292913.0},
     {ser1: "Okt", ser2: 531790.0},
     {ser1: "Nov", ser2: 1069912.0},
-    {ser1: "Dec", ser2: 1760520.0}
+    {ser1: "Dez", ser2: 1760520.0}
 ];
 
 // set the dimensions and margins of the graph
@@ -20,7 +20,7 @@ const width = 600 - 2 * Margin;
 const height = 350 - 2 * Margin;
 
 // append the svg object to the body of the page
-let svg = d3.select("#topDiagram")
+var svg = d3.select("#topDiagram")
     .append("svg")
 
 // Init Chart
@@ -129,7 +129,7 @@ function update(data) {
     svg.append('text')
         .attr('class', 'source')
         .attr('x', width - Margin / 2)
-        .attr('y', height + Margin * 1.7)
+        .attr('y', height + Margin * 2)
         .attr('text-anchor', 'start')
         .text('Quelle: https://data.europa.eu/euodp/en/data/dataset/covid-19-coronavirus-data')
 }

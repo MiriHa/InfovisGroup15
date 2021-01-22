@@ -287,7 +287,7 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
     svg.append('text')
         .attr('class', 'source')
         .attr('x', width - Margin / 2)
-        .attr('y', height + Margin * 1.7)
+        .attr('y', height + Margin * 2)
         .attr('text-anchor', 'start')
         .text(source)
 
