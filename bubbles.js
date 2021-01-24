@@ -3,6 +3,7 @@ Create Bubble Diagram
 */
 
 json1 = {
+    // main bubbles
     "bubbles": [{
         "id": 1,
         "x": 250,
@@ -20,7 +21,7 @@ json1 = {
         "label": DIGITAL,
         "img" : ""
     }, 
-    //analog
+    //analog sub bubbles
     {
         "id": 3,
         "x": 250,
@@ -57,7 +58,7 @@ json1 = {
         "label": SPORT,
         "img": "sport.png"
     }, 
-    //digital
+    //digital sub bubbles
     {
         "id": 7,
         "x": 400,
@@ -93,7 +94,6 @@ json1 = {
     }
     ]
 }
-
 
 //wird hier benötigt also nicht nur bei script updaten
 //for bubbles to handle the radius
@@ -131,8 +131,7 @@ json1 = {
 ]*/
 
 
-
-function berechneHauptBubble(bubbleRadi, month){    
+function computeMainBubble(bubbleRadi, month){    
     console.log("month = " + month)           
     var summedig = 0;
     for (let bubb = 3; bubb < 7; bubb++) {
@@ -151,27 +150,22 @@ function berechneHauptBubble(bubbleRadi, month){
     console.log("summeANA = " + summeana);
 }
 
-
 var selectedAnalogBubble = ""
 var selectedDigitalBubble = ""
 var ClickDigital = true;
 var ClickAnalog = true;
 
-
-
 function visualizeBubbles(json, aktmounth) {
     console.log("visualize: ")
-    bubbleRadi =radius
+    bubbleRadi = radius
     
-    berechneHauptBubble(bubbleRadi, aktmounth);
+    computeMainBubble(bubbleRadi, aktmounth);
     console.log(bubbleRadi)
     
     //json Datei nutzen:
     //id: analog(1,2-5) und digital (2, 6-9)
 
     state = 0; //nur analog und digital anzeigen
-
-
 
     var width = 960,
         height = 800;
@@ -235,10 +229,10 @@ function visualizeBubbles(json, aktmounth) {
 
     elemEnter.append("svg:image")
         .filter(function (d) { return d.id > 2 })
-        .attr("x", function (d) { return berechneImagePos(d.id) })
-        .attr("y", function (d) { return berechneImagePos(d.id) })
-        .attr("width", function (d) { return berechneImageSize(d.id) })
-        .attr("height", function (d) { return berechneImageSize(d.id) })
+        .attr("x", function (d) { return computeImagePos(d.id) })
+        .attr("y", function (d) { return computeImagePos(d.id) })
+        .attr("width", function (d) { return computeImageSize(d.id) })
+        .attr("height", function (d) { return computeImageSize(d.id) })
         .attr("id", function (d) { return d.id })
         .attr("xlink:href", function (d) {return "icons/" + d.img })
         .style("opacity", function (d) {if(aktmounth > 9) {return 0.5} else{ 1 }})
@@ -285,7 +279,7 @@ function visualizeBubbles(json, aktmounth) {
     }
     
     var clickCounter = 0;
-    var idVorher = 0;
+    var previousId = 0;
     var clicked_Analog = 0;
     var clicked_Digital = 0;
     var sameClick = 1;
@@ -303,10 +297,10 @@ function visualizeBubbles(json, aktmounth) {
                 .attr("fill", "red")
                 .style("opacity", function (d) {if(aktmounth > 9) {return 0.5} else{ 1 }})
             //wenn vorher auch analog -> alte bubble nicht markieren
-            if (idVorher > 2 && idVorher < 7 ) {
+            if (previousId > 2 && previousId < 7 ) {
                 if(idClick == clicked_Analog){
                     //nix
-                    if(idVorher == clicked_Analog) {
+                    if(previousId == clicked_Analog) {
                         sameClick++;
 
 
@@ -359,7 +353,7 @@ function visualizeBubbles(json, aktmounth) {
                 .style("opacity", function (d) {if(aktmounth > 9) {return 0.5} else{ 1 }})
 
             //wenn vorher auch digital -> alte bubble nicht markieren
-            if (idVorher > 6) {
+            if (previousId > 6) {
                 if(idClick == clicked_Digital){
                     //nix
                     sameClick++;
@@ -402,10 +396,7 @@ function visualizeBubbles(json, aktmounth) {
             //nix, da Hauptbubble
         }
 
-
-
-        
-        idVorher = idClick;
+        previousId = idClick;
         
         if (d.attr("id") == 2) {
           console.log("if - digital");
@@ -504,10 +495,10 @@ function visualizeBubbles(json, aktmounth) {
         elemEnter.selectAll("svg:image").remove()
         elemEnter.selectAll("svg:image")
             .filter(function (d) { return (d.id <= 5) }) //nur analoge und hauptbubble
-            .attr("x", function (d) { return berechneImagePos(d.id) })
-            .attr("y", function (d) { return berechneImagePos(d.id) })
-            .attr("width", function (d) { return berechneImageSize(d.id)  })
-            .attr("height", function (d) { return berechneImageSize(d.id)  })
+            .attr("x", function (d) { return computeImagePos(d.id) })
+            .attr("y", function (d) { return computeImagePos(d.id) })
+            .attr("width", function (d) { return computeImageSize(d.id)  })
+            .attr("height", function (d) { return computeImageSize(d.id)  })
             .attr("xlink:href", function (d) {return "icons/" + d.img })
             .style("opacity", 5)
             .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
@@ -553,10 +544,10 @@ function visualizeBubbles(json, aktmounth) {
         elemEnter.selectAll("svg:image").remove()
         elemEnter.selectAll("svg:image")
             .filter(function (d) { return (d.id <= 5) }) //nur analoge und hauptbubble
-            .attr("x", function (d) { return berechneImagePos(d.id) })
-            .attr("y", function (d) { return berechneImagePos(d.id) })
-            .attr("width", function (d) { return berechneImageSize(d.id)  })
-            .attr("height", function (d) { return berechneImageSize(d.id)  })
+            .attr("x", function (d) { return computeImagePos(d.id) })
+            .attr("y", function (d) { return computeImagePos(d.id) })
+            .attr("width", function (d) { return computeImageSize(d.id)  })
+            .attr("height", function (d) { return computeImageSize(d.id)  })
             .attr("xlink:href", function (d) {return "icons/" + d.img })
             .style("opacity", 5)
             .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
@@ -564,7 +555,7 @@ function visualizeBubbles(json, aktmounth) {
     }
 */ //Click on centered Bubbles
 
-    function berechneImageSize(id){
+    function computeImageSize(id){
         
         var bubbleid = id;   
         var radiusBubble = bubbleRadi[aktmounth][bubbleid];
@@ -578,7 +569,7 @@ function visualizeBubbles(json, aktmounth) {
         return imageSize+20;
     }
 
-    function berechneImagePos(id){
+    function computeImagePos(id){
         
         var bubbleid = id;   
         var radiusBubble = bubbleRadi[aktmounth][bubbleid];
@@ -607,8 +598,8 @@ function visualizeBubbles(json, aktmounth) {
     function handleMouseOver(d) {  // Add interactivity
         console.log("inMouseOVER");
 
-        var aktT = idToLabel(d.attr("id"));
-        console.log(aktT); //-> zugriff auf Attribute der angeklickten Bubble
+        var currentText = idToLabel(d.attr("id"));
+        console.log(currentText); //-> zugriff auf Attribute der angeklickten Bubble
         var xpos = d.attr("x")+100;
         var ypos = d.attr("y")+100;
         //d.attr("fill", "red");
@@ -617,18 +608,18 @@ function visualizeBubbles(json, aktmounth) {
         svg.append("text")
             .attr("x", 800)/*800)*/
             .attr("y", 80)/*80)*/
-            .attr("id", "t" + aktT)
-            .text(aktT)
+            .attr("id", "t" + currentText)
+            .text(currentText)
             .style("font-size", "20px")
             .style("font-style", "italic")
             .style("fill", "#DBDBDB");
     }
 
     function handleMouseOut(d) {
-        var aktT = idToLabel(d.attr("id"));
-        console.log("inMouseOUT - remove:" + "#t" + aktT);
+        var currentText = idToLabel(d.attr("id"));
+        console.log("inMouseOUT - remove:" + "#t" + currentText);
         // Select text by id and then remove
-        d3.select("#t" + aktT).remove();  // Remove text location
+        d3.select("#t" + currentText).remove();  // Remove text location
 
     }
 
@@ -933,8 +924,6 @@ function bubbleSizeInOne(){
             radius[month][id] = r
         })
         visualizeBubbles(json1, 1);
-
-
 
     }).catch(function (err) {
         // handle error
