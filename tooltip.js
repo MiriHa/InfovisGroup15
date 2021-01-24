@@ -56,8 +56,8 @@ function floatingTooltip(tooltipId, width) {
       var wscrY = window.scrollY;
       var wscrX = window.scrollX;
   
-      var curX = (document.all) ? event.clientX + wscrX : event.pageX; // maybe: getElementById(dataWrapper)
-      var curY = (document.all) ? event.clientY + wscrY : event.pageY; 
+      var curX = (document.all) ? event.clientX + wscrX : event.pageX;
+      var curY = (document.all) ? event.clientY + wscrY : event.pageY;
       var ttleft = ((curX - wscrX + xOffset * 2 + ttw) > window.innerWidth) ?
                    curX - ttw - xOffset * 2 : curX + xOffset;
   
