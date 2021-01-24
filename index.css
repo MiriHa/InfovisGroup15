@@ -226,14 +226,6 @@ line#limit {
     opacity: 0.5;
 }
 
-.tick_Scales_lineDiagram .tick{
-    /*Tick-Settings of the chart (X & Y-Scale!).*/
-    stroke-width: 0;
-    font-size: 14px;
-    color: #FFFFFF;
-    opacity: 0.5;
-}
-
 text.divergence {
     /*Difference in bars.*/
     font-size: 18px;
@@ -255,16 +247,18 @@ text.title {
 
 text.label {
     /*Label of the X/Y-Scale.*/
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 500;
     fill: #FFFFFF;
+    opacity: 0.7;
 }
 
 text.source {
     /*Text of the Source.*/
-    font-size: 14px;
+    font-size: 12px;
     font-style: italic;
     fill: #DBDBDB;
+    opacity: 0.7;
 }
 
 
