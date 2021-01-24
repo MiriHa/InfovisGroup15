@@ -39,6 +39,7 @@ chart.append('g')
 let y = d3.scaleLinear().range([height, 0]);
 let yAxis = d3.axisLeft()
     .scale(y)
+    .tickSize(-width, 0, 0)
     .tickFormat(function (d) {
         if ((d / 1000) >= 1) {
             d = d / 1000 + "K";
@@ -47,20 +48,6 @@ let yAxis = d3.axisLeft()
     });
 chart.append('g')
     .attr("class","myYaxis")
-
-
-// Horizontal Lines
-// TODO: BUG -> horizontal lines dont fit to the actual values on the scale
-const makeYLines = () => d3.axisLeft()
-    .scale(y)
-
-chart.append('g')
-    .attr('class', 'grid')
-    .call(makeYLines()
-        .tickSize(-width, 0, 0)
-        .tickFormat('')
-    )
-
 
 // Create a function that takes a dataset as input and update the plot:
 function update(data) {
