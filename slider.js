@@ -52,7 +52,7 @@ var svg = d3.select("#slider").append("svg")
     .attr("height", height_slider)
     .append("g")
     .attr("id","slider_tranform")
-    .attr("transform", `translate(${width_slider/1.3}, ${height_slider*1.7})`);
+    .attr("transform", `translate(${width_slider/1.6}, ${height_slider*1.55})`);
 
 var container = svg.append("g")
     .attr("id", "sliderGroup");

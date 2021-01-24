@@ -30,6 +30,17 @@
     grid-area: bubbleChart;
 }
 
+.chartGridContainer{
+    display: grid;
+    grid-template-columns: 30% 40% 30%;
+    grid-template-rows: 30% 70%;
+    padding: 10px;
+    justify-items: stretch;
+    grid-template-areas: 
+        "explanation slider legend"
+        "bubbles bubbles bubbles";
+}
+
 .diagrammItemTop{
     width: 100%;
     height: 100%;
@@ -71,31 +82,112 @@ h1 {
     background-color: #1b2636;
 }
 
-
-div#slider {
-      height: auto;
-      width: auto;
-      max-height: 270px;
-      max-width: 300px;
-      margin-left: auto;
-      margin-right: auto;
-}
-
-svg#sliderContainer{
+.explanation{
+    height: 250px;
     width: 100%;
-    height: 300px;
     margin: 0 auto;
-    background-color: #1b2636;
-    
+    grid-area: explanation;
+    background-color:  #39475c;
+    border-radius: 25px;
+    padding: 10px;
 }
 
-div#bubbles {
+#explanationText{
+    font-size: 80%;
+    color: #DBDBDB;
+    text-align: justify;
+}
+
+.slider {
+    height: 250px;
+    width: 250px;
+    margin: 0 auto;
+    grid-area: slider;
+}
+
+.legend{
+    height: 250px;
+    width: 100%;
+    max-width: 300px !important;
+    margin: 0 auto;
+    padding: 18px;
+    background-color: #39475c;
+    border-radius: 25px;
+    grid-area:  legend;
+
+}
+
+/* Legende */
+.legend-title {
+    text-align: left;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 100%;
+    color: #DBDBDB;
+    }
+.legend-scale ul {
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 0;
+    float: left;
+    list-style: none;
+    }
+
+.legend-scale {
+    width: 100%;
+    height: 100px;
+        margin: 0;
+        margin-bottom: 10px;
+        padding: 0;
+        float: left;
+        list-style: none;
+        }    
+
+.legend-labels{
+    width: 100%;
+    height: 100px;
+}
+
+  .legend-scale ul li {
+    font-size: 80%;
+    list-style: none;
+    float: left;
+    margin-left: 5px;
+    line-height: 20px;
+    margin-bottom: 12px;
+    font-size: 100%;
+    color: #DBDBDB;
+    }
+
+  .legend-labels li span {
+    display: block;
+    float: left;
+    height: 25px;
+    width: 25px;
+    margin-right: 5px;
+    margin-left: 0;
+    border: 1px solid #999;
+    color: #DBDBDB;
+    }
+
+.legendPic{
+    float: left;
+    height: 25px;
+    width: 25px;
+    margin-right: 5px;
+    margin-left: 0;
+}
+    
+
+
+.bubbles {
       width: auto;
       height: auto;
       max-width: 960px;
       max-height: 700px;
       margin-left: auto;
       margin-right: auto;
+      grid-area: bubbles;
 }
 
 
@@ -235,7 +327,7 @@ text.source {
 }
 
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1200px) {
     .dataWrapper {
         display: grid;
         grid-template-columns: 100%;
@@ -272,4 +364,11 @@ text.source {
         width: 100%;
         grid-area: diagrammBottom;
     }
+
+    #explanationText{
+        font-size: 68%;
+        color: #DBDBDB;
+        text-align: justify;
+    }
+    
   }

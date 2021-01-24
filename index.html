@@ -1,32 +1,59 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr" xmlns="http://www.w3.org/1999/html">
-    <head>
-        <meta charset="utf-8">
-        <title>Project Group 15</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <link rel="stylesheet" href="index.css">
-        <script src ="https://d3js.org/d3.v6.min.js"></script>
 
-        <div class="dataWrapper" id="dataWrapper">
-            <div class="header">
-                <h1>Pressenutzung während der Corona Pandemie 2020</h1>
-            </div>
+<head>
+    <meta charset="utf-8">
+    <title>Project Group 15</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
 
-            <div class="bubbleChartItem" id="bubbleChartContainer">
-                <div id="slider"></div>
-                <div id="bubbles"></div>
-            </div>
-        
-                <div class="diagrammItemTop" id="topDiagram"></div>
-                <div class="diagrammItemBottom" id="bottomDiagram"></div>
+<body>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+    <div class="dataWrapper" id="dataWrapper">
+        <div class="header">
+            <h1>Pressenutzung während der Corona Pandemie 2020</h1>
         </div>
-        <script type="text/javascript" src = "constants.js"></script>
-<!--        <script type="text/javascript" src = "barDiagram.js"></script>-->
-        <script type="text/javascript" src = "lineDiagram.js"></script>
-        <script type="text/javascript" src = "covidDiagram.js"></script>
-        <script type="text/javascript" src = "slider.js"></script>
-        <script type="text/javascript" src = "bubbles.js"></script>
-    </body>
+
+        <div class="bubbleChartItem" id="bubbleChartContainer">
+            <div class="chartGridContainer">
+            
+                    <div id="explanation" class=explanation>
+                        <p id= explanationText>Dieser Visualisierung will es ermöglichen die <b>Verkaufszahlen</b> und <b>online 
+                            Besuche</b> ausgewälter Pressezeitungen während der Corona Pandemie miteinander zu verlgeichen.<br> <br>
+                            Dazu kannst du jeweils eine digitale und eine analoge Section ausswählen um sie in einem <b>Diagramm</b> vergleichen zu können. <br>
+                            Ändere am <b>Slider</b> den jeweiligen Monat.
+                        </p>
+                    </div>
+                    <div id="slider" class="slider"></div>
+                    <div id="legende" class="legend">
+                        <div class='legend-title'>Farben und Symbole</div>
+                        <div class='legend-scale'>
+                            <ul class='legend-labels'>
+                                <li><span style='background: #e28743'></span>analoge Daten</li>
+                                <li><span style='background:#1e81b0;'></span>digitale Daten</li>
+                                <li><img class ="legendPic" id = healthPic src="icons/health.png">Gesundheit</li>
+                                <li><img class ="legendPic" id = nesPic src="icons/newsPaper_icon.png"> Nachrichten</li>
+                                <li><img class ="legendPic" id = musicPic src="icons/music.png">Musik</li>
+                                <li><img class ="legendPic" id = sportPic src="icons/sport.png">Sport</li>
+                            </ul>
+                        </div>
+                    </div>
+                
+                <div id="bubbles" class="bubbles"></div>
+            </div>
+        </div>
+
+        <div class="diagrammItemTop" id="topDiagram"></div>
+        <div class="diagrammItemBottom" id="bottomDiagram"></div>
+    </div>
+    <script type="text/javascript" src="constants.js"></script>
+    <!--        <script type="text/javascript" src = "barDiagram.js"></script>-->
+    <script type="text/javascript" src="lineDiagram.js"></script>
+    <script type="text/javascript" src="covidDiagram.js"></script>
+    <script type="text/javascript" src="slider.js"></script>
+    <script type="text/javascript" src="bubbles.js"></script>
+</body>
+
 </html>
