@@ -143,8 +143,6 @@ function parser(analog, digital) {
                 console.log("loaded digital successfully")
                 data.forEach(function (d) {
                     // Build analogData block (fill array)
-                    // TODO: filtern; same number of quartals in both files
-                    //if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
                     if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
                         var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
                         if(digitalSource === ""){
@@ -174,9 +172,9 @@ function parser(analog, digital) {
 function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitel, digitalTitel) {
 
     // set the dimensions and margins of the graph
-    const Margin = 60;
-    const width = 580 - 2 * Margin;
-    const height = 320 - 2 * Margin;
+    const Margin = 80;
+    const width = 580 - Margin;
+    const height = 300 - Margin;
 
     var x
     var xAxis
@@ -187,7 +185,6 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
     // always remove old diagram
     var svg = d3.select("#bottomDiagram").selectAll("svg").remove()
 
-
     var aData = analogData.length
     var dData = digitalData.length
 
@@ -196,12 +193,12 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
 
     if (aData === 0 && dData === 0) {
         console.log("no data to draw")
-        //initEmptyChart();
+
     } else {
         // remove diagram and...
         // append the svg object to the body of the page
-        var svg = d3.select("#bottomDiagram")
-            .append("svg")
+        var svg = d3.select("#bottomDiagram").append("svg")
+
         // Init Chart
         initChart();
 
@@ -245,22 +242,22 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         .attr('y', Margin / 8)
         .attr('transform', 'rotate(-90)')
         .attr('text-anchor', 'middle')
-        .text('Verkauf / Visits')
+        .text('Verkauf/Visits')
 
 
-    /* Label for xAxis
+    // Label for xAxis
     svg.append('text')
         .attr('class', 'label')
         .attr('x', width / 2 + Margin)
-        .attr('y', height + Margin * 1.7)
+        .attr('y', height + Margin * 1.5)
         .attr('text-anchor', 'middle')
-        .text('Text')*/
+        .text('Monate')
 
     // Title
     svg.append('text')
         .attr('class', 'title')
         .attr('x', width / 2 + Margin)
-        .attr('y', 40)
+        .attr('y', 30)
         .attr('text-anchor', 'middle')
         .text('Vergleich ausgewählter Kategorien')
 
@@ -275,8 +272,8 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
     }
     svg.append('text')
         .attr('class', 'source')
-        .attr('x', Margin)
-        .attr('y', height * 1.9)
+        .attr('x', Margin / 2)
+        .attr('y', height * 1.63)
         .attr('text-anchor', 'start')
         .text(source)
 
@@ -300,15 +297,16 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
                 const month = date.toLocaleString('default', { month: 'short' });
                 console.log(date.getFullYear());
 
-                if (month == "Jan") {
-                    if (date.getFullYear() == 2020) {
-                        new_date = "2020 - " + month
-                    } else if (date.getFullYear() == 2019) {
+                /*if (month == "Jan") {
+                    new_date = "2020 - " + month
+                } else if (month == "Sep") {
+                    if (date.getFullYear() == 2019) {
                         new_date = "2019 - " + month
                     }
                 } else {
                     new_date = month
-                }
+                }*/
+                new_date = month
                 return new_date;
             });
         chart.append('g')
@@ -336,9 +334,9 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         chart.selectAll(".myXaxis")
             .attr('class', 'tick_Scales')
             .call(xAxis)
-                .selectAll('text')
-                .style("text-anchor", "end")
-                .attr("transform", "rotate(-45)");
+                //.selectAll('text')
+                //.style("text-anchor", "end")
+                //.attr("transform", "rotate(-45)");
 
         // create the Y axis
         y.domain([0, d3.max(data, function (d) {
@@ -356,9 +354,9 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         chart.selectAll(".myXaxis")
             .attr('class', 'tick_Scales')
             .call(xAxis)
-                .selectAll('text')
-                .style("text-anchor", "end")
-                .attr("transform", "rotate(-45)");
+                //.selectAll('text')
+                //.style("text-anchor", "end")
+                //.attr("transform", "rotate(-45)");
 
         // create the Y axis
         y.domain([0, yMax]);
@@ -405,49 +403,3 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
             .attr("stroke-width", 2.5)
     }
 }
-
-function initEmptyChart() {
-
-    const sample = [
-        {month: 'Jan'},
-        {month: 'Feb'},
-        {month: 'Mär'},
-        {month: 'Apr'},
-        {month: 'Mai'},
-        {month: 'Jun'},
-        {month: 'Jul'},
-        {month: 'Aug'},
-        {month: 'Sep'},
-        {month: 'Okt'},
-        {month: 'Nov'},
-        {month: 'Dez'}
-    ]
-
-    const Margin = 60;
-    const width = 580 - 2 * Margin;
-    const height = 350 - 2 * Margin;
-
-    var svg = d3.select("#bottomDiagram")
-        .append("svg")
-
-    var chart = svg.append('g')
-        .attr("transform", "translate(" + Margin + "," + Margin + ")");
-
-    const xScale = d3.scalePoint()
-        .range([0, width])
-        .domain(sample.map((s) => s.month))
-
-    const yScale = d3.scaleLinear()
-        .range([height, 0])
-        .domain([0, 100]);
-
-    chart.append('g')
-        .attr('transform', `translate(0, ${height})`)
-        .attr('class', 'tick_Scales')
-        .call(d3.axisBottom(xScale));
-
-    chart.append('g')
-        .attr('class', 'tick_Scales')
-        .call(d3.axisLeft(yScale));
-}
-//initEmptyChart();

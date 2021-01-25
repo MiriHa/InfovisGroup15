@@ -15,13 +15,12 @@ const data_monthly = [
 ];
 
 // set the dimensions and margins of the graph
-const Margin = 60;
-const width = 580 - 2 * Margin;
-const height = 320 - 2 * Margin;
+const Margin = 80;
+const width = 580 - Margin;
+const height = 300 - Margin;
 
 // append the svg object to the body of the page
-var svg = d3.select("#topDiagram")
-    .append("svg")
+var svg = d3.select("#topDiagram").append("svg")
 
 // Init Chart
 const chart = svg.append('g')
@@ -32,6 +31,7 @@ const chart = svg.append('g')
 let x = d3.scalePoint().range([0,width]);
 let xAxis = d3.axisBottom()
     .scale(x);
+
 chart.append('g')
     .attr("transform", "translate(0," + height + ")")
     .attr("class","myXaxis")
@@ -102,7 +102,7 @@ function update(data) {
     svg.append('text')
         .attr('class', 'label')
         .attr('x', width / 2 + Margin)
-        .attr('y', height + Margin * 1.7)
+        .attr('y', height + Margin * 1.5)
         .attr('text-anchor', 'middle')
         .text('Monate')
 
@@ -110,15 +110,15 @@ function update(data) {
     svg.append('text')
         .attr('class', 'title')
         .attr('x', width / 2 + Margin)
-        .attr('y', 40)
+        .attr('y', 30)
         .attr('text-anchor', 'middle')
         .text('Corona-Fälle insgesamt (Deutschland 2020)')
 
     // Source
     svg.append('text')
         .attr('class', 'source')
-        .attr('x', Margin)
-        .attr('y', height * 1.9)
+        .attr('x', Margin / 2)
+        .attr('y', height * 1.63)
         .attr('text-anchor', 'start')
         .text('Quelle: https://data.europa.eu/euodp/en/data/dataset/covid-19-coronavirus-data')
 }
