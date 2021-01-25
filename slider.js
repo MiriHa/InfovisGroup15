@@ -29,7 +29,7 @@ var tickphiright = [4.712388975, 5.23598775, 5.759586525,
     3.665191425, 4.1887902]
 
     //use for months
-var monthNames = ["Januray", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+var monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
 var totoalCoronaCases = [5, 79, 71808, 163009, 183410, 195418, 210399,244802,292913,531790,1069912,1760520]
 var newCoronaCases = [5,74,71729,91201,20401,12008,14981,34403,48111,238877,538122,690608]
 
@@ -52,7 +52,7 @@ var svg = d3.select("#slider").append("svg")
     .attr("height", height_slider)
     .append("g")
     .attr("id","slider_tranform")
-    .attr("transform", `translate(${width_slider/1.3}, ${height_slider*1.7})`);
+    .attr("transform", `translate(${width_slider/1.6}, ${height_slider*1.55})`);
 
 var container = svg.append("g")
     .attr("id", "sliderGroup");
@@ -139,7 +139,7 @@ var coronaCasesLable = innerContainer.append("text")
     .attr("id", "casesLable")
     .attr("dy", "0.5em")
     .style("text-anchor", "middle")
-    .text("Corona Cases");
+    .text("Corona Fälle");
 
 var coronaCasesNumbers = innerContainer.append("text")
     .attr("id", "casesNumbers")
@@ -260,6 +260,13 @@ function dragended(event, d) {
 
         d3.select("#lockdownIndicator")
             .text("Lockdown");
+
+        d3.select("#additionalSpace")
+            .style("opacity", 100);
+    }
+    else if (postion == 9){
+        d3.select("#additionalSpace")
+        .style("opacity", 100);
     }
     else {
         d3.select("#innerCircle")
@@ -267,6 +274,9 @@ function dragended(event, d) {
 
         d3.select("#lockdownIndicator")
             .text(" ");
+
+        d3.select("#additionalSpace")
+            .style("opacity", 0);
     }
 
     /** KLAUS TEST START **/

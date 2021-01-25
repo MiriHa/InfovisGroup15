@@ -8,6 +8,8 @@ const SPORT = "sport"
 
 const COLOR_ANALOG = "#e28743"
 const COLOR_DIGITAL = "#1e81b0"
+const COLOR_HIGHLIGTH_ANALOG = "#a84d0a" //Analog in bubbles.js zeile 303 gesetzt
+const COLOR_HIGHLIGTH_DIGITAL = "#08456e" //analog in bubbles.js isn zeile 358 gestzt
 
 // Where to find csv
 const PATH_ANALOG_SPORT = "data/analog/month/data_month_zeitschrif_klettern.csv"
