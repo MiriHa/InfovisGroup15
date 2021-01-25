@@ -256,7 +256,7 @@ function visualizeBubbles(json, aktmounth) {
         .attr("stroke", "black")
         .attr("fill", function (d) { return d.c })
         .style("opacity", function (d) { if (aktmounth > 9) { return 0.5 } else { 1 } })
-
+    
     elemEnter.append("svg:image")
         .filter(function (d) { return d.id > 2 })
         .attr("x", function (d) { return berechneImagePos(d.id) })
@@ -272,7 +272,10 @@ function visualizeBubbles(json, aktmounth) {
             var matrix = this.getScreenCTM()
                 .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
             tooltip.transition().duration(200).style("opacity", .9);
-            tooltip.html("Hello")
+            //TODO sytle this?
+            var label = "world"
+            var aktT = idToLabel(d.id) // for some reason id is undefiend
+            tooltip.html("hello "+ label + "<br/>" + d.id)
                 .style("left", (window.pageXOffset + matrix.e + 15) + "px")
                 .style("top", (window.pageYOffset + matrix.f - 30) + "px");
         })
