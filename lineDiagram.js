@@ -66,7 +66,7 @@ function parser(analog, digital) {
 
                 file1Data.forEach(function (d){
                     // Build analogData block (fill array)
-                    if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
+                    if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
                         var feed = {ser1: d.Monat, ser2: Number(d.VerkaufLinear)};
                         if(analogSource === ""){
                             analogSource = SOURCE_ANALOG + d.Quellzusatz
@@ -82,7 +82,7 @@ function parser(analog, digital) {
 
                 file2Data.forEach(function (d){
                     // Build digitalData block (fill array)
-                    if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
+                    if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
                         var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
                         if(digitalSource === ""){
                             digitalSource = SOURCE_DIGITAL
@@ -114,7 +114,8 @@ function parser(analog, digital) {
                     console.log("loaded analog successfully")
                     data.forEach(function (d) {
                         // Build analogData block (fill array)
-                        if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
+                        //if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
+                        if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
                             var feed = {ser1: d.Monat, ser2: Number(d.VerkaufLinear)};
                             if(analogSource === ""){
                                 analogSource = SOURCE_ANALOG + d.Quellzusatz
@@ -143,7 +144,8 @@ function parser(analog, digital) {
                 data.forEach(function (d) {
                     // Build analogData block (fill array)
                     // TODO: filtern; same number of quartals in both files
-                    if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
+                    //if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
+                    if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
                         var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
                         if(digitalSource === ""){
                             digitalSource = SOURCE_DIGITAL
@@ -194,7 +196,7 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
 
     if (aData === 0 && dData === 0) {
         console.log("no data to draw")
-        // only remove diagram
+        //initEmptyChart();
     } else {
         // remove diagram and...
         // append the svg object to the body of the page
@@ -273,8 +275,8 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
     }
     svg.append('text')
         .attr('class', 'source')
-        .attr('x', width - Margin / 2)
-        .attr('y', height + Margin * 2.5)
+        .attr('x', Margin)
+        .attr('y', height * 1.9)
         .attr('text-anchor', 'start')
         .text(source)
 
@@ -403,3 +405,49 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
             .attr("stroke-width", 2.5)
     }
 }
+
+function initEmptyChart() {
+
+    const sample = [
+        {month: 'Jan'},
+        {month: 'Feb'},
+        {month: 'Mär'},
+        {month: 'Apr'},
+        {month: 'Mai'},
+        {month: 'Jun'},
+        {month: 'Jul'},
+        {month: 'Aug'},
+        {month: 'Sep'},
+        {month: 'Okt'},
+        {month: 'Nov'},
+        {month: 'Dez'}
+    ]
+
+    const Margin = 60;
+    const width = 580 - 2 * Margin;
+    const height = 350 - 2 * Margin;
+
+    var svg = d3.select("#bottomDiagram")
+        .append("svg")
+
+    var chart = svg.append('g')
+        .attr("transform", "translate(" + Margin + "," + Margin + ")");
+
+    const xScale = d3.scalePoint()
+        .range([0, width])
+        .domain(sample.map((s) => s.month))
+
+    const yScale = d3.scaleLinear()
+        .range([height, 0])
+        .domain([0, 100]);
+
+    chart.append('g')
+        .attr('transform', `translate(0, ${height})`)
+        .attr('class', 'tick_Scales')
+        .call(d3.axisBottom(xScale));
+
+    chart.append('g')
+        .attr('class', 'tick_Scales')
+        .call(d3.axisLeft(yScale));
+}
+//initEmptyChart();

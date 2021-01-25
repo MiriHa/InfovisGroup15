@@ -30,7 +30,8 @@ const chart = svg.append('g')
 
 // Initialise a X axis:
 let x = d3.scalePoint().range([0,width]);
-let xAxis = d3.axisBottom().scale(x);
+let xAxis = d3.axisBottom()
+    .scale(x);
 chart.append('g')
     .attr("transform", "translate(0," + height + ")")
     .attr("class","myXaxis")
@@ -39,7 +40,7 @@ chart.append('g')
 let y = d3.scaleLinear().range([height, 0]);
 let yAxis = d3.axisLeft()
     .scale(y)
-    .tickSize(-width, 0, 0)
+    //.tickSize(-width, 0, 0)
     .tickFormat(function (d) {
         if ((d / 1000) >= 1) {
             d = d / 1000 + "K";
@@ -116,12 +117,11 @@ function update(data) {
     // Source
     svg.append('text')
         .attr('class', 'source')
-        .attr('x', width - Margin / 2)
-        .attr('y', height + Margin * 2)
+        .attr('x', Margin)
+        .attr('y', height * 1.9)
         .attr('text-anchor', 'start')
         .text('Quelle: https://data.europa.eu/euodp/en/data/dataset/covid-19-coronavirus-data')
 }
-
 
 update(data_monthly);
 /*
