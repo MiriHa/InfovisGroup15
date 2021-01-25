@@ -705,11 +705,11 @@ function visualizeBubbles(json, aktmounth) {
             cx: function() { return xScale(d.cx) - 30; },
             cy: function() { return yScale(d.cy) - 15; }
         })*/
-        
     }
 
     var mouseout = function(d) {
         tooltip.style("opacity", 0)
+        d3.select("#bubbles").selectAll(".tooltip").remove()
     }
     /* ------------------------------ tooltip -------------------------------- */
 
@@ -1027,6 +1027,7 @@ function bubbleSizeInOne(){
     })
 
 }
+
 bubbleSizeInOne()
 
 //visualizeBubbles(json1, bubbleRadi, 1);
