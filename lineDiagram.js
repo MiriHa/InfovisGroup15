@@ -297,17 +297,20 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
                 const month = date.toLocaleString('default', { month: 'short' });
                 console.log(date.getFullYear());
 
-                /*if (month == "Jan") {
-                    new_date = "2020 - " + month
+                if (month == "Jan") {
+                    new_date = month+"'20"
+
                 } else if (month == "Sep") {
                     if (date.getFullYear() == 2019) {
-                        new_date = "2019 - " + month
+                        new_date = month + "'19"
+                    } else {
+                        new_date = month
                     }
                 } else {
                     new_date = month
-                }*/
-                new_date = month
-                return new_date;
+                }
+                //new_date = month
+                return new_date
             });
         chart.append('g')
             .attr("transform", "translate(0," + height + ")")
@@ -328,15 +331,14 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         chart.append('g')
             .attr("class", "myYaxis")
     }
+
     // TODO: Reihenfolge der Daten ändern. Nicht 2020 nach 2016 sondern aufsteigend
     function axes(data) {
         x.domain(data.map((s) => s.ser1))
         chart.selectAll(".myXaxis")
             .attr('class', 'tick_Scales')
             .call(xAxis)
-                //.selectAll('text')
-                //.style("text-anchor", "end")
-                //.attr("transform", "rotate(-45)");
+
 
         // create the Y axis
         y.domain([0, d3.max(data, function (d) {

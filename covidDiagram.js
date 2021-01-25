@@ -40,7 +40,6 @@ chart.append('g')
 let y = d3.scaleLinear().range([height, 0]);
 let yAxis = d3.axisLeft()
     .scale(y)
-    //.tickSize(-width, 0, 0)
     .tickFormat(function (d) {
         if ((d / 1000) >= 1) {
             d = d / 1000 + "K";
