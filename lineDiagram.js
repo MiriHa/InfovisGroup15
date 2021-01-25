@@ -176,7 +176,7 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
     // set the dimensions and margins of the graph
     const Margin = 60;
     const width = 580 - 2 * Margin;
-    const height = 350 - 2 * Margin;
+    const height = 320 - 2 * Margin;
 
     var x
     var xAxis

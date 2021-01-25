@@ -3,6 +3,7 @@ Create Bubble Diagram
 */
 
 json1 = {
+    // main bubbles
     "bubbles": [{
         "id": 1,
         "x": 250,
@@ -20,7 +21,7 @@ json1 = {
         "label": DIGITAL,
         "img" : ""
     }, 
-    //analog
+    //analog sub bubbles
     {
         "id": 3,
         "x": 250,
@@ -57,7 +58,7 @@ json1 = {
         "label": SPORT,
         "img": "sport.png"
     }, 
-    //digital
+    //digital sub bubbles
     {
         "id": 7,
         "x": 400,
@@ -93,7 +94,6 @@ json1 = {
     }
     ]
 }
-
 
 //wird hier benötigt also nicht nur bei script updaten
 //for bubbles to handle the radius
@@ -131,8 +131,7 @@ json1 = {
 ]*/
 
 
-
-function berechneHauptBubble(bubbleRadi, month){    
+function computeMainBubble(bubbleRadi, month){    
     console.log("month = " + month)           
     var summedig = 0;
     for (let bubb = 3; bubb < 7; bubb++) {
@@ -151,19 +150,16 @@ function berechneHauptBubble(bubbleRadi, month){
     console.log("summeANA = " + summeana);
 }
 
-
 var selectedAnalogBubble = ""
 var selectedDigitalBubble = ""
 var ClickDigital = true;
 var ClickAnalog = true;
 
-
-
 function visualizeBubbles(json, aktmounth) {
     console.log("visualize: ")
-    bubbleRadi =radius
+    bubbleRadi = radius
     
-    berechneHauptBubble(bubbleRadi, aktmounth);
+    computeMainBubble(bubbleRadi, aktmounth);
     console.log(bubbleRadi)
     
     //json Datei nutzen:
@@ -173,8 +169,8 @@ function visualizeBubbles(json, aktmounth) {
 
 
 
-    var width = 960,
-        height = 800;
+    var width = 700,
+        height = 420;
 
     var margin = { top: 10, right: 100, bottom: 30, left: 60 };
 
@@ -215,11 +211,11 @@ function visualizeBubbles(json, aktmounth) {
     //Texte einfügen und später filtern
     elemEnter.append("text")
         .filter(function (d) { return d.id < 3 })
-        .attr("dx", function (d) { return -30 })
+        .attr("dx", function (d) { return -35 })
         .attr("dy", 5)
         .text(function (d) { return d.label })
         .style("fill", function (d) { return Choosetextcolor(d) })
-        .style("font-size", "20px")
+        .style("font-size", "18px")
         .style("font-weight", "bold")
         .filter(function (d) { return d.id < 3 })
         
@@ -235,15 +231,44 @@ function visualizeBubbles(json, aktmounth) {
 
     elemEnter.append("svg:image")
         .filter(function (d) { return d.id > 2 })
-        .attr("x", function (d) { return berechneImagePos(d.id) })
-        .attr("y", function (d) { return berechneImagePos(d.id) })
-        .attr("width", function (d) { return berechneImageSize(d.id) })
-        .attr("height", function (d) { return berechneImageSize(d.id) })
+        .attr("x", function (d) { return computeImagePos(d.id) })
+        .attr("y", function (d) { return computeImagePos(d.id) })
+        .attr("width", function (d) { return computeImageSize(d.id) })
+        .attr("height", function (d) { return computeImageSize(d.id) })
         .attr("id", function (d) { return d.id })
+        .attr("cx", function (d) { return d.x }) // new
+        .attr("cy", function (d) { return d.y }) // new
         .attr("xlink:href", function (d) {return "icons/" + d.img })
         .style("opacity", function (d) {if(aktmounth > 9) {return 0.5} else{ 1 }})
-        .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
-        .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
+        //.on("mouseover", function (d) { return handleMouseOver(d3.select(this)) }) // old
+        //.on("mouseout", function (d) { return handleMouseOut(d3.select(this)) }) //old
+        /*.on("mouseenter", (event) => {
+            const index = svg.selectAll("#bubbles").nodes().xpos(event.target);
+            svg
+                .selectAll(".tooltip")
+                .join((enter) => enter.append("text").attr("y"))
+                .attr("class", "tooltip")
+                .text("hallo")
+                .attr("x", d.attr("x"))
+                .attr("text-anchor", "middle")
+                .transition
+                .attr("opacity", 1)
+                .attr("y", d.attr("y"));
+                
+        })
+        .on("mouseleave", () => svg.select(".tooltip").remove())*/
+        .on("mouseover", function (d) { return mouseover(d3.select(this))}) // new .style("fill", '#0da4d3'))
+        //.on("mouseover", mouseover) // new
+        .on("mouseout", mouseout) // new
+        //.on("mouseover", function(d){tooltip.text(d); return tooltip.style("visibility", "visible");})
+        //.on("mouseover", (event) => {return tooltip.style("top", (d3.pointer(event)[0]+70)+"px").style("left",(d3.pointer(event)[1]+10)+"px");})
+        //.on("mouseover", (event) => {mouseover(d3.select(this))})
+        /*.on("mouseover", function(event, d) {
+            console.log(d); 
+            console.log(d3.pointer(event));
+            tooltip.style("top", (d3.pointer(event)[0]+10)+"px").style("left",(d3.pointer(event)[1]+10)+"px");})
+        .on("mouseout", function(){return tooltip.style("visibility", "hidden");})*/
+
         // Klaus: Added this .on() to be able to click the sub-bubbles
         .on("click", function (d) { return Bubbleclick(d3.select(this)) })
             
@@ -285,7 +310,7 @@ function visualizeBubbles(json, aktmounth) {
     }
     
     var clickCounter = 0;
-    var idVorher = 0;
+    var previousId = 0;
     var clicked_Analog = 0;
     var clicked_Digital = 0;
     var sameClick = 1;
@@ -300,13 +325,13 @@ function visualizeBubbles(json, aktmounth) {
         if(idClick > 2 && idClick < 7 ) { //Analog
             elemEnter.selectAll("circle")//.append("circle")
                 .filter(function (d) { return (d.id == idClick) })
-                .attr("fill", "red")
+                .attr("fill","#a84d0a")
                 .style("opacity", function (d) {if(aktmounth > 9) {return 0.5} else{ 1 }})
             //wenn vorher auch analog -> alte bubble nicht markieren
-            if (idVorher > 2 && idVorher < 7 ) {
+            if (previousId > 2 && previousId < 7 ) {
                 if(idClick == clicked_Analog){
                     //nix
-                    if(idVorher == clicked_Analog) {
+                    if(previousId == clicked_Analog) {
                         sameClick++;
 
 
@@ -355,11 +380,11 @@ function visualizeBubbles(json, aktmounth) {
         } else if(idClick > 6) { //Digital
             elemEnter.selectAll("circle")//.append("circle")
                 .filter(function (d) { return (d.id == idClick) })
-                .attr("fill", "red")
+                .attr("fill", "#08456e")
                 .style("opacity", function (d) {if(aktmounth > 9) {return 0.5} else{ 1 }})
 
             //wenn vorher auch digital -> alte bubble nicht markieren
-            if (idVorher > 6) {
+            if (previousId > 6) {
                 if(idClick == clicked_Digital){
                     //nix
                     sameClick++;
@@ -402,10 +427,7 @@ function visualizeBubbles(json, aktmounth) {
             //nix, da Hauptbubble
         }
 
-
-
-        
-        idVorher = idClick;
+        previousId = idClick;
         
         if (d.attr("id") == 2) {
           console.log("if - digital");
@@ -504,10 +526,10 @@ function visualizeBubbles(json, aktmounth) {
         elemEnter.selectAll("svg:image").remove()
         elemEnter.selectAll("svg:image")
             .filter(function (d) { return (d.id <= 5) }) //nur analoge und hauptbubble
-            .attr("x", function (d) { return berechneImagePos(d.id) })
-            .attr("y", function (d) { return berechneImagePos(d.id) })
-            .attr("width", function (d) { return berechneImageSize(d.id)  })
-            .attr("height", function (d) { return berechneImageSize(d.id)  })
+            .attr("x", function (d) { return computeImagePos(d.id) })
+            .attr("y", function (d) { return computeImagePos(d.id) })
+            .attr("width", function (d) { return computeImageSize(d.id)  })
+            .attr("height", function (d) { return computeImageSize(d.id)  })
             .attr("xlink:href", function (d) {return "icons/" + d.img })
             .style("opacity", 5)
             .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
@@ -553,10 +575,10 @@ function visualizeBubbles(json, aktmounth) {
         elemEnter.selectAll("svg:image").remove()
         elemEnter.selectAll("svg:image")
             .filter(function (d) { return (d.id <= 5) }) //nur analoge und hauptbubble
-            .attr("x", function (d) { return berechneImagePos(d.id) })
-            .attr("y", function (d) { return berechneImagePos(d.id) })
-            .attr("width", function (d) { return berechneImageSize(d.id)  })
-            .attr("height", function (d) { return berechneImageSize(d.id)  })
+            .attr("x", function (d) { return computeImagePos(d.id) })
+            .attr("y", function (d) { return computeImagePos(d.id) })
+            .attr("width", function (d) { return computeImageSize(d.id)  })
+            .attr("height", function (d) { return computeImageSize(d.id)  })
             .attr("xlink:href", function (d) {return "icons/" + d.img })
             .style("opacity", 5)
             .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
@@ -564,7 +586,7 @@ function visualizeBubbles(json, aktmounth) {
     }
 */ //Click on centered Bubbles
 
-    function berechneImageSize(id){
+    function computeImageSize(id){
         
         var bubbleid = id;   
         var radiusBubble = bubbleRadi[aktmounth][bubbleid];
@@ -578,7 +600,7 @@ function visualizeBubbles(json, aktmounth) {
         return imageSize+20;
     }
 
-    function berechneImagePos(id){
+    function computeImagePos(id){
         
         var bubbleid = id;   
         var radiusBubble = bubbleRadi[aktmounth][bubbleid];
@@ -603,34 +625,99 @@ function visualizeBubbles(json, aktmounth) {
         return " ";
     }
 
-    // Create Event Handlers for mouse
-    function handleMouseOver(d) {  // Add interactivity
+    // Create Event Handlers for mouse hovering
+    function handleMouseOver(d) {  
         console.log("inMouseOVER");
 
-        var aktT = idToLabel(d.attr("id"));
-        console.log(aktT); //-> zugriff auf Attribute der angeklickten Bubble
+        var currentText = idToLabel(d.attr("id"));
+        console.log(currentText); 
         var xpos = d.attr("x")+100;
         var ypos = d.attr("y")+100;
         //d.attr("fill", "red");
+        
         // Specify where to put label of text
         //Mouse Position
         svg.append("text")
-            .attr("x", 800)/*800)*/
-            .attr("y", 80)/*80)*/
-            .attr("id", "t" + aktT)
-            .text(aktT)
+            .attr("x", 800)// old
+            .attr("y", 80) // old
+            .attr("id", "t" + currentText)
+            .text(currentText)
             .style("font-size", "20px")
             .style("font-style", "italic")
-            .style("fill", "#DBDBDB");
+            .style("fill", "#DBDBDB")
+            .style("position", "absolute")
+            /*.attr({ // new
+                cx: function() { return xScale(d.cx) - 30; },
+                cy: function() { return yScale(d.cy) - 15; }
+            })*/
+            
     }
 
-    function handleMouseOut(d) {
-        var aktT = idToLabel(d.attr("id"));
-        console.log("inMouseOUT - remove:" + "#t" + aktT);
+   function handleMouseOut(d) {
+        var currentText = idToLabel(d.attr("id"));
+        console.log("inMouseOUT - remove:" + "#t" + currentText);
         // Select text by id and then remove
-        d3.select("#t" + aktT).remove();  // Remove text location
+        d3.select("#t" + currentText).remove();  // Remove text location
+}
 
+    //------------------------------- tooltip ------------------------------------//
+    // create a tooltip: https://www.d3-graph-gallery.com/graph/heatmap_tooltip.html
+
+    /*function idToPositionX(id) {
+        xposition = json1.bubbles(id).x;
+        return x;
     }
+
+    function idToPositionY(id) {
+        yposition = json1.bubbles(id).y;
+        return y;
+    }*/
+
+    var tooltip = d3.select("#bubbles")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+
+    var mouseover = function(d) { 
+    console.log("inMouseOVER");
+
+    var currentText = idToLabel(d.attr("id"));
+    console.log("currentText:" + currentText); 
+        
+    /*var xposi = idToPositionX(d.attr("id"));
+    var yposi = idToPositionY(d.attr("id"));*/
+    var xpos = d.attr("cx")+10;
+    var ypos = d.attr("cy")+10;
+    console.log("x:" + xpos + ", y:" + ypos);
+
+    tooltip
+        .html(currentText)
+        .style("opacity", 1)
+        .style("position", "absolute")
+        .style("left", (xpos)) // xpos vs d3.pointer(event)[0]+10) + "px"
+        .style("top", (ypos)) // ypos vs (d3.pointer(event)[1]) + "px")
+        //.style("left", d3.select(this).attr("cx") + "px")     
+        //.style("top", d3.select(this).attr("cy") + "px");
+        /*.attr({
+            cx: function() { return xScale(d.cx) - 30; },
+            cy: function() { return yScale(d.cy) - 15; }
+        })*/
+    }
+
+    var mouseout = function(d) {
+        tooltip.style("opacity", 0)
+        d3.select("#bubbles").selectAll(".tooltip").remove()
+    }
+    /* ------------------------------ tooltip -------------------------------- */
+
+    
+
+    
 
 
     //Auswahl in den Vordergrund verschieben
@@ -683,6 +770,8 @@ function visualizeBubbles(json, aktmounth) {
     //http://bl.ocks.org/WilliamQLiu/76ae20060e19bf42d774 -> Mouse_Events
 
 }
+
+
 
 function bubbleSizeInOne(){
     Promise.all([
@@ -934,12 +1023,11 @@ function bubbleSizeInOne(){
         })
         visualizeBubbles(json1, 1);
 
-
-
     }).catch(function (err) {
         // handle error
         console.log("loading error" + err)
     })
+
 }
 
 bubbleSizeInOne()
