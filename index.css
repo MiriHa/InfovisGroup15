@@ -5,7 +5,7 @@
 
 .dataWrapper {
     display: grid;
-    grid-template-columns: 60% 40%;
+    grid-template-columns: 55% 45%;
     grid-template-rows: 2% 49% 49%;
     gap: 10px;
     justify-items: stretch;
@@ -19,6 +19,8 @@
 
 .header{
     grid-area: header;
+    background-color: #1b2636;
+    border-radius: 12px;
 }
 
 .bubbleChartItem {
@@ -37,7 +39,7 @@
     padding: 10px;
     justify-items: stretch;
     grid-template-areas: 
-        "explanation slider legend"
+        "legend slider message"
         "bubbles bubbles bubbles";
 }
 
@@ -68,32 +70,34 @@
 }
 
 body {
-    font-family: 'Microsoft JhengHei', Verdana, sans-serif; /*font-family: 'Open Sans', sans-serif; oder Tahoma*/
+    /*font-family: 'Microsoft JhengHei', Verdana, sans-serif; font-family: 'Open Sans', sans-serif; oder Tahoma*/
+    font-family: 'Courier New', monospace;
     background:  #39475c; /*#1b2636 */ /*background: #293950;*/
 }
 
 h1 {
-    font-size: 20px;
     font-weight: bold;
     text-align: center;
     color: #DBDBDB;
     padding: 3px;
     border-radius: 12px;
-    background-color: #1b2636;
 }
 
 .explanation{
-    height: 250px;
+    height: auto;
     width: 100%;
     margin: 0 auto;
     grid-area: explanation;
-    background-color:  #39475c;
     border-radius: 25px;
-    padding: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background-color: #1b2636;
 }
 
 #explanationText{
-    font-size: 80%;
+    font-size: 120%;
     color: #DBDBDB;
     text-align: justify;
 }
@@ -134,14 +138,15 @@ h1 {
     }
 
 .legend-scale {
-    width: 100%;
+    width: 80%;
     height: 100px;
-        margin: 0;
-        margin-bottom: 10px;
-        padding: 0;
-        float: left;
-        list-style: none;
-        }    
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 0;
+    float: left;
+    list-style: none;
+    font-size: 90%;
+}    
 
 .legend-labels{
     width: 100%;
@@ -149,21 +154,19 @@ h1 {
 }
 
   .legend-scale ul li {
-    font-size: 80%;
     list-style: none;
     float: left;
     margin-left: 5px;
     line-height: 20px;
     margin-bottom: 12px;
-    font-size: 100%;
     color: #DBDBDB;
     }
 
   .legend-labels li span {
     display: block;
     float: left;
-    height: 25px;
-    width: 25px;
+    height: 20px;
+    width: 20px;
     margin-right: 5px;
     margin-left: 0;
     border: 1px solid #999;
@@ -172,8 +175,8 @@ h1 {
 
 .legendPic{
     float: left;
-    height: 25px;
-    width: 25px;
+    height: 20px;
+    width: 20px;
     margin-right: 5px;
     margin-left: 0;
 }

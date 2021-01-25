@@ -173,8 +173,8 @@ function visualizeBubbles(json, aktmounth) {
 
 
 
-    var width = 960,
-        height = 800;
+    var width = 700,
+        height = 420;
 
     var margin = { top: 10, right: 100, bottom: 30, left: 60 };
 
@@ -300,7 +300,7 @@ function visualizeBubbles(json, aktmounth) {
         if(idClick > 2 && idClick < 7 ) { //Analog
             elemEnter.selectAll("circle")//.append("circle")
                 .filter(function (d) { return (d.id == idClick) })
-                .attr("fill", "red")
+                .attr("fill","#a84d0a")
                 .style("opacity", function (d) {if(aktmounth > 9) {return 0.5} else{ 1 }})
             //wenn vorher auch analog -> alte bubble nicht markieren
             if (idVorher > 2 && idVorher < 7 ) {
@@ -355,7 +355,7 @@ function visualizeBubbles(json, aktmounth) {
         } else if(idClick > 6) { //Digital
             elemEnter.selectAll("circle")//.append("circle")
                 .filter(function (d) { return (d.id == idClick) })
-                .attr("fill", "red")
+                .attr("fill", "#08456e")
                 .style("opacity", function (d) {if(aktmounth > 9) {return 0.5} else{ 1 }})
 
             //wenn vorher auch digital -> alte bubble nicht markieren
