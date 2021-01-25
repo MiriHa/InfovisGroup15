@@ -16,8 +16,8 @@ const data_monthly = [
 
 // set the dimensions and margins of the graph
 const Margin = 60;
-const width = 600 - 2 * Margin;
-const height = 350 - 2 * Margin;
+const width = 580 - 2 * Margin;
+const height = 320 - 2 * Margin;
 
 // append the svg object to the body of the page
 var svg = d3.select("#topDiagram")
