@@ -324,7 +324,7 @@ text.source {
 }
 
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1300px) {
     .dataWrapper {
         display: grid;
         grid-template-columns: 100%;
@@ -363,9 +363,14 @@ text.source {
     }
 
     #explanationText{
-        font-size: 68%;
+        font-size: 100%;
         color: #DBDBDB;
         text-align: justify;
+    }
+
+    .legend{
+        visibility: hidden;
+    
     }
     
   }

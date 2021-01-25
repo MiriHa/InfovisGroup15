@@ -215,11 +215,11 @@ function visualizeBubbles(json, aktmounth) {
     //Texte einfügen und später filtern
     elemEnter.append("text")
         .filter(function (d) { return d.id < 3 })
-        .attr("dx", function (d) { return -30 })
+        .attr("dx", function (d) { return -35 })
         .attr("dy", 5)
         .text(function (d) { return d.label })
         .style("fill", function (d) { return Choosetextcolor(d) })
-        .style("font-size", "20px")
+        .style("font-size", "18px")
         .style("font-weight", "bold")
         .filter(function (d) { return d.id < 3 })
         
