@@ -234,10 +234,39 @@ function visualizeBubbles(json, aktmounth) {
         .attr("width", function (d) { return computeImageSize(d.id) })
         .attr("height", function (d) { return computeImageSize(d.id) })
         .attr("id", function (d) { return d.id })
+        .attr("cx", function (d) { return d.x }) // new
+        .attr("cy", function (d) { return d.y }) // new
         .attr("xlink:href", function (d) {return "icons/" + d.img })
         .style("opacity", function (d) {if(aktmounth > 9) {return 0.5} else{ 1 }})
-        .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
-        .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
+        //.on("mouseover", function (d) { return handleMouseOver(d3.select(this)) }) // old
+        //.on("mouseout", function (d) { return handleMouseOut(d3.select(this)) }) //old
+        /*.on("mouseenter", (event) => {
+            const index = svg.selectAll("#bubbles").nodes().xpos(event.target);
+            svg
+                .selectAll(".tooltip")
+                .join((enter) => enter.append("text").attr("y"))
+                .attr("class", "tooltip")
+                .text("hallo")
+                .attr("x", d.attr("x"))
+                .attr("text-anchor", "middle")
+                .transition
+                .attr("opacity", 1)
+                .attr("y", d.attr("y"));
+                
+        })
+        .on("mouseleave", () => svg.select(".tooltip").remove())*/
+        .on("mouseover", function (d) { return mouseover(d3.select(this))}) // new .style("fill", '#0da4d3'))
+        //.on("mouseover", mouseover) // new
+        .on("mouseout", mouseout) // new
+        //.on("mouseover", function(d){tooltip.text(d); return tooltip.style("visibility", "visible");})
+        //.on("mouseover", (event) => {return tooltip.style("top", (d3.pointer(event)[0]+70)+"px").style("left",(d3.pointer(event)[1]+10)+"px");})
+        //.on("mouseover", (event) => {mouseover(d3.select(this))})
+        /*.on("mouseover", function(event, d) {
+            console.log(d); 
+            console.log(d3.pointer(event));
+            tooltip.style("top", (d3.pointer(event)[0]+10)+"px").style("left",(d3.pointer(event)[1]+10)+"px");})
+        .on("mouseout", function(){return tooltip.style("visibility", "hidden");})*/
+
         // Klaus: Added this .on() to be able to click the sub-bubbles
         .on("click", function (d) { return Bubbleclick(d3.select(this)) })
             
@@ -594,34 +623,99 @@ function visualizeBubbles(json, aktmounth) {
         return " ";
     }
 
-    // Create Event Handlers for mouse
-    function handleMouseOver(d) {  // Add interactivity
+    // Create Event Handlers for mouse hovering
+    function handleMouseOver(d) {  
         console.log("inMouseOVER");
 
         var currentText = idToLabel(d.attr("id"));
-        console.log(currentText); //-> zugriff auf Attribute der angeklickten Bubble
+        console.log(currentText); 
         var xpos = d.attr("x")+100;
         var ypos = d.attr("y")+100;
         //d.attr("fill", "red");
+        
         // Specify where to put label of text
         //Mouse Position
         svg.append("text")
-            .attr("x", 800)/*800)*/
-            .attr("y", 80)/*80)*/
+            .attr("x", 800)// old
+            .attr("y", 80) // old
             .attr("id", "t" + currentText)
             .text(currentText)
             .style("font-size", "20px")
             .style("font-style", "italic")
-            .style("fill", "#DBDBDB");
+            .style("fill", "#DBDBDB")
+            .style("position", "absolute")
+            /*.attr({ // new
+                cx: function() { return xScale(d.cx) - 30; },
+                cy: function() { return yScale(d.cy) - 15; }
+            })*/
+            
     }
 
-    function handleMouseOut(d) {
+   function handleMouseOut(d) {
         var currentText = idToLabel(d.attr("id"));
         console.log("inMouseOUT - remove:" + "#t" + currentText);
         // Select text by id and then remove
         d3.select("#t" + currentText).remove();  // Remove text location
+}
 
+    //------------------------------- tooltip ------------------------------------//
+    // create a tooltip: https://www.d3-graph-gallery.com/graph/heatmap_tooltip.html
+
+    /*function idToPositionX(id) {
+        xposition = json1.bubbles(id).x;
+        return x;
     }
+
+    function idToPositionY(id) {
+        yposition = json1.bubbles(id).y;
+        return y;
+    }*/
+
+    var tooltip = d3.select("#bubbles")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+
+    var mouseover = function(d) { 
+    console.log("inMouseOVER");
+
+    var currentText = idToLabel(d.attr("id"));
+    console.log("currentText:" + currentText); 
+        
+    /*var xposi = idToPositionX(d.attr("id"));
+    var yposi = idToPositionY(d.attr("id"));*/
+    var xpos = d.attr("cx")+10;
+    var ypos = d.attr("cy")+10;
+    console.log("x:" + xpos + ", y:" + ypos);
+
+    tooltip
+        .html(currentText)
+        .style("opacity", 1)
+        .style("position", "absolute")
+        .style("left", (xpos)) // xpos vs d3.pointer(event)[0]+10) + "px"
+        .style("top", (ypos)) // ypos vs (d3.pointer(event)[1]) + "px")
+        //.style("left", d3.select(this).attr("cx") + "px")     
+        //.style("top", d3.select(this).attr("cy") + "px");
+        /*.attr({
+            cx: function() { return xScale(d.cx) - 30; },
+            cy: function() { return yScale(d.cy) - 15; }
+        })*/
+        
+    }
+
+    var mouseout = function(d) {
+        tooltip.style("opacity", 0)
+    }
+    /* ------------------------------ tooltip -------------------------------- */
+
+    
+
+    
 
 
     //Auswahl in den Vordergrund verschieben
@@ -674,6 +768,8 @@ function visualizeBubbles(json, aktmounth) {
     //http://bl.ocks.org/WilliamQLiu/76ae20060e19bf42d774 -> Mouse_Events
 
 }
+
+
 
 function bubbleSizeInOne(){
     Promise.all([
@@ -929,8 +1025,8 @@ function bubbleSizeInOne(){
         // handle error
         console.log("loading error" + err)
     })
-}
 
+}
 bubbleSizeInOne()
 
 //visualizeBubbles(json1, bubbleRadi, 1);
