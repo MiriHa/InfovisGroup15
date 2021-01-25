@@ -66,7 +66,7 @@ function parser(analog, digital) {
 
                 file1Data.forEach(function (d){
                     // Build analogData block (fill array)
-                    if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
+                    if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
                         var feed = {ser1: d.Monat, ser2: Number(d.VerkaufLinear)};
                         if(analogSource === ""){
                             analogSource = SOURCE_ANALOG + d.Quellzusatz
@@ -82,7 +82,7 @@ function parser(analog, digital) {
 
                 file2Data.forEach(function (d){
                     // Build digitalData block (fill array)
-                    if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
+                    if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
                         var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
                         if(digitalSource === ""){
                             digitalSource = SOURCE_DIGITAL
@@ -114,7 +114,8 @@ function parser(analog, digital) {
                     console.log("loaded analog successfully")
                     data.forEach(function (d) {
                         // Build analogData block (fill array)
-                        if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
+                        //if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
+                        if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
                             var feed = {ser1: d.Monat, ser2: Number(d.VerkaufLinear)};
                             if(analogSource === ""){
                                 analogSource = SOURCE_ANALOG + d.Quellzusatz
@@ -142,8 +143,7 @@ function parser(analog, digital) {
                 console.log("loaded digital successfully")
                 data.forEach(function (d) {
                     // Build analogData block (fill array)
-                    // TODO: filtern; same number of quartals in both files
-                    if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
+                    if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
                         var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
                         if(digitalSource === ""){
                             digitalSource = SOURCE_DIGITAL
@@ -172,9 +172,9 @@ function parser(analog, digital) {
 function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitel, digitalTitel) {
 
     // set the dimensions and margins of the graph
-    const Margin = 60;
-    const width = 580 - 2 * Margin;
-    const height = 320 - 2 * Margin;
+    const Margin = 80;
+    const width = 580 - Margin;
+    const height = 300 - Margin;
 
     var x
     var xAxis
@@ -185,7 +185,6 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
     // always remove old diagram
     var svg = d3.select("#bottomDiagram").selectAll("svg").remove()
 
-
     var aData = analogData.length
     var dData = digitalData.length
 
@@ -194,12 +193,12 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
 
     if (aData === 0 && dData === 0) {
         console.log("no data to draw")
-        // only remove diagram
+
     } else {
         // remove diagram and...
         // append the svg object to the body of the page
-        var svg = d3.select("#bottomDiagram")
-            .append("svg")
+        var svg = d3.select("#bottomDiagram").append("svg")
+
         // Init Chart
         initChart();
 
@@ -243,22 +242,22 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         .attr('y', Margin / 8)
         .attr('transform', 'rotate(-90)')
         .attr('text-anchor', 'middle')
-        .text('Verkauf / Visits')
+        .text('Verkauf/Visits')
 
 
-    /* Label for xAxis
+    // Label for xAxis
     svg.append('text')
         .attr('class', 'label')
         .attr('x', width / 2 + Margin)
-        .attr('y', height + Margin * 1.7)
+        .attr('y', height + Margin * 1.5)
         .attr('text-anchor', 'middle')
-        .text('Text')*/
+        .text('Monate')
 
     // Title
     svg.append('text')
         .attr('class', 'title')
         .attr('x', width / 2 + Margin)
-        .attr('y', 40)
+        .attr('y', 30)
         .attr('text-anchor', 'middle')
         .text('Vergleich ausgewählter Kategorien')
 
@@ -273,8 +272,8 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
     }
     svg.append('text')
         .attr('class', 'source')
-        .attr('x', width - Margin / 2)
-        .attr('y', height + Margin * 2.5)
+        .attr('x', Margin / 2)
+        .attr('y', height * 1.63)
         .attr('text-anchor', 'start')
         .text(source)
 
@@ -299,15 +298,19 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
                 console.log(date.getFullYear());
 
                 if (month == "Jan") {
-                    if (date.getFullYear() == 2020) {
-                        new_date = "2020 - " + month
-                    } else if (date.getFullYear() == 2019) {
-                        new_date = "2019 - " + month
+                    new_date = month+"'20"
+
+                } else if (month == "Sep") {
+                    if (date.getFullYear() == 2019) {
+                        new_date = month + "'19"
+                    } else {
+                        new_date = month
                     }
                 } else {
                     new_date = month
                 }
-                return new_date;
+                //new_date = month
+                return new_date
             });
         chart.append('g')
             .attr("transform", "translate(0," + height + ")")
@@ -328,15 +331,14 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         chart.append('g')
             .attr("class", "myYaxis")
     }
+
     // TODO: Reihenfolge der Daten ändern. Nicht 2020 nach 2016 sondern aufsteigend
     function axes(data) {
         x.domain(data.map((s) => s.ser1))
         chart.selectAll(".myXaxis")
             .attr('class', 'tick_Scales')
             .call(xAxis)
-                .selectAll('text')
-                .style("text-anchor", "end")
-                .attr("transform", "rotate(-45)");
+
 
         // create the Y axis
         y.domain([0, d3.max(data, function (d) {
@@ -354,9 +356,9 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         chart.selectAll(".myXaxis")
             .attr('class', 'tick_Scales')
             .call(xAxis)
-                .selectAll('text')
-                .style("text-anchor", "end")
-                .attr("transform", "rotate(-45)");
+                //.selectAll('text')
+                //.style("text-anchor", "end")
+                //.attr("transform", "rotate(-45)");
 
         // create the Y axis
         y.domain([0, yMax]);
