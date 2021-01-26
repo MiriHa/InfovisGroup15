@@ -158,6 +158,7 @@ var selectedDigitalBubble = ""
 var ClickDigital = true;
 var ClickAnalog = true;
 
+/* Create tooltip div */
 var tooltip = d3.select("#bubbles")
     .append("div")
     .style("opacity", 0)
@@ -168,13 +169,12 @@ var tooltip = d3.select("#bubbles")
     .style("color", "#39475c")
     .style("position", "absolute")
 
-
-
-function visualizeBubbles(json, curentMounth) {
+/* Visualize the bubble chart. Is called every time you move the timer */
+function visualizeBubbles(json, currentMounth) {
     console.log("visualize: ")
     bubbleRadi = radius
 
-    computeMainBubble(bubbleRadi, curentMounth);
+    computeMainBubble(bubbleRadi, currentMounth);
     console.log(bubbleRadi)
 
     //json Datei nutzen:
@@ -182,14 +182,13 @@ function visualizeBubbles(json, curentMounth) {
 
     state = 0; //nur analog und digital anzeigen
 
-
-
     var width = 700,
         height = 420;
 
     var margin = { top: 10, right: 100, bottom: 30, left: 60 };
 
-    var svg = d3.select("#bubbles").selectAll("svg").remove()
+    /* clear the page and add the svg */
+    var svg = d3.select("#bubbles").selectAll("svg").remove() 
     svg = d3.select("#bubbles").append("svg")
         .attr("width", width)
         .attr("height", height)
@@ -206,21 +205,22 @@ function visualizeBubbles(json, curentMounth) {
         })
 
     //console.log("hello Blub");
-    //console.log("Monat: " + curentMounth);
+    //console.log("Monat: " + currentMounth);
 
     /*Create the circles: analog, digital */
     var circle = elemEnter.append("circle")
         .filter(function (d) { return d.id < 3 }) //nur Hauptbubbles
         .attr("id", function (d) { return d.id })
-        .attr("r", function (d) { if (bubbleRadi[curentMounth][d.id] == 0) { return 50 } else { return bubbleRadi[curentMounth][d.id] + 10 } })
+        .attr("r", function (d) { if (bubbleRadi[currentMounth][d.id] == 0) { return 50 } else { return bubbleRadi[currentMounth][d.id] + 10 } })
         .attr("stroke", "black")
         .attr("fill", function (d) { return d.c })
-        .style("opacity", function (d) { if (curentMounth > 9) { return 0.5 } else { 1 } })
+        .style("opacity", function (d) { if (currentMounth > 9) { return 0.5 } else { 1 } })
         .on("click", function (d) { return Bubbleclick(d3.select(this)) })
         //noch testen
         // .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
+        /* Mouseover event: Get position of the bubble and show the tooltip */
         .on("mouseover", function (d) {
-            console.log("Mouseover")
+            console.log("mouseover event triggered")
             var matrix = this.getScreenCTM()
                 .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
             tooltip.transition().duration(200).style("opacity", .9);
@@ -234,8 +234,6 @@ function visualizeBubbles(json, curentMounth) {
             tooltip.transition().duration(500).style("opacity", 0);
         })
         
-
-
     elemEnter.selectAll("text").remove()
     //Texte einfügen und später filtern
     elemEnter.append("text")
@@ -253,10 +251,10 @@ function visualizeBubbles(json, curentMounth) {
     elemEnter.append("circle")
         .filter(function (d) { return d.id > 2 })
         .attr("id", function (d) { return d.id })
-        .attr("r", function (d) { if (bubbleRadi[curentMounth][d.id] == 0) { return 50 } else { return bubbleRadi[curentMounth][d.id] + 10 } })
+        .attr("r", function (d) { if (bubbleRadi[currentMounth][d.id] == 0) { return 50 } else { return bubbleRadi[currentMounth][d.id] + 10 } })
         .attr("stroke", "black")
         .attr("fill", function (d) { return d.c })
-        .style("opacity", function (d) { if (curentMounth > 9) { return 0.5 } else { 1 } })
+        .style("opacity", function (d) { if (currentMounth > 9) { return 0.5 } else { 1 } })
     
     elemEnter.append("svg:image")
         .filter(function (d) { return d.id > 2 })
@@ -266,8 +264,9 @@ function visualizeBubbles(json, curentMounth) {
         .attr("height", function (d) { return computeImageSize(d.id) })
         .attr("id", function (d) { return d.id })
         .attr("xlink:href", function (d) { return "icons/" + d.img })
-        .style("opacity", function (d) { if (curentMounth > 9) { return 0.5 } else { 1 } })
+        .style("opacity", function (d) { if (currentMounth > 9) { return 0.5 } else { 1 } })
         // .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
+        /* Mouseover event: Get position of the bubble and show the tooltip */
         .on("mouseover", function (d) {
             console.log("Mouseover")
             var matrix = this.getScreenCTM()
@@ -306,7 +305,7 @@ function visualizeBubbles(json, curentMounth) {
     */
 
     function Choosetextcolor(d) {
-        if (curentMounth > 9) { return "grey"; }
+        if (currentMounth > 9) { return "grey"; }
         if (d.c == COLOR_DIGITAL) { /* blue */
             return "white"; /* white */
         }
@@ -317,6 +316,7 @@ function visualizeBubbles(json, curentMounth) {
         return "black";
     }
 
+    /* Get the color of the bubbles based on the id */
     function idToColor(id) {
         if (id == 1) { return COLOR_ANALOG }
         if (id == 2) { return COLOR_DIGITAL }
@@ -331,6 +331,7 @@ function visualizeBubbles(json, curentMounth) {
     var clicked_Digital = 0;
     var sameClick = 1;
 
+    /* Event handler for mouse click on bubbles */
     function Bubbleclick(d) {
         clickCounter = clickCounter + 1;
         console.log("ID = " + d.attr("id")); //-> zugriff auf Attribute der angeklickten Bubble
@@ -342,7 +343,7 @@ function visualizeBubbles(json, curentMounth) {
             elemEnter.selectAll("circle")//.append("circle")
                 .filter(function (d) { return (d.id == idClick) })
                 .attr("fill", "#a84d0a")
-                .style("opacity", function (d) { if (curentMounth > 9) { return 0.5 } else { 1 } })
+                .style("opacity", function (d) { if (currentMounth > 9) { return 0.5 } else { 1 } })
             //wenn vorher auch analog -> alte bubble nicht markieren
             if (previousID > 2 && previousID < 7) {
                 if (idClick == clicked_Analog) {
@@ -361,7 +362,7 @@ function visualizeBubbles(json, curentMounth) {
                                 })
                                 .attr("fill", idToColor(clicked_Analog))
                                 .style("opacity", function (d) {
-                                    if (curentMounth > 9) {
+                                    if (currentMounth > 9) {
                                         return 0.5
                                     } else {
                                         1
@@ -378,7 +379,7 @@ function visualizeBubbles(json, curentMounth) {
                             return (d.id == clicked_Analog)
                         })
                         .attr("fill", idToColor(clicked_Analog))
-                        .style("opacity", function (d) { if (curentMounth > 9) { return 0.5 } else { 1 } })
+                        .style("opacity", function (d) { if (currentMounth > 9) { return 0.5 } else { 1 } })
                 }
             } else {
                 // Farbe vom vorherigen zurücksetzen
@@ -388,7 +389,7 @@ function visualizeBubbles(json, curentMounth) {
                         return (d.id == clicked_Analog)
                     })
                     .attr("fill", idToColor(clicked_Analog))
-                    .style("opacity", function (d) { if (curentMounth > 9) { return 0.5 } else { 1 } })
+                    .style("opacity", function (d) { if (currentMounth > 9) { return 0.5 } else { 1 } })
             }
             clicked_Analog = idClick;
 
@@ -397,7 +398,7 @@ function visualizeBubbles(json, curentMounth) {
             elemEnter.selectAll("circle")//.append("circle")
                 .filter(function (d) { return (d.id == idClick) })
                 .attr("fill", "#08456e")
-                .style("opacity", function (d) { if (curentMounth > 9) { return 0.5 } else { 1 } })
+                .style("opacity", function (d) { if (currentMounth > 9) { return 0.5 } else { 1 } })
 
             //wenn vorher auch digital -> alte bubble nicht markieren
             if (previousID > 6) {
@@ -414,7 +415,7 @@ function visualizeBubbles(json, curentMounth) {
                                 return (d.id == clicked_Digital)
                             })
                             .attr("fill", idToColor(clicked_Digital))
-                            .style("opacity", function (d) { if (curentMounth > 9) { return 0.5 } else { 1 } })
+                            .style("opacity", function (d) { if (currentMounth > 9) { return 0.5 } else { 1 } })
                     }
                 } else {
                     sameClick = 1;
@@ -424,7 +425,7 @@ function visualizeBubbles(json, curentMounth) {
                             return (d.id == clicked_Digital)
                         })
                         .attr("fill", idToColor(clicked_Digital))
-                        .style("opacity", function (d) { if (curentMounth > 9) { return 0.5 } else { 1 } })
+                        .style("opacity", function (d) { if (currentMounth > 9) { return 0.5 } else { 1 } })
                 }
             } else {
                 sameClick++;
@@ -434,7 +435,7 @@ function visualizeBubbles(json, curentMounth) {
                         return (d.id == clicked_Digital)
                     })
                     .attr("fill", idToColor(clicked_Digital))
-                    .style("opacity", function (d) { if (curentMounth > 9) { return 0.5 } else { 1 } })
+                    .style("opacity", function (d) { if (currentMounth > 9) { return 0.5 } else { 1 } })
             }
             clicked_Digital = idClick;
 
@@ -511,7 +512,7 @@ function visualizeBubbles(json, curentMounth) {
             elemEnter.selectAll("circle")//.append("circle")
                 .filter(function (d) { return (d.id <= 6 && d.id != 2) }) //nur analoge
                 .attr("id", function (d) { return d.id })
-                .attr("r", function (d) { if( bubbleRadi[curentMounth][d.id] == 0) { return 50} else {return bubbleRadi[curentMounth][d.id] + 10}})
+                .attr("r", function (d) { if( bubbleRadi[currentMounth][d.id] == 0) { return 50} else {return bubbleRadi[currentMounth][d.id] + 10}})
                 .attr("stroke", "#DBDBDB")
                 .attr("fill", function (d) { return d.c })
                 .style("opacity", 2)
@@ -526,7 +527,7 @@ function visualizeBubbles(json, curentMounth) {
                 .selectAll("circle")
                 .filter(function (d) { return (d.id > 6) })
                 .attr("id", function (d) { return d.id })
-                .attr("r", function (d) { if( bubbleRadi[curentMounth][d.id] == 0) { return 50} else {return bubbleRadi[curentMounth][d.id] + 10}})
+                .attr("r", function (d) { if( bubbleRadi[currentMounth][d.id] == 0) { return 50} else {return bubbleRadi[currentMounth][d.id] + 10}})
                 .attr("stroke", "black")
                 .attr("fill", function (d) { return d.c })
                 .style("opacity", 0.2)
@@ -562,7 +563,7 @@ function visualizeBubbles(json, curentMounth) {
                 //.append("circle")
                 .filter(function (d) { return (d.id > 6 || d.id == 2) }) //nur digitale
                 .attr("id", function (d) { return d.id })
-                .attr("r", function (d) { if( bubbleRadi[curentMounth][d.id] == 0) { return 50} else {return bubbleRadi[curentMounth][d.id] + 10}})
+                .attr("r", function (d) { if( bubbleRadi[currentMounth][d.id] == 0) { return 50} else {return bubbleRadi[currentMounth][d.id] + 10}})
                 .attr("stroke", "#DBDBDB")
                 .attr("fill", function (d) { return d.c })
                 .style("opacity", 2)
@@ -577,7 +578,7 @@ function visualizeBubbles(json, curentMounth) {
                 .selectAll("circle")
                 .filter(function (d) { return (d.id > 2 && d.id <= 6) })
                 .attr("id", function (d) { return d.id })
-                .attr("r", function (d) { if( bubbleRadi[curentMounth][d.id] == 0) { return 50} else {return bubbleRadi[curentMounth][d.id] + 10}})
+                .attr("r", function (d) { if( bubbleRadi[currentMounth][d.id] == 0) { return 50} else {return bubbleRadi[currentMounth][d.id] + 10}})
                 .attr("stroke", "black")
                 .attr("fill", function (d) { return d.c })
                 .style("opacity", 0.2)
@@ -609,9 +610,9 @@ function visualizeBubbles(json, curentMounth) {
     function computeImageSize(id) {
 
         var bubbleid = id;
-        var radiusBubble = bubbleRadi[curentMounth][bubbleid];
+        var radiusBubble = bubbleRadi[currentMounth][bubbleid];
         console.log("radiusBubble mit id " + bubbleid + " = " + radiusBubble);
-        console.log("monat: " + curentMounth);
+        console.log("monat: " + currentMounth);
         var imageSize = radiusBubble;
         // no data to show
         if (imageSize == 0) {
@@ -623,7 +624,7 @@ function visualizeBubbles(json, curentMounth) {
     function computeImagePos(id) {
 
         var bubbleid = id;
-        var radiusBubble = bubbleRadi[curentMounth][bubbleid];
+        var radiusBubble = bubbleRadi[currentMounth][bubbleid];
         var imagePos = radiusBubble * (-0.5);
         // no data to show
         if (imagePos == 0) {
