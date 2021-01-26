@@ -273,16 +273,19 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
             var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
                 .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
             tooltip.transition().duration(200).style("opacity", .9);
-            var currentText = "Hello" // idToLabel(this.id) // Get the lable from the id of the hovered bubble
-            tooltip.html(tooltipDetails())
+            var currentText = "Hello" 
+            tooltip.html(currentText)
                 .style("left", (window.pageXOffset + matrix.e + 10) + "px")
                 .style("top", (window.pageYOffset + matrix.f - 10) + "px");
         })
-        /* Remove the tooltip */
+        //Remove the tooltip
         .on("mouseout", function (d) {
             console.log("in mouseout")
             tooltip.transition().duration(500).style("opacity", 0);
         })
+        
+
+    
 
     // Source
     var source = "Quelle: "
@@ -426,10 +429,11 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
             .attr("fill", "none")
             .attr("stroke", color)
             .attr("stroke-width", 2.5)
+            
     }
 
     function tooltipDetails(){
-        var details = "Tooltip details:" + getMediaName(); "</br> getMediaName();";
+        var details = "Tooltip details:" + getMediaName();
         console.log(details);
     }
 
