@@ -33,15 +33,13 @@ function parser(analog, digital) {
     )
 
     // Check/parse parameter
-    if (analog != "") {
+    if (analog !== "") {
         path_csv_analog = csv_files_analog.get(analog)
-        console.log(path_csv_analog)
     } else {
         path_csv_analog = null
     }
-    if (digital != "") {
+    if (digital !== "") {
         path_csv_digital = csv_files_digital.get(digital)
-        console.log(path_csv_digital)
     } else {
         path_csv_digital = null
     }
@@ -60,8 +58,6 @@ function parser(analog, digital) {
                 // files[1] will contain file2.csv
                 var file1Data = files[0]
                 var file2Data = files[1]
-                console.log("file1" + file1Data)
-                console.log("file2" +file2Data)
 
                 file1Data.forEach(function (d){
                     // Build analogData block (fill array)
@@ -73,7 +69,6 @@ function parser(analog, digital) {
                         if(analogTitel === ""){
                             analogTitel = d.Titel
                         }
-                        console.log("quartal_a " + feed)
                         analogData.push(feed);
                     }
 
@@ -89,16 +84,9 @@ function parser(analog, digital) {
                         if(digitalTitel === ""){
                             digitalTitel = d.Bezeichnung
                         }
-                        console.log("quartal_d " + feed)
                         digitalData.push(feed);
                     }
                 })
-
-                console.log("analogData got:")
-                console.log(analogData)
-
-                console.log("digitalData got:")
-                console.log(digitalData)
 
                 visualizeLineDiagram(analogData,digitalData, analogSource, digitalSource, analogTitel, digitalTitel)
 
@@ -122,7 +110,6 @@ function parser(analog, digital) {
                             if(analogTitel === ""){
                                 analogTitel = d.Titel
                             }
-                            console.log("quartal_a " + feed)
                             analogData.push(feed);
                         }
                     })
@@ -150,7 +137,6 @@ function parser(analog, digital) {
                         if(digitalTitel === ""){
                             digitalTitel = d.Bezeichnung
                         }
-                        console.log("quartal_a " + feed)
                         digitalData.push(feed);
                     }
                 })
@@ -166,7 +152,8 @@ function parser(analog, digital) {
     }
 }
 
-function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitel, digitalTitel) {
+function visualizeLineDiagram(analogData="", digitalData="", analogSource="", digitalSource="", analogTitel="", digitalTitel="") {
+
 
     // set the dimensions and margins of the graph
     const Margin = 80;
@@ -179,28 +166,73 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
     var y
     var yAxis
 
-    // always remove old diagram
+    // Always remove old diagram
     var svg = d3.select("#bottomDiagram").selectAll("svg").remove()
 
     var aData = analogData.length
     var dData = digitalData.length
 
-    console.log("analogData length : " + aData)
-    console.log("digitalData length : " + dData)
+    if (aData === 0 && dData === 0){
 
-    if (aData === 0 && dData === 0) {
-        console.log("no data to draw")
+        svg = d3.select("#bottomDiagram").append("svg")
+        initChart();
+
+        analogData = [
+            {ser1: "201909", ser2: 10},
+            {ser1: "201910", ser2: 100},
+            {ser1: "201911", ser2: 10},
+            {ser1: "201912", ser2: 30},
+            {ser1: "202001", ser2: 400},
+            {ser1: "202002", ser2: 200},
+            {ser1: "202003", ser2: 50},
+            {ser1: "202004", ser2: 100},
+            {ser1: "202005", ser2: 200},
+            {ser1: "202006", ser2: 300},
+            {ser1: "202007", ser2: 400},
+            {ser1: "202008", ser2: 500},
+            {ser1: "202009", ser2: 10}]
+
+        digitalData = [
+            {ser1: "201909", ser2: 20},
+            {ser1: "201910", ser2: 200},
+            {ser1: "201911", ser2: 20},
+            {ser1: "201912", ser2: 20},
+            {ser1: "202001", ser2: 200},
+            {ser1: "202002", ser2: 200},
+            {ser1: "202003", ser2: 20},
+            {ser1: "202004", ser2: 200},
+            {ser1: "202005", ser2: 200},
+            {ser1: "202006", ser2: 200},
+            {ser1: "202007", ser2: 200},
+            {ser1: "202008", ser2: 200},
+            {ser1: "202009", ser2: 20}]
+        
+        var max = 0
+        analogData.forEach(function (a){
+            if(a.ser2 > max){
+                max = a.ser2
+            }
+        })
+
+        digitalData.forEach(function (d){
+            if(d.ser2 > max){
+                max = d.ser2
+            }
+        })
+
+        axesSpecial(analogData, max)
+        line(analogData, ANALOG)
+        line(digitalData, DIGITAL)
 
     } else {
         // remove diagram and...
         // append the svg object to the body of the page
-        var svg = d3.select("#bottomDiagram").append("svg")
+        svg = d3.select("#bottomDiagram").append("svg")
 
         // Init Chart
         initChart();
 
         if (aData > 0 && dData === 0) {
-            console.log("draw only analog data")
             axes(analogData);
             line(analogData, ANALOG);
 
@@ -231,78 +263,6 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         }
     }
 
-    // Label for yAxis
-    svg.append('text')
-        .attr('class', 'label')
-        .attr('x', -(height / 2) - Margin)
-        .attr('y', Margin / 8)
-        .attr('transform', 'rotate(-90)')
-        .attr('text-anchor', 'middle')
-        .text('Verkauf/Visits')
-
-
-    // Label for xAxis
-    svg.append('text')
-        .attr('class', 'label')
-        .attr('x', width / 2 + Margin)
-        .attr('y', height + Margin * 1.5)
-        .attr('text-anchor', 'middle')
-        .text('Monate')
-
-    /* testing */
-    var tooltip = d3.select("#bottomDiagram")
-    .append("div")
-    .style("opacity", 0)
-    .attr("class", "tooltip")
-    .style("background-color", "white") // "#39475c")
-    .style("border-radius", "5px")
-    .style("padding", "10px")
-    .style("color", "#39475c")
-    .style("position", "absolute")
-
-    // Title
-    svg.append('text')
-        .attr('class', 'title')
-        .attr('x', width / 2 + Margin)
-        .attr('y', 30)
-        .attr('text-anchor', 'middle')
-        .text('Vergleich ausgewählter Kategorien')
-        /* testing */
-        .on("mouseover", function (d) {
-            console.log("in mouseover")
-            var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
-                .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
-            tooltip.transition().duration(200).style("opacity", .9);
-            var currentText = "Hello" 
-            tooltip.html(currentText)
-                .style("left", (window.pageXOffset + matrix.e + 10) + "px")
-                .style("top", (window.pageYOffset + matrix.f - 10) + "px");
-        })
-        //Remove the tooltip
-        .on("mouseout", function (d) {
-            console.log("in mouseout")
-            tooltip.transition().duration(500).style("opacity", 0);
-        })
-        
-
-    
-
-    // Source
-    var source = "Quelle: "
-    if(analogSource !== "" && digitalSource === ""){
-        source += analogSource
-    } else if(analogSource === "" && digitalSource !== ""){
-        source += digitalSource
-    } else if(analogSource !== "" && digitalSource !== ""){
-        source = source + analogSource + ", " + digitalSource
-    }
-    svg.append('text')
-        .attr('class', 'source')
-        .attr('x', Margin / 2)
-        .attr('y', height * 1.63)
-        .attr('text-anchor', 'start')
-        .text(source)
-
 
     function initChart() {
         chart = svg.append('g')
@@ -316,18 +276,17 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
 
                 // Format number to date object
                 const date = new Date(d.replace(/(\d\d\d\d)(\d\d)/, '$1-$2'))
-                var new_date
 
                 // short = short name of the months
                 // long = full name of the months
                 const month = date.toLocaleString('default', { month: 'short' });
-                console.log(date.getFullYear());
 
-                if (month == "Jan") {
+                var new_date
+                if (month === "Jan") {
                     new_date = month+"'20"
 
-                } else if (month == "Sep") {
-                    if (date.getFullYear() == 2019) {
+                } else if (month === "Sep") {
+                    if (date.getFullYear() === 2019) {
                         new_date = month + "'19"
                     } else {
                         new_date = month
@@ -335,7 +294,6 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
                 } else {
                     new_date = month
                 }
-                //new_date = month
                 return new_date
             });
         chart.append('g')
@@ -356,15 +314,102 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
                 });
         chart.append('g')
             .attr("class", "myYaxis")
+
+        // Check label data
+        var source = "Quelle: "
+        var title = "Summe Analog & Digital"
+        var label_xAxis = "Verkauf/Visits"
+
+        // Analog only
+        if(analogSource !== "" && digitalSource === ""){
+            source += analogSource
+            label_xAxis = "Verkauf"
+            title = analogTitel
+
+        // Digital only
+        } else if(analogSource === "" && digitalSource !== ""){
+            source += digitalSource
+            label_xAxis = "Visits"
+            title = digitalTitel
+
+        // Digital & Analog
+        } else if(analogSource !== "" && digitalSource !== ""){
+            source = source + analogSource + ", " + digitalSource
+            title = analogTitel + " / " + digitalTitel
+        }
+        // None (Sum diagram of analog + digital)
+        else {
+            source = ""
+        }
+      
+        /* testing */
+        var tooltip = d3.select("#bottomDiagram")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white") // "#39475c")
+        .style("border-radius", "5px")
+        .style("padding", "10px")
+        .style("color", "#39475c")
+        .style("position", "absolute")
+
+
+        // Label for yAxis
+        svg.append('text')
+            .attr('class', 'label')
+            .attr('x', -(height / 2) - Margin)
+            .attr('y', Margin / 8)
+            .attr('transform', 'rotate(-90)')
+            .attr('text-anchor', 'middle')
+            .text(label_xAxis)
+
+        // Label for xAxis
+        svg.append('text')
+            .attr('class', 'label')
+            .attr('x', width / 2 + Margin)
+            .attr('y', height + Margin * 1.5)
+            .attr('text-anchor', 'middle')
+            .text('Monate')
+
+        // Label for Title
+        svg.append('text')
+            .attr('class', 'title')
+            .attr('x', width / 2 + Margin)
+            .attr('y', 30)
+            .attr('text-anchor', 'middle')
+            .text(title)
+             /* testing */
+            .on("mouseover", function (d) {
+                console.log("in mouseover")
+                var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
+                    .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
+                tooltip.transition().duration(200).style("opacity", .9);
+                var currentText = "Hello" 
+                tooltip.html(currentText)
+                    .style("left", (window.pageXOffset + matrix.e + 10) + "px")
+                    .style("top", (window.pageYOffset + matrix.f - 10) + "px");
+            })
+            //Remove the tooltip
+            .on("mouseout", function (d) {
+                console.log("in mouseout")
+                tooltip.transition().duration(500).style("opacity", 0);
+            })
+
+
+        // Label for Source
+        svg.append('text')
+            .attr('class', 'source')
+            .attr('x', Margin / 2)
+            .attr('y', height * 1.63)
+            .attr('text-anchor', 'start')
+            .text(source)
     }
 
-    // TODO: Reihenfolge der Daten ändern. Nicht 2020 nach 2016 sondern aufsteigend
     function axes(data) {
         x.domain(data.map((s) => s.ser1))
         chart.selectAll(".myXaxis")
             .attr('class', 'tick_Scales')
             .call(xAxis)
-
 
         // create the Y axis
         y.domain([0, d3.max(data, function (d) {
@@ -382,9 +427,6 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         chart.selectAll(".myXaxis")
             .attr('class', 'tick_Scales')
             .call(xAxis)
-                //.selectAll('text')
-                //.style("text-anchor", "end")
-                //.attr("transform", "rotate(-45)");
 
         // create the Y axis
         y.domain([0, yMax]);
@@ -411,7 +453,6 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         }
 
         // visualizeLineDiagram the line
-        // Code:
         u
             .enter()
             .append("path")
@@ -439,3 +480,5 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
 
         
 }
+//Show the sum chart after loading the page for the first time
+visualizeLineDiagram();
