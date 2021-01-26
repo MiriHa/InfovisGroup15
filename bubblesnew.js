@@ -164,10 +164,11 @@ var tooltip = d3.select("#bubbles")
     .append("div")
     .style("opacity", 0)
     .attr("class", "tooltip")
-    .style("background-color", "white") // "#39475c")
-    .style("border-radius", "5px")
-    .style("padding", "10px")
-    .style("color", "#39475c")
+    
+    .style("border-radius", "8px")
+    .style("padding", "8px")
+    .style("text-align", "center")
+    .style("color", "white")
     .style("position", "absolute")
 
 /* Visualize the bubble chart. Is called every time you move the timer */
@@ -1068,7 +1069,8 @@ function bubbleSizeInOne() {
 
 /* Get the respective media name; relevant for the tooltips of the line diagramm ("lineDiagramm.js") */
 function getMediaName() {
-    return bubbleName;
+    //return bubbleName;
+    return Math.sqrt(circleAreaScale(d) / Math.PI)
 }
 
 
