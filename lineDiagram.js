@@ -169,7 +169,7 @@ function parser(analog, digital) {
 
 
 
-function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitel, digitalTitel) {
+function visualizeLineDiagram(analogData="", digitalData="", analogSource="", digitalSource="", analogTitel="", digitalTitel="") {
 
     // set the dimensions and margins of the graph
     const Margin = 80;
@@ -182,22 +182,38 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
     var y
     var yAxis
 
-    // always remove old diagram
+    // Always remove old diagram
     var svg = d3.select("#bottomDiagram").selectAll("svg").remove()
 
     var aData = analogData.length
     var dData = digitalData.length
 
-    console.log("analogData length : " + aData)
-    console.log("digitalData length : " + dData)
+    if (aData === 0 && dData === 0){
 
-    if (aData === 0 && dData === 0) {
-        console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
         var svg = d3.select("#bottomDiagram").append("svg")
         initChart();
 
         analogData = [
-            {ser1: "202001", ser2: 20},
+            {ser1: "201909", ser2: 10},
+            {ser1: "201910", ser2: 100},
+            {ser1: "201911", ser2: 10},
+            {ser1: "201912", ser2: 30},
+            {ser1: "202001", ser2: 400},
+            {ser1: "202002", ser2: 200},
+            {ser1: "202003", ser2: 50},
+            {ser1: "202004", ser2: 100},
+            {ser1: "202005", ser2: 200},
+            {ser1: "202006", ser2: 300},
+            {ser1: "202007", ser2: 400},
+            {ser1: "202008", ser2: 500},
+            {ser1: "202009", ser2: 10}]
+
+        digitalData = [
+            {ser1: "201909", ser2: 20},
+            {ser1: "201910", ser2: 200},
+            {ser1: "201911", ser2: 20},
+            {ser1: "201912", ser2: 20},
+            {ser1: "202001", ser2: 200},
             {ser1: "202002", ser2: 200},
             {ser1: "202003", ser2: 20},
             {ser1: "202004", ser2: 200},
@@ -205,27 +221,8 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
             {ser1: "202006", ser2: 200},
             {ser1: "202007", ser2: 200},
             {ser1: "202008", ser2: 200},
-            {ser1: "202009", ser2: 20},
-            {ser1: "202010", ser2: 200},
-            {ser1: "202011", ser2: 200},
-            {ser1: "202012", ser2: 20}]
-
-        digitalData = [
-            {ser1: "202001", ser2: 200},
-            {ser1: "202002", ser2: 200},
-            {ser1: "202003", ser2: 20},
-            {ser1: "202004", ser2: 200},
-            {ser1: "202005", ser2: 200},
-            {ser1: "202006", ser2: 200},
-            {ser1: "202007", ser2: 2000},
-            {ser1: "202008", ser2: 2000},
-            {ser1: "202009", ser2: 20},
-            {ser1: "202010", ser2: 200},
-            {ser1: "202011", ser2: 200},
-            {ser1: "202012", ser2: 20}]
-
-
-
+            {ser1: "202009", ser2: 20}]
+        
         var max = 0
         analogData.forEach(function (a){
             if(a.ser2 > max){
@@ -282,52 +279,6 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         }
     }
 
-
-    /* Label for yAxis
-    svg.append('text')
-        .attr('class', 'label')
-        .attr('x', -(height / 2) - Margin)
-        .attr('y', Margin / 8)
-        .attr('transform', 'rotate(-90)')
-        .attr('text-anchor', 'middle')
-        .text('Verkauf/Visits')
-
-
-    // Label for xAxis
-    svg.append('text')
-        .attr('class', 'label')
-        .attr('x', width / 2 + Margin)
-        .attr('y', height + Margin * 1.5)
-        .attr('text-anchor', 'middle')
-        .text('Monate')
-
-    // Title
-    svg.append('text')
-        .attr('class', 'title')
-        .attr('x', width / 2 + Margin)
-        .attr('y', 30)
-        .attr('text-anchor', 'middle')
-        .text('Vergleich ausgewählter Kategorien')
-
-    // Source
-    var source = ""
-    //var source = "Quelle: "
-    if(analogSource !== "" && digitalSource === ""){
-        source += analogSource
-    } else if(analogSource === "" && digitalSource !== ""){
-        source += digitalSource
-    } else if(analogSource !== "" && digitalSource !== ""){
-        source = source + analogSource + ", " + digitalSource
-    }
-
-    svg.append('text')
-        .attr('class', 'source')
-        .attr('x', Margin / 2)
-        .attr('y', height * 1.63)
-        .attr('text-anchor', 'start')
-        .text(source)*/
-
-
     function initChart() {
         chart = svg.append('g')
             .attr("transform", "translate(" + Margin + "," + Margin + ")");
@@ -340,13 +291,12 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
 
                 // Format number to date object
                 const date = new Date(d.replace(/(\d\d\d\d)(\d\d)/, '$1-$2'))
-                var new_date
 
                 // short = short name of the months
                 // long = full name of the months
                 const month = date.toLocaleString('default', { month: 'short' });
-                console.log(date.getFullYear());
 
+                var new_date
                 if (month === "Jan") {
                     new_date = month+"'20"
 
@@ -359,7 +309,6 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
                 } else {
                     new_date = month
                 }
-                //new_date = month
                 return new_date
             });
         chart.append('g')
@@ -381,25 +330,31 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         chart.append('g')
             .attr("class", "myYaxis")
 
-        // Source
+        // Check label data
         var source = "Quelle: "
-        var title = "Vergleich ausgewählter Kategorien"
+        var title = "Summe Analog & Digital"
         var label_xAxis = "Verkauf/Visits"
 
-        if (analogSource === undefined && digitalSource === undefined) {
-            source = ""
-            title = "Summe Analog & Digital"
+        // Analog only
+        if(analogSource !== "" && digitalSource === ""){
+            source += analogSource
+            label_xAxis = "Verkauf"
+            title = analogTitel
 
-        } else {
-            if(analogSource !== "" && digitalSource === ""){
-                source += analogSource
-                label_xAxis = "Verkauf"
-            } else if(analogSource === "" && digitalSource !== ""){
-                source += digitalSource
-                label_xAxis = "Visits"
-            } else if(analogSource !== "" && digitalSource !== ""){
-                source = source + analogSource + ", " + digitalSource
-            }
+        // Digital only
+        } else if(analogSource === "" && digitalSource !== ""){
+            source += digitalSource
+            label_xAxis = "Visits"
+            title = digitalTitel
+
+        // Digital & Analog
+        } else if(analogSource !== "" && digitalSource !== ""){
+            source = source + analogSource + ", " + digitalSource
+            title = analogTitel + " / " + digitalTitel
+        }
+        // None (Sum diagram of analog + digital)
+        else {
+            source = ""
         }
 
         // Label for yAxis
@@ -419,7 +374,7 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
             .attr('text-anchor', 'middle')
             .text('Monate')
 
-        // Title
+        // Label for Title
         svg.append('text')
             .attr('class', 'title')
             .attr('x', width / 2 + Margin)
@@ -427,7 +382,7 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
             .attr('text-anchor', 'middle')
             .text(title)
 
-        // Source
+        // Label for Source
         svg.append('text')
             .attr('class', 'source')
             .attr('x', Margin / 2)
@@ -436,7 +391,6 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
             .text(source)
     }
 
-    // TODO: Reihenfolge der Daten ändern. Nicht 2020 nach 2016 sondern aufsteigend
     function axes(data) {
         x.domain(data.map((s) => s.ser1))
         chart.selectAll(".myXaxis")
@@ -505,3 +459,5 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
             .attr("stroke-width", 2.5)
     }
 }
+//visualizeLineDiagram("", "","","","","");
+visualizeLineDiagram();
