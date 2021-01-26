@@ -95,6 +95,8 @@ json1 = {
     ]
 }
 
+var bubbleName;
+
 
 //wird hier benötigt also nicht nur bei script updaten
 //for bubbles to handle the radius
@@ -167,7 +169,6 @@ var tooltip = d3.select("#bubbles")
     .style("padding", "10px")
     .style("color", "#39475c")
     .style("position", "absolute")
-
 
 /* Visualize the bubble chart. Is called every time you move the timer */
 function visualizeBubbles(json, currentMounth) {
@@ -369,7 +370,6 @@ function visualizeBubbles(json, currentMounth) {
     var clicked_Analog = 0;
     var clicked_Digital = 0;
     var sameClick = 1;
-    var bubbleName;
 
     /* Event handler for mouse click on bubbles */
     function bubbleClick(d) {
@@ -381,6 +381,7 @@ function visualizeBubbles(json, currentMounth) {
         console.log("clickedAna = " + clicked_Analog);
         console.log("clickedD = " + clicked_Digital);
         console.log("currentClick = " + idClick);
+        
 
         if (idClick > 2 && idClick < 7) { // Analog sub bubbles
             elemEnter.selectAll("circle") //.append("circle")
@@ -544,6 +545,8 @@ function visualizeBubbles(json, currentMounth) {
             return showDiagram(d.attr("label"));*/
 
         }
+
+        
     }   
 
     /*
@@ -1059,12 +1062,16 @@ function bubbleSizeInOne() {
         // handle error
         console.log("loading error" + err)
     })
+
+    
 }
 
 /* Get the respective media name; relevant for the tooltips of the line diagramm ("lineDiagramm.js") */
 function getMediaName() {
     return bubbleName;
 }
+
+
 
 
 

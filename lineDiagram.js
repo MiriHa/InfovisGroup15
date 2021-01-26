@@ -249,6 +249,17 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         .attr('text-anchor', 'middle')
         .text('Monate')
 
+    /* testing */
+    var tooltip = d3.select("#bottomDiagram")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white") // "#39475c")
+    .style("border-radius", "5px")
+    .style("padding", "10px")
+    .style("color", "#39475c")
+    .style("position", "absolute")
+
     // Title
     svg.append('text')
         .attr('class', 'title')
@@ -256,6 +267,22 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         .attr('y', 30)
         .attr('text-anchor', 'middle')
         .text('Vergleich ausgewählter Kategorien')
+        /* testing */
+        .on("mouseover", function (d) {
+            console.log("in mouseover")
+            var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
+                .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
+            tooltip.transition().duration(200).style("opacity", .9);
+            var currentText = "Hello" // idToLabel(this.id) // Get the lable from the id of the hovered bubble
+            tooltip.html(tooltipDetails())
+                .style("left", (window.pageXOffset + matrix.e + 10) + "px")
+                .style("top", (window.pageYOffset + matrix.f - 10) + "px");
+        })
+        /* Remove the tooltip */
+        .on("mouseout", function (d) {
+            console.log("in mouseout")
+            tooltip.transition().duration(500).style("opacity", 0);
+        })
 
     // Source
     var source = "Quelle: "
@@ -401,8 +428,10 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
             .attr("stroke-width", 2.5)
     }
 
-    /* Get the respective media name; relevant for the tooltip */
-    function getMediaName(id) {
-        return " ";
-    }       
+    function tooltipDetails(){
+        var details = "Tooltip details:" + getMediaName(); "</br> getMediaName();";
+        console.log(details);
+    }
+
+        
 }
