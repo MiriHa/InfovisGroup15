@@ -347,12 +347,11 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         .append("div")
         .style("opacity", 0)
         .attr("class", "tooltip")
-        .style("background-color", "white") // "#39475c")
-        .style("border-radius", "5px")
-        .style("padding", "10px")
-        .style("color", "#39475c")
+        .style("background-color", "#39475c")
+        .style("border-radius", "8px")
+        .style("padding", "8px")
+        .style("color", "white")
         .style("position", "absolute")
-
 
         // Label for yAxis
         svg.append('text')

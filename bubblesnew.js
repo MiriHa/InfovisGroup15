@@ -164,10 +164,9 @@ var tooltip = d3.select("#bubbles")
     .append("div")
     .style("opacity", 0)
     .attr("class", "tooltip")
-    
+    .style("background-color", "#39475c")
     .style("border-radius", "8px")
     .style("padding", "8px")
-    .style("text-align", "center")
     .style("color", "white")
     .style("position", "absolute")
 
@@ -1069,8 +1068,7 @@ function bubbleSizeInOne() {
 
 /* Get the respective media name; relevant for the tooltips of the line diagramm ("lineDiagramm.js") */
 function getMediaName() {
-    //return bubbleName;
-    return Math.sqrt(circleAreaScale(d) / Math.PI)
+    return bubbleName;
 }
 
 
