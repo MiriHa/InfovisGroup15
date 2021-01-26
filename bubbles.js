@@ -658,6 +658,7 @@ function visualizeBubbles(json, aktmounth) {
         console.log("inMouseOUT - remove:" + "#t" + currentText);
         // Select text by id and then remove
         d3.select("#t" + currentText).remove();  // Remove text location
+
 }
 
     //------------------------------- tooltip ------------------------------------//
@@ -673,6 +674,8 @@ function visualizeBubbles(json, aktmounth) {
         return y;
     }*/
 
+
+    // Create the tooltip div that is added to the bubble chart
     var tooltip = d3.select("#bubbles")
         .append("div")
         .style("opacity", 0)
@@ -683,18 +686,22 @@ function visualizeBubbles(json, aktmounth) {
         .style("border-radius", "5px")
         .style("padding", "5px")
 
+    // Event handler for mouse hovering
     var mouseover = function(d) { 
     console.log("inMouseOVER");
 
+    // Get the respective text of the bubble
     var currentText = idToLabel(d.attr("id"));
     console.log("currentText:" + currentText); 
-        
+    
+    // Get the position of the bubble
     /*var xposi = idToPositionX(d.attr("id"));
     var yposi = idToPositionY(d.attr("id"));*/
     var xpos = d.attr("cx")+10;
     var ypos = d.attr("cy")+10;
     console.log("x:" + xpos + ", y:" + ypos);
 
+    // Show the tooltip at the correct position
     tooltip
         .html(currentText)
         .style("opacity", 1)
@@ -707,11 +714,15 @@ function visualizeBubbles(json, aktmounth) {
             cx: function() { return xScale(d.cx) - 30; },
             cy: function() { return yScale(d.cy) - 15; }
         })*/
+
     }
 
+    // Handle event for exit mouse hovering
     var mouseout = function(d) {
         tooltip.style("opacity", 0)
-        d3.select("#bubbles").selectAll(".tooltip").remove()
+        // remove current tooltip
+        //d3.select("#bubbles").selectAll("tooltip").remove() // doesn't work
+        
     }
     /* ------------------------------ tooltip -------------------------------- */
 
