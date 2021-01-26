@@ -192,7 +192,56 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
     console.log("digitalData length : " + dData)
 
     if (aData === 0 && dData === 0) {
-        console.log("no data to draw")
+        console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
+        var svg = d3.select("#bottomDiagram").append("svg")
+        initChart();
+
+        analogData = [
+            {ser1: "202001", ser2: 20},
+            {ser1: "202002", ser2: 200},
+            {ser1: "202003", ser2: 20},
+            {ser1: "202004", ser2: 200},
+            {ser1: "202005", ser2: 200},
+            {ser1: "202006", ser2: 200},
+            {ser1: "202007", ser2: 200},
+            {ser1: "202008", ser2: 200},
+            {ser1: "202009", ser2: 20},
+            {ser1: "202010", ser2: 200},
+            {ser1: "202011", ser2: 200},
+            {ser1: "202012", ser2: 20}]
+
+        digitalData = [
+            {ser1: "202001", ser2: 200},
+            {ser1: "202002", ser2: 200},
+            {ser1: "202003", ser2: 20},
+            {ser1: "202004", ser2: 200},
+            {ser1: "202005", ser2: 200},
+            {ser1: "202006", ser2: 200},
+            {ser1: "202007", ser2: 2000},
+            {ser1: "202008", ser2: 2000},
+            {ser1: "202009", ser2: 20},
+            {ser1: "202010", ser2: 200},
+            {ser1: "202011", ser2: 200},
+            {ser1: "202012", ser2: 20}]
+
+
+
+        var max = 0
+        analogData.forEach(function (a){
+            if(a.ser2 > max){
+                max = a.ser2
+            }
+        })
+
+        digitalData.forEach(function (d){
+            if(d.ser2 > max){
+                max = d.ser2
+            }
+        })
+
+        axesSpecial(analogData, max)
+        line(analogData, ANALOG)
+        line(digitalData, DIGITAL)
 
     } else {
         // remove diagram and...
@@ -203,7 +252,6 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         initChart();
 
         if (aData > 0 && dData === 0) {
-            console.log("draw only analog data")
             axes(analogData);
             line(analogData, ANALOG);
 
@@ -235,7 +283,7 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
     }
 
 
-    // Label for yAxis
+    /* Label for yAxis
     svg.append('text')
         .attr('class', 'label')
         .attr('x', -(height / 2) - Margin)
@@ -262,7 +310,8 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         .text('Vergleich ausgewählter Kategorien')
 
     // Source
-    var source = "Quelle: "
+    var source = ""
+    //var source = "Quelle: "
     if(analogSource !== "" && digitalSource === ""){
         source += analogSource
     } else if(analogSource === "" && digitalSource !== ""){
@@ -270,12 +319,13 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
     } else if(analogSource !== "" && digitalSource !== ""){
         source = source + analogSource + ", " + digitalSource
     }
+
     svg.append('text')
         .attr('class', 'source')
         .attr('x', Margin / 2)
         .attr('y', height * 1.63)
         .attr('text-anchor', 'start')
-        .text(source)
+        .text(source)*/
 
 
     function initChart() {
@@ -297,11 +347,11 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
                 const month = date.toLocaleString('default', { month: 'short' });
                 console.log(date.getFullYear());
 
-                if (month == "Jan") {
+                if (month === "Jan") {
                     new_date = month+"'20"
 
-                } else if (month == "Sep") {
-                    if (date.getFullYear() == 2019) {
+                } else if (month === "Sep") {
+                    if (date.getFullYear() === 2019) {
                         new_date = month + "'19"
                     } else {
                         new_date = month
@@ -330,6 +380,60 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
                 });
         chart.append('g')
             .attr("class", "myYaxis")
+
+        // Source
+        var source = "Quelle: "
+        var title = "Vergleich ausgewählter Kategorien"
+        var label_xAxis = "Verkauf/Visits"
+
+        if (analogSource === undefined && digitalSource === undefined) {
+            source = ""
+            title = "Summe Analog & Digital"
+
+        } else {
+            if(analogSource !== "" && digitalSource === ""){
+                source += analogSource
+                label_xAxis = "Verkauf"
+            } else if(analogSource === "" && digitalSource !== ""){
+                source += digitalSource
+                label_xAxis = "Visits"
+            } else if(analogSource !== "" && digitalSource !== ""){
+                source = source + analogSource + ", " + digitalSource
+            }
+        }
+
+        // Label for yAxis
+        svg.append('text')
+            .attr('class', 'label')
+            .attr('x', -(height / 2) - Margin)
+            .attr('y', Margin / 8)
+            .attr('transform', 'rotate(-90)')
+            .attr('text-anchor', 'middle')
+            .text(label_xAxis)
+
+        // Label for xAxis
+        svg.append('text')
+            .attr('class', 'label')
+            .attr('x', width / 2 + Margin)
+            .attr('y', height + Margin * 1.5)
+            .attr('text-anchor', 'middle')
+            .text('Monate')
+
+        // Title
+        svg.append('text')
+            .attr('class', 'title')
+            .attr('x', width / 2 + Margin)
+            .attr('y', 30)
+            .attr('text-anchor', 'middle')
+            .text(title)
+
+        // Source
+        svg.append('text')
+            .attr('class', 'source')
+            .attr('x', Margin / 2)
+            .attr('y', height * 1.63)
+            .attr('text-anchor', 'start')
+            .text(source)
     }
 
     // TODO: Reihenfolge der Daten ändern. Nicht 2020 nach 2016 sondern aufsteigend
@@ -338,7 +442,6 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         chart.selectAll(".myXaxis")
             .attr('class', 'tick_Scales')
             .call(xAxis)
-
 
         // create the Y axis
         y.domain([0, d3.max(data, function (d) {
@@ -356,9 +459,6 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
         chart.selectAll(".myXaxis")
             .attr('class', 'tick_Scales')
             .call(xAxis)
-                //.selectAll('text')
-                //.style("text-anchor", "end")
-                //.attr("transform", "rotate(-45)");
 
         // create the Y axis
         y.domain([0, yMax]);
