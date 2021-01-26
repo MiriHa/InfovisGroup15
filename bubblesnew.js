@@ -274,8 +274,8 @@ function visualizeBubbles(json, currentMounth) {
             tooltip.transition().duration(200).style("opacity", .9);
             //TODO sytle this?
             var label = "world"
-            var currentText = idToLabel(d.id) // for some reason id is undefiend
-            tooltip.html("hello "+ label + "<br/>" + d.id)
+            var aktT = idToLabel(this.id) //get the lable from id
+            tooltip.html("hello "+ label + "<br/>" + aktT)
                 .style("left", (window.pageXOffset + matrix.e + 15) + "px")
                 .style("top", (window.pageYOffset + matrix.f - 30) + "px");
         })
