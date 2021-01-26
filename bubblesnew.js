@@ -230,7 +230,7 @@ function visualizeBubbles(json, currentMounth) {
             }
             tooltip.html(currentText)
                 .style("left", (window.pageXOffset + matrix.e + 30) + "px")
-                .style("top", (window.pageYOffset + matrix.f - 60) + "px");
+                .style("top", (window.pageYOffset + matrix.f - 70) + "px");
         })
         /* Remove the tooltip */
         .on("mouseout", function (d) {
@@ -264,7 +264,7 @@ function visualizeBubbles(json, currentMounth) {
             }
             tooltip.html(currentText)
                 .style("left", (window.pageXOffset + matrix.e + 30) + "px")
-                .style("top", (window.pageYOffset + matrix.f - 60) + "px");
+                .style("top", (window.pageYOffset + matrix.f - 70) + "px");
         })
         /* Remove the tooltip */
         .on("mouseout", function (d) {
@@ -289,7 +289,7 @@ function visualizeBubbles(json, currentMounth) {
             var currentText = idToLabel(this.id) // Get the lable from the id of the hovered bubble
             tooltip.html(currentText)
                 .style("left", (window.pageXOffset + matrix.e + 30) + "px")
-                .style("top", (window.pageYOffset + matrix.f - 50) + "px");
+                .style("top", (window.pageYOffset + matrix.f - 59) + "px");
         })
         /* Remove the tooltip */
         .on("mouseout", function (d) {
@@ -315,7 +315,7 @@ function visualizeBubbles(json, currentMounth) {
             var currentText = idToLabel(this.id) // Get the lable from the id of the hovered bubble
             tooltip.html(currentText)
                 .style("left", (window.pageXOffset + matrix.e + 30) + "px")
-                .style("top", (window.pageYOffset + matrix.f - 50) + "px");
+                .style("top", (window.pageYOffset + matrix.f - 59) + "px");
         })
         /* Remove the tooltip */
         .on("mouseout", function (d) {
