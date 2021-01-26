@@ -33,7 +33,7 @@ json1 = {
 
     }, {
         "id": 4,
-        "x": 80,
+        "x": 70,
         "y": 150,
         "r": 90,
         "c": COLOR_ANALOG, /* orange */
@@ -42,7 +42,7 @@ json1 = {
 
     }, {
         "id": 5,
-        "x": 80,
+        "x": 70,
         "y": 330,
         "r": 90,
         "c": COLOR_ANALOG, /* orange */
@@ -77,7 +77,7 @@ json1 = {
         "img": "health.png"
     }, {
         "id": 9,
-        "x": 570,
+        "x": 580,
         "y": 150,
         "r": 90,
         "c": COLOR_DIGITAL, /* blue */
@@ -85,7 +85,7 @@ json1 = {
         "img": "newsPaper_icon.png"
     }, {
         "id": 10,
-        "x": 570,
+        "x": 580,
         "y": 330,
         "r": 90,
         "c": COLOR_DIGITAL, /* blue */
