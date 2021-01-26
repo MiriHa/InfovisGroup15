@@ -34,15 +34,13 @@ function parser(analog, digital) {
 
 
     // Check/parse parameter
-    if (analog != "") {
+    if (analog !== "") {
         path_csv_analog = csv_files_analog.get(analog)
-        console.log(path_csv_analog)
     } else {
         path_csv_analog = null
     }
-    if (digital != "") {
+    if (digital !== "") {
         path_csv_digital = csv_files_digital.get(digital)
-        console.log(path_csv_digital)
     } else {
         path_csv_digital = null
     }
@@ -61,8 +59,6 @@ function parser(analog, digital) {
                 // files[1] will contain file2.csv
                 var file1Data = files[0]
                 var file2Data = files[1]
-                console.log("file1" + file1Data)
-                console.log("file2" +file2Data)
 
                 file1Data.forEach(function (d){
                     // Build analogData block (fill array)
@@ -74,7 +70,6 @@ function parser(analog, digital) {
                         if(analogTitel === ""){
                             analogTitel = d.Titel
                         }
-                        console.log("quartal_a " + feed)
                         analogData.push(feed);
                     }
 
@@ -90,16 +85,9 @@ function parser(analog, digital) {
                         if(digitalTitel === ""){
                             digitalTitel = d.Bezeichnung
                         }
-                        console.log("quartal_d " + feed)
                         digitalData.push(feed);
                     }
                 })
-
-                console.log("analogData got:")
-                console.log(analogData)
-
-                console.log("digitalData got:")
-                console.log(digitalData)
 
                 visualizeLineDiagram(analogData,digitalData, analogSource, digitalSource, analogTitel, digitalTitel)
 
@@ -123,7 +111,6 @@ function parser(analog, digital) {
                             if(analogTitel === ""){
                                 analogTitel = d.Titel
                             }
-                            console.log("quartal_a " + feed)
                             analogData.push(feed);
                         }
                     })
@@ -151,7 +138,6 @@ function parser(analog, digital) {
                         if(digitalTitel === ""){
                             digitalTitel = d.Bezeichnung
                         }
-                        console.log("quartal_a " + feed)
                         digitalData.push(feed);
                     }
                 })
@@ -190,7 +176,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
 
     if (aData === 0 && dData === 0){
 
-        var svg = d3.select("#bottomDiagram").append("svg")
+        svg = d3.select("#bottomDiagram").append("svg")
         initChart();
 
         analogData = [
@@ -243,7 +229,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
     } else {
         // remove diagram and...
         // append the svg object to the body of the page
-        var svg = d3.select("#bottomDiagram").append("svg")
+        svg = d3.select("#bottomDiagram").append("svg")
 
         // Init Chart
         initChart();
@@ -439,7 +425,6 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         }
 
         // visualizeLineDiagram the line
-        // Code:
         u
             .enter()
             .append("path")
@@ -459,5 +444,5 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .attr("stroke-width", 2.5)
     }
 }
-//visualizeLineDiagram("", "","","","","");
+//Show the sum chart after loading the page for the first time
 visualizeLineDiagram();
