@@ -1,4 +1,11 @@
+// var currentDataTitle; // name of the magazin / newspaper etc.
+var detailLevel=0;
+
 function parser(analog, digital) {
+    // Get the title of the current selection; relevant for the tooltip
+    function getDataTitle(d){
+        currentDataTitle = d.Titel; 
+    }
 
     console.log("Parser:")
     console.log(analog)
@@ -12,8 +19,9 @@ function parser(analog, digital) {
 
     var analogSource = ""
     var digitalSource = ""
-    var analogTitel = ""
-    var digitalTitel = ""
+    var analogTitle = ""
+    var digitalTitle = ""
+
 
     // Dictionary of all .csv files (aka data sets)
     const csv_files_analog = new Map([
@@ -66,8 +74,8 @@ function parser(analog, digital) {
                         if(analogSource === ""){
                             analogSource = SOURCE_ANALOG + d.Quellzusatz
                         }
-                        if(analogTitel === ""){
-                            analogTitel = d.Titel
+                        if(analogTitle === ""){
+                            analogTitle = d.Titel; // getDataTitle(d)  vs. d.Titel
                         }
                         analogData.push(feed);
                     }
@@ -81,14 +89,14 @@ function parser(analog, digital) {
                         if(digitalSource === ""){
                             digitalSource = SOURCE_DIGITAL
                         }
-                        if(digitalTitel === ""){
-                            digitalTitel = d.Bezeichnung
+                        if(digitalTitle === ""){
+                            digitalTitle = d.Bezeichnung
                         }
                         digitalData.push(feed);
                     }
                 })
 
-                visualizeLineDiagram(analogData,digitalData, analogSource, digitalSource, analogTitel, digitalTitel)
+                visualizeLineDiagram(analogData,digitalData, analogSource, digitalSource, analogTitle, digitalTitle)
 
             }).catch(function(err) {
                 // handle error
@@ -107,15 +115,15 @@ function parser(analog, digital) {
                             if(analogSource === ""){
                                 analogSource = SOURCE_ANALOG + d.Quellzusatz
                             }
-                            if(analogTitel === ""){
-                                analogTitel = d.Titel
+                            if(analogTitle === ""){
+                                analogTitle = d.Titel; // getDataTitle(d)  vs. d.Titel 
                             }
                             analogData.push(feed);
                         }
                     })
 
 
-                    visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitel, digitalTitel)
+                    visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitle, digitalTitle)
                 })
                 .catch(function (error) {
                     console.log("loading analog error " + error)
@@ -134,14 +142,14 @@ function parser(analog, digital) {
                         if(digitalSource === ""){
                             digitalSource = SOURCE_DIGITAL
                         }
-                        if(digitalTitel === ""){
-                            digitalTitel = d.Bezeichnung
+                        if(digitalTitle === ""){
+                            digitalTitle = d.Bezeichnung
                         }
                         digitalData.push(feed);
                     }
                 })
 
-                visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitel, digitalTitel)
+                visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitle, digitalTitle)
             })
             .catch(function (error) {
                 console.log("loading digital error " + error)
@@ -152,7 +160,7 @@ function parser(analog, digital) {
     }
 }
 
-function visualizeLineDiagram(analogData="", digitalData="", analogSource="", digitalSource="", analogTitel="", digitalTitel="") {
+function visualizeLineDiagram(analogData="", digitalData="", analogSource="", digitalSource="", analogTitle="", digitalTitle="") {
 
 
     // set the dimensions and margins of the graph
@@ -235,15 +243,17 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         if (aData > 0 && dData === 0) {
             axes(analogData);
             line(analogData, ANALOG);
-
+            //detailLevel = 1; 
         } else if (aData === 0 && dData > 0) {
             console.log("draw only digital data")
             axes(digitalData);
             line(digitalData, DIGITAL);
+            //detailLevel = 2;
 
         } else if (aData > 0 && dData > 0) {
             // both
             console.log("both data")
+            
             var max = 0
             analogData.forEach(function (a){
                 if(a.ser2 > max){
@@ -317,25 +327,28 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
 
         // Check label data
         var source = "Quelle: "
-        var title = "Summe Analog & Digital"
-        var label_xAxis = "Verkauf/Visits"
+        var title = "Vergleich von Analog & Digital"
+        var label_xAxis = "Verkauf / Besuche"
 
         // Analog only
         if(analogSource !== "" && digitalSource === ""){
             source += analogSource
             label_xAxis = "Verkauf"
-            title = analogTitel
+            title = analogTitle
+            detailLevel = 1;
 
         // Digital only
         } else if(analogSource === "" && digitalSource !== ""){
             source += digitalSource
-            label_xAxis = "Visits"
-            title = digitalTitel
+            label_xAxis = "Besuche"
+            title = digitalTitle
+            detailLevel = 2;
 
         // Digital & Analog
         } else if(analogSource !== "" && digitalSource !== ""){
             source = source + analogSource + ", " + digitalSource
-            title = analogTitel + " / " + digitalTitel
+            title = analogTitle + " vs. " + digitalTitle
+            detailLevel = 3;
         }
         // None (Sum diagram of analog + digital)
         else {
@@ -344,14 +357,14 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
       
         /* testing */
         var tooltip = d3.select("#bottomDiagram")
-        .append("div")
-        .style("opacity", 0)
-        .attr("class", "tooltip")
-        .style("background-color", "#39475c")
-        .style("border-radius", "8px")
-        .style("padding", "8px")
-        .style("color", "white")
-        .style("position", "absolute")
+            .append("div")
+            .style("opacity", 0)
+            .attr("class", "tooltip")
+            .style("background-color", "#39475c")
+            .style("border-radius", "8px")
+            .style("padding", "8px")
+            .style("color", "white")
+            .style("position", "absolute")
 
         // Label for yAxis
         svg.append('text')
@@ -384,7 +397,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
                     .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
                 tooltip.transition().duration(200).style("opacity", .9);
                 var currentText = "Hello" 
-                tooltip.html(currentText)
+                tooltip.html(tooltipDetails()) // currentText vs tooltipDetails()
                     .style("left", (window.pageXOffset + matrix.e + 10) + "px")
                     .style("top", (window.pageYOffset + matrix.f - 10) + "px");
             })
@@ -402,6 +415,37 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .attr('y', height * 1.63)
             .attr('text-anchor', 'start')
             .text(source)
+    }
+
+    // Create the details of the tooltip
+    function tooltipDetails(){
+        var details;
+        // only analog data
+        if(detailLevel == 1)
+        {
+            details = ("Kategorie: "  + getMediaName() + "</br>Titel: " + analogTitle);//+ analogTitle) // getDataTitle(d)
+        } 
+        
+        // only digital data
+        else if(detailLevel == 2)
+        {
+            details = ("Kategorie: "  + getMediaName() + "</br>Titel: " + digitalTitle); //+ analogTitle) // getDataTitle(d)
+        } 
+        
+        // both analog and digital data
+        else if(detailLevel == 3)
+        {
+            details = ("Kategorie: "  + getMediaName() + "</br>Titel 1: " + analogTitle //+ analogTitle) // getDataTitle(d)
+                 + "</br>Titel 2: " + digitalTitle);
+        }
+
+        // no data
+        else 
+        {   details = " "
+        }
+
+        console.log(details);
+        return details;
     }
 
     function axes(data) {
@@ -471,13 +515,6 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .attr("stroke-width", 2.5)
             
     }
-
-    function tooltipDetails(){
-        var details = "Tooltip details:" + getMediaName();
-        console.log(details);
-    }
-
-        
 }
 //Show the sum chart after loading the page for the first time
 visualizeLineDiagram();
