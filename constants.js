@@ -1,10 +1,10 @@
 // Lables
-const ANALOG = "analog"
-const DIGITAL = "digital"
-const HEALTH = "health"
-const NEWS = "news"
-const FREETIME = "freetime"
-const SPORT = "sport"
+const ANALOG = "Analog"
+const DIGITAL = "Digital"
+const HEALTH = "Gesundheit"
+const NEWS = "Nachrichten"
+const FREETIME = "Freizeit"
+const SPORT = "Sport"
 
 const COLOR_ANALOG = "#e28743"
 const COLOR_DIGITAL = "#1e81b0"
