@@ -33,7 +33,7 @@ json1 = {
 
     }, {
         "id": 4,
-        "x": 80,
+        "x": 70,
         "y": 150,
         "r": 90,
         "c": COLOR_ANALOG, /* orange */
@@ -42,7 +42,7 @@ json1 = {
 
     }, {
         "id": 5,
-        "x": 80,
+        "x": 70,
         "y": 330,
         "r": 90,
         "c": COLOR_ANALOG, /* orange */
@@ -77,7 +77,7 @@ json1 = {
         "img": "health.png"
     }, {
         "id": 9,
-        "x": 570,
+        "x": 580,
         "y": 150,
         "r": 90,
         "c": COLOR_DIGITAL, /* blue */
@@ -85,7 +85,7 @@ json1 = {
         "img": "newsPaper_icon.png"
     }, {
         "id": 10,
-        "x": 570,
+        "x": 580,
         "y": 330,
         "r": 90,
         "c": COLOR_DIGITAL, /* blue */
@@ -97,61 +97,23 @@ json1 = {
 
 var bubbleName;
 
-
-//wird hier benötigt also nicht nur bei script updaten
-//for bubbles to handle the radius
-//bubbleRadi = radius
-/*[
-    [0,0,0,0,0,0,0,0,0,0],
-    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Jan
-    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Feb
-    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Mrz
-    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Apr
-    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Mai
-    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Jun
-    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Jul
-    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Aug
-    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Sep
-    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Okt
-    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Nov
-    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100]   // Dez
-]*/
-
-/*var radius = [
-    [0,0,0,0,0,0,0,0,0,0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],   // Jan
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  // Feb
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],   // Mrz
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  // Apr
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],   // Mai
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  // Jun
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],   // Jul
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  // Aug
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],   // Sep
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  // Okt
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],   // Nov
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]   // Dez
-]*/
-
-
-
 function computeMainBubbles(bubbleRadi, month) {
     console.log("month = " + month)
     var summedig = 0;
     for (let bubb = 3; bubb < 7; bubb++) {
-        summedig = summedig + bubbleRadi[month][bubb]
-        console.log("Summe aus: " + bubbleRadi[month][bubb] + " + ")
+        summedig = summedig + bubbleRadi[month][bubb] +10
+        //console.log("Summe aus: " + bubbleRadi[month][bubb] + " + ")
     }
     bubbleRadi[month][1] = summedig / 4;
-    console.log(" = " + summedig);
+    //console.log(" = " + summedig);
 
     var summeana = 0;
     for (let bubb = 7; bubb < 11; bubb++) {
-        summeana = summeana + bubbleRadi[month][bubb]
-        console.log("Summe aus: " + bubbleRadi[month][bubb] + " + ")
+        summeana = summeana + bubbleRadi[month][bubb] + 10
+        //console.log("Summe aus: " + bubbleRadi[month][bubb] + " + ")
     }
     bubbleRadi[month][2] = summeana / 4;
-    console.log("summeANA = " + summeana);
+    //console.log("summeANA = " + summeana);
 }
 
 
