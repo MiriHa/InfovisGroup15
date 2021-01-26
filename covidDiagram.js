@@ -27,7 +27,7 @@ const chart = svg.append('g')
     .attr("viewBox", `0 0 ${width} ${height}`)
     .attr("transform", "translate(" + Margin + "," + Margin + ")");
 
-// Initialise a X axis:
+// Initialise the X axis:
 let x = d3.scalePoint().range([0,width]);
 let xAxis = d3.axisBottom()
     .scale(x);
@@ -36,7 +36,7 @@ chart.append('g')
     .attr("transform", "translate(0," + height + ")")
     .attr("class","myXaxis")
 
-// Initialize an Y axis
+// Initialize the Y axis
 let y = d3.scaleLinear().range([height, 0]);
 let yAxis = d3.axisLeft()
     .scale(y)

@@ -32,7 +32,6 @@ function parser(analog, digital) {
         ]
     )
 
-
     // Check/parse parameter
     if (analog !== "") {
         path_csv_analog = csv_files_analog.get(analog)
@@ -116,7 +115,7 @@ function parser(analog, digital) {
                     })
 
 
-                    visualizeLineDiagram(analogData,digitalData, analogSource, digitalSource, analogTitel, digitalTitel)
+                    visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitel, digitalTitel)
                 })
                 .catch(function (error) {
                     console.log("loading analog error " + error)
@@ -142,7 +141,7 @@ function parser(analog, digital) {
                     }
                 })
 
-                visualizeLineDiagram(analogData,digitalData, analogSource, digitalSource, analogTitel, digitalTitel)
+                visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitel, digitalTitel)
             })
             .catch(function (error) {
                 console.log("loading digital error " + error)
@@ -153,9 +152,8 @@ function parser(analog, digital) {
     }
 }
 
-
-
 function visualizeLineDiagram(analogData="", digitalData="", analogSource="", digitalSource="", analogTitel="", digitalTitel="") {
+
 
     // set the dimensions and margins of the graph
     const Margin = 80;
@@ -265,6 +263,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         }
     }
 
+
     function initChart() {
         chart = svg.append('g')
             .attr("transform", "translate(" + Margin + "," + Margin + ")");
@@ -342,6 +341,18 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         else {
             source = ""
         }
+      
+        /* testing */
+        var tooltip = d3.select("#bottomDiagram")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white") // "#39475c")
+        .style("border-radius", "5px")
+        .style("padding", "10px")
+        .style("color", "#39475c")
+        .style("position", "absolute")
+
 
         // Label for yAxis
         svg.append('text')
@@ -367,6 +378,23 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .attr('y', 30)
             .attr('text-anchor', 'middle')
             .text(title)
+             /* testing */
+            .on("mouseover", function (d) {
+                console.log("in mouseover")
+                var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
+                    .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
+                tooltip.transition().duration(200).style("opacity", .9);
+                var currentText = "Hello" 
+                tooltip.html(currentText)
+                    .style("left", (window.pageXOffset + matrix.e + 10) + "px")
+                    .style("top", (window.pageYOffset + matrix.f - 10) + "px");
+            })
+            //Remove the tooltip
+            .on("mouseout", function (d) {
+                console.log("in mouseout")
+                tooltip.transition().duration(500).style("opacity", 0);
+            })
+
 
         // Label for Source
         svg.append('text')
@@ -442,7 +470,15 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .attr("fill", "none")
             .attr("stroke", color)
             .attr("stroke-width", 2.5)
+            
     }
+
+    function tooltipDetails(){
+        var details = "Tooltip details:" + getMediaName();
+        console.log(details);
+    }
+
+        
 }
 //Show the sum chart after loading the page for the first time
 visualizeLineDiagram();
