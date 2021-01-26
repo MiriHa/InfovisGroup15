@@ -217,8 +217,7 @@ function visualizeBubbles(json, currentMounth) {
         .attr("stroke", "black")
         .attr("fill", function (d) { return d.c })
         .style("opacity", function (d) { if (currentMounth > 9) { return 0.5 } else { 1 } })
-        .on("click", function (d) { return Bubbleclick(d3.select(this)) }) //noch testen
-        /* Mouseover event: Get position of the bubble and show the tooltip */ 
+        /* Handle mousehovering event: Get position of the bubble and show the tooltip */ 
         .on("mouseover", function (d) {
             console.log(" in mouseover")
             var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
@@ -232,11 +231,13 @@ function visualizeBubbles(json, currentMounth) {
                 .style("left", (window.pageXOffset + matrix.e + 30) + "px")
                 .style("top", (window.pageYOffset + matrix.f - 70) + "px");
         })
-        /* Remove the tooltip */
+        /* Handle mousehovering event: Remove the tooltip */
         .on("mouseout", function (d) {
             console.log("in mouseout")
             tooltip.transition().duration(500).style("opacity", 0);
         })
+        /* Handle mouseclick event */ 
+        .on("click", function (d) { return bubbleClick(d3.select(this)) }) //noch testen
 
 
 
@@ -282,7 +283,7 @@ function visualizeBubbles(json, currentMounth) {
         .style("opacity", function (d) { if (currentMounth > 9) { return 0.5 } else { 1 } })
         /* Event handler for mouse hovering on bubbles (show tooltip) */
         .on("mouseover", function (d) {
-            console.log(" in mouseover")
+            console.log("in mouseover")
             var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
                 .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
             tooltip.transition().duration(200).style("opacity", .9);
@@ -323,7 +324,8 @@ function visualizeBubbles(json, currentMounth) {
             tooltip.transition().duration(500).style("opacity", 0);
         })
         // Klaus: Added this .on() to be able to click the sub-bubbles
-        .on("click", function (d) { return Bubbleclick(d3.select(this)) })
+        /* Handle mouseclick event */
+        .on("click", function (d) { return bubbleClick(d3.select(this)) })
 
 
     //MouseEvent
@@ -367,15 +369,19 @@ function visualizeBubbles(json, currentMounth) {
     var clicked_Analog = 0;
     var clicked_Digital = 0;
     var sameClick = 1;
+    var bubbleName;
 
     /* Event handler for mouse click on bubbles */
-    function Bubbleclick(d) {
+    function bubbleClick(d) {
         clickCounter = clickCounter + 1;
         console.log("ID = " + d.attr("id"));
         var idClick = d.attr("id");
+        bubbleName = idToLabel(idClick);
+        console.log("bubble clicked: " + bubbleName);
         console.log("clickedAna = " + clicked_Analog);
         console.log("clickedD = " + clicked_Digital);
         console.log("currentClick = " + idClick);
+
         if (idClick > 2 && idClick < 7) { // Analog sub bubbles
             elemEnter.selectAll("circle") //.append("circle")
                 .filter(function (d) { return (d.id == idClick) })
@@ -481,9 +487,6 @@ function visualizeBubbles(json, currentMounth) {
             //nix, da Hauptbubble
         }
 
-
-
-
         previousID = idClick;
 
         if (d.attr("id") == 2) {
@@ -541,7 +544,7 @@ function visualizeBubbles(json, currentMounth) {
             return showDiagram(d.attr("label"));*/
 
         }
-    }
+    }   
 
     /*
         function ClickforAna(d) {
@@ -556,7 +559,7 @@ function visualizeBubbles(json, currentMounth) {
                 //.on("mouseover", handleMouseOver(d)) //klappt
                 .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
                 .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
-                .on("click", function (d) { return Bubbleclick(d3.select(this)) })
+                .on("click", function (d) { return bubbleClick(d3.select(this)) })
 
 
             //digitale Bubble transparent -> noch nicht richtig
@@ -607,7 +610,7 @@ function visualizeBubbles(json, currentMounth) {
                 //.on("mouseover", handleMouseOver(d)) //klappt
                 .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
                 .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
-                .on("click", function (d) { return Bubbleclick(d3.select(this)) });
+                .on("click", function (d) { return bubbleClick(d3.select(this)) });
 
 
             //analoge Bubbles transparent
@@ -1056,6 +1059,11 @@ function bubbleSizeInOne() {
         // handle error
         console.log("loading error" + err)
     })
+}
+
+/* Get the respective media name; relevant for the tooltips of the line diagramm ("lineDiagramm.js") */
+function getMediaName() {
+    return bubbleName;
 }
 
 

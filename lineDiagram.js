@@ -32,7 +32,6 @@ function parser(analog, digital) {
         ]
     )
 
-
     // Check/parse parameter
     if (analog != "") {
         path_csv_analog = csv_files_analog.get(analog)
@@ -129,7 +128,7 @@ function parser(analog, digital) {
                     })
 
 
-                    visualizeLineDiagram(analogData,digitalData, analogSource, digitalSource, analogTitel, digitalTitel)
+                    visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitel, digitalTitel)
                 })
                 .catch(function (error) {
                     console.log("loading analog error " + error)
@@ -156,7 +155,7 @@ function parser(analog, digital) {
                     }
                 })
 
-                visualizeLineDiagram(analogData,digitalData, analogSource, digitalSource, analogTitel, digitalTitel)
+                visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitel, digitalTitel)
             })
             .catch(function (error) {
                 console.log("loading digital error " + error)
@@ -166,8 +165,6 @@ function parser(analog, digital) {
         visualizeLineDiagram(analogData, digitalData)
     }
 }
-
-
 
 function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitel, digitalTitel) {
 
@@ -233,7 +230,6 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
             line(digitalData, DIGITAL)
         }
     }
-
 
     // Label for yAxis
     svg.append('text')
@@ -404,4 +400,9 @@ function visualizeLineDiagram(analogData, digitalData, analogSource, digitalSour
             .attr("stroke", color)
             .attr("stroke-width", 2.5)
     }
+
+    /* Get the respective media name; relevant for the tooltip */
+    function getMediaName(id) {
+        return " ";
+    }       
 }
