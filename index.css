@@ -140,9 +140,9 @@ h1 {
     }
 
 .legend-scale {
-    width: 80%;
-    height: 100px;
-    margin: 0;
+    width: 138px;
+    height: 100%;
+    margin-left: 10px;
     margin-bottom: 10px;
     padding: 0;
     float: left;
@@ -163,6 +163,11 @@ h1 {
     margin-bottom: 12px;
     color: #DBDBDB;
     }
+
+ /* .legend-scale ul li:after {
+        content: " ";
+        white-space: pre;
+      } */
 
   .legend-labels li span {
     display: block;
