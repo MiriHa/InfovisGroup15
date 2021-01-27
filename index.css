@@ -110,6 +110,7 @@ h1 {
     grid-area: slider;
 }
 
+/* Legend */
 .legend{
     height: 250px;
     width: 100%;
@@ -122,7 +123,6 @@ h1 {
 
 }
 
-/* Legend */
 .legend-title {
     text-align: left;
     margin-bottom: 8px;
@@ -130,6 +130,7 @@ h1 {
     font-size: 100%;
     color: #DBDBDB;
     }
+    
 .legend-scale ul {
     margin: 0;
     margin-bottom: 10px;
