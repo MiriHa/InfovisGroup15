@@ -156,6 +156,160 @@ function parser(analog, digital) {
             })
     } else {
         // no data
+        console.log("parser no data")
+        // compute all analog and digital
+        Promise.all([
+            // Open file(s)
+            d3.csv(csv_files_analog.get(SPORT)),
+            d3.csv(csv_files_analog.get(NEWS)),
+            d3.csv(csv_files_analog.get(HEALTH)),
+            d3.csv(csv_files_analog.get(FREETIME)),
+            d3.csv(csv_files_digital.get(SPORT)),
+            d3.csv(csv_files_digital.get(NEWS)),
+            d3.csv(csv_files_digital.get(HEALTH)),
+            d3.csv(csv_files_digital.get(FREETIME)),
+        ]).then(function(files) {
+            console.log("parser loading all successful")
+            // files[0] will contain file1.csv
+            // files[1] will contain file2.csv
+            var fileA1 = files[0]
+            var fileA2 = files[1]
+            var fileA3 = files[2]
+            var fileA4 = files[3]
+            var fileD1 = files[4]
+            var fileD2 = files[5]
+            var fileD3 = files[5]
+            var fileD4 = files[7]
+
+            var analogData1 = []
+            var analogData2 = []
+            var analogData3 = []
+            var analogData4 = []
+
+            fileA1.slice().reverse().forEach(function (d){
+                if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
+                    var feed = {ser1: d.Monat, ser2: Number(d.VerkaufLinear)};
+                    if(analogSource === ""){
+                        analogSource = SOURCE_ANALOG
+                    }
+                    if(analogTitle === ""){
+                        analogTitle = d.Titel; // getDataTitle(d)  vs. d.Titel
+                    }
+                    analogData1.push(feed);
+                }
+            })
+
+            fileA2.slice().reverse().forEach(function (d){
+                if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
+                    analogData1.forEach(function(a){
+                        if(a.ser1 == d.Monat){
+                            var newSer2 = a.ser2+Number(d.VerkaufLinear)
+                            var feed = {ser1: d.Monat, ser2: newSer2};
+                            analogData2.push(feed)
+                        }
+                    })
+                }
+            })
+
+            fileA3.slice().reverse().forEach(function (d){
+                if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
+                    analogData2.forEach(function(a){
+                        if(a.ser1 == d.Monat){
+                            var newSer2 = a.ser2+Number(d.VerkaufLinear)
+                            var feed = {ser1: d.Monat, ser2: newSer2};
+                            analogData3.push(feed)
+                        }
+                    })
+                }
+            })
+
+            fileA4.slice().reverse().forEach(function (d){
+                if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
+                    analogData3.forEach(function(a){
+                        if(a.ser1 == d.Monat){
+                            var newSer2 = a.ser2+Number(d.VerkaufLinear)
+                            var feed = {ser1: d.Monat, ser2: newSer2};
+                            analogData4.push(feed)
+                        }
+                    })
+                }
+            })
+
+            var analogData5 = []
+            analogData4.forEach(function(b){
+                var feed = {ser1: b.ser1, ser2: (b.ser2/4)};
+                analogData5.push(feed)
+            })
+            analogData = analogData5
+
+
+            var digitalData1 = []
+            var digitalData2 = []
+            var digitalData3 = []
+            var digitalData4 = []
+
+            fileD1.slice().reverse().forEach(function (d){
+                if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
+                    var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
+                    if(digitalSource === ""){
+                        digitalSource = SOURCE_DIGITAL
+                    }
+                    if(digitalTitle === ""){
+                        digitalTitle = d.Titel; // getDataTitle(d)  vs. d.Titel
+                    }
+                    digitalData1.push(feed);
+                }
+            })
+
+            fileD2.slice().reverse().forEach(function (d){
+                if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
+                    digitalData1.forEach(function(a){
+                        if(a.ser1 == d.Monat){
+                            var newSer2 = a.ser2+Number(d.KatVisits)
+                            var feed = {ser1: d.Monat, ser2: newSer2};
+                            digitalData2.push(feed)
+                        }
+                    })
+                }
+            })
+
+            fileD3.slice().reverse().forEach(function (d){
+                if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
+                    digitalData2.forEach(function(a){
+                        if(a.ser1 == d.Monat){
+                            var newSer2 = a.ser2+Number(d.KatVisits)
+                            var feed = {ser1: d.Monat, ser2: newSer2};
+                            digitalData3.push(feed)
+                        }
+                    })
+                }
+            })
+
+            fileD4.slice().reverse().forEach(function (d){
+                if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
+                    digitalData3.forEach(function(a){
+                        if(a.ser1 == d.Monat){
+                            var newSer2 = a.ser2+Number(d.KatVisits)
+                            var feed = {ser1: d.Monat, ser2: newSer2};
+                            digitalData4.push(feed)
+                        }
+                    })
+                }
+            })
+
+            var digitalData5 = []
+            digitalData4.forEach(function(b){
+                var feed = {ser1: b.ser1, ser2: (b.ser2/4)};
+                digitalData5.push(feed)
+            })
+            digitalData = digitalData5
+
+            visualizeLineDiagram(analogData,digitalData, analogSource, digitalSource, analogTitle, digitalTitle)
+
+        }).catch(function(err) {
+            // handle error
+            console.log("loading error" + err)
+        })
         visualizeLineDiagram(analogData, digitalData)
     }
 }
@@ -185,35 +339,39 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         svg = d3.select("#bottomDiagram").append("svg")
         initChart();
 
-        analogData = [
-            {ser1: "201909", ser2: 10},
-            {ser1: "201910", ser2: 100},
-            {ser1: "201911", ser2: 10},
-            {ser1: "201912", ser2: 30},
-            {ser1: "202001", ser2: 400},
-            {ser1: "202002", ser2: 200},
-            {ser1: "202003", ser2: 50},
-            {ser1: "202004", ser2: 100},
-            {ser1: "202005", ser2: 200},
-            {ser1: "202006", ser2: 300},
-            {ser1: "202007", ser2: 400},
-            {ser1: "202008", ser2: 500},
-            {ser1: "202009", ser2: 10}]
+        if(analogData === ""){
+            analogData = [
+                {ser1: "201909", ser2: 10},
+                {ser1: "201910", ser2: 100},
+                {ser1: "201911", ser2: 10},
+                {ser1: "201912", ser2: 30},
+                {ser1: "202001", ser2: 400},
+                {ser1: "202002", ser2: 200},
+                {ser1: "202003", ser2: 50},
+                {ser1: "202004", ser2: 100},
+                {ser1: "202005", ser2: 200},
+                {ser1: "202006", ser2: 300},
+                {ser1: "202007", ser2: 400},
+                {ser1: "202008", ser2: 500},
+                {ser1: "202009", ser2: 10}]
+        }
 
-        digitalData = [
-            {ser1: "201909", ser2: 20},
-            {ser1: "201910", ser2: 200},
-            {ser1: "201911", ser2: 20},
-            {ser1: "201912", ser2: 20},
-            {ser1: "202001", ser2: 200},
-            {ser1: "202002", ser2: 200},
-            {ser1: "202003", ser2: 20},
-            {ser1: "202004", ser2: 200},
-            {ser1: "202005", ser2: 200},
-            {ser1: "202006", ser2: 200},
-            {ser1: "202007", ser2: 200},
-            {ser1: "202008", ser2: 200},
-            {ser1: "202009", ser2: 20}]
+        if(digitalData === ""){
+            digitalData = [
+                {ser1: "201909", ser2: 20},
+                {ser1: "201910", ser2: 200},
+                {ser1: "201911", ser2: 20},
+                {ser1: "201912", ser2: 20},
+                {ser1: "202001", ser2: 200},
+                {ser1: "202002", ser2: 200},
+                {ser1: "202003", ser2: 20},
+                {ser1: "202004", ser2: 200},
+                {ser1: "202005", ser2: 200},
+                {ser1: "202006", ser2: 200},
+                {ser1: "202007", ser2: 200},
+                {ser1: "202008", ser2: 200},
+                {ser1: "202009", ser2: 20}]
+        }
         
         var max = 0
         analogData.forEach(function (a){
@@ -517,4 +675,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
     }
 }
 //Show the sum chart after loading the page for the first time
-visualizeLineDiagram();
+//visualizeLineDiagram();
+
+// when loading the page load all datasets and calculate sum
+parser("","")
