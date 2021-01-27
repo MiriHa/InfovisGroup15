@@ -184,11 +184,8 @@ function visualizeBubbles(json, currentMonth) {
             var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
                 .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
             tooltip.transition().duration(200).style("opacity", .9);
-            var currentText = function (d) {
-                if (this.id == 1){return "Zusammenfassung </br> analoger Medien"}
-                else {return "Zusammenfassung </br> digitaler Medien"}
-            }
-            tooltip.html(currentText)
+            var id = this.id
+            tooltip.html(tooltipDetailsMainBubbles(id))
                 .style("left", (window.pageXOffset + matrix.e + 30) + "px")
                 .style("top", (window.pageYOffset + matrix.f - 70) + "px");
         })
@@ -214,25 +211,24 @@ function visualizeBubbles(json, currentMonth) {
         .style("font-size", "18px")
         .style("font-weight", "bold")
         .filter(function (d) { return d.id < 3 })
+        // Text doesn't have an id so inkorrekt tooltips gets display
+        
         /* Event handler for mouse hovering on bubbles (show tooltip) */
-        .on("mouseover", function (d) {
-            console.log(" in mouseover")
-            var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
-                .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
-            tooltip.transition().duration(200).style("opacity", .9);
-            var currentText = function (d) {
-                if (this.id == 1){return "Zusammenfassung </br> analoger Medien"}
-                else {return "Zusammenfassung </br> digitaler Medien"}
-            }
-            tooltip.html(currentText)
-                .style("left", (window.pageXOffset + matrix.e + 30) + "px")
-                .style("top", (window.pageYOffset + matrix.f - 70) + "px");
-        })
-        /* Remove the tooltip */
-        .on("mouseout", function (d) {
-            console.log("in mouseout")
-            tooltip.transition().duration(500).style("opacity", 0);
-        })
+        // .on("mouseover", function (d) {
+        //     console.log(" in mouseover")
+        //     var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
+        //         .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
+        //     tooltip.transition().duration(200).style("opacity", .9);
+        //     var id = this.label //text has no ID
+        //     tooltip.html(id)
+        //         .style("left", (window.pageXOffset + matrix.e + 30) + "px")
+        //         .style("top", (window.pageYOffset + matrix.f - 70) + "px");
+        // })
+        // /* Remove the tooltip */
+        // .on("mouseout", function (d) {
+        //     console.log("in mouseout")
+        //     tooltip.transition().duration(500).style("opacity", 0);
+        // })
 
     /* Make other bubbles transparent */
     elemEnter.append("circle")
@@ -350,6 +346,14 @@ function visualizeBubbles(json, currentMonth) {
         }
         console.log(details);
         return details;
+    }
+
+    function tooltipDetailsMainBubbles(currentid){
+        
+        if (currentid == 1){return "Zusammenfassung </br> analoger Medien"}
+        else if(currentid == 2){return "Zusammenfassung </br> digitaler Medien"}
+        else { return "This is a Bubble"}
+        
     }
 
     function Choosetextcolor(d) {
@@ -726,7 +730,7 @@ function bubbleSizeInOne() {
         var max = 0
         var min = 0
 
-        fileAHealth.forEach(function (d) {
+       fileAHealth.forEach(function (d) {
             if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
                 var date = d.Monat
                 var month = date.substr(date.length - 2, 2)
