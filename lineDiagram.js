@@ -192,9 +192,6 @@ function parser(analog, digital) {
                     if(analogSource === ""){
                         analogSource = SOURCE_ANALOG
                     }
-                    if(analogTitle === ""){
-                        analogTitle = d.Titel; // getDataTitle(d)  vs. d.Titel
-                    }
                     analogData1.push(feed);
                 }
             })
@@ -253,9 +250,6 @@ function parser(analog, digital) {
                     var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
                     if(digitalSource === ""){
                         digitalSource = SOURCE_DIGITAL
-                    }
-                    if(digitalTitle === ""){
-                        digitalTitle = d.Titel; // getDataTitle(d)  vs. d.Titel
                     }
                     digitalData1.push(feed);
                 }
@@ -503,7 +497,9 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         // Digital & Analog
         } else if(analogSource !== "" && digitalSource !== ""){
             source = source + analogSource + ", " + digitalSource
-            title = analogTitle + " vs. " + digitalTitle
+            if(analogTitle !== "" && digitalTitle !== ""){
+                title = analogTitle + " vs. " + digitalTitle
+            }
             detailLevel = 3;
         }
         // None (Sum diagram of analog + digital)
