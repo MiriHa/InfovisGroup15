@@ -437,7 +437,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         chart = svg.append('g')
             .attr("transform", "translate(" + Margin + "," + Margin + ")")
             /* tooltip testing */
-            .on("mouseover", function (d) {
+            /*.on("mouseover", function (d) {
                 console.log("in mouseover")
                 var matrix = this.getScreenCTM() // Get the position of the hovered object
                     .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
@@ -450,7 +450,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .on("mouseout", function (d) {
                 console.log("in mouseout")
                 tooltip.transition().duration(500).style("opacity", 0);
-            });
+            });*/
 
         // Initialise a X axis:
         x = d3.scalePoint().range([0, width]);
@@ -529,6 +529,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             source = ""
         }
       
+        /*
         // ------------------------- tooltip: ---------------------------------------------- //
         // append the x line
         chart.append("line")
@@ -608,7 +609,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .style("color", "white")
             .style("position", "absolute")
 
-        // ------------------------- tooltip ---------------------------------------------- //
+        // ------------------------- tooltip ---------------------------------------------- //*/
 
         // Label for yAxis
         svg.append('text')
@@ -635,7 +636,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .attr('text-anchor', 'middle')
             .text(title)
             /* tooltip testing */
-            .on("mouseover", function (d) {
+            /*.on("mouseover", function (d) {
                 console.log("in mouseover")
                 var matrix = this.getScreenCTM() // Get the position of the hovered object
                     .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
@@ -648,7 +649,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .on("mouseout", function (d) {
                 console.log("in mouseout")
                 tooltip.transition().duration(500).style("opacity", 0);
-            })
+            })*/
 
 
         // Label for Source
@@ -660,6 +661,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .text(source)
     }
 
+    /*
     // ------------------------------------------ tooltip --------------------------------------------//
     // Create the details of the tooltip
     function tooltipDetails(){
@@ -699,7 +701,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         details = ("Wert: "  + y(d.ser2));
         console.log(details);
         return details;
-    }
+    }*/
 
     function axes(data) {
         x.domain(data.map((s) => s.ser1))
