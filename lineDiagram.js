@@ -67,7 +67,7 @@ function parser(analog, digital) {
                 var file1Data = files[0]
                 var file2Data = files[1]
 
-                file1Data.forEach(function (d){
+                file1Data.slice().reverse().forEach(function (d){
                     // Build analogData block (fill array)
                     if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
                         var feed = {ser1: d.Monat, ser2: Number(d.VerkaufLinear)};
@@ -82,7 +82,7 @@ function parser(analog, digital) {
 
                 })
 
-                file2Data.forEach(function (d){
+                file2Data.slice().reverse().forEach(function (d){
                     // Build digitalData block (fill array)
                     if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
                         var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
@@ -107,7 +107,7 @@ function parser(analog, digital) {
             d3.csv(path_csv_analog)
                 .then(function (data) {
                     console.log("loaded analog successfully")
-                    data.forEach(function (d) {
+                    data.slice().reverse().forEach(function (d) {
                         // Build analogData block (fill array)
                         //if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
                         if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
@@ -135,7 +135,7 @@ function parser(analog, digital) {
         d3.csv(path_csv_digital)
             .then(function (data) {
                 console.log("loaded digital successfully")
-                data.forEach(function (d) {
+                data.slice().reverse().forEach(function (d) {
                     // Build analogData block (fill array)
                     if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
                         var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
