@@ -153,7 +153,7 @@ function visualizeBubbles(json, currentMonth) {
 
     var margin = { top: 10, right: 100, bottom: 30, left: 60 };
 
-     /* clear the page and add the svg */
+    /* clear the page and add the svg */
     var svg = d3.select("#bubbles").selectAll("svg").remove()
     svg = d3.select("#bubbles").append("svg")
         .attr("width", width)
@@ -178,7 +178,7 @@ function visualizeBubbles(json, currentMonth) {
         .attr("stroke", "black")
         .attr("fill", function (d) { return d.c })
         .style("opacity", function (d) { if (currentMonth > 9) { return 0.5 } else { 1 } })
-        /* Handle mousehovering event: Get position of the bubble and show the tooltip */ 
+        /* Handle mousehovering event: Get position of the bubble and show the tooltip */
         .on("mouseover", function (d) {
             console.log(" in mouseover")
             var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
@@ -194,7 +194,7 @@ function visualizeBubbles(json, currentMonth) {
             console.log("in mouseout")
             tooltip.transition().duration(500).style("opacity", 0);
         })
-        /* Handle mouseclick event */ 
+        /* Handle mouseclick event */
         .on("click", function (d) { return bubbleClick(d3.select(this)) }) //noch testen
 
 
@@ -211,24 +211,24 @@ function visualizeBubbles(json, currentMonth) {
         .style("font-size", "18px")
         .style("font-weight", "bold")
         .filter(function (d) { return d.id < 3 })
-        // Text doesn't have an id so inkorrekt tooltips gets display
-        
-        /* Event handler for mouse hovering on bubbles (show tooltip) */
-        // .on("mouseover", function (d) {
-        //     console.log(" in mouseover")
-        //     var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
-        //         .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
-        //     tooltip.transition().duration(200).style("opacity", .9);
-        //     var id = this.label //text has no ID
-        //     tooltip.html(id)
-        //         .style("left", (window.pageXOffset + matrix.e + 30) + "px")
-        //         .style("top", (window.pageYOffset + matrix.f - 70) + "px");
-        // })
-        // /* Remove the tooltip */
-        // .on("mouseout", function (d) {
-        //     console.log("in mouseout")
-        //     tooltip.transition().duration(500).style("opacity", 0);
-        // })
+    // Text doesn't have an id so inkorrekt tooltips gets display
+
+    /* Event handler for mouse hovering on bubbles (show tooltip) */
+    // .on("mouseover", function (d) {
+    //     console.log(" in mouseover")
+    //     var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
+    //         .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
+    //     tooltip.transition().duration(200).style("opacity", .9);
+    //     var id = this.label //text has no ID
+    //     tooltip.html(id)
+    //         .style("left", (window.pageXOffset + matrix.e + 30) + "px")
+    //         .style("top", (window.pageYOffset + matrix.f - 70) + "px");
+    // })
+    // /* Remove the tooltip */
+    // .on("mouseout", function (d) {
+    //     console.log("in mouseout")
+    //     tooltip.transition().duration(500).style("opacity", 0);
+    // })
 
     /* Make other bubbles transparent */
     elemEnter.append("circle")
@@ -285,55 +285,40 @@ function visualizeBubbles(json, currentMonth) {
         .on("click", function (d) { return bubbleClick(d3.select(this)) })
 
     var done = false;
-        if(done == false) {
-            fillClickedBubbles(markedBD, markedBA);
+    if (done == false) {
+        fillClickedBubbles(markedBD, markedBA);
 
-            function fillClickedBubbles (D, A){
-                if(D == 0 && A == 0){
-                    markBubble(1);
-                    markBubble(2);
-                }
-                elemEnter.selectAll("circle")//.append("circle")
-                    .filter(function (d) {
-                        return (d.id == A || d.id == D)
-                    })
-                    .attr("fill",
-                        function (d) {
-                            if (d.id == D) {
-                                return "#08456e";
-                            } else {
-                                return "#a84d0a";
-                            }
-                        })
-                    .style("opacity", function (d) {
-                        if (currentMonth > 9) {
-                            return 0.5
+        function fillClickedBubbles(D, A) {
+            if (D == 0 && A == 0) {
+                markBubble(1);
+                markBubble(2);
+            }
+            elemEnter.selectAll("circle")//.append("circle")
+                .filter(function (d) {
+                    return (d.id == A || d.id == D)
+                })
+                .attr("fill",
+                    function (d) {
+                        if (d.id == D) {
+                            return "#08456e";
                         } else {
-                            1
+                            return "#a84d0a";
                         }
                     })
-            }
-            done = true;
+                .style("opacity", function (d) {
+                    if (currentMonth > 9) {
+                        return 0.5
+                    } else {
+                        1
+                    }
+                })
         }
+        done = true;
+    }
 
 
-        //MouseEvent
-    /*
-    // On Click, we want to add data to the array and chart
-    circle.on("click", function() {
-        var coords = d3.mouse(this);
-        circle.selectAll("circle")  // For new circle, go through the update process
-          .data(dataset)
-          .enter()
-          .append("circle")
-          .attr(circleAttrs)  // Get attributes from circleAttrs var
-          .on("mouseover", handleMouseOver)
-          .on("mouseout", handleMouseOut);
-      })
-    */
-
-     //Get the Text for the Tooltip
-     function tooltipDetails(currentid, currentMonth) {
+    //Get the Text for the Tooltip
+    function tooltipDetails(currentid, currentMonth) {
         var details;
 
         if (currentid > 2 && currentid < 7) {
@@ -348,12 +333,13 @@ function visualizeBubbles(json, currentMonth) {
         return details;
     }
 
-    function tooltipDetailsMainBubbles(currentid){
-        
-        if (currentid == 1){return "Zusammenfassung </br> analoger Medien"}
-        else if(currentid == 2){return "Zusammenfassung </br> digitaler Medien"}
-        else { return "This is a Bubble"}
-        
+    //Get the TooltipText for the Main Bubbels
+    function tooltipDetailsMainBubbles(currentid) {
+
+        if (currentid == 1) { return "Zusammenfassung </br> analoger Medien" }
+        else if (currentid == 2) { return "Zusammenfassung </br> digitaler Medien" }
+        else { return "This is a Bubble" }
+
     }
 
     function Choosetextcolor(d) {
@@ -379,7 +365,7 @@ function visualizeBubbles(json, currentMonth) {
     var clickCounter = 0;
     var previousID = 0;
 
-    function markBubble(idClick){
+    function markBubble(idClick) {
         elemEnter.selectAll("circle")//.append("circle")
             .filter(function (d) {
                 return (d.id == idClick)
@@ -388,10 +374,10 @@ function visualizeBubbles(json, currentMonth) {
                 if (idClick > 6) {
                     return "#08456e"; //digital
                 }
-                if (idClick > 2 && idClick < 7)  {
+                if (idClick > 2 && idClick < 7) {
                     return "#a84d0a"; //analog
                 }
-                if (idClick == 1){
+                if (idClick == 1) {
                     return "#a84d0a"; //analog
                 }
                 if (idClick == 2) {
@@ -427,8 +413,8 @@ function visualizeBubbles(json, currentMonth) {
         markBubble(2);
         //demarke old_bubbles
         sameClick = 1;
-        if(clicked_Analog != 0) { resetBubble(clicked_Digital); }
-        if(clicked_Digital != 0) { resetBubble(clicked_Analog); }
+        if (clicked_Analog != 0) { resetBubble(clicked_Digital); }
+        if (clicked_Digital != 0) { resetBubble(clicked_Analog); }
         clicked_Analog = 0;
         clicked_Digital = 0;
         selectedAnalogBubble = "";
@@ -442,141 +428,81 @@ function visualizeBubbles(json, currentMonth) {
         var idClick = d.attr("id");
         bubbleName = idToLabel(idClick);
 
-//Bubbleclick anderer Ansatz, noch Enfernen vor Abgabe
-/*
-        if (idClick > 2 && idClick < 7) { // Analog sub bubbles
-            markBubble(idClick);
-            if (previousID > 2 && previousID < 7) {
-                if (idClick == clicked_Analog) {
-                    //nix
-                    if (previousID == clicked_Analog) {
-                        sameClick++;
-                        console.log("sameClick = " + sameClick);
-                        if (sameClick % 2 == 0) {
-                            // Reset previous color
-                            resetBubble(clicked_Analog);
-                            markedBA = 0;
-                        }
-                    }
-                } else {
-                    sameClick = 1;
-                    // Reset previous color
-                    resetBubble(clicked_Analog);
-                    markedBA = 0;
-                }
-            } else {
-                // Reset previous color
-                resetBubble(clicked_Analog);
-            }
-            clicked_Analog = idClick;
-            resetBubble(1);
-            resetBubble(2);
-        } else if (idClick > 6) { // Digital sub bubbles
-            markBubble(idClick);
-            if (previousID > 6) {
-                if (idClick == clicked_Digital) {
-                    sameClick++;
-                    if (sameClick % 2 == 0) {
-                        resetBubble(clicked_Digital);
-                    }
-                } else {
-                    sameClick = 1;
-                    resetBubble(clicked_Digital);
-                    //markedBD = 0;
-                }
-            } else {
-                sameClick++;
-                resetBubble(clicked_Digital);
-            }
-            clicked_Digital = idClick;
-            resetBubble(1);
-            resetBubble(2);
-        } else {
-            //mainBubbles
-            if(idClick == 1 || idClick == 2){
-                console.log("mainBubblesCLICKED");
-                console.log("clickANa = " + clicked_Analog);
-                console.log("clickDigital = " + clicked_Digital);
-                //mark mainbubbles
-                markMainB();
-            }
+        //show Diagram
+        var currentLabel = idToLabel(d.attr("id"));
+        var currentID = d.attr("id");
+
+        if (d.attr("id") == 2) {
+            //do nothing, because mainBubbles
+            selectedAnalogBubble = "";
+            selectedDigitalBubble = "";
         }
-        */
-            //show Diagram
-            var currentLabel = idToLabel(d.attr("id"));
-            var currentID = d.attr("id");
 
-            if (d.attr("id") == 2) {
+        if (d.attr("id") == 1) {
             //do nothing, because mainBubbles
             selectedAnalogBubble = "";
             selectedDigitalBubble = "";
+        }
+
+        if (d.attr("id") >= 3 && d.attr("id") <= 6) {
+            console.log("analog sub-bubble clicked: " + currentLabel)
+            // was selected before, so remove selection
+            if (selectedAnalogBubble === currentLabel) {
+                selectedAnalogBubble = "";
+                // TODO: change color back
+
+                markedBA = 0;
+            }
+            // add new selection
+            else {
+                selectedAnalogBubble = currentLabel
+                // TODO: change color etc
+
+                markedBA = currentID;
+            }
+        } else if (d.attr("id") >= 7 && d.attr("id") <= 10) {
+            console.log("digital sub-bubble clicked: " + currentLabel)
+            // was selected before, so remove selection
+            if (selectedDigitalBubble === currentLabel) {
+                selectedDigitalBubble = ""
+                // TODO: change color back
+
+                markedBD = 0;
+            }
+            // add new selection
+            else {
+                selectedDigitalBubble = currentLabel
+                // TODO: change color etc
+
+                markedBD = currentID;
             }
 
-            if (d.attr("id") == 1) {
-            //do nothing, because mainBubbles
-            selectedAnalogBubble = "";
-            selectedDigitalBubble = "";
-            }
-
-            if (d.attr("id") >= 3 && d.attr("id") <= 6) {
-                console.log("analog sub-bubble clicked: " + currentLabel)
-                // was selected before, so remove selection
-                if (selectedAnalogBubble === currentLabel) {
-                    selectedAnalogBubble = "";
-                    // TODO: change color back
-
-                    markedBA = 0;
-                }
-                // add new selection
-                else {
-                    selectedAnalogBubble = currentLabel
-                    // TODO: change color etc
-
-                    markedBA = currentID;
-                }
-            } else if (d.attr("id") >= 7 && d.attr("id") <= 10) {
-                console.log("digital sub-bubble clicked: " + currentLabel)
-                // was selected before, so remove selection
-                if (selectedDigitalBubble === currentLabel) {
-                    selectedDigitalBubble = ""
-                    // TODO: change color back
-
-                    markedBD = 0;
-                }
-                // add new selection
-                else {
-                    selectedDigitalBubble = currentLabel
-                    // TODO: change color etc
-
-                    markedBD = currentID;
-                }
-
-            }
-            previousID = idClick;
+        }
+        previousID = idClick;
 
 
 
-            for (var i = 1; i < 12; i++) {
-                resetBubble(i);
-            }
+        for (var i = 1; i < 12; i++) {
+            resetBubble(i);
+        }
 
-        if(selectedAnalogBubble == "" && selectedDigitalBubble == "") {
+        if (selectedAnalogBubble == "" && selectedDigitalBubble == "") {
             markMainB();
-        }else{
-            if(selectedAnalogBubble != "") {
+        } else {
+            if (selectedAnalogBubble != "") {
                 markBubble(AlabelToId(selectedAnalogBubble));
             }
-            if(selectedDigitalBubble != "") {
+            if (selectedDigitalBubble != "") {
                 markBubble(DlabelToId(selectedDigitalBubble));
             }
         }
 
-            parser(selectedAnalogBubble, selectedDigitalBubble)
+        parser(selectedAnalogBubble, selectedDigitalBubble)
 
 
 
-        
-    }   
+
+    }
 
 
     function computeImageSize(id) {
@@ -607,8 +533,8 @@ function visualizeBubbles(json, currentMonth) {
     }
 
     function idToLabel(id) {
-        if (id == 2){ return DIGITAL}
-        if(id == 1){return ANALOG}
+        if (id == 2) { return DIGITAL }
+        if (id == 1) { return ANALOG }
         if (id == 3) { return HEALTH }
         if (id == 4) { return NEWS }
         if (id == 5) { return FREETIME }
@@ -621,86 +547,23 @@ function visualizeBubbles(json, currentMonth) {
     }
 
     function AlabelToId(label) {
-        if(label == HEALTH) { return 3; }
-        if(label == NEWS) { return 4; }
-        if(label == FREETIME) { return 5; }
-        if(label == SPORT) { return 6; }
+        if (label == HEALTH) { return 3; }
+        if (label == NEWS) { return 4; }
+        if (label == FREETIME) { return 5; }
+        if (label == SPORT) { return 6; }
 
     }
 
     function DlabelToId(label) {
-        if(label == HEALTH) { return 8; }
-        if(label == NEWS) { return 9; }
-        if(label == FREETIME) { return 10; }
-        if(label == SPORT) { return 7; }
-
-    }
-
-    // Create Event Handlers for mouse
-    function handleMouseOver(d) {  // Add interactivity
-        console.log("inMouseOVER");
-
-        var matrix = this.getScreenCTM()
-                .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
-            tooltip.transition().duration(200).style("opacity", .9);
-            tooltip.html(d)
-                .style("left", (window.pageXOffset + matrix.e + 15) + "px")
-                .style("top", (window.pageYOffset + matrix.f - 30) + "px");
-
-        // var currentText = idToLabel(d.attr("id"));
-        // // console.log(currentText); //-> zugriff auf Attribute der angeklickten Bubble
-        // // var xpos = d.attr("x") + 100;
-        // // var ypos = d.attr("y") + 100;
-        // //d.attr("fill", "red");
-        // // Specify where to put label of text
-        // //Mouse Position
-        // // svg.append("text")
-        // //     .attr("x", 800)/*800)*/
-        // //     .attr("y", 80)/*80)*/
-        // //     .attr("id", "t" + currentText)
-        // //     .text(currentText)
-        // //     .style("font-size", "20px")
-        // //     .style("font-style", "italic")
-        // //     .style("fill", "#DBDBDB");
-
-        // var tooltip = d3.select("#bubbles")
-        //     .append("div")
-        //     .style("position", "absolute")
-        //     .attr("class", "tooltip")
-        //     .attr("id", "tooltip")
-        //     .style("background-color", "black")
-        //     .style("border-radius", "5px")
-        //     .style("padding", "10px")
-        //     .style("color", "white")
-        //     .style("opacity", 1)
-
-        // tooltip.html("Country: " + d.country)
-        //     // .style("left", (d3.pointer(this)[0] + 30) + "px")
-        //     // .style("top", (d3.pointer(this)[1] + 30) + "px")
-        //     .style("left", d.cx)
-        //     .style("top", d.cy)
-        //     .transition()
-        //     .duration(200)
+        if (label == HEALTH) { return 8; }
+        if (label == NEWS) { return 9; }
+        if (label == FREETIME) { return 10; }
+        if (label == SPORT) { return 7; }
 
     }
 
 }
 
-function handleMouseMove(d) {
-    tooltip
-        .style("left", (d3.pointer(this)[0] + 30) + "px")
-        .style("top", (d3.pointer(this)[1] + 30) + "px")
-}
-
-function handleMouseOut(d) {
-    var currentText = idToLabel(d.attr("id"));
-    console.log("inMouseOUT - remove:" + "#t" + currentText);
-    // Select text by id and then remove
-    d3.select("#t" + currentText).remove();  // Remove text location
-
-    d3.select("#tooltip").remove();
-
-}
 
 function bubbleSizeInOne() {
     Promise.all([
@@ -730,7 +593,7 @@ function bubbleSizeInOne() {
         var max = 0
         var min = 0
 
-       fileAHealth.forEach(function (d) {
+        fileAHealth.forEach(function (d) {
             if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
                 var date = d.Monat
                 var month = date.substr(date.length - 2, 2)
@@ -974,7 +837,7 @@ function bubbleSizeInOne() {
         console.log("loading error" + err)
     })
 
-    
+
 }
 
 /* Get the respective media name; relevant for the tooltips of the line diagramm ("lineDiagramm.js") */

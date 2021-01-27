@@ -19,7 +19,7 @@ tickStart = circumference_r + 7,
     MonthLabelYOffset = 5;
 
 //use for 12 months
-                 //0  Jan        30  Feb          60 Mär
+//0  Jan        30  Feb          60 Mär
 var tickphiright = [4.712388975, 5.23598775, 5.759586525,
     //90 Apr    120   Mai    150  Jun     180 Junly
     0, 0.5235987755, 1.04719755, 1.570796325,
@@ -30,8 +30,8 @@ var tickphiright = [4.712388975, 5.23598775, 5.759586525,
 
 //use for months
 var monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
-var totoalCoronaCases = [5, 79, 71808, 163009, 183410, 195418, 210399,244802,292913,531790,1069912,1760520]
-var newCoronaCases = [5,74,71729,91201,20401,12008,14981,34403,48111,238877,538122,690608]
+var totoalCoronaCases = [5, 79, 71808, 163009, 183410, 195418, 210399, 244802, 292913, 531790, 1069912, 1760520]
+var newCoronaCases = [5, 74, 71729, 91201, 20401, 12008, 14981, 34403, 48111, 238877, 538122, 690608]
 
 //Define drag for the slider, functions at the end
 var drag = d3.drag()
@@ -45,8 +45,8 @@ var svg = d3.select("#slider").append("svg")
     .attr("width", width_slider)
     .attr("height", height_slider)
     .append("g")
-    .attr("id","slider_tranform")
-    .attr("transform", `translate(${width_slider/1.6}, ${height_slider*1.55})`);
+    .attr("id", "slider_tranform")
+    .attr("transform", `translate(${width_slider / 1.6}, ${height_slider * 1.55})`);
 
 var container = svg.append("g")
     .attr("id", "sliderGroup");
@@ -55,8 +55,8 @@ var face = container.append("g")
     .attr('id', 'scale-face');
 
 //Scale for the MonthTick scale
-var tickScale = d3.scaleLinear() 
-    .range([0,330])
+var tickScale = d3.scaleLinear()
+    .range([0, 330])
     .domain([0, 11]);
 
 //Make the monthticks
@@ -225,9 +225,9 @@ function dragended(event, d) {
         d3.select("#additionalSpace")
             .style("opacity", 100);
     }
-    else if (postion == 9){
+    else if (postion == 9) {
         d3.select("#additionalSpace")
-        .style("opacity", 100);
+            .style("opacity", 100);
     }
     else {
         d3.select("#innerCircle")
@@ -240,17 +240,17 @@ function dragended(event, d) {
             .style("opacity", 0);
     }
 
-    
+
 
     //for bubbles to handle the radius
-    bubbleRadi = radius 
-    
-    if(postion > 0 && postion < 13){
+    bubbleRadi = radius
+
+    if (postion > 0 && postion < 13) {
         console.log("slider radius:")
         console.log(radius)
-        visualizeBubbles(json1, postion+1);
-    }else{
+        visualizeBubbles(json1, postion + 1);
+    } else {
         visualizeBubbles(json1, 1);
     }
-  
+
 }
