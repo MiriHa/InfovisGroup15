@@ -95,7 +95,7 @@ json1 = {
     ]
 }
 
-var bubbleName; // name of the clicked bubble
+var bubbleName;
 
 
 function computeMainBubbles(bubbleRadi, month) {
@@ -128,10 +128,10 @@ var tooltip = d3.select("#bubbles")
     .append("div")
     .style("opacity", 0)
     .attr("class", "tooltip")
-    .style("background-color", "#39475c")
-    .style("border-radius", "8px")
-    .style("padding", "8px")
-    .style("color", "white")
+    .style("background-color", "white") // "#39475c")
+    .style("border-radius", "5px")
+    .style("padding", "10px")
+    .style("color", "#39475c")
     .style("position", "absolute")
 
 /* Visualize the bubble chart. Is called every time you move the timer */
@@ -153,7 +153,7 @@ function visualizeBubbles(json, currentMonth) {
 
     var margin = { top: 10, right: 100, bottom: 30, left: 60 };
 
-    /* clear the page and add the svg */
+     /* clear the page and add the svg */
     var svg = d3.select("#bubbles").selectAll("svg").remove()
     svg = d3.select("#bubbles").append("svg")
         .attr("width", width)
@@ -185,8 +185,8 @@ function visualizeBubbles(json, currentMonth) {
                 .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
             tooltip.transition().duration(200).style("opacity", .9);
             var currentText = function (d) {
-                if (this.id == 1) { return "Zusammenfassung </br> analoger Medien" }
-                else { return "Zusammenfassung </br> digitaler Medien" }
+                if (this.id == 1){return "Zusammenfassung </br> analoger Medien"}
+                else {return "Zusammenfassung </br> digitaler Medien"}
             }
             tooltip.html(currentText)
                 .style("left", (window.pageXOffset + matrix.e + 30) + "px")
@@ -197,7 +197,7 @@ function visualizeBubbles(json, currentMonth) {
             console.log("in mouseout")
             tooltip.transition().duration(500).style("opacity", 0);
         })
-        /* Handle mouseclick event */
+        /* Handle mouseclick event */ 
         .on("click", function (d) { return bubbleClick(d3.select(this)) }) //noch testen
 
 
@@ -221,8 +221,8 @@ function visualizeBubbles(json, currentMonth) {
                 .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
             tooltip.transition().duration(200).style("opacity", .9);
             var currentText = function (d) {
-                if (this.id == 1) { return "Zusammenfassung </br> analoger Medien" }
-                else { return "Zusammenfassung </br> digitaler Medien" }
+                if (this.id == 1){return "Zusammenfassung </br> analoger Medien"}
+                else {return "Zusammenfassung </br> digitaler Medien"}
             }
             tooltip.html(currentText)
                 .style("left", (window.pageXOffset + matrix.e + 30) + "px")
@@ -313,22 +313,31 @@ function visualizeBubbles(json, currentMonth) {
                         if (currentMonth > 9) {
                             return 0.5
                         } else {
-                            return "#a84d0a";
+                            1
                         }
                     })
-                .style("opacity", function (d) {
-                    if (currentMounth > 9) {
-                        return 0.5
-                    } else {
-                        1
-                    }
-                })
+            }
+            done = true;
         }
-        done = true;
-    }
 
-    //Get the Text for the Tooltip
-    function tooltipDetails(currentid, currentMonth) {
+
+        //MouseEvent
+    /*
+    // On Click, we want to add data to the array and chart
+    circle.on("click", function() {
+        var coords = d3.mouse(this);
+        circle.selectAll("circle")  // For new circle, go through the update process
+          .data(dataset)
+          .enter()
+          .append("circle")
+          .attr(circleAttrs)  // Get attributes from circleAttrs var
+          .on("mouseover", handleMouseOver)
+          .on("mouseout", handleMouseOut);
+      })
+    */
+
+     //Get the Text for the Tooltip
+     function tooltipDetails(currentid, currentMonth) {
         var details;
 
         if (currentid > 2 && currentid < 7) {
@@ -342,7 +351,6 @@ function visualizeBubbles(json, currentMonth) {
         console.log(details);
         return details;
     }
-
 
     function Choosetextcolor(d) {
         if (currentMonth > 9) { return "grey"; }
@@ -367,7 +375,7 @@ function visualizeBubbles(json, currentMonth) {
     var clickCounter = 0;
     var previousID = 0;
 
-    function markBubble(idClick) {
+    function markBubble(idClick){
         elemEnter.selectAll("circle")//.append("circle")
             .filter(function (d) {
                 return (d.id == idClick)
@@ -410,19 +418,6 @@ function visualizeBubbles(json, currentMonth) {
             });
     }
 
-    function resetAnalogBubble(clicked_Analog) {
-        elemEnter.selectAll("circle")//.append("circle")
-            .filter(function (d) {
-                return (d.id == clicked_Analog)
-            })
-            .attr("fill", idToColor(clicked_Analog))
-            .style("opacity", function (d) {
-                if (currentMonth > 9) {
-                    return 0.5
-                } else {
-                    1
-                }
-            });
     function markMainB() {
         markBubble(1);
         markBubble(2);
@@ -453,7 +448,6 @@ function visualizeBubbles(json, currentMonth) {
                     if (previousID == clicked_Analog) {
                         sameClick++;
                         console.log("sameClick = " + sameClick);
-
                         if (sameClick % 2 == 0) {
                             // Reset previous color
                             resetBubble(clicked_Analog);
@@ -469,7 +463,6 @@ function visualizeBubbles(json, currentMonth) {
             } else {
                 // Reset previous color
                 resetBubble(clicked_Analog);
-
             }
             clicked_Analog = idClick;
             resetBubble(1);
@@ -490,7 +483,6 @@ function visualizeBubbles(json, currentMonth) {
             } else {
                 sameClick++;
                 resetBubble(clicked_Digital);
-
             }
             clicked_Digital = idClick;
             resetBubble(1);
@@ -582,8 +574,6 @@ function visualizeBubbles(json, currentMonth) {
         
     }   
 
-    }
-
 
     function computeImageSize(id) {
 
@@ -647,11 +637,11 @@ function visualizeBubbles(json, currentMonth) {
         console.log("inMouseOVER");
 
         var matrix = this.getScreenCTM()
-            .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
-        tooltip.transition().duration(200).style("opacity", .9);
-        tooltip.html(d)
-            .style("left", (window.pageXOffset + matrix.e + 15) + "px")
-            .style("top", (window.pageYOffset + matrix.f - 30) + "px");
+                .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
+            tooltip.transition().duration(200).style("opacity", .9);
+            tooltip.html(d)
+                .style("left", (window.pageXOffset + matrix.e + 15) + "px")
+                .style("top", (window.pageYOffset + matrix.f - 30) + "px");
 
         // var currentText = idToLabel(d.attr("id"));
         // // console.log(currentText); //-> zugriff auf Attribute der angeklickten Bubble
@@ -707,7 +697,6 @@ function handleMouseOut(d) {
     d3.select("#tooltip").remove();
 
 }
-
 
 function bubbleSizeInOne() {
     Promise.all([
@@ -981,7 +970,7 @@ function bubbleSizeInOne() {
         console.log("loading error" + err)
     })
 
-
+    
 }
 
 /* Get the respective media name; relevant for the tooltips of the line diagramm ("lineDiagramm.js") */
@@ -990,4 +979,3 @@ function getMediaName() {
 }
 
 bubbleSizeInOne()
-
