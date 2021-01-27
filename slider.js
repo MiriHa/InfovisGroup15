@@ -28,16 +28,10 @@ var tickphiright = [4.712388975, 5.23598775, 5.759586525,
     //300 NOv       330 Dez
     3.665191425, 4.1887902]
 
-    //use for months
+//use for months
 var monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
 var totoalCoronaCases = [5, 79, 71808, 163009, 183410, 195418, 210399,244802,292913,531790,1069912,1760520]
 var newCoronaCases = [5,74,71729,91201,20401,12008,14981,34403,48111,238877,538122,690608]
-
-//use for Quartals
-var tickphiright_quartal = [4.712388975, 6.2831853, 0, 1.570796325, 3.14159265]
-var quartalNames = ["Jan -Mar", "Apr-Jun", "Apr-Jun", "July-Sept","Oct-Dec"]
-var coronaCasesQuartal = [71808, 123610, 123610, 97495, 1467607]
-
 
 //Define drag for the slider, functions at the end
 var drag = d3.drag()
@@ -61,18 +55,12 @@ var face = container.append("g")
     .attr('id', 'scale-face');
 
 //Scale for the MonthTick scale
-var tickScale = d3.scaleLinear()
-    //for quartals
-    // .range([0, 360])
-    // .domain([0, 4]);
-    //for months : 
+var tickScale = d3.scaleLinear() 
     .range([0,330])
     .domain([0, 11]);
 
 //Make the monthticks
 face.selectAll('.tick')
-    //for quartal
-    // .data(d3.range(0, 4))
     .data(d3.range(0, 12))
     .enter()
     .append('line')
@@ -122,31 +110,35 @@ var inner_circle = innerContainer.append("circle")
     .attr("r", circumference_inner)
     .attr("fill", "grey")
 
-//Make the month lable, corona cases and lockdown indicator, changes with slider
+//YearLable
 var circleLableYear = innerContainer.append("text")
     .attr("id", "yearLable")
     .attr("dy", "-1.0em")
     .style("text-anchor", "middle")
     .text("2020");
 
+//Month Lable
 var circleLableTime = innerContainer.append("text")
     .attr("id", "monthLable")
     .attr("dy", "-1.5em")
     .style("text-anchor", "middle")
     .text(monthNames[0]);
 
+//Corona Cases Text
 var coronaCasesLable = innerContainer.append("text")
     .attr("id", "casesLable")
     .attr("dy", "0.5em")
     .style("text-anchor", "middle")
     .text("Corona Fälle");
 
+//Corona Cases Numbers
 var coronaCasesNumbers = innerContainer.append("text")
     .attr("id", "casesNumbers")
     .attr("dy", "1.2em")
     .style("text-anchor", "middle")
     .text(totoalCoronaCases[0]);
 
+//Lockdown text
 var lockdownIndicator = innerContainer.append("text")
     .attr("id", "lockdownIndicator")
     .attr("dy", "4.5em")
@@ -161,10 +153,9 @@ function dragstarted(event, d) {
 }
 
 function dragged(event, d) {
+    //calculate the current positon of the silder handle in the circle and draw it there
     d_from_origin = Math.sqrt(Math.pow(event.x, 2) + Math.pow(event.y, 2));
-
     var cosalph = event.x / d_from_origin
-
     alpha = Math.acos(cosalph);
 
     d3.select(this)
@@ -177,18 +168,16 @@ function dragended(event, d) {
     d3.select(this)
         .classed("dragging", false);
 
-    //Find the Phi degree of the HandlePosition and compare it to Phi-values of the MarkTicks
+    //Find the Phi degree of the current sliderHandlePosition and compare it to Phi-values of the MarkTicks
     var cosPhi = (d.x / circumference_r)
     var sinPhi = - (d.x / circumference_r)
     var phi = 0
 
     if (d.y >= 0) {
         phi = Math.acos(cosPhi)
-        //phi = Math.asin(sinPhi)
     }
     else {
         phi = 2 * Math.PI - Math.acos(cosPhi)
-        //phi = 2*Math.PI - Math.asin(sinPhi)
     }
 
     //Find the closest tick:
@@ -196,7 +185,6 @@ function dragended(event, d) {
     var diff = Math.abs(phi - closestPhi);
     var postion = 0
 
-    // TODO
     // between hightst and 0 value it will always take highest and not 0
     for (var val = 0; val < tickphiright.length; val++) {
         var newdiff = Math.abs(phi - tickphiright[val]);
@@ -207,46 +195,19 @@ function dragended(event, d) {
         }
     }
 
-
     //Set/Snap handle to closest TickMark:
     d3.select(this)
         .attr("cx", d.x = circumference_r * Math.cos(closestPhi))
         .attr("cy", d.y = circumference_r * Math.sin(closestPhi));
 
 
-    //Set the Month Lable
+    //Set the Month Lable and the CaseNumber each Month
     d3.select("#monthLable")
-        // .text(quartalNames[postion]);
         .text(monthNames[postion]);
-
     d3.select("#casesNumbers")
         .text(totoalCoronaCases[postion]);
 
-    //TODO set Corona cases
-    //TOdo set Lockdown indicator -> make it more dynamic
-    console.log("Slider in position ", postion)
-    // if (postion == 1 || postion == 2) {
-    //     d3.select("#innerCircle")
-    //         .attr("fill", "darkred");
-
-    //     d3.select("#lockdownIndicator")
-    //         .text("Lockdown");
-    // }
-    // else if (postion == 4) {
-    //     d3.select("#innerCircle")
-    //         .attr("fill", "darkred");
-
-    //     d3.select("#lockdownIndicator")
-    //         .text("Lockdown");
-    // }
-    // else {
-    //     d3.select("#innerCircle")
-    //         .attr("fill", "grey");
-
-    //     d3.select("#lockdownIndicator")
-    //         .text(" ");
-    // }
-
+    // For each slider position set the associated values of the lockdownindicator
     if (postion == 3 || postion == 4 || postion == 5) {
         d3.select("#innerCircle")
             .attr("fill", "darkred");
@@ -279,29 +240,11 @@ function dragended(event, d) {
             .style("opacity", 0);
     }
 
-    /** KLAUS TEST START **/
-    /**
-     * For each slider position render a different .json file.
-     * Remove old rendering bevore appending a new "svg".
-     **/
+    
 
     //for bubbles to handle the radius
-    bubbleRadi = radius /*[
-        [0,0,0,0,0,0,0,0,0,0],
-        [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Jan
-        [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Feb
-        [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Mrz
-        [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Apr
-        [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Mai
-        [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Jun
-        [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Jul
-        [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Aug
-        [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Sep
-        [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Okt
-        [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Nov
-        [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100]   // Dez
-    ]*/
-    //annaTest mit Zeitungen
+    bubbleRadi = radius 
+    
     if(postion > 0 && postion < 13){
         console.log("slider radius:")
         console.log(radius)
@@ -309,25 +252,5 @@ function dragended(event, d) {
     }else{
         visualizeBubbles(json1, 1);
     }
-    /* 
-    if (postion == 1)  visualizeBubbles(json2)
-    else if (postion == 2) visualizeBubbles(json1)
-    else if (postion == 3) visualizeBubbles(json3)
-    else if (postion == 4) visualizeBubbles(json1)
-    else if (postion == 5) visualizeBubbles(json2)
-    else if (postion == 6) visualizeBubbles(json3)
-    else if (postion == 7) visualizeBubbles(json2)
-    else if (postion == 8) visualizeBubbles(json1)
-    else if (postion == 9) visualizeBubbles(json3)
-    else if (postion == 10) visualizeBubbles(json1)
-    else if (postion == 11) visualizeBubbles(json2)
-    else if (postion == 12) visualizeBubbles(json3)
-    else visualizeBubbles(json1)
-    */
-    /** KLAUS TEST ENDE**/
+  
 }
-
-/**
- * VISUALIZE SLIDER END
- */
-
