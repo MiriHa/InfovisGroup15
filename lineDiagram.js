@@ -243,12 +243,10 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         if (aData > 0 && dData === 0) {
             axes(analogData);
             line(analogData, ANALOG);
-            //detailLevel = 1; 
         } else if (aData === 0 && dData > 0) {
             console.log("draw only digital data")
             axes(digitalData);
             line(digitalData, DIGITAL);
-            //detailLevel = 2;
 
         } else if (aData > 0 && dData > 0) {
             // both
