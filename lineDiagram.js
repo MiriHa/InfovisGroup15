@@ -1,5 +1,8 @@
 // var currentDataTitle; // name of the magazin / newspaper etc.
-var detailLevel=0;
+var detailLevel = 0;
+var lineValue // test
+var file1Data // test
+var file2Data // test
 
 function parser(analog, digital) {
     // Get the title of the current selection; relevant for the tooltip
@@ -64,8 +67,8 @@ function parser(analog, digital) {
                 console.log("loading both successful")
                 // files[0] will contain file1.csv
                 // files[1] will contain file2.csv
-                var file1Data = files[0]
-                var file2Data = files[1]
+                file1Data = files[0]
+                file2Data = files[1]
 
                 file1Data.slice().reverse().forEach(function (d){
                     // Build analogData block (fill array)
@@ -432,7 +435,22 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
 
     function initChart() {
         chart = svg.append('g')
-            .attr("transform", "translate(" + Margin + "," + Margin + ")");
+            .attr("transform", "translate(" + Margin + "," + Margin + ")")
+            /* tooltip testing */
+            .on("mouseover", function (d) {
+                console.log("in mouseover")
+                var matrix = this.getScreenCTM() // Get the position of the hovered object
+                    .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
+                tooltip.transition().duration(200).style("opacity", .9);
+                tooltip.html(showTooltip(d)) 
+                    .style("left", (window.pageXOffset + matrix.e + 10) + "px")
+                    .style("top", (window.pageYOffset + matrix.f - 10) + "px");
+            })
+            //Remove the tooltip
+            .on("mouseout", function (d) {
+                console.log("in mouseout")
+                tooltip.transition().duration(500).style("opacity", 0);
+            });
 
         // Initialise a X axis:
         x = d3.scalePoint().range([0, width]);
@@ -491,27 +509,95 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             source += analogSource
             label_xAxis = "Verkauf"
             title = analogTitle
-            detailLevel = 1;
+            detailLevel = 1; // relevant for the tooltip
 
         // Digital only
         } else if(analogSource === "" && digitalSource !== ""){
             source += digitalSource
             label_xAxis = "Besuche"
             title = digitalTitle
-            detailLevel = 2;
+            detailLevel = 2; // relevant for the tooltip
 
         // Digital & Analog
         } else if(analogSource !== "" && digitalSource !== ""){
             source = source + analogSource + ", " + digitalSource
             title = analogTitle + " vs. " + digitalTitle
-            detailLevel = 3;
+            detailLevel = 3; // relevant for the tooltip
         }
         // None (Sum diagram of analog + digital)
         else {
             source = ""
         }
       
-        /* testing */
+        // ------------------------- tooltip ---------------------------------------------- //
+        // append the x line
+        chart.append("line")
+            .attr("class", "x")
+            .style("stroke", "#DBDBDB")
+            .style("stroke-dasharray", "3,3")
+            .style("opacity", 0.5)
+            .attr("y1", 0)
+            .attr("y2", height);
+
+        // append the y line
+        chart.append("line")
+            .attr("class", "y")
+            .style("stroke", "#DBDBDB")
+            .style("stroke-dasharray", "3,3")
+            .style("opacity", 0.5)
+            .attr("x1", width)
+            .attr("x2", width);
+
+        // append the circle at the intersection 
+        chart.append("circle")
+            .attr("class", "y")
+            .style("fill", "none")
+            .style("stroke", "#DBDBDB")
+            .attr("r", 4);
+
+         // place the value at the intersection
+        chart.append("text")
+            .attr("class", "y1")
+            .style("stroke", "white")
+            .style("stroke-width", "3.5px")
+            .style("opacity", 0.8)
+            .attr("dx", 8)
+            .attr("dy", "-.3em");
+        chart.append("text")
+            .attr("class", "y2")
+            .attr("dx", 8)
+            .attr("dy", "-.3em");
+
+        // append the rectangle to capture mouse
+        svg.append("rect")
+            .attr("width", width)
+            .attr("height", height)
+            .style("fill", "none")
+            .style("pointer-events", "all")
+            .on("mouseover", function() { chart.style("display", null); })
+            .on("mouseout", function() { chart.style("display", "none"); })
+            .on("mousemove", mousemove);
+        
+        function mousemove() {
+            //var x0 = x.invert(d3.pointer(event,this)[0]),
+            var x0 = scalePointPosition();
+                i = bisectDate(data, x0, 1),
+                d0 = data[i - 1],
+                d1 = data[i],
+                d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+        }
+
+        function scalePointPosition() {
+            var xPos = d3.pointer(event, this)[0];
+            var domain = x.domain(); 
+            var range = x.range();
+            var rangePoints = d3.range(range[0], range[1], x.step())
+            var yPos = domain[d3.bisect(rangePoints, xPos) -1];
+            console.log(yPos);
+        }
+        
+      
+        // Create the tooltip div 
         var tooltip = d3.select("#bottomDiagram")
             .append("div")
             .style("opacity", 0)
@@ -521,6 +607,8 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .style("padding", "8px")
             .style("color", "white")
             .style("position", "absolute")
+
+        // ------------------------- tooltip ---------------------------------------------- //
 
         // Label for yAxis
         svg.append('text')
@@ -546,14 +634,13 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .attr('y', 30)
             .attr('text-anchor', 'middle')
             .text(title)
-             /* testing */
+            /* tooltip testing */
             .on("mouseover", function (d) {
                 console.log("in mouseover")
-                var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
+                var matrix = this.getScreenCTM() // Get the position of the hovered object
                     .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
                 tooltip.transition().duration(200).style("opacity", .9);
-                var currentText = "Hello" 
-                tooltip.html(tooltipDetails()) // currentText vs tooltipDetails()
+                tooltip.html(tooltipDetails()) 
                     .style("left", (window.pageXOffset + matrix.e + 10) + "px")
                     .style("top", (window.pageYOffset + matrix.f - 10) + "px");
             })
@@ -573,33 +660,44 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .text(source)
     }
 
+    // ------------------------------------------ tooltip --------------------------------------------//
     // Create the details of the tooltip
     function tooltipDetails(){
         var details;
         // only analog data
         if(detailLevel == 1)
         {
-            details = ("Kategorie: "  + getMediaName() + "</br>Titel: " + analogTitle);//+ analogTitle) // getDataTitle(d)
+            details = ("Kategorie: "  + getMediaName() + "</br>Titel: " + analogTitle);
         } 
         
         // only digital data
         else if(detailLevel == 2)
         {
-            details = ("Kategorie: "  + getMediaName() + "</br>Titel: " + digitalTitle); //+ analogTitle) // getDataTitle(d)
+            details = ("Kategorie: "  + getMediaName() + "</br>Titel: " + digitalTitle);
         } 
         
         // both analog and digital data
         else if(detailLevel == 3)
         {
-            details = ("Kategorie: "  + getMediaName() + "</br>Titel 1: " + analogTitle //+ analogTitle) // getDataTitle(d)
+            details = ("Kategorie: "  + getMediaName() + "</br>Titel 1: " + analogTitle 
                  + "</br>Titel 2: " + digitalTitle);
         }
+
+        
+        // ------------------------------------------ tooltip --------------------------------------------//
 
         // no data
         else 
         {   details = " "
         }
 
+        console.log(details);
+        return details;
+    }
+
+    function showTooltip(d){
+        var details;
+        details = ("Wert: "  + y(d.ser2));
         console.log(details);
         return details;
     }
