@@ -97,23 +97,24 @@ json1 = {
 
 var bubbleName;
 
+
 function computeMainBubbles(bubbleRadi, month) {
     console.log("month = " + month)
     var summedig = 0;
     for (let bubb = 3; bubb < 7; bubb++) {
-        summedig = summedig + bubbleRadi[month][bubb] +10
-        //console.log("Summe aus: " + bubbleRadi[month][bubb] + " + ")
+        summedig = summedig + bubbleRadi[month][bubb] + 10
+        console.log("Summe aus: " + bubbleRadi[month][bubb] + " + ")
     }
     bubbleRadi[month][1] = summedig / 4;
-    //console.log(" = " + summedig);
+    console.log(" = " + summedig);
 
     var summeana = 0;
     for (let bubb = 7; bubb < 11; bubb++) {
         summeana = summeana + bubbleRadi[month][bubb] + 10
-        //console.log("Summe aus: " + bubbleRadi[month][bubb] + " + ")
+        console.log("Summe aus: " + bubbleRadi[month][bubb] + " + ")
     }
     bubbleRadi[month][2] = summeana / 4;
-    //console.log("summeANA = " + summeana);
+    console.log("summeANA = " + summeana);
 }
 
 
@@ -122,23 +123,23 @@ var selectedDigitalBubble = ""
 var ClickDigital = true;
 var ClickAnalog = true;
 
+
 var tooltip = d3.select("#bubbles")
     .append("div")
     .style("opacity", 0)
     .attr("class", "tooltip")
-    .style("background-color", "#39475c")
-    .style("border-radius", "8px")
-    .style("padding", "8px")
-    .style("color", "white")
+    .style("background-color", "white") // "#39475c")
+    .style("border-radius", "5px")
+    .style("padding", "10px")
+    .style("color", "#39475c")
     .style("position", "absolute")
 
 /* Visualize the bubble chart. Is called every time you move the timer */
 function visualizeBubbles(json, currentMounth) {
-    console.log("visualize: ")
     bubbleRadi = radius
 
     computeMainBubbles(bubbleRadi, currentMounth);
-    console.log(bubbleRadi)
+    //console.log(bubbleRadi)
 
     //json Datei nutzen:
     //id: analog(1,2-5) und digital (2, 6-9)
@@ -168,9 +169,6 @@ function visualizeBubbles(json, currentMounth) {
         .attr("transform", function (d) {
             return "translate(" + d.x + "," + d.y + ")"
         })
-
-    //console.log("hello Blub");
-    //console.log("Monat: " + currentMounth);
 
     /*Create the main circles: analog, digital */
     var circle = elemEnter.append("circle")
@@ -290,8 +288,35 @@ function visualizeBubbles(json, currentMounth) {
         /* Handle mouseclick event */
         .on("click", function (d) { return bubbleClick(d3.select(this)) })
 
+    var done = false;
+        if(done == false) {
+            fillClickedBubbles(markedBD, markedBA);
+            function fillClickedBubbles (D, A){
+                elemEnter.selectAll("circle")//.append("circle")
+                    .filter(function (d) {
+                        return (d.id == A || d.id == D)
+                    })
+                    .attr("fill",
+                        function (d) {
+                            if (d.id == D) {
+                                return "#08456e";
+                            } else {
+                                return "#a84d0a";
+                            }
+                        })
+                    .style("opacity", function (d) {
+                        if (currentMounth > 9) {
+                            return 0.5
+                        } else {
+                            1
+                        }
+                    })
+            }
+            done = true;
+        }
 
-    //MouseEvent
+
+        //MouseEvent
     /*
     // On Click, we want to add data to the array and chart
     circle.on("click", function() {
@@ -329,9 +354,58 @@ function visualizeBubbles(json, currentMounth) {
 
     var clickCounter = 0;
     var previousID = 0;
-    var clicked_Analog = 0;
-    var clicked_Digital = 0;
-    var sameClick = 1;
+
+    function markBubble(idClick){
+        elemEnter.selectAll("circle")//.append("circle")
+            .filter(function (d) {
+                return (d.id == idClick)
+            })
+            .attr("fill", function (d) {
+                if (idClick > 6) {
+                    return "#08456e";
+                }
+                if (idClick > 2 && idClick < 7)  {
+                    return "#a84d0a";
+                }
+            })
+            .style("opacity", function (d) {
+                if (currentMounth > 9) {
+                    return 0.5
+                } else {
+                    1
+                }
+            });
+    }
+
+    function resetDigitalBubble(clicked_Digital) {
+        elemEnter.selectAll("circle")//.append("circle")
+            .filter(function (d) {
+                return (d.id == clicked_Digital)
+            })
+            .attr("fill", idToColor(clicked_Digital))
+            .style("opacity", function (d) {
+                if (currentMounth > 9) {
+                    return 0.5
+                } else {
+                    1
+                }
+            });
+    }
+
+    function resetAnalogBubble(clicked_Analog) {
+        elemEnter.selectAll("circle")//.append("circle")
+            .filter(function (d) {
+                return (d.id == clicked_Analog)
+            })
+            .attr("fill", idToColor(clicked_Analog))
+            .style("opacity", function (d) {
+                if (currentMounth > 9) {
+                    return 0.5
+                } else {
+                    1
+                }
+            });
+    }
 
     /* Event handler for mouse click on bubbles */
     function bubbleClick(d) {
@@ -339,145 +413,90 @@ function visualizeBubbles(json, currentMounth) {
         console.log("ID = " + d.attr("id"));
         var idClick = d.attr("id");
         bubbleName = idToLabel(idClick);
-        console.log("bubble clicked: " + bubbleName);
-        console.log("clickedAna = " + clicked_Analog);
-        console.log("clickedD = " + clicked_Digital);
-        console.log("currentClick = " + idClick);
-        
+
+
 
         if (idClick > 2 && idClick < 7) { // Analog sub bubbles
-            elemEnter.selectAll("circle") //.append("circle")
-                .filter(function (d) { return (d.id == idClick) })
-                .attr("fill", "#a84d0a")
-                .style("opacity", function (d) { if (currentMounth > 9) { return 0.5 } else { 1 } })
-            //wenn vorher auch analog -> alte bubble nicht markieren
+            markBubble(idClick);
             if (previousID > 2 && previousID < 7) {
                 if (idClick == clicked_Analog) {
                     //nix
                     if (previousID == clicked_Analog) {
                         sameClick++;
-
-
                         console.log("sameClick = " + sameClick);
 
                         if (sameClick % 2 == 0) {
-                            /* Reset previous color */
-                            elemEnter.selectAll("circle")//.append("circle")
-                                .filter(function (d) {
-                                    return (d.id == clicked_Analog)
-                                })
-                                .attr("fill", idToColor(clicked_Analog))
-                                .style("opacity", function (d) {
-                                    if (currentMounth > 9) {
-                                        return 0.5
-                                    } else {
-                                        1
-                                    }
-                                })
+                            // Reset previous color
+                            resetAnalogBubble(clicked_Analog);
+                            markedBA = 0;
                         }
                     }
                 } else {
                     sameClick = 1;
-
-                    /* Reset previous color */
-                    elemEnter.selectAll("circle")//.append("circle")
-                        .filter(function (d) {
-                            return (d.id == clicked_Analog)
-                        })
-                        .attr("fill", idToColor(clicked_Analog))
-                        .style("opacity", function (d) { if (currentMounth > 9) { return 0.5 } else { 1 } })
+                    // Reset previous color
+                    resetAnalogBubble(clicked_Analog);
+                    markedBA = 0;
                 }
             } else {
-                /* Reset previous color */
-                sameClick++;
-                elemEnter.selectAll("circle") //.append("circle")
-                    .filter(function (d) {
-                        return (d.id == clicked_Analog)
-                    })
-                    .attr("fill", idToColor(clicked_Analog))
-                    .style("opacity", function (d) { if (currentMounth > 9) { return 0.5 } else { 1 } })
+                // Reset previous color
+                resetAnalogBubble(clicked_Analog);
+
             }
             clicked_Analog = idClick;
 
 
         } else if (idClick > 6) { // Digital sub bubbles
-            elemEnter.selectAll("circle")//.append("circle")
-                .filter(function (d) { return (d.id == idClick) })
-                .attr("fill", "#08456e")
-                .style("opacity", function (d) { if (currentMounth > 9) { return 0.5 } else { 1 } })
-
-            //wenn vorher auch digital -> alte bubble nicht markieren
+            markBubble(idClick);
             if (previousID > 6) {
                 if (idClick == clicked_Digital) {
-                    //nix
                     sameClick++;
-
-                    console.log("sameClick = " + sameClick);
-
                     if (sameClick % 2 == 0) {
-                        // Farbe vom vorherigen zurücksetzen
-                        elemEnter.selectAll("circle")//.append("circle")
-                            .filter(function (d) {
-                                return (d.id == clicked_Digital)
-                            })
-                            .attr("fill", idToColor(clicked_Digital))
-                            .style("opacity", function (d) { if (currentMounth > 9) { return 0.5 } else { 1 } })
+                        resetDigitalBubble(clicked_Digital);
                     }
                 } else {
                     sameClick = 1;
-                    // Farbe vom vorherigen zurücksetzen
-                    elemEnter.selectAll("circle")//.append("circle")
-                        .filter(function (d) {
-                            return (d.id == clicked_Digital)
-                        })
-                        .attr("fill", idToColor(clicked_Digital))
-                        .style("opacity", function (d) { if (currentMounth > 9) { return 0.5 } else { 1 } })
+                    resetDigitalBubble(clicked_Digital);
+                    //markedBD = 0;
                 }
             } else {
                 sameClick++;
-                // Farbe vom vorherigen zurücksetzen
-                elemEnter.selectAll("circle")//.append("circle")
-                    .filter(function (d) {
-                        return (d.id == clicked_Digital)
-                    })
-                    .attr("fill", idToColor(clicked_Digital))
-                    .style("opacity", function (d) { if (currentMounth > 9) { return 0.5 } else { 1 } })
+                resetDigitalBubble(clicked_Digital);
+
             }
             clicked_Digital = idClick;
 
         } else {
-
-            //nix, da Hauptbubble
+            //do nothing, because mainBubbles
         }
+
 
         previousID = idClick;
 
+
         if (d.attr("id") == 2) {
-            console.log("if - digital");
-            //CickDigital = true;
-            //ClickAnalog = false;
-            //return ClickforDig(d);
+            //do nothing, because mainBubbles
         }
         if (d.attr("id") == 1) {
-            console.log("else if -analog");
-            //ClickDigital = false;
-            //ClickAnalog = true;
-            //return ClickforAna(d);
+            //do nothing, because mainBubbles
         } else {
-            //Click auf keine Hauptbubble -> Diagramm anzeigen lassen für diese Bubble
-            console.log("else");
+            //show Diagram
             var currentLabel = idToLabel(d.attr("id"));
+            var currentID = d.attr("id");
             if (d.attr("id") >= 3 && d.attr("id") <= 6) {
                 console.log("analog sub-bubble clicked: " + currentLabel)
                 // was selected before, so remove selection
                 if (selectedAnalogBubble === currentLabel) {
-                    selectedAnalogBubble = ""
+                    selectedAnalogBubble = "";
                     // TODO: change color back
+
+                    markedBA = 0;
                 }
                 // add new selection
                 else {
                     selectedAnalogBubble = currentLabel
                     // TODO: change color etc
+
+                    markedBA = currentID;
                 }
             } else if (d.attr("id") >= 7 && d.attr("id") <= 10) {
                 console.log("digital sub-bubble clicked: " + currentLabel)
@@ -485,132 +504,28 @@ function visualizeBubbles(json, currentMounth) {
                 if (selectedDigitalBubble === currentLabel) {
                     selectedDigitalBubble = ""
                     // TODO: change color back
+
+                    markedBD = 0;
                 }
                 // add new selection
                 else {
                     selectedDigitalBubble = currentLabel
                     // TODO: change color etc
+
+                    markedBD = currentID;
                 }
+
             }
+            previousID = idClick;
 
             parser(selectedAnalogBubble, selectedDigitalBubble)
 
-            /*
-            if (d.attr("id") == 4) {
-                console.log("4");
-                // code
-            }
-            if (d.attr("id") == 3) {
-                console.log("3");
-                // code
-            }
-            return showDiagram(d.attr("label"));*/
 
         }
 
         
     }   
 
-    /*
-        function ClickforAna(d) {
-            //analoge sichtbar
-            elemEnter.selectAll("circle")//.append("circle")
-                .filter(function (d) { return (d.id <= 6 && d.id != 2) }) //nur analoge
-                .attr("id", function (d) { return d.id })
-                .attr("r", function (d) { if( bubbleRadi[currentMounth][d.id] == 0) { return 50} else {return bubbleRadi[currentMounth][d.id] + 10}})
-                .attr("stroke", "#DBDBDB")
-                .attr("fill", function (d) { return d.c })
-                .style("opacity", 2)
-                //.on("mouseover", handleMouseOver(d)) //klappt
-                .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
-                .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
-                .on("click", function (d) { return bubbleClick(d3.select(this)) })
-
-
-            //digitale Bubble transparent -> noch nicht richtig
-            elemEnter//.append("circle")
-                .selectAll("circle")
-                .filter(function (d) { return (d.id > 6) })
-                .attr("id", function (d) { return d.id })
-                .attr("r", function (d) { if( bubbleRadi[currentMounth][d.id] == 0) { return 50} else {return bubbleRadi[currentMounth][d.id] + 10}})
-                .attr("stroke", "black")
-                .attr("fill", function (d) { return d.c })
-                .style("opacity", 0.2)
-
-
-            elemEnter.append("text")
-                .filter(function (d) { return (d.id <= 2) }) //nur analoge und hauptbubble
-                .attr("dx", function (d) { return -40 })
-                .attr("dy", 3)
-                .text(function (d) { return d.label })
-                .style("fill", function (d) { return Choosetextcolor(d) })
-                .style("font-size", "24px")
-                .style("font-weight", "bold") // new
-
-
-
-            elemEnter.selectAll("svg:image").remove()
-            elemEnter.selectAll("svg:image")
-                .filter(function (d) { return (d.id <= 5) }) //nur analoge und hauptbubble
-                .attr("x", function (d) { return computeImagePos(d.id) })
-                .attr("y", function (d) { return computeImagePos(d.id) })
-                .attr("width", function (d) { return computeImageSize(d.id)  })
-                .attr("height", function (d) { return computeImageSize(d.id)  })
-                .attr("xlink:href", function (d) {return "icons/" + d.img })
-                .style("opacity", 5)
-                .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
-                .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
-        }
-
-        function ClickforDig(d) {
-            elemEnter
-                .selectAll("circle")
-                //.append("circle")
-                .filter(function (d) { return (d.id > 6 || d.id == 2) }) //nur digitale
-                .attr("id", function (d) { return d.id })
-                .attr("r", function (d) { if( bubbleRadi[currentMounth][d.id] == 0) { return 50} else {return bubbleRadi[currentMounth][d.id] + 10}})
-                .attr("stroke", "#DBDBDB")
-                .attr("fill", function (d) { return d.c })
-                .style("opacity", 2)
-                //.on("mouseover", handleMouseOver(d)) //klappt
-                .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
-                .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
-                .on("click", function (d) { return bubbleClick(d3.select(this)) });
-
-
-            //analoge Bubbles transparent
-            elemEnter//.append("circle")
-                .selectAll("circle")
-                .filter(function (d) { return (d.id > 2 && d.id <= 6) })
-                .attr("id", function (d) { return d.id })
-                .attr("r", function (d) { if( bubbleRadi[currentMounth][d.id] == 0) { return 50} else {return bubbleRadi[currentMounth][d.id] + 10}})
-                .attr("stroke", "black")
-                .attr("fill", function (d) { return d.c })
-                .style("opacity", 0.2)
-
-            elemEnter.append("text")
-                .filter(function (d) { return (d.id <= 2) }) //nur analoge und hauptbubble
-                .attr("dx", function (d) { return -40 })
-                .attr("dy", 3)
-                .text(function (d) { return d.label })
-                .style("fill", function (d) { return Choosetextcolor(d) })
-                .style("font-size", "24px")
-                .style("font-weight", "bold")
-
-
-            elemEnter.selectAll("svg:image").remove()
-            elemEnter.selectAll("svg:image")
-                .filter(function (d) { return (d.id <= 5) }) //nur analoge und hauptbubble
-                .attr("x", function (d) { return computeImagePos(d.id) })
-                .attr("y", function (d) { return computeImagePos(d.id) })
-                .attr("width", function (d) { return computeImageSize(d.id)  })
-                .attr("height", function (d) { return computeImageSize(d.id)  })
-                .attr("xlink:href", function (d) {return "icons/" + d.img })
-                .style("opacity", 5)
-                .on("mouseover", function (d) { return handleMouseOver(d3.select(this)) })
-                .on("mouseout", function (d) { return handleMouseOut(d3.select(this)) })
-        }
-    */ //Click on centered Bubbles
 
     function computeImageSize(id) {
 
@@ -700,55 +615,6 @@ function visualizeBubbles(json, currentMounth) {
         //     .duration(200)
 
     }
-
-    //Auswahl in den Vordergrund verschieben
-    /*
-    d3.selection.prototype.moveToFront = function() {
-      return this.each(function(){
-        this.parentNode.appendChild(this);
-      });
-    };
-    */
-
-    /* beim Mouseovering
-    circles.on("mouseover",function(){
-    var sel = d3.select(this);
-    sel.moveToFront();
-      });
-    */
-
-
-
-
-    //kreisAnimation
-    /*
-    var width = 500,
-    height = 600,
-    minRadius = 50,
-        maxRadius = 100;
-
-    var duration = 1000;
-
-    var svg = d3.select("body").append("svg")
-        .attr("width", width)
-        .attr("height", height);
-
-    svg.append("circle")
-        .attr("cx", width/2)
-        .attr("cy", height/2)
-        .attr("r", minRadius)
-        .attr("stroke","black")
-        .attr("fill", "blue")
-        .call(transition, minRadius, maxRadius);
-
-    */
-    function transition(element, start, end) {
-        element.transition()
-            .duration(duration)
-            .attr("r", end)
-            .each("end", function () { d3.select(this).call(transition, end, start); });
-    }
-    //http://bl.ocks.org/WilliamQLiu/76ae20060e19bf42d774 -> Mouse_Events
 
 }
 
@@ -1016,7 +882,8 @@ function bubbleSizeInOne() {
 
             radius[month][id] = r
         })
-        visualizeBubbles(json1, 1);
+
+        visualizeBubbles(json1, 1, clicked_Analog, clicked_Digital);
 
 
 
@@ -1033,10 +900,5 @@ function getMediaName() {
     return bubbleName;
 }
 
-
-
-
-
 bubbleSizeInOne()
 
-//visualizeBubbles(json1, bubbleRadi, 1);

@@ -57,3 +57,9 @@ var radius = [
     [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],   // Nov
     [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0] ]  // Dez
 
+//for markedBubbles
+var clicked_Digital = 0;
+var clicked_Analog = 0;
+var sameClick = 1;
+var markedBA = 0;
+var markedBD = 0;
