@@ -95,7 +95,7 @@ json1 = {
     ]
 }
 
-var bubbleName;
+var bubbleName; // name of the clicked bubble
 
 
 function computeMainBubbles(bubbleRadi, month) {
@@ -135,10 +135,10 @@ var tooltip = d3.select("#bubbles")
     .style("position", "absolute")
 
 /* Visualize the bubble chart. Is called every time you move the timer */
-function visualizeBubbles(json, currentMounth) {
+function visualizeBubbles(json, currentMonth) {
     bubbleRadi = radius
 
-    computeMainBubbles(bubbleRadi, currentMounth);
+    computeMainBubbles(bubbleRadi, currentMonth);
     //console.log(bubbleRadi)
 
     //json Datei nutzen:
@@ -174,10 +174,10 @@ function visualizeBubbles(json, currentMounth) {
     var circle = elemEnter.append("circle")
         .filter(function (d) { return d.id < 3 })
         .attr("id", function (d) { return d.id })
-        .attr("r", function (d) { if (bubbleRadi[currentMounth][d.id] == 0) { return 50 } else { return bubbleRadi[currentMounth][d.id] + 10 } })
+        .attr("r", function (d) { if (bubbleRadi[currentMonth][d.id] == 0) { return 50 } else { return bubbleRadi[currentMonth][d.id] + 10 } })
         .attr("stroke", "black")
         .attr("fill", function (d) { return d.c })
-        .style("opacity", function (d) { if (currentMounth > 9) { return 0.5 } else { 1 } })
+        .style("opacity", function (d) { if (currentMonth > 9) { return 0.5 } else { 1 } })
         /* Handle mousehovering event: Get position of the bubble and show the tooltip */ 
         .on("mouseover", function (d) {
             console.log(" in mouseover")
@@ -238,10 +238,10 @@ function visualizeBubbles(json, currentMounth) {
     elemEnter.append("circle")
         .filter(function (d) { return d.id > 2 })
         .attr("id", function (d) { return d.id })
-        .attr("r", function (d) { if (bubbleRadi[currentMounth][d.id] == 0) { return 50 } else { return bubbleRadi[currentMounth][d.id] + 10 } })
+        .attr("r", function (d) { if (bubbleRadi[currentMonth][d.id] == 0) { return 50 } else { return bubbleRadi[currentMonth][d.id] + 10 } })
         .attr("stroke", "black")
         .attr("fill", function (d) { return d.c })
-        .style("opacity", function (d) { if (currentMounth > 9) { return 0.5 } else { 1 } })
+        .style("opacity", function (d) { if (currentMonth > 9) { return 0.5 } else { 1 } })
         /* Event handler for mouse hovering on bubbles (show tooltip) */
         .on("mouseover", function (d) {
             console.log("in mouseover")
@@ -267,7 +267,7 @@ function visualizeBubbles(json, currentMounth) {
         .attr("height", function (d) { return computeImageSize(d.id) })
         .attr("id", function (d) { return d.id })
         .attr("xlink:href", function (d) { return "icons/" + d.img })
-        .style("opacity", function (d) { if (currentMounth > 9) { return 0.5 } else { 1 } })
+        .style("opacity", function (d) { if (currentMonth > 9) { return 0.5 } else { 1 } })
         /* Event handler for mouse hovering on bubbles (show tooltip) */
         .on("mouseover", function (d) {
             console.log(" in mouseover")
@@ -305,7 +305,7 @@ function visualizeBubbles(json, currentMounth) {
                             }
                         })
                     .style("opacity", function (d) {
-                        if (currentMounth > 9) {
+                        if (currentMonth > 9) {
                             return 0.5
                         } else {
                             1
@@ -333,7 +333,7 @@ function visualizeBubbles(json, currentMounth) {
     */
 
     function Choosetextcolor(d) {
-        if (currentMounth > 9) { return "grey"; }
+        if (currentMonth > 9) { return "grey"; }
         if (d.c == COLOR_DIGITAL) { /* blue */
             return "white"; /* white */
         }
@@ -369,7 +369,7 @@ function visualizeBubbles(json, currentMounth) {
                 }
             })
             .style("opacity", function (d) {
-                if (currentMounth > 9) {
+                if (currentMonth > 9) {
                     return 0.5
                 } else {
                     1
@@ -384,7 +384,7 @@ function visualizeBubbles(json, currentMounth) {
             })
             .attr("fill", idToColor(clicked_Digital))
             .style("opacity", function (d) {
-                if (currentMounth > 9) {
+                if (currentMonth > 9) {
                     return 0.5
                 } else {
                     1
@@ -399,7 +399,7 @@ function visualizeBubbles(json, currentMounth) {
             })
             .attr("fill", idToColor(clicked_Analog))
             .style("opacity", function (d) {
-                if (currentMounth > 9) {
+                if (currentMonth > 9) {
                     return 0.5
                 } else {
                     1
@@ -530,9 +530,9 @@ function visualizeBubbles(json, currentMounth) {
     function computeImageSize(id) {
 
         var bubbleid = id;
-        var radiusBubble = bubbleRadi[currentMounth][bubbleid];
+        var radiusBubble = bubbleRadi[currentMonth][bubbleid];
         console.log("radiusBubble mit id " + bubbleid + " = " + radiusBubble);
-        console.log("monat: " + currentMounth);
+        console.log("monat: " + currentMonth);
         var imageSize = radiusBubble;
         // no data to show
         if (imageSize == 0) {
@@ -544,7 +544,7 @@ function visualizeBubbles(json, currentMounth) {
     function computeImagePos(id) {
 
         var bubbleid = id;
-        var radiusBubble = bubbleRadi[currentMounth][bubbleid];
+        var radiusBubble = bubbleRadi[currentMonth][bubbleid];
         var imagePos = radiusBubble * (-0.5);
         // no data to show
         if (imagePos == 0) {
