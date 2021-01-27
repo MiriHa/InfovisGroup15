@@ -529,7 +529,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             source = ""
         }
       
-        // ------------------------- tooltip ---------------------------------------------- //
+        // ------------------------- tooltip: ---------------------------------------------- //
         // append the x line
         chart.append("line")
             .attr("class", "x")
@@ -579,8 +579,8 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .on("mousemove", mousemove);
         
         function mousemove() {
-            //var x0 = x.invert(d3.pointer(event,this)[0]),
-            var x0 = scalePointPosition();
+            var x0 = x.invert(d3.pointer(event,this)[0]),
+            //var x0 = scalePointPosition();
                 i = bisectDate(data, x0, 1),
                 d0 = data[i - 1],
                 d1 = data[i],
@@ -683,9 +683,6 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
                  + "</br>Titel 2: " + digitalTitle);
         }
 
-        
-        // ------------------------------------------ tooltip --------------------------------------------//
-
         // no data
         else 
         {   details = " "
@@ -694,6 +691,8 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         console.log(details);
         return details;
     }
+
+    // ------------------------------------------ tooltip --------------------------------------------//
 
     function showTooltip(d){
         var details;
