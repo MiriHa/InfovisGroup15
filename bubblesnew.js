@@ -291,7 +291,12 @@ function visualizeBubbles(json, currentMounth) {
     var done = false;
         if(done == false) {
             fillClickedBubbles(markedBD, markedBA);
+
             function fillClickedBubbles (D, A){
+                if(D == 0 && A == 0){
+                    markBubble(1);
+                    markBubble(2);
+                }
                 elemEnter.selectAll("circle")//.append("circle")
                     .filter(function (d) {
                         return (d.id == A || d.id == D)
@@ -362,10 +367,16 @@ function visualizeBubbles(json, currentMounth) {
             })
             .attr("fill", function (d) {
                 if (idClick > 6) {
-                    return "#08456e";
+                    return "#08456e"; //digital
                 }
                 if (idClick > 2 && idClick < 7)  {
-                    return "#a84d0a";
+                    return "#a84d0a"; //analog
+                }
+                if (idClick == 1){
+                    return "#a84d0a"; //analog
+                }
+                if (idClick == 2) {
+                    return "#08456e"; //digital
                 }
             })
             .style("opacity", function (d) {
@@ -377,12 +388,12 @@ function visualizeBubbles(json, currentMounth) {
             });
     }
 
-    function resetDigitalBubble(clicked_Digital) {
+    function resetBubble(clicked_bubble) {
         elemEnter.selectAll("circle")//.append("circle")
             .filter(function (d) {
-                return (d.id == clicked_Digital)
+                return (d.id == clicked_bubble)
             })
-            .attr("fill", idToColor(clicked_Digital))
+            .attr("fill", idToColor(clicked_bubble))
             .style("opacity", function (d) {
                 if (currentMounth > 9) {
                     return 0.5
@@ -392,19 +403,17 @@ function visualizeBubbles(json, currentMounth) {
             });
     }
 
-    function resetAnalogBubble(clicked_Analog) {
-        elemEnter.selectAll("circle")//.append("circle")
-            .filter(function (d) {
-                return (d.id == clicked_Analog)
-            })
-            .attr("fill", idToColor(clicked_Analog))
-            .style("opacity", function (d) {
-                if (currentMounth > 9) {
-                    return 0.5
-                } else {
-                    1
-                }
-            });
+    function markMainB() {
+        markBubble(1);
+        markBubble(2);
+        //demarke old_bubbles
+        sameClick = 1;
+        if(clicked_Analog != 0) { resetBubble(clicked_Digital); }
+        if(clicked_Digital != 0) { resetBubble(clicked_Analog); }
+        clicked_Analog = 0;
+        clicked_Digital = 0;
+        selectedAnalogBubble = "";
+        selectedDigitalBubble = "";
     }
 
     /* Event handler for mouse click on bubbles */
@@ -414,8 +423,8 @@ function visualizeBubbles(json, currentMounth) {
         var idClick = d.attr("id");
         bubbleName = idToLabel(idClick);
 
-
-
+//Bubbleclick anderer Ansatz, noch Enfernen vor Abgabe
+/*
         if (idClick > 2 && idClick < 7) { // Analog sub bubbles
             markBubble(idClick);
             if (previousID > 2 && previousID < 7) {
@@ -427,61 +436,72 @@ function visualizeBubbles(json, currentMounth) {
 
                         if (sameClick % 2 == 0) {
                             // Reset previous color
-                            resetAnalogBubble(clicked_Analog);
+                            resetBubble(clicked_Analog);
                             markedBA = 0;
                         }
                     }
                 } else {
                     sameClick = 1;
                     // Reset previous color
-                    resetAnalogBubble(clicked_Analog);
+                    resetBubble(clicked_Analog);
                     markedBA = 0;
                 }
             } else {
                 // Reset previous color
-                resetAnalogBubble(clicked_Analog);
+                resetBubble(clicked_Analog);
 
             }
             clicked_Analog = idClick;
-
-
+            resetBubble(1);
+            resetBubble(2);
         } else if (idClick > 6) { // Digital sub bubbles
             markBubble(idClick);
             if (previousID > 6) {
                 if (idClick == clicked_Digital) {
                     sameClick++;
                     if (sameClick % 2 == 0) {
-                        resetDigitalBubble(clicked_Digital);
+                        resetBubble(clicked_Digital);
                     }
                 } else {
                     sameClick = 1;
-                    resetDigitalBubble(clicked_Digital);
+                    resetBubble(clicked_Digital);
                     //markedBD = 0;
                 }
             } else {
                 sameClick++;
-                resetDigitalBubble(clicked_Digital);
+                resetBubble(clicked_Digital);
 
             }
             clicked_Digital = idClick;
-
+            resetBubble(1);
+            resetBubble(2);
         } else {
-            //do nothing, because mainBubbles
+            //mainBubbles
+            if(idClick == 1 || idClick == 2){
+                console.log("mainBubblesCLICKED");
+                console.log("clickANa = " + clicked_Analog);
+                console.log("clickDigital = " + clicked_Digital);
+                //mark mainbubbles
+                markMainB();
+            }
         }
-
-
-        previousID = idClick;
-
-
-        if (d.attr("id") == 2) {
-            //do nothing, because mainBubbles
-        }
-        if (d.attr("id") == 1) {
-            //do nothing, because mainBubbles
-        } else {
+        */
             //show Diagram
             var currentLabel = idToLabel(d.attr("id"));
             var currentID = d.attr("id");
+
+            if (d.attr("id") == 2) {
+            //do nothing, because mainBubbles
+            selectedAnalogBubble = "";
+            selectedDigitalBubble = "";
+            }
+
+            if (d.attr("id") == 1) {
+            //do nothing, because mainBubbles
+            selectedAnalogBubble = "";
+            selectedDigitalBubble = "";
+            }
+
             if (d.attr("id") >= 3 && d.attr("id") <= 6) {
                 console.log("analog sub-bubble clicked: " + currentLabel)
                 // was selected before, so remove selection
@@ -518,10 +538,26 @@ function visualizeBubbles(json, currentMounth) {
             }
             previousID = idClick;
 
+
+
+            for (var i = 1; i < 12; i++) {
+                resetBubble(i);
+            }
+
+        if(selectedAnalogBubble == "" && selectedDigitalBubble == "") {
+            markMainB();
+        }else{
+            if(selectedAnalogBubble != "") {
+                markBubble(AlabelToId(selectedAnalogBubble));
+            }
+            if(selectedDigitalBubble != "") {
+                markBubble(DlabelToId(selectedDigitalBubble));
+            }
+        }
+
             parser(selectedAnalogBubble, selectedDigitalBubble)
 
 
-        }
 
         
     }   
@@ -566,6 +602,22 @@ function visualizeBubbles(json, currentMounth) {
         if (id == 9) { return NEWS }
         if (id == 10) { return FREETIME }
         return " ";
+    }
+
+    function AlabelToId(label) {
+        if(label == HEALTH) { return 3; }
+        if(label == NEWS) { return 4; }
+        if(label == FREETIME) { return 5; }
+        if(label == SPORT) { return 6; }
+
+    }
+
+    function DlabelToId(label) {
+        if(label == HEALTH) { return 8; }
+        if(label == NEWS) { return 9; }
+        if(label == FREETIME) { return 10; }
+        if(label == SPORT) { return 7; }
+
     }
 
     // Create Event Handlers for mouse
