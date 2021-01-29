@@ -487,12 +487,16 @@ function visualizeBubbles(json, currentMonth) {
         }
 
         if (selectedAnalogBubble == "" && selectedDigitalBubble == "") {
+            markedBA = 0
+            markedBD = 0
             markMainB();
         } else {
             if (selectedAnalogBubble != "") {
+                markedBA = AlabelToId(selectedAnalogBubble)
                 markBubble(AlabelToId(selectedAnalogBubble));
             }
             if (selectedDigitalBubble != "") {
+                markedBD = DlabelToId(selectedDigitalBubble)
                 markBubble(DlabelToId(selectedDigitalBubble));
             }
         }
