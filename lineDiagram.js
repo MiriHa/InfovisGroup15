@@ -812,7 +812,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .attr('class', 'tick_Scales')
             .call(yAxis);
 
-        /*// TODO: decide if
+        // TODO: decide if
         // horizontal lines
         const makeYLines = () => d3.axisLeft()
             .scale(y)
@@ -823,7 +823,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .call(makeYLines()
                 .tickSize(-width, 0, 0)
                 .tickFormat('')
-            )*/
+            )
     }
 
     function axesSpecial(data, yMax) {
@@ -839,7 +839,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             //.duration(2000)
             .attr('class', 'tick_Scales')
             .call(yAxis);
-        /*// TODO: decide if
+        // TODO: decide if
         // horizontal lines
         const makeYLines = () => d3.axisLeft()
             .scale(y)
@@ -850,7 +850,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .call(makeYLines()
                 .tickSize(-width, 0, 0)
                 .tickFormat('')
-            )*/
+            )
     }
 
     function line(data, aOrD) {
