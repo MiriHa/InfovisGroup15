@@ -15,6 +15,10 @@ const COLOR_HIGHLIGTH_MONTH_OTHER_YEAR = "#808080"
 const OPACITY_HIGHLIGHT_MONTH = 0.6
 const OPACITY_HIGHLIGHT_MONTH_OTHER_YEAR = 0.3
 
+const DIAGRAM_WIDTH = 580
+const DIAGRAM_HEIGHT = 300
+const DIAGRAM_MARGIN = 80
+
 // Where to find csv
 const PATH_ANALOG_SPORT = "data/analog/month/data_month_zeitschrif_klettern.csv"
 const PATH_ANALOG_NEWS = "data/analog/month/data_month_zeitung_sz.csv"

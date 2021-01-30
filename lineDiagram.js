@@ -309,7 +309,6 @@ function parser(analog, digital) {
             // handle error
             console.log("loading error" + err)
         })
-        visualizeLineDiagram(analogData, digitalData)
     }
 }
 
@@ -317,9 +316,9 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
 
 
     // set the dimensions and margins of the graph
-    const Margin = 80;
-    const width = 580 - Margin;
-    const height = 300 - Margin;
+    const Margin = DIAGRAM_MARGIN;
+    const width = DIAGRAM_WIDTH - Margin;
+    const height = DIAGRAM_HEIGHT - Margin;
 
     var x
     var xAxis
@@ -333,21 +332,35 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
     var aData = analogData.length
     var dData = digitalData.length
 
-    if (aData === 0 && dData === 0){
 
-        svg = d3.select("#bottomDiagram").append("svg")
-        initChart();
+    // append the svg object to the body of the page
+    svg = d3.select("#bottomDiagram").append("svg")
 
-        
+    // Init Chart
+    initChart();
+
+    if (aData > 0 && dData === 0) {
+        axes(analogData);
+        line(analogData, ANALOG);
+
+    } else if (aData === 0 && dData > 0) {
+        console.log("draw only digital data")
+        axes(digitalData);
+        line(digitalData, DIGITAL);
+
+    } else if (aData > 0 && dData > 0) {
+        // both
+        console.log("both data")
+
         var max = 0
-        analogData.forEach(function (a){
-            if(a.ser2 > max){
+        analogData.forEach(function (a) {
+            if (a.ser2 > max) {
                 max = a.ser2
             }
         })
 
-        digitalData.forEach(function (d){
-            if(d.ser2 > max){
+        digitalData.forEach(function (d) {
+            if (d.ser2 > max) {
                 max = d.ser2
             }
         })
@@ -355,46 +368,157 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         axesSpecial(analogData, max)
         line(analogData, ANALOG)
         line(digitalData, DIGITAL)
-
-    } else {
-        // remove diagram and...
-        // append the svg object to the body of the page
-        svg = d3.select("#bottomDiagram").append("svg")
-
-        // Init Chart
-        initChart();
-
-        if (aData > 0 && dData === 0) {
-            axes(analogData);
-            line(analogData, ANALOG);
-        } else if (aData === 0 && dData > 0) {
-            console.log("draw only digital data")
-            axes(digitalData);
-            line(digitalData, DIGITAL);
-
-        } else if (aData > 0 && dData > 0) {
-            // both
-            console.log("both data")
-            
-            var max = 0
-            analogData.forEach(function (a){
-                if(a.ser2 > max){
-                    max = a.ser2
-                }
-            })
-
-            digitalData.forEach(function (d){
-                if(d.ser2 > max){
-                    max = d.ser2
-                }
-            })
-
-            axesSpecial(analogData, max)
-            line(analogData, ANALOG)
-            line(digitalData, DIGITAL)
-        }
     }
 
+    highlightMonth();
+
+    function highlightMonth() {
+        var tickWidth = width
+        if (aData != 0) {
+            tickWidth = width / (aData - 1)
+        } else if (dData != 0) {
+            tickWidth = width / (dData - 1)
+        }
+
+
+        var firstTickWidth = tickWidth / 2
+        var firstValue = 0.5
+        var firstTickEnd = firstTickWidth + firstValue
+
+        if (currentYear == 2019) {
+            console.log("lineDiagramm year 2019")
+            if (currentSliderPosition == 0) {
+                // 0-firstTick
+                chart.append('rect')
+                    .attr("x", firstValue)
+                    .attr("opacity", 0)
+                    .attr("width", firstTickWidth)
+                    .attr("height", height)
+                    .attr("fill", COLOR_HIGHLIGTH_MONTH)
+                    .attr("opacity", OPACITY_HIGHLIGHT_MONTH)
+
+
+                var valueOther = firstTickEnd + (currentSliderPosition + 12 - 1) * tickWidth
+                chart.append('rect')
+                    .attr("x", valueOther)
+                    .attr("opacity", 0)
+                    .attr("width", tickWidth)
+                    .attr("height", height)
+                    .attr("fill", COLOR_HIGHLIGTH_MONTH_OTHER_YEAR)
+                    .attr("opacity", OPACITY_HIGHLIGHT_MONTH_OTHER_YEAR)
+
+            } else {
+                //firstTick+(n-1)*tickWidth - firstTick+n*tickWidth
+                var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth
+                chart.append('rect')
+                    .attr("x", value)
+                    .attr("opacity", 0)
+                    .attr("width", tickWidth)
+                    .attr("height", height)
+                    .attr("fill", COLOR_HIGHLIGTH_MONTH)
+                    .attr("opacity", OPACITY_HIGHLIGHT_MONTH)
+
+                if (currentSliderPosition < 8) {
+                    var valueOther = firstTickEnd + (currentSliderPosition + 12 - 1) * tickWidth
+                    chart.append('rect')
+                        .attr("x", valueOther)
+                        .attr("opacity", 0)
+                        .attr("width", tickWidth)
+                        .attr("height", height)
+                        .attr("fill", COLOR_HIGHLIGTH_MONTH_OTHER_YEAR)
+                        .attr("opacity", OPACITY_HIGHLIGHT_MONTH_OTHER_YEAR)
+
+                } else if (currentSliderPosition == 8) {
+                    var valueOther = firstTickEnd + (currentSliderPosition + 12 - 1) * tickWidth
+                    chart.append('rect')
+                        .attr("x", valueOther)
+                        .attr("opacity", 0)
+                        .attr("width", firstTickWidth)
+                        .attr("height", height)
+                        .attr("fill", COLOR_HIGHLIGTH_MONTH_OTHER_YEAR)
+                        .attr("opacity", OPACITY_HIGHLIGHT_MONTH_OTHER_YEAR)
+
+                }
+            }
+        } else if (currentYear == 2020) {
+            console.log("lineDiagramm year 2020")
+            if (currentSliderPosition < 8) {
+                var value = firstTickEnd + (currentSliderPosition + 12 - 1) * tickWidth
+                console.log("value: " + value)
+                chart.append('rect')
+                    .attr("x", value)
+                    .attr("opacity", 0)
+                    .attr("width", tickWidth)
+                    .attr("height", height)
+                    .attr("fill", COLOR_HIGHLIGTH_MONTH)
+                    .attr("opacity", OPACITY_HIGHLIGHT_MONTH)
+
+                if (currentSliderPosition == 0) {
+                    chart.append('rect')
+                        .attr("x", firstValue)
+                        .attr("opacity", 0)
+                        .attr("width", firstTickWidth)
+                        .attr("height", height)
+                        .attr("fill", COLOR_HIGHLIGTH_MONTH_OTHER_YEAR)
+                        .attr("opacity", OPACITY_HIGHLIGHT_MONTH_OTHER_YEAR)
+
+                } else {
+                    var valueOther = firstTickEnd + (currentSliderPosition - 1) * tickWidth
+                    chart.append('rect')
+                        .attr("x", valueOther)
+                        .attr("opacity", 0)
+                        .attr("width", tickWidth)
+                        .attr("height", height)
+                        .attr("fill", COLOR_HIGHLIGTH_MONTH_OTHER_YEAR)
+                        .attr("opacity", OPACITY_HIGHLIGHT_MONTH_OTHER_YEAR)
+
+                }
+            } else if (currentSliderPosition == 8) {
+                var value = firstTickEnd + (currentSliderPosition + 12 - 1) * tickWidth
+                console.log("value: " + value)
+                chart.append('rect')
+                    .attr("x", value)
+                    .attr("opacity", 0)
+                    .attr("width", firstTickWidth)
+                    .attr("height", height)
+                    .attr("fill", COLOR_HIGHLIGTH_MONTH)
+                    .attr("opacity", OPACITY_HIGHLIGHT_MONTH)
+
+
+                var valueOther = firstTickEnd + (currentSliderPosition - 1) * tickWidth
+                var rectOther = chart.append('rect')
+                    .attr("x", valueOther)
+                    .attr("opacity", 0)
+                    .attr("width", tickWidth)
+                    .attr("height", height)
+                    .attr("fill", COLOR_HIGHLIGTH_MONTH_OTHER_YEAR)
+                    .attr("opacity", OPACITY_HIGHLIGHT_MONTH_OTHER_YEAR)
+
+            } else {
+                /*var value = firstTickEnd+(8+12-1)*tickWidth
+                console.log("value: " + value)
+                var rect = chart.append('rect')
+                    .attr("width", firstTickWidth)
+                    .attr("height", height)
+                    .attr("fill", COLOR_HIGHLIGTH_MONTH)
+                    .attr("opacity", OPACITY_HIGHLIGHT_MONTH)
+                    .attr("x", value)
+                    .transition()
+                    .duration(2000)*/
+
+                var valueOther = firstTickEnd + (currentSliderPosition - 1) * tickWidth
+                chart.append('rect')
+                    .attr("x", valueOther)
+                    .attr("opacity", 0)
+                    .attr("width", tickWidth)
+                    .attr("height", height)
+                    .attr("fill", COLOR_HIGHLIGTH_MONTH_OTHER_YEAR)
+                    .attr("opacity", OPACITY_HIGHLIGHT_MONTH_OTHER_YEAR)
+
+            }
+
+        }
+    }
 
     function initChart() {
         chart = svg.append('g')
@@ -442,6 +566,8 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
                 }
                 return new_date
             })
+            // TODO: decide if
+            // vertical lines
             .tickSize(-height);
         chart.append('g')
             .attr("transform", "translate(0," + height + ")")
@@ -625,151 +751,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .attr('text-anchor', 'start')
             .text(source)
 
-        var tickWidth = width
-        if(aData != 0){
-            tickWidth = width/(aData-1)
-        } else if(dData != 0){
-            tickWidth = width/(dData-1)
-        }
 
-
-        var firstTickWidth = tickWidth/2
-        var firstValue = 0.5
-        var firstTickEnd = firstTickWidth + firstValue
-
-        if(currentYear == 2019){
-            console.log("lineDiagramm year 2019")
-            if(currentSliderPosition == 0){
-                // 0-firstTick
-                var rect = chart.append('rect')
-                    .attr("width", firstTickWidth)
-                    .attr("height", height)
-                    .attr("fill", COLOR_HIGHLIGTH_MONTH)
-                    .attr("opacity", OPACITY_HIGHLIGHT_MONTH)
-                    .attr("x", firstValue)
-                    .transition()
-                    .duration(2000)
-
-                var valueOther = firstTickEnd+(currentSliderPosition+12-1)*tickWidth
-                var rectOther = chart.append('rect')
-                    .attr("width", tickWidth)
-                    .attr("height", height)
-                    .attr("fill", COLOR_HIGHLIGTH_MONTH_OTHER_YEAR)
-                    .attr("opacity", OPACITY_HIGHLIGHT_MONTH_OTHER_YEAR)
-                    .attr("x", valueOther)
-                    .transition()
-                    .duration(2000)
-            } else{
-                //firstTick+(n-1)*tickWidth - firstTick+n*tickWidth
-                var value = firstTickEnd+(currentSliderPosition-1)*tickWidth
-                var rect = chart.append('rect')
-                    .attr("width", tickWidth)
-                    .attr("height", height)
-                    .attr("fill", COLOR_HIGHLIGTH_MONTH)
-                    .attr("opacity", OPACITY_HIGHLIGHT_MONTH)
-                    .attr("x", value)
-                    .transition()
-                    .duration(2000)
-                if(currentSliderPosition < 8){
-                    var valueOther = firstTickEnd+(currentSliderPosition+12-1)*tickWidth
-                    var rectOther = chart.append('rect')
-                        .attr("width", tickWidth)
-                        .attr("height", height)
-                        .attr("fill", COLOR_HIGHLIGTH_MONTH_OTHER_YEAR)
-                        .attr("opacity", OPACITY_HIGHLIGHT_MONTH_OTHER_YEAR)
-                        .attr("x", valueOther)
-                        .transition()
-                        .duration(2000)
-                } else if(currentSliderPosition == 8){
-                    var valueOther = firstTickEnd+(currentSliderPosition+12-1)*tickWidth
-                    var rectOther = chart.append('rect')
-                        .attr("width", firstTickWidth)
-                        .attr("height", height)
-                        .attr("fill", COLOR_HIGHLIGTH_MONTH_OTHER_YEAR)
-                        .attr("opacity", OPACITY_HIGHLIGHT_MONTH_OTHER_YEAR)
-                        .attr("x", valueOther)
-                        .transition()
-                        .duration(2000)
-                }
-            }
-        } else if(currentYear == 2020){
-            console.log("lineDiagramm year 2020")
-            if(currentSliderPosition < 8){
-                var value = firstTickEnd+(currentSliderPosition+12-1)*tickWidth
-                console.log("value: " + value)
-                var rect = chart.append('rect')
-                    .attr("width", tickWidth)
-                    .attr("height", height)
-                    .attr("fill", COLOR_HIGHLIGTH_MONTH)
-                    .attr("opacity", OPACITY_HIGHLIGHT_MONTH)
-                    .attr("x", value)
-                    .transition()
-                    .duration(2000)
-                if(currentSliderPosition ==0){
-                    var rectOther = chart.append('rect')
-                        .attr("width", firstTickWidth)
-                        .attr("height", height)
-                        .attr("fill", COLOR_HIGHLIGTH_MONTH_OTHER_YEAR)
-                        .attr("opacity", OPACITY_HIGHLIGHT_MONTH_OTHER_YEAR)
-                        .attr("x", firstValue)
-                        .transition()
-                        .duration(2000)
-                } else{
-                    var valueOther = firstTickEnd+(currentSliderPosition-1)*tickWidth
-                    var rectOther = chart.append('rect')
-                        .attr("width", tickWidth)
-                        .attr("height", height)
-                        .attr("fill", COLOR_HIGHLIGTH_MONTH_OTHER_YEAR)
-                        .attr("opacity", OPACITY_HIGHLIGHT_MONTH_OTHER_YEAR)
-                        .attr("x", valueOther)
-                        .transition()
-                        .duration(2000)
-                }
-            } else if(currentSliderPosition == 8){
-                var value = firstTickEnd+(currentSliderPosition+12-1)*tickWidth
-                console.log("value: " + value)
-                var rect = chart.append('rect')
-                    .attr("width", firstTickWidth)
-                    .attr("height", height)
-                    .attr("fill", COLOR_HIGHLIGTH_MONTH)
-                    .attr("opacity", OPACITY_HIGHLIGHT_MONTH)
-                    .attr("x", value)
-                    .transition()
-                    .duration(2000)
-
-                var valueOther = firstTickEnd+(currentSliderPosition-1)*tickWidth
-                var rectOther = chart.append('rect')
-                    .attr("width", tickWidth)
-                    .attr("height", height)
-                    .attr("fill", COLOR_HIGHLIGTH_MONTH_OTHER_YEAR)
-                    .attr("opacity", OPACITY_HIGHLIGHT_MONTH_OTHER_YEAR)
-                    .attr("x", valueOther)
-                    .transition()
-                    .duration(2000)
-            } else {
-                /*var value = firstTickEnd+(8+12-1)*tickWidth
-                console.log("value: " + value)
-                var rect = chart.append('rect')
-                    .attr("width", firstTickWidth)
-                    .attr("height", height)
-                    .attr("fill", COLOR_HIGHLIGTH_MONTH)
-                    .attr("opacity", OPACITY_HIGHLIGHT_MONTH)
-                    .attr("x", value)
-                    .transition()
-                    .duration(2000)*/
-
-                var valueOther = firstTickEnd+(currentSliderPosition-1)*tickWidth
-                var rectOther = chart.append('rect')
-                    .attr("width", tickWidth)
-                    .attr("height", height)
-                    .attr("fill", COLOR_HIGHLIGTH_MONTH_OTHER_YEAR)
-                    .attr("opacity", OPACITY_HIGHLIGHT_MONTH_OTHER_YEAR)
-                    .attr("x", valueOther)
-                    .transition()
-                    .duration(2000)
-            }
-
-        }
     }
 
     /*
@@ -829,6 +811,19 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             //.duration(2000)
             .attr('class', 'tick_Scales')
             .call(yAxis);
+
+        /*// TODO: decide if
+        // horizontal lines
+        const makeYLines = () => d3.axisLeft()
+            .scale(y)
+
+        chart.append('g')
+            .attr('class', 'grid')
+            .attr("opacity", 0.4)
+            .call(makeYLines()
+                .tickSize(-width, 0, 0)
+                .tickFormat('')
+            )*/
     }
 
     function axesSpecial(data, yMax) {
@@ -844,6 +839,18 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             //.duration(2000)
             .attr('class', 'tick_Scales')
             .call(yAxis);
+        /*// TODO: decide if
+        // horizontal lines
+        const makeYLines = () => d3.axisLeft()
+            .scale(y)
+
+        chart.append('g')
+            .attr('class', 'grid')
+            .attr("opacity", 0.4)
+            .call(makeYLines()
+                .tickSize(-width, 0, 0)
+                .tickFormat('')
+            )*/
     }
 
     function line(data, aOrD) {
