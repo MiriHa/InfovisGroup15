@@ -773,7 +773,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
 
     mouseG.append("path") // this is the black vertical line to follow mouse
         .attr("class", "mouse-line")
-        .style("stroke", "black")
+        .style("stroke", "red")
         .style("stroke-width", "1px")
         .style("opacity", "0");
 
