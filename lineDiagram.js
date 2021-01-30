@@ -625,7 +625,6 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .attr('text-anchor', 'start')
             .text(source)
 
-        // TODO highlight month
         var tickWidth = width
         if(aData != 0){
             tickWidth = width/(aData-1)
@@ -639,6 +638,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         var firstTickEnd = firstTickWidth + firstValue
 
         if(currentYear == 2019){
+            console.log("lineDiagramm year 2019")
             if(currentSliderPosition == 0){
                 // 0-firstTick
                 var rect = chart.append('rect')
@@ -647,6 +647,8 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
                     .attr("fill", COLOR_HIGHLIGTH_ANALOG)
                     .attr("opacity", 0.5)
                     .attr("x", firstValue)
+                    .transition()
+                    .duration(2000)
             } else{
                 //firstTick+(n-1)*tickWidth - firstTick+n*tickWidth
                 var value = firstTickEnd+(currentSliderPosition-1)*tickWidth
@@ -656,15 +658,46 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
                     .attr("fill", COLOR_HIGHLIGTH_ANALOG)
                     .attr("opacity", 0.5)
                     .attr("x", value)
+                    .transition()
+                    .duration(2000)
             }
         } else if(currentYear == 2020){
-            var value = firstTickEnd+(currentSliderPosition-1)*tickWidth
-            var rect = chart.append('rect')
-                .attr("width", tickWidth)
-                .attr("height", height)
-                .attr("fill", COLOR_HIGHLIGTH_ANALOG)
-                .attr("opacity", 0.5)
-                .attr("x", value)
+            console.log("lineDiagramm year 2020")
+            if(currentSliderPosition < 8){
+                var value = firstTickEnd+(currentSliderPosition+12-1)*tickWidth
+                console.log("value: " + value)
+                var rect = chart.append('rect')
+                    .attr("width", tickWidth)
+                    .attr("height", height)
+                    .attr("fill", COLOR_HIGHLIGTH_ANALOG)
+                    .attr("opacity", 0.5)
+                    .attr("x", value)
+                    .transition()
+                    .duration(2000)
+            } else if(currentSliderPosition == 8){
+                var value = firstTickEnd+(currentSliderPosition+12-1)*tickWidth
+                console.log("value: " + value)
+                var rect = chart.append('rect')
+                    .attr("width", firstTickWidth)
+                    .attr("height", height)
+                    .attr("fill", COLOR_HIGHLIGTH_ANALOG)
+                    .attr("opacity", 0.5)
+                    .attr("x", value)
+                    .transition()
+                    .duration(2000)
+            } else {
+                var value = firstTickEnd+(8+12-1)*tickWidth
+                console.log("value: " + value)
+                var rect = chart.append('rect')
+                    .attr("width", firstTickWidth)
+                    .attr("height", height)
+                    .attr("fill", COLOR_HIGHLIGTH_ANALOG)
+                    .attr("opacity", 0.5)
+                    .attr("x", value)
+                    .transition()
+                    .duration(2000)
+            }
+
         }
     }
 
@@ -721,8 +754,8 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             return d.ser2
         })]);
         chart.selectAll(".myYaxis")
-            .transition()
-            .duration(2000)
+            //.transition()
+            //.duration(2000)
             .attr('class', 'tick_Scales')
             .call(yAxis);
     }
@@ -736,8 +769,8 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         // create the Y axis
         y.domain([0, yMax]);
         chart.selectAll(".myYaxis")
-            .transition()
-            .duration(2000)
+            //.transition()
+            //.duration(2000)
             .attr('class', 'tick_Scales')
             .call(yAxis);
     }
@@ -763,8 +796,8 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .append("path")
             .attr("class", aOrD)
             .merge(u)
-            .transition()
-            .duration(2000)
+            //.transition()
+            //.duration(2000)
             .attr("d", d3.line()
                 .x(function (d) {
                     return x(d.ser1);

@@ -99,22 +99,22 @@ var bubbleName;
 
 
 function computeMainBubbles(bubbleRadi, month) {
-    console.log("month = " + month)
+    //console.log("month = " + month)
     var summedig = 0;
     for (let bubb = 3; bubb < 7; bubb++) {
         summedig = summedig + bubbleRadi[month][bubb] + 10
-        console.log("Summe aus: " + bubbleRadi[month][bubb] + " + ")
+        //console.log("Summe aus: " + bubbleRadi[month][bubb] + " + ")
     }
     bubbleRadi[month][1] = summedig / 4;
-    console.log(" = " + summedig);
+    //console.log(" = " + summedig);
 
     var summeana = 0;
     for (let bubb = 7; bubb < 11; bubb++) {
         summeana = summeana + bubbleRadi[month][bubb] + 10
-        console.log("Summe aus: " + bubbleRadi[month][bubb] + " + ")
+        //console.log("Summe aus: " + bubbleRadi[month][bubb] + " + ")
     }
     bubbleRadi[month][2] = summeana / 4;
-    console.log("summeANA = " + summeana);
+    //console.log("summeANA = " + summeana);
 }
 
 
@@ -138,6 +138,7 @@ var tooltip = d3.select("#bubbles")
 function visualizeBubbles(json, currentMonth) {
     bubbleRadi = radius
 
+    parser(selectedAnalogBubble, selectedDigitalBubble)
     computeMainBubbles(bubbleRadi, currentMonth);
     //console.log(bubbleRadi)
 
@@ -180,7 +181,7 @@ function visualizeBubbles(json, currentMonth) {
         .style("opacity", function (d) { if (currentMonth > 9) { return 0.5 } else { 1 } })
         /* Handle mousehovering event: Get position of the bubble and show the tooltip */
         .on("mouseover", function (d) {
-            console.log(" in mouseover")
+            //console.log(" in mouseover")
             var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
                 .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
             tooltip.transition().duration(200).style("opacity", .9);
@@ -191,7 +192,7 @@ function visualizeBubbles(json, currentMonth) {
         })
         /* Handle mousehovering event: Remove the tooltip */
         .on("mouseout", function (d) {
-            console.log("in mouseout")
+            //console.log("in mouseout")
             tooltip.transition().duration(500).style("opacity", 0);
         })
         /* Handle mouseclick event */
@@ -215,7 +216,7 @@ function visualizeBubbles(json, currentMonth) {
 
     /* Event handler for mouse hovering on bubbles (show tooltip) */
     // .on("mouseover", function (d) {
-    //     console.log(" in mouseover")
+    //     //console.log(" in mouseover")
     //     var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
     //         .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
     //     tooltip.transition().duration(200).style("opacity", .9);
@@ -226,7 +227,7 @@ function visualizeBubbles(json, currentMonth) {
     // })
     // /* Remove the tooltip */
     // .on("mouseout", function (d) {
-    //     console.log("in mouseout")
+    //     //console.log("in mouseout")
     //     tooltip.transition().duration(500).style("opacity", 0);
     // })
 
@@ -240,7 +241,7 @@ function visualizeBubbles(json, currentMonth) {
         .style("opacity", function (d) { if (currentMonth > 9) { return 0.5 } else { 1 } })
         /* Event handler for mouse hovering on bubbles (show tooltip) */
         .on("mouseover", function (d) {
-            console.log("in mouseover")
+            //console.log("in mouseover")
             var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
                 .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
             tooltip.transition().duration(200).style("opacity", .9);
@@ -251,7 +252,7 @@ function visualizeBubbles(json, currentMonth) {
         })
         /* Remove the tooltip */
         .on("mouseout", function (d) {
-            console.log("in mouseout")
+            //console.log("in mouseout")
             tooltip.transition().duration(500).style("opacity", 0);
         })
 
@@ -266,7 +267,7 @@ function visualizeBubbles(json, currentMonth) {
         .style("opacity", function (d) { if (currentMonth > 9) { return 0.5 } else { 1 } })
         /* Event handler for mouse hovering on bubbles (show tooltip) */
         .on("mouseover", function (d) {
-            console.log(" in mouseover")
+            //console.log(" in mouseover")
             var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
                 .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
             tooltip.transition().duration(200).style("opacity", .9);
@@ -277,7 +278,7 @@ function visualizeBubbles(json, currentMonth) {
         })
         /* Remove the tooltip */
         .on("mouseout", function (d) {
-            console.log("in mouseout")
+            //console.log("in mouseout")
             tooltip.transition().duration(500).style("opacity", 0);
         })
         // Klaus: Added this .on() to be able to click the sub-bubbles
@@ -329,7 +330,7 @@ function visualizeBubbles(json, currentMonth) {
         } else {
             details = ("Nothing here");
         }
-        console.log(details);
+        //console.log(details);
         return details;
     }
 
@@ -350,7 +351,7 @@ function visualizeBubbles(json, currentMonth) {
         if (d.c == COLOR_ANALOG) { /* orange */
             return "white";
         }
-        console.log("keine Farbe");
+        //console.log("keine Farbe");
         return "black";
     }
 
@@ -424,7 +425,7 @@ function visualizeBubbles(json, currentMonth) {
     /* Event handler for mouse click on bubbles */
     function bubbleClick(d) {
         clickCounter = clickCounter + 1;
-        console.log("ID = " + d.attr("id"));
+        //console.log("ID = " + d.attr("id"));
         var idClick = d.attr("id");
         bubbleName = idToLabel(idClick);
 
@@ -445,7 +446,7 @@ function visualizeBubbles(json, currentMonth) {
         }
 
         if (d.attr("id") >= 3 && d.attr("id") <= 6) {
-            console.log("analog sub-bubble clicked: " + currentLabel)
+            //console.log("analog sub-bubble clicked: " + currentLabel)
             // was selected before, so remove selection
             if (selectedAnalogBubble === currentLabel) {
                 selectedAnalogBubble = "";
@@ -461,7 +462,7 @@ function visualizeBubbles(json, currentMonth) {
                 markedBA = currentID;
             }
         } else if (d.attr("id") >= 7 && d.attr("id") <= 10) {
-            console.log("digital sub-bubble clicked: " + currentLabel)
+            //console.log("digital sub-bubble clicked: " + currentLabel)
             // was selected before, so remove selection
             if (selectedDigitalBubble === currentLabel) {
                 selectedDigitalBubble = ""
@@ -513,8 +514,8 @@ function visualizeBubbles(json, currentMonth) {
 
         var bubbleid = id;
         var radiusBubble = bubbleRadi[currentMonth][bubbleid];
-        console.log("radiusBubble mit id " + bubbleid + " = " + radiusBubble);
-        console.log("monat: " + currentMonth);
+        //console.log("radiusBubble mit id " + bubbleid + " = " + radiusBubble);
+        //console.log("monat: " + currentMonth);
         var imageSize = radiusBubble;
         // no data to show
         if (imageSize == 0) {
@@ -581,7 +582,7 @@ function bubbleSizeInOne() {
         d3.csv(PATH_DIGITAL_NEWS),
         d3.csv(PATH_DIGITAL_SPORT),
     ]).then(function (files) {
-        console.log("loading both successfull")
+        //console.log("loading both successfull")
         // files[0] will contain file1.csv
         // files[1] will contain file2.csv
         var fileAFreetime = files[0]
@@ -614,7 +615,7 @@ function bubbleSizeInOne() {
             if (Number(d.Monat) >= yearBeginn && Number(d.Monat) <= yearEnd) {
                 var date = d.Monat
                 var month = date.substr(date.length - 2, 2)
-                console.log("month " + month)
+                //console.log("month " + month)
                 var amount = Number(d.VerkaufLinear)
                 var title = d.Titel
                 if (amount > max) {
@@ -627,10 +628,10 @@ function bubbleSizeInOne() {
                 }
                 var feed
                 if (month.charAt(0) == "0") {
-                    console.log("early month")
+                    //console.log("early month")
                     feed = { id: 3, month: month.charAt(1), amount: amount, title: title };
                 } else {
-                    console.log("late month")
+                    //console.log("late month")
                     feed = { id: 3, month: month, amount: amount, title: title };
                 }
                 bubbleRadius.push(feed);
@@ -641,7 +642,7 @@ function bubbleSizeInOne() {
             if (Number(d.Monat) >=yearBeginn && Number(d.Monat) <= yearEnd) {
                 var date = d.Monat
                 var month = date.substr(date.length - 2, 2)
-                console.log("month " + month)
+                //console.log("month " + month)
                 var amount = Number(d.VerkaufLinear)
                 var title = d.Titel
                 if (amount > max) {
@@ -654,10 +655,10 @@ function bubbleSizeInOne() {
                 }
                 var feed
                 if (month.charAt(0) == "0") {
-                    console.log("early month")
+                    //console.log("early month")
                     feed = { id: 4, month: month.charAt(1), amount: amount, title: title };
                 } else {
-                    console.log("late month")
+                    //console.log("late month")
                     feed = { id: 4, month: month, amount: amount, title: title };
                 }
                 bubbleRadius.push(feed);
@@ -668,7 +669,7 @@ function bubbleSizeInOne() {
             if (Number(d.Monat) >= yearBeginn && Number(d.Monat) <= yearEnd) {
                 var date = d.Monat
                 var month = date.substr(date.length - 2, 2)
-                console.log("month " + month)
+                //console.log("month " + month)
                 var amount = Number(d.VerkaufLinear)
                 var title = d.Titel
                 if (amount > max) {
@@ -681,10 +682,10 @@ function bubbleSizeInOne() {
                 }
                 var feed
                 if (month.charAt(0) == "0") {
-                    console.log("early month")
+                    //console.log("early month")
                     feed = { id: 5, month: month.charAt(1), amount: amount, title: title };
                 } else {
-                    console.log("late month")
+                    //console.log("late month")
                     feed = { id: 5, month: month, amount: amount, title: title };
                 }
                 bubbleRadius.push(feed);
@@ -695,7 +696,7 @@ function bubbleSizeInOne() {
             if (Number(d.Monat) >= yearBeginn && Number(d.Monat) <= yearEnd) {
                 var date = d.Monat
                 var month = date.substr(date.length - 2, 2)
-                console.log("month " + month)
+                //console.log("month " + month)
                 var amount = Number(d.VerkaufLinear)
                 var title = d.Titel
                 if (amount > max) {
@@ -708,10 +709,10 @@ function bubbleSizeInOne() {
                 }
                 var feed
                 if (month.charAt(0) == "0") {
-                    console.log("early month")
+                    //console.log("early month")
                     feed = { id: 6, month: month.charAt(1), amount: amount, title: title };
                 } else {
-                    console.log("late month")
+                    //console.log("late month")
                     feed = { id: 6, month: month, amount: amount, title: title };
                 }
                 bubbleRadius.push(feed);
@@ -734,10 +735,10 @@ function bubbleSizeInOne() {
                     min = amount
                 }
                 if (month.charAt(0) == "0") {
-                    console.log("early month")
+                    //console.log("early month")
                     feed = { id: 7, month: month.charAt(1), amount: amount, title: title };
                 } else {
-                    console.log("late month")
+                    //console.log("late month")
                     feed = { id: 7, month: month, amount: amount, title: title };
                 }
                 bubbleRadius.push(feed);
@@ -760,10 +761,10 @@ function bubbleSizeInOne() {
                     min = amount
                 }
                 if (month.charAt(0) == "0") {
-                    console.log("early month")
+                    //console.log("early month")
                     feed = { id: 8, month: month.charAt(1), amount: amount, title: title };
                 } else {
-                    console.log("late month")
+                    //console.log("late month")
                     feed = { id: 8, month: month, amount: amount, title: title };
                 }
                 bubbleRadius.push(feed);
@@ -786,10 +787,10 @@ function bubbleSizeInOne() {
                     min = amount
                 }
                 if (month.charAt(0) == "0") {
-                    console.log("early month")
+                    //console.log("early month")
                     feed = { id: 9, month: month.charAt(1), amount: amount, title: title };
                 } else {
-                    console.log("late month")
+                    //console.log("late month")
                     feed = { id: 9, month: month, amount: amount, title: title };
                 }
                 bubbleRadius.push(feed);
@@ -812,10 +813,10 @@ function bubbleSizeInOne() {
                     min = amount
                 }
                 if (month.charAt(0) == "0") {
-                    console.log("early month")
+                    //console.log("early month")
                     feed = { id: 10, month: month.charAt(1), amount: amount, title: title };
                 } else {
-                    console.log("late month")
+                    //console.log("late month")
                     feed = { id: 10, month: month, amount: amount, title: title };
                 }
                 bubbleRadius.push(feed);
@@ -823,7 +824,7 @@ function bubbleSizeInOne() {
         })
 
         bubbleRadius.forEach(function (a) {
-            console.log("ana ForEach")
+            //console.log("ana ForEach")
             var id = a.id
             var month = a.month
             var amount = a.amount
@@ -834,8 +835,8 @@ function bubbleSizeInOne() {
                 .range([30, 100])
             var r = radiusScale(amount)
 
-            console.log("max: " + max)
-            console.log("min: " + min)
+            //console.log("max: " + max)
+            //console.log("min: " + min)
 
             radius[month][id] = r
             //For the Tooltip, save the amount and title to display
@@ -843,7 +844,7 @@ function bubbleSizeInOne() {
             titleCollection[id] = title
         })
 
-        console.log("bubbleradius " + amountCollection + "  " + titleCollection)
+        //console.log("bubbleradius " + amountCollection + "  " + titleCollection)
 
         visualizeBubbles(json1, 1, clicked_Analog, clicked_Digital);
 
@@ -851,7 +852,7 @@ function bubbleSizeInOne() {
 
     }).catch(function (err) {
         // handle error
-        console.log("loading error" + err)
+        //console.log("loading error" + err)
     })
 
 
