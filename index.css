@@ -494,7 +494,8 @@ text.year {
 }
 
 #line_year {
-    stroke-width: 2;
-    opacity: 1;
+    stroke-width: 1;
+    /*stroke-dasharray: 5;*/
+    opacity: 0.4;
     color: white;
 }
