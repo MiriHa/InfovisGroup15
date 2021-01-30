@@ -597,8 +597,21 @@ function bubbleSizeInOne() {
         var max = 0
         var min = 0
 
+        var yearBeginn =202001
+        var yearEnd =  202009
+
+        if(currentYear == 2020){
+            yearBeginn =202001
+            yearEnd =  202009
+        }
+        else{
+            yearBeginn =201901
+            yearEnd =  201912
+        }
+
+
         fileAHealth.forEach(function (d) {
-            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+            if (Number(d.Monat) >= yearBeginn && Number(d.Monat) <= yearEnd) {
                 var date = d.Monat
                 var month = date.substr(date.length - 2, 2)
                 console.log("month " + month)
@@ -625,7 +638,7 @@ function bubbleSizeInOne() {
         })
 
         fileANews.forEach(function (d) {
-            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+            if (Number(d.Monat) >=yearBeginn && Number(d.Monat) <= yearEnd) {
                 var date = d.Monat
                 var month = date.substr(date.length - 2, 2)
                 console.log("month " + month)
@@ -652,7 +665,7 @@ function bubbleSizeInOne() {
         })
 
         fileAFreetime.forEach(function (d) {
-            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+            if (Number(d.Monat) >= yearBeginn && Number(d.Monat) <= yearEnd) {
                 var date = d.Monat
                 var month = date.substr(date.length - 2, 2)
                 console.log("month " + month)
@@ -679,7 +692,7 @@ function bubbleSizeInOne() {
         })
 
         fileASport.forEach(function (d) {
-            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+            if (Number(d.Monat) >= yearBeginn && Number(d.Monat) <= yearEnd) {
                 var date = d.Monat
                 var month = date.substr(date.length - 2, 2)
                 console.log("month " + month)
@@ -706,7 +719,7 @@ function bubbleSizeInOne() {
         })
 
         fileDSport.forEach(function (d) {
-            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+            if (Number(d.Monat) >= yearBeginn && Number(d.Monat) <= yearEnd) {
                 var date = d.Monat
                 var month = date.substr(date.length - 2, 2)
                 //console.log(month)
@@ -732,7 +745,7 @@ function bubbleSizeInOne() {
         })
 
         fileDHealth.forEach(function (d) {
-            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+            if (Number(d.Monat) >=yearBeginn && Number(d.Monat) <= yearEnd) {
                 var date = d.Monat
                 var month = date.substr(date.length - 2, 2)
                 //console.log(month)
@@ -758,7 +771,7 @@ function bubbleSizeInOne() {
         })
 
         fileDNews.forEach(function (d) {
-            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+            if (Number(d.Monat) >= yearBeginn&& Number(d.Monat) <= yearEnd) {
                 var date = d.Monat
                 var month = date.substr(date.length - 2, 2)
                 //console.log(month)
@@ -784,7 +797,7 @@ function bubbleSizeInOne() {
         })
 
         fileDFreetime.forEach(function (d) {
-            if (Number(d.Monat) >= 202001 && Number(d.Monat) <= 202009) {
+            if (Number(d.Monat) >=yearBeginn && Number(d.Monat) <= yearEnd) {
                 var date = d.Monat
                 var month = date.substr(date.length - 2, 2)
                 //console.log(month)

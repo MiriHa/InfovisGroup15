@@ -51,6 +51,14 @@ var svg = d3.select("#slider").append("svg")
 var container = svg.append("g")
     .attr("id", "sliderGroup");
 
+var yearButton = d3.select("#slider").append("button")
+yearButton
+    .attr("id", "yearButton")
+    .text("Wechsel zu " + shownButtonYear)
+    .classed("button", true)
+    .on("click", changeYear);
+
+
 var face = container.append("g")
     .attr('id', 'scale-face');
 
@@ -145,6 +153,23 @@ var lockdownIndicator = innerContainer.append("text")
     .style("text-anchor", "middle")
     .text(" ");
 
+
+
+function changeYear() {
+    if (currentYear == 2020) {
+        currentYear = 2019
+        shownButtonYear = 2020
+        yearButton.text("Wechsel zu " + shownButtonYear)
+    } else {
+        currentYear = 2020
+        shownButtonYear = 2019
+        yearButton.text("Wechsel zu " + shownButtonYear)
+    }
+    updateCurrent()
+    console.log("yeahrchangedto " + currentYear)
+
+}
+
 //Functions to handle the Slider drag
 function dragstarted(event, d) {
     event.sourceEvent.stopPropagation();
@@ -183,7 +208,8 @@ function dragended(event, d) {
     //Find the closest tick:
     var closestPhi = tickphiright[0];
     var diff = Math.abs(phi - closestPhi);
-    var postion = 0
+    currentSliderPosition = 0
+    console.log("currentSliderPosition "+currentSliderPosition)
 
     // between hightst and 0 value it will always take highest and not 0
     for (var val = 0; val < tickphiright.length; val++) {
@@ -191,7 +217,7 @@ function dragended(event, d) {
         if (newdiff < diff) {
             diff = newdiff;
             closestPhi = tickphiright[val];
-            postion = val;
+            currentSliderPosition = val;
         }
     }
 
@@ -200,36 +226,82 @@ function dragended(event, d) {
         .attr("cx", d.x = circumference_r * Math.cos(closestPhi))
         .attr("cy", d.y = circumference_r * Math.sin(closestPhi));
 
-
-    //Set the Month Lable and the CaseNumber each Month
+    //Set the month label
     d3.select("#monthLable")
-        .text(monthNames[postion]);
-    d3.select("#casesNumbers")
-        .text(totoalCoronaCases[postion]);
+        .text(monthNames[currentSliderPosition]);
 
-    // For each slider position set the associated values of the lockdownindicator
-    if (postion == 3 || postion == 4 || postion == 5) {
-        d3.select("#innerCircle")
-            .attr("fill", "darkred");
 
-        d3.select("#lockdownIndicator")
-            .text("Lockdown");
-    }
-    else if (postion == 10 || postion == 11) {
-        d3.select("#innerCircle")
-            .attr("fill", "darkred");
+    updateCurrent()
 
-        d3.select("#lockdownIndicator")
-            .text("Lockdown");
+}
 
-        d3.select("#additionalSpace")
-            .style("opacity", 100);
-    }
-    else if (postion == 9) {
-        d3.select("#additionalSpace")
-            .style("opacity", 100);
-    }
-    else {
+
+function updateCurrent() {
+    if (currentYear == 2020) {
+
+        //for bubbles to handle the radius
+        bubbleRadi = radius
+
+        if (currentSliderPosition > 0 && currentSliderPosition < 13) {
+            console.log("slider radius:" +radius)
+            visualizeBubbles(json1, currentSliderPosition + 1);
+        } else {
+            visualizeBubbles(json1, 1);
+        }
+
+        //Set CaseNumber each Month
+
+        d3.select("#yearLable")
+            .text(currentYear)
+        d3.select("#casesNumbers")
+            .text(totoalCoronaCases[currentSliderPosition]);
+
+        // For each slider position set the associated values of the lockdownindicator
+        if (currentSliderPosition == 3 || currentSliderPosition == 4 || currentSliderPosition == 5) {
+            d3.select("#innerCircle")
+                .attr("fill", "darkred");
+
+            d3.select("#lockdownIndicator")
+                .text("Lockdown");
+        }
+        else if (currentSliderPosition == 10 || currentSliderPosition == 11) {
+            d3.select("#innerCircle")
+                .attr("fill", "darkred");
+
+            d3.select("#lockdownIndicator")
+                .text("Lockdown");
+
+            d3.select("#additionalSpace")
+                .style("opacity", 100);
+        }
+        else if (currentSliderPosition == 9) {
+            d3.select("#additionalSpace")
+                .style("opacity", 100);
+        }
+        else {
+            d3.select("#innerCircle")
+                .attr("fill", "grey");
+
+            d3.select("#lockdownIndicator")
+                .text(" ");
+
+            d3.select("#additionalSpace")
+                .style("opacity", 0);
+        }
+
+
+
+    } else {
+        //for bubbles to handle the radius
+        bubbleRadi = radius
+
+        if (currentSliderPosition > 0 && currentSliderPosition < 13) {
+            console.log("slider radius:" +radius)
+            visualizeBubbles(json1, currentSliderPosition + 1);
+        } else {
+            visualizeBubbles(json1, 1);
+        }
+
         d3.select("#innerCircle")
             .attr("fill", "grey");
 
@@ -238,19 +310,11 @@ function dragended(event, d) {
 
         d3.select("#additionalSpace")
             .style("opacity", 0);
+
+        d3.select("#yearLable")
+            .text(currentYear)
+        d3.select("#casesNumbers")
+            .text("0")
+
     }
-
-
-
-    //for bubbles to handle the radius
-    bubbleRadi = radius
-
-    if (postion > 0 && postion < 13) {
-        console.log("slider radius:")
-        console.log(radius)
-        visualizeBubbles(json1, postion + 1);
-    } else {
-        visualizeBubbles(json1, 1);
-    }
-
 }
