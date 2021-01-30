@@ -156,6 +156,10 @@ var lockdownIndicator = innerContainer.append("text")
 
 
 function changeYear() {
+    if(currentSliderPosition > 9){
+        resetRadiusandCollection()
+    }
+    bubbleSizeInOne()
     if (currentYear == 2020) {
         currentYear = 2019
         shownButtonYear = 2020
@@ -242,12 +246,8 @@ function updateCurrent() {
         //for bubbles to handle the radius
         bubbleRadi = radius
 
-        if (currentSliderPosition > 0 && currentSliderPosition < 13) {
-            console.log("slider radius:" +radius)
-            visualizeBubbles(json1, currentSliderPosition + 1);
-        } else {
-            visualizeBubbles(json1, 1);
-        }
+        visualizeBubbles();
+      
 
         //Set CaseNumber each Month
 
@@ -295,12 +295,9 @@ function updateCurrent() {
         //for bubbles to handle the radius
         bubbleRadi = radius
 
-        if (currentSliderPosition > 0 && currentSliderPosition < 13) {
-            console.log("slider radius:" +radius)
-            visualizeBubbles(json1, currentSliderPosition + 1);
-        } else {
-            visualizeBubbles(json1, 1);
-        }
+        
+        visualizeBubbles();
+       
 
         d3.select("#innerCircle")
             .attr("fill", "grey");
