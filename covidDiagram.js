@@ -81,7 +81,7 @@ function update(data) {
         .data([data], function(d){ return d.ser1 })
         .attr("fill", "darkred")
         .attr("stroke", "none")
-        .attr("fill-opacity", .3)
+        .attr("fill-opacity", .65)
         .attr("d", d3.area()
             .x(function(d) { return x(d.ser1); })
             .y0( height )
