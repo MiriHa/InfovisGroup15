@@ -371,7 +371,10 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
     }
 
     highlightMonth();
+    yearIndicator();
 
+
+    // highlights the in slider selected month, and also the depending one of the other year
     function highlightMonth() {
         var tickWidth = width
         if (aData != 0) {
@@ -520,6 +523,58 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         }
     }
 
+    // draws a line when a new year starts and display year
+    function yearIndicator() {
+        // TODO change colors of text doesn't work
+        var tickWidth = width
+        if (aData != 0) {
+            tickWidth = width / (aData - 1)
+        } else if (dData != 0) {
+            tickWidth = width / (dData - 1)
+        }
+
+        var yPosition = -5
+        var xPosition = 5
+        var strokeWidth = 10
+
+        var year19 = chart.append('g').attr("class", "2019")
+        year19.append('line')
+            .attr("x1", 0)
+            .attr("x2", 0)
+            .attr("y1", 0)
+            .attr("y2", height)
+            .attr("stroke-width", strokeWidth)
+            .attr("stroke", COLOR_YEAR)
+        year19.append('text')
+            .attr('class', 'year')
+            .attr('text-anchor', 'left')
+            .attr("x", xPosition)
+            .attr("y", yPosition)
+            .attr('color', COLOR_YEAR)
+            .text('2019')
+
+        var firstTickWidth = tickWidth / 2
+        var firstValue = 0.5
+        var firstTickEnd = firstTickWidth + firstValue
+
+        var year20 = chart.append('g').attr("class", "2020")
+        var value20 = firstTickEnd + (12 - 1) * tickWidth + firstTickWidth
+        year20.append('line')
+            .attr("x1", value20)
+            .attr("x2", value20)
+            .attr("y1", 0)
+            .attr("y2", height)
+            .attr("stroke-width", strokeWidth)
+            .attr("stroke", COLOR_YEAR)
+        year20.append('text')
+            .attr('class', 'year')
+            .attr('text-anchor', 'left')
+            .attr("x", value20 + xPosition)
+            .attr("y", yPosition)
+            .attr('color', COLOR_YEAR)
+            .text('2020')
+    }
+
     function initChart() {
         chart = svg.append('g')
             .attr("transform", "translate(" + Margin + "," + Margin + ")")
@@ -553,17 +608,8 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
                 // long = full name of the months
                 const month = date.toLocaleString('default', { month: 'short' });
 
-                var new_date
-                if (month === "Jan") {
-                    if(year === "2020"){
-                        new_date = month+"'20"
-                    } else if(year === "2019"){
-                        new_date = month+"'19"
-                    }
+                var new_date = month
 
-                } else {
-                    new_date = month
-                }
                 return new_date
             })
             // TODO: decide if
