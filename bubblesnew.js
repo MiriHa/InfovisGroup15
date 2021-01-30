@@ -6,16 +6,16 @@ json1 = {
     "bubbles": [{
         // main bubbles
         "id": 1,
-        "x": 250,
-        "y": 220,
+        "x": bubDigitalPosX, //250
+        "y": bubDigitalPosY, //220
         "r": 90,
         "c": COLOR_ANALOG, /* orange */
         "label": ANALOG,
         "img": ""
     }, {
         "id": 2,
-        "x": 400,
-        "y": 220,
+        "x": bubDigitalPosX + 150, //400,
+        "y": bubDigitalPosY,
         "r": 90,
         "c": COLOR_DIGITAL, /* blue */
         "label": DIGITAL,
@@ -24,8 +24,8 @@ json1 = {
     // analog sub bubbles
     {
         "id": 3,
-        "x": 250,
-        "y": 70,
+        "x": bubDigitalPosX,
+        "y": bubDigitalPosY - 150, //70
         "r": 90,
         "c": COLOR_ANALOG, /* orange */
         "label": HEALTH,
@@ -33,8 +33,8 @@ json1 = {
 
     }, {
         "id": 4,
-        "x": 70,
-        "y": 150,
+        "x": bubDigitalPosX - 180, //70
+        "y": bubDigitalPosY - 70,//150
         "r": 90,
         "c": COLOR_ANALOG, /* orange */
         "label": NEWS,
@@ -42,8 +42,8 @@ json1 = {
 
     }, {
         "id": 5,
-        "x": 70,
-        "y": 330,
+        "x": bubDigitalPosX - 180, //70,
+        "y": bubDigitalPosY + 110,//330,
         "r": 90,
         "c": COLOR_ANALOG, /* orange */
         "label": FREETIME,
@@ -51,8 +51,8 @@ json1 = {
     },
     {
         "id": 6,
-        "x": 250,
-        "y": 370,
+        "x": bubDigitalPosX,
+        "y": bubDigitalPosY + 150,//370,
         "r": 90,
         "c": COLOR_ANALOG, /* orange */
         "label": SPORT,
@@ -61,32 +61,32 @@ json1 = {
     //digital sub bubbles
     {
         "id": 7,
-        "x": 400,
-        "y": 370,
+        "x": bubDigitalPosX + 150,//400,
+        "y": bubDigitalPosY + 150,//370,
         "r": 90,
         "c": COLOR_DIGITAL, /* blue */
         "label": SPORT,
         "img": "sport.png"
     }, {
         "id": 8,
-        "x": 400,
-        "y": 70,
+        "x": bubDigitalPosX + 150,//400,
+        "y": bubDigitalPosY - 150,//70,
         "r": 90,
         "c": COLOR_DIGITAL, /* blue */
         "label": HEALTH,
         "img": "health.png"
     }, {
         "id": 9,
-        "x": 580,
-        "y": 150,
+        "x": bubDigitalPosX + 330,//580,
+        "y": bubDigitalPosY - 70,//150,
         "r": 90,
         "c": COLOR_DIGITAL, /* blue */
         "label": NEWS,
         "img": "newsPaper_icon.png"
     }, {
         "id": 10,
-        "x": 580,
-        "y": 330,
+        "x": bubDigitalPosX + 330,//580,
+        "y": bubDigitalPosY + 110,//330,
         "r": 90,
         "c": COLOR_DIGITAL, /* blue */
         "label": FREETIME,
