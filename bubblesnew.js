@@ -102,7 +102,7 @@ function computeMainBubbles(bubbleRadi, month) {
     var summedig = 0;
     for (let bubb = 3; bubb < 7; bubb++) {
         summedig = summedig + bubbleRadi[month][bubb] + 10
-      
+
     }
     bubbleRadi[month][1] = summedig / 4;
     // console.log(" = " + summedig);
@@ -110,7 +110,7 @@ function computeMainBubbles(bubbleRadi, month) {
     var summeana = 0;
     for (let bubb = 7; bubb < 11; bubb++) {
         summeana = summeana + bubbleRadi[month][bubb] + 10
-     
+
     }
     bubbleRadi[month][2] = summeana / 4;
     // console.log("summeANA = " + summeana);
@@ -142,6 +142,7 @@ function visualizeBubbles() {
     bubbleRadi = radius
     var currentMonth = currentSliderPosition +1
 
+    parser(selectedAnalogBubble, selectedDigitalBubble)
     computeMainBubbles(bubbleRadi, currentMonth);
     //console.log(bubbleRadi)
 
@@ -627,15 +628,15 @@ function bubbleSizeInOne() {
             if (Number(d.Monat) >=yearBeginn && Number(d.Monat) <= yearEnd) {
                 var date = d.Monat
                 var month = date.substr(date.length - 2, 2)
-             
+
                 var amount = Number(d.VerkaufLinear)
                 var title = d.Titel
                 var feed
                 if (month.charAt(0) == "0") {
-                  
+
                     feed = { id: 4, month: month.charAt(1), amount: amount, title: title };
                 } else {
-                 
+
                     feed = { id: 4, month: month, amount: amount, title: title };
                 }
                 bubbleRadius.push(feed);
@@ -650,10 +651,10 @@ function bubbleSizeInOne() {
                 var title = d.Titel
                 var feed
                 if (month.charAt(0) == "0") {
-                 
+
                     feed = { id: 5, month: month.charAt(1), amount: amount, title: title };
                 } else {
-                   
+
                     feed = { id: 5, month: month, amount: amount, title: title };
                 }
                 bubbleRadius.push(feed);
@@ -664,15 +665,15 @@ function bubbleSizeInOne() {
             if (Number(d.Monat) >= yearBeginn && Number(d.Monat) <= yearEnd) {
                 var date = d.Monat
                 var month = date.substr(date.length - 2, 2)
-            
+
                 var amount = Number(d.VerkaufLinear)
                 var title = d.Titel
                 var feed
                 if (month.charAt(0) == "0") {
-               
+
                     feed = { id: 6, month: month.charAt(1), amount: amount, title: title };
                 } else {
-                  
+
                     feed = { id: 6, month: month, amount: amount, title: title };
                 }
                 bubbleRadius.push(feed);
@@ -683,14 +684,14 @@ function bubbleSizeInOne() {
             if (Number(d.Monat) >= yearBeginn && Number(d.Monat) <= yearEnd) {
                 var date = d.Monat
                 var month = date.substr(date.length - 2, 2)
-           
+
                 var amount = Number(d.KatVisits)
                 var title = d.Bezeichnung
                 if (month.charAt(0) == "0") {
-     
+
                     feed = { id: 7, month: month.charAt(1), amount: amount, title: title };
                 } else {
-                
+
                     feed = { id: 7, month: month, amount: amount, title: title };
                 }
                 bubbleRadius.push(feed);
@@ -701,13 +702,13 @@ function bubbleSizeInOne() {
             if (Number(d.Monat) >=yearBeginn && Number(d.Monat) <= yearEnd) {
                 var date = d.Monat
                 var month = date.substr(date.length - 2, 2)
-            
+
                 var amount = Number(d.KatVisits)
                 var title = d.Bezeichnung
                 if (month.charAt(0) == "0") {
                                  feed = { id: 8, month: month.charAt(1), amount: amount, title: title };
                 } else {
-                   
+
                     feed = { id: 8, month: month, amount: amount, title: title };
                 }
                 bubbleRadius.push(feed);
@@ -718,14 +719,14 @@ function bubbleSizeInOne() {
             if (Number(d.Monat) >= yearBeginn&& Number(d.Monat) <= yearEnd) {
                 var date = d.Monat
                 var month = date.substr(date.length - 2, 2)
-              
+
                 var amount = Number(d.KatVisits)
                 var title = d.Bezeichnung
                 if (month.charAt(0) == "0") {
-                    
+
                     feed = { id: 9, month: month.charAt(1), amount: amount, title: title };
                 } else {
-                    
+
                     feed = { id: 9, month: month, amount: amount, title: title };
                 }
                 bubbleRadius.push(feed);
@@ -736,14 +737,14 @@ function bubbleSizeInOne() {
             if (Number(d.Monat) >=yearBeginn && Number(d.Monat) <= yearEnd) {
                 var date = d.Monat
                 var month = date.substr(date.length - 2, 2)
-              
+
                 var amount = Number(d.KatVisits)
                 var title = d.Bezeichnung
                 if (month.charAt(0) == "0") {
-                  
+
                     feed = { id: 10, month: month.charAt(1), amount: amount, title: title };
                 } else {
-                  
+
                     feed = { id: 10, month: month, amount: amount, title: title };
                 }
                 bubbleRadius.push(feed);
@@ -751,7 +752,7 @@ function bubbleSizeInOne() {
         })
 
         bubbleRadius.forEach(function (a) {
-       
+
             var id = a.id
             var month = a.month
             var amount = a.amount
@@ -762,7 +763,7 @@ function bubbleSizeInOne() {
                 .range([30, 100])
             var r = radiusScale(amount)
 
-         
+
             console.log("max:"+max + " min: "+min)
             radius[month][id] = r
             //For the Tooltip, save the amount and title to display

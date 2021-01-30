@@ -15,9 +15,9 @@ const data_monthly = [
 ];
 
 // set the dimensions and margins of the graph
-const Margin = 80;
-const width = 580 - Margin;
-const height = 300 - Margin;
+const Margin = DIAGRAM_MARGIN;
+const width = DIAGRAM_WIDTH - Margin;
+const height = DIAGRAM_HEIGHT - Margin;
 
 // append the svg object to the body of the page
 var svg = d3.select("#topDiagram").append("svg")
@@ -30,7 +30,10 @@ const chart = svg.append('g')
 // Initialise the X axis:
 let x = d3.scalePoint().range([0,width]);
 let xAxis = d3.axisBottom()
-    .scale(x);
+    .scale(x)
+    // TODO: decide if
+    // vertical lines
+    .tickSize(-height);
 
 chart.append('g')
     .attr("transform", "translate(0," + height + ")")
