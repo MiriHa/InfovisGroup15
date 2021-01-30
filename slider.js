@@ -208,7 +208,8 @@ function dragended(event, d) {
     //Find the closest tick:
     var closestPhi = tickphiright[0];
     var diff = Math.abs(phi - closestPhi);
-    currentSliderPositionvar = 0
+    currentSliderPosition = 0
+    console.log("currentSliderPosition "+currentSliderPosition)
 
     // between hightst and 0 value it will always take highest and not 0
     for (var val = 0; val < tickphiright.length; val++) {
@@ -229,26 +230,25 @@ function dragended(event, d) {
     d3.select("#monthLable")
         .text(monthNames[currentSliderPosition]);
 
+
     updateCurrent()
-
-    
-
-
-    //for bubbles to handle the radius
-    bubbleRadi = radius
-
-    if (currentSliderPosition > 0 && currentSliderPosition < 13) {
-        console.log("slider radius:")
-        console.log(radius)
-        visualizeBubbles(json1, currentSliderPosition + 1);
-    } else {
-        visualizeBubbles(json1, 1);
-    }
 
 }
 
+
 function updateCurrent() {
     if (currentYear == 2020) {
+
+        //for bubbles to handle the radius
+        bubbleRadi = radius
+
+        if (currentSliderPosition > 0 && currentSliderPosition < 13) {
+            console.log("slider radius:" +radius)
+            visualizeBubbles(json1, currentSliderPosition + 1);
+        } else {
+            visualizeBubbles(json1, 1);
+        }
+
         //Set CaseNumber each Month
 
         d3.select("#yearLable")
@@ -288,7 +288,20 @@ function updateCurrent() {
             d3.select("#additionalSpace")
                 .style("opacity", 0);
         }
+
+
+
     } else {
+        //for bubbles to handle the radius
+        bubbleRadi = radius
+
+        if (currentSliderPosition > 0 && currentSliderPosition < 13) {
+            console.log("slider radius:" +radius)
+            visualizeBubbles(json1, currentSliderPosition + 1);
+        } else {
+            visualizeBubbles(json1, 1);
+        }
+
         d3.select("#innerCircle")
             .attr("fill", "grey");
 
