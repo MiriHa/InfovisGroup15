@@ -72,21 +72,28 @@ function update(data) {
     let u = chart.selectAll(".lineTest")
         .data([data], function(d){ return d.ser1 });
 
-    // Update the line
-    u
-        .enter()
+    // Add area
+    u.enter()
         .append("path")
-        .attr("class","lineTest")
-        .merge(u)
-        .transition()
-        .duration(3000)
+        .data([data], function(d){ return d.ser1 })
+        .attr("fill", "darkred")
+        .attr("stroke", "none")
+        .attr("fill-opacity", .3)
+        .attr("d", d3.area()
+            .x(function(d) { return x(d.ser1); })
+            .y0( height )
+            .y1(function(d) { return y(d.ser2); }))
+
+    // Add line
+    u.enter()
+        .append("path")
+        .data([data], function(d){ return d.ser1 })
+        .attr("fill", "none")
+        .attr("stroke", "red")
+        .attr("stroke-width", 1.5)
         .attr("d", d3.line()
             .x(function(d) { return x(d.ser1); })
             .y(function(d) { return y(d.ser2); }))
-        .attr("fill", "none")
-        .attr("stroke", "red")
-        .attr("stroke-width", 2.5)
-
 
     // Label for yAxis
     svg.append('text')
