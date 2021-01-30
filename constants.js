@@ -75,6 +75,10 @@ var amountCollection = [
     [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0]]  // Dez
 var titleCollection = [0, 1, 2, 3, 4, 5 ,6 ,7, 8, 9]
 
+//for bubbleorder
+const bubDigitalPosX = 250;
+const bubDigitalPosY = 220;
+
 //for markedBubbles
 var clicked_Digital = 0;
 var clicked_Analog = 0;
