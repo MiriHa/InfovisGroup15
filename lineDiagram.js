@@ -25,6 +25,9 @@ function parser(analog, digital) {
     var analogTitle = ""
     var digitalTitle = ""
 
+    var firstDataPoint = 201901
+    var lastDataPoint = 202009
+
 
     // Dictionary of all .csv files (aka data sets)
     const csv_files_analog = new Map([
@@ -72,7 +75,7 @@ function parser(analog, digital) {
 
                 file1Data.slice().reverse().forEach(function (d){
                     // Build analogData block (fill array)
-                    if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
+                    if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                         var feed = {ser1: d.Monat, ser2: Number(d.VerkaufLinear)};
                         if(analogSource === ""){
                             analogSource = SOURCE_ANALOG + d.Quellzusatz
@@ -87,7 +90,7 @@ function parser(analog, digital) {
 
                 file2Data.slice().reverse().forEach(function (d){
                     // Build digitalData block (fill array)
-                    if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
+                    if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                         var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
                         if(digitalSource === ""){
                             digitalSource = SOURCE_DIGITAL
@@ -112,8 +115,7 @@ function parser(analog, digital) {
                     console.log("loaded analog successfully")
                     data.slice().reverse().forEach(function (d) {
                         // Build analogData block (fill array)
-                        //if(Number(d.Monat) >= 201901 && Number(d.Monat) <= 202009) {
-                        if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
+                        if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                             var feed = {ser1: d.Monat, ser2: Number(d.VerkaufLinear)};
                             if(analogSource === ""){
                                 analogSource = SOURCE_ANALOG + d.Quellzusatz
@@ -140,7 +142,7 @@ function parser(analog, digital) {
                 console.log("loaded digital successfully")
                 data.slice().reverse().forEach(function (d) {
                     // Build analogData block (fill array)
-                    if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
+                    if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                         var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
                         if(digitalSource === ""){
                             digitalSource = SOURCE_DIGITAL
@@ -190,7 +192,7 @@ function parser(analog, digital) {
             var analogData4 = []
 
             fileA1.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
+                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                     var feed = {ser1: d.Monat, ser2: Number(d.VerkaufLinear)};
                     if(analogSource === ""){
                         analogSource = SOURCE_ANALOG
@@ -200,7 +202,7 @@ function parser(analog, digital) {
             })
 
             fileA2.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
+                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                     analogData1.forEach(function(a){
                         if(a.ser1 == d.Monat){
                             var newSer2 = a.ser2+Number(d.VerkaufLinear)
@@ -212,7 +214,7 @@ function parser(analog, digital) {
             })
 
             fileA3.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
+                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                     analogData2.forEach(function(a){
                         if(a.ser1 == d.Monat){
                             var newSer2 = a.ser2+Number(d.VerkaufLinear)
@@ -224,7 +226,7 @@ function parser(analog, digital) {
             })
 
             fileA4.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
+                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                     analogData3.forEach(function(a){
                         if(a.ser1 == d.Monat){
                             var newSer2 = a.ser2+Number(d.VerkaufLinear)
@@ -249,7 +251,7 @@ function parser(analog, digital) {
             var digitalData4 = []
 
             fileD1.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
+                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                     var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
                     if(digitalSource === ""){
                         digitalSource = SOURCE_DIGITAL
@@ -259,7 +261,7 @@ function parser(analog, digital) {
             })
 
             fileD2.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
+                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                     digitalData1.forEach(function(a){
                         if(a.ser1 == d.Monat){
                             var newSer2 = a.ser2+Number(d.KatVisits)
@@ -271,7 +273,7 @@ function parser(analog, digital) {
             })
 
             fileD3.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
+                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                     digitalData2.forEach(function(a){
                         if(a.ser1 == d.Monat){
                             var newSer2 = a.ser2+Number(d.KatVisits)
@@ -283,7 +285,7 @@ function parser(analog, digital) {
             })
 
             fileD4.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= 201909 && Number(d.Monat) <= 202009) {
+                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                     digitalData3.forEach(function(a){
                         if(a.ser1 == d.Monat){
                             var newSer2 = a.ser2+Number(d.KatVisits)
@@ -336,39 +338,6 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         svg = d3.select("#bottomDiagram").append("svg")
         initChart();
 
-        if(analogData === ""){
-            analogData = [
-                {ser1: "201909", ser2: 10},
-                {ser1: "201910", ser2: 100},
-                {ser1: "201911", ser2: 10},
-                {ser1: "201912", ser2: 30},
-                {ser1: "202001", ser2: 400},
-                {ser1: "202002", ser2: 200},
-                {ser1: "202003", ser2: 50},
-                {ser1: "202004", ser2: 100},
-                {ser1: "202005", ser2: 200},
-                {ser1: "202006", ser2: 300},
-                {ser1: "202007", ser2: 400},
-                {ser1: "202008", ser2: 500},
-                {ser1: "202009", ser2: 10}]
-        }
-
-        if(digitalData === ""){
-            digitalData = [
-                {ser1: "201909", ser2: 20},
-                {ser1: "201910", ser2: 200},
-                {ser1: "201911", ser2: 20},
-                {ser1: "201912", ser2: 20},
-                {ser1: "202001", ser2: 200},
-                {ser1: "202002", ser2: 200},
-                {ser1: "202003", ser2: 20},
-                {ser1: "202004", ser2: 200},
-                {ser1: "202005", ser2: 200},
-                {ser1: "202006", ser2: 200},
-                {ser1: "202007", ser2: 200},
-                {ser1: "202008", ser2: 200},
-                {ser1: "202009", ser2: 20}]
-        }
         
         var max = 0
         analogData.forEach(function (a){
@@ -452,6 +421,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .scale(x)
             .tickFormat(function (d) {
 
+                var year = d.substring(0,4)
                 // Format number to date object
                 const date = new Date(d.replace(/(\d\d\d\d)(\d\d)/, '$1-$2'))
 
@@ -461,14 +431,12 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
 
                 var new_date
                 if (month === "Jan") {
-                    new_date = month+"'20"
-
-                } else if (month === "Sep") {
-                    if (date.getFullYear() === 2019) {
-                        new_date = month + "'19"
-                    } else {
-                        new_date = month
+                    if(year === "2020"){
+                        new_date = month+"'20"
+                    } else if(year === "2019"){
+                        new_date = month+"'19"
                     }
+
                 } else {
                     new_date = month
                 }
