@@ -95,6 +95,18 @@ function update(data) {
             .x(function(d) { return x(d.ser1); })
             .y(function(d) { return y(d.ser2); }))
 
+    // Horizontal Lines
+    const makeYLines = () => d3.axisLeft()
+        .scale(y)
+
+    chart.append('g')
+        .attr('class', 'grid')
+        .attr("opacity", 0.4)
+        .call(makeYLines()
+            .tickSize(-width, 0, 0)
+            .tickFormat('')
+        )
+
     // Label for yAxis
     svg.append('text')
         .attr('class', 'label')
