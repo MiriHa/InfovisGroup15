@@ -307,14 +307,14 @@ text.source {
 }
 
 .handle circle{
-    fill: darkgrey;
-    stroke: black;
+    fill: #f5f5f5;
+    stroke:#f5f5f5;
     stroke-width: 3px;
 }
 
 .handle circle.dragging{
-    fill: grey;
-    stroke: black;
+    fill:  #f5f5f5;
+    stroke: #bdbdbd;
 }
 
 .tick{

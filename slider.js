@@ -134,6 +134,7 @@ var circleLableTime = innerContainer.append("text")
     .attr("id", "monthLable")
     .attr("dy", "-1.5em")
     .style("text-anchor", "middle")
+    .attr("font-weight","bold")
     .text(monthNames[0]);
 
 //Corona Cases Text
