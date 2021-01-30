@@ -85,3 +85,8 @@ var clicked_Analog = 0;
 var sameClick = 1;
 var markedBA = 0;
 var markedBD = 0;
+
+var currentYear = 2020;
+var shownButtonYear = 2019;
+
+var currentSliderPosition = 0;
