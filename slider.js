@@ -40,23 +40,27 @@ var drag = d3.drag()
     .on("drag", dragged)
     .on("end", dragended);
 
+// var yearButton = d3.select("#yearCheck").on('change',changeYear);
+var switchStatus =false
+d3.select("#yearCheack").on('change', changeYear)
+// yearButton
+//     // .attr("class", "button")
+//     // .attr("id", "yearButton")
+//     // .attr("dy", "-6em")
+//     // .text("Wechsel zu " + shownButtonYear)
+//     // .classed("button", true)
+//     .on("change", changeYear);
+
+    // SaVaGe.ToggleSwitch({container: "#listener", onChange: function(toggler) { alert("The switch was clicked\nHis new value is: " + toggler.getValue()); }});
+
 var svg = d3.select("#slider").append("svg")
     .attr("id", "sliderContainer")
-    .attr("width", width_slider)
-    .attr("height", height_slider)
     .append("g")
     .attr("id", "slider_tranform")
-    .attr("transform", `translate(${width_slider / 1.6}, ${height_slider * 1.55})`);
+    .attr("transform", `translate(${width_slider / 1.6}, ${height_slider * 1.3})`);
 
 var container = svg.append("g")
     .attr("id", "sliderGroup");
-
-var yearButton = d3.select("#slider").append("button")
-yearButton
-    .attr("id", "yearButton")
-    .text("Wechsel zu " + shownButtonYear)
-    .classed("button", true)
-    .on("click", changeYear);
 
 
 var face = container.append("g")
@@ -156,14 +160,17 @@ var lockdownIndicator = innerContainer.append("text")
 
 
 function changeYear() {
+    console.log("changeyear")
+    if (currentSliderPosition > 9) {
+        resetRadiusandCollection()
+    }
+    bubbleSizeInOne()
     if (currentYear == 2020) {
         currentYear = 2019
         shownButtonYear = 2020
-        yearButton.text("Wechsel zu " + shownButtonYear)
     } else {
         currentYear = 2020
         shownButtonYear = 2019
-        yearButton.text("Wechsel zu " + shownButtonYear)
     }
     updateCurrent()
     console.log("yeahrchangedto " + currentYear)
@@ -209,7 +216,7 @@ function dragended(event, d) {
     var closestPhi = tickphiright[0];
     var diff = Math.abs(phi - closestPhi);
     currentSliderPosition = 0
-    console.log("currentSliderPosition "+currentSliderPosition)
+    console.log("currentSliderPosition " + currentSliderPosition)
 
     // between hightst and 0 value it will always take highest and not 0
     for (var val = 0; val < tickphiright.length; val++) {
@@ -242,12 +249,8 @@ function updateCurrent() {
         //for bubbles to handle the radius
         bubbleRadi = radius
 
-        if (currentSliderPosition > 0 && currentSliderPosition < 13) {
-            console.log("slider radius:" +radius)
-            visualizeBubbles(json1, currentSliderPosition + 1);
-        } else {
-            visualizeBubbles(json1, 1);
-        }
+        visualizeBubbles();
+
 
         //Set CaseNumber each Month
 
@@ -295,12 +298,9 @@ function updateCurrent() {
         //for bubbles to handle the radius
         bubbleRadi = radius
 
-        if (currentSliderPosition > 0 && currentSliderPosition < 13) {
-            console.log("slider radius:" +radius)
-            visualizeBubbles(json1, currentSliderPosition + 1);
-        } else {
-            visualizeBubbles(json1, 1);
-        }
+
+        visualizeBubbles();
+
 
         d3.select("#innerCircle")
             .attr("fill", "grey");

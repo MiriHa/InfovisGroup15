@@ -6,10 +6,13 @@ const NEWS = "Nachrichten"
 const FREETIME = "Freizeit"
 const SPORT = "Sport"
 
+//colors
 const COLOR_ANALOG = "#e28743"
 const COLOR_DIGITAL = "#1e81b0"
 const COLOR_HIGHLIGTH_ANALOG = "#a84d0a" //Analog in bubbles.js zeile 303 gesetzt
 const COLOR_HIGHLIGTH_DIGITAL = "#08456e" //analog in bubbles.js isn zeile 358 gestzt
+const COLOR_BACKGROUND_DARK =" #1b2636"
+const COLOR_BACKGROUND_LIGHT = "#39475c"
 
 // Where to find csv
 const PATH_ANALOG_SPORT = "data/analog/month/data_month_zeitschrif_klettern.csv"
@@ -90,3 +93,37 @@ var currentYear = 2020;
 var shownButtonYear = 2019;
 
 var currentSliderPosition = 0;
+
+
+
+function resetRadiusandCollection(){
+    radius = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],   // Jan
+        [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],  // Feb
+        [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],   // Mrz
+        [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],  // Apr
+        [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],   // Mai
+        [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],  // Jun
+        [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],   // Jul
+        [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],  // Aug
+        [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],   // Sep
+        [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],  // Okt
+        [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],   // Nov
+        [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0]]  // Dez
+
+    amountCollection = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],   // Jan
+            [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],  // Feb
+            [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],   // Mrz
+            [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],  // Apr
+            [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],   // Mai
+            [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],  // Jun
+            [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],   // Jul
+            [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],  // Aug
+            [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],   // Sep
+            [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],  // Okt
+            [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],   // Nov
+            [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0]]  // Dez
+}
