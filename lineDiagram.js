@@ -543,14 +543,14 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .attr("x2", 0)
             .attr("y1", 0)
             .attr("y2", height)
-            .attr("stroke-width", strokeWidth)
-            .attr("stroke", COLOR_YEAR)
+            //.attr("stroke-width", strokeWidth)
+            //.attr("stroke", COLOR_YEAR)
         year19.append('text')
             .attr('class', 'year')
             .attr('text-anchor', 'left')
             .attr("x", xPosition)
             .attr("y", yPosition)
-            .attr('color', COLOR_YEAR)
+            //.attr('color', COLOR_YEAR)
             .text('2019')
 
         var firstTickWidth = tickWidth / 2
@@ -560,18 +560,17 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         var year20 = chart.append('g').attr("class", "2020")
         var value20 = firstTickEnd + (12 - 1) * tickWidth + firstTickWidth
         year20.append('line')
+            .attr("id", "line_year")
             .attr("x1", value20)
             .attr("x2", value20)
             .attr("y1", 0)
             .attr("y2", height)
             .attr("stroke-width", strokeWidth)
-            .attr("stroke", COLOR_YEAR)
         year20.append('text')
             .attr('class', 'year')
             .attr('text-anchor', 'left')
             .attr("x", value20 + xPosition)
             .attr("y", yPosition)
-            .attr('color', COLOR_YEAR)
             .text('2020')
     }
 
