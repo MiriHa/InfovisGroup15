@@ -486,3 +486,15 @@ input:checked + .switchHandle:before {
     }
 
 }
+
+text.year {
+    fill: white;
+    font-size: 17px;
+    opacity: 0.6;
+}
+
+#line_year {
+    stroke-width: 2;
+    opacity: 1;
+    color: white;
+}
