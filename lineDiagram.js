@@ -441,7 +441,8 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
                     new_date = month
                 }
                 return new_date
-            });
+            })
+            .tickSize(-height);
         chart.append('g')
             .attr("transform", "translate(0," + height + ")")
             .attr("class", "myXaxis")
@@ -623,6 +624,48 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .attr('y', height * 1.63)
             .attr('text-anchor', 'start')
             .text(source)
+
+        // TODO highlight month
+        var tickWidth = width
+        if(aData != 0){
+            tickWidth = width/(aData-1)
+        } else if(dData != 0){
+            tickWidth = width/(dData-1)
+        }
+
+
+        var firstTickWidth = tickWidth/2
+        var firstValue = 0.5
+        var firstTickEnd = firstTickWidth + firstValue
+
+        if(currentYear == 2019){
+            if(currentSliderPosition == 0){
+                // 0-firstTick
+                var rect = chart.append('rect')
+                    .attr("width", firstTickWidth)
+                    .attr("height", height)
+                    .attr("fill", COLOR_HIGHLIGTH_ANALOG)
+                    .attr("opacity", 0.5)
+                    .attr("x", firstValue)
+            } else{
+                //firstTick+(n-1)*tickWidth - firstTick+n*tickWidth
+                var value = firstTickEnd+(currentSliderPosition-1)*tickWidth
+                var rect = chart.append('rect')
+                    .attr("width", tickWidth)
+                    .attr("height", height)
+                    .attr("fill", COLOR_HIGHLIGTH_ANALOG)
+                    .attr("opacity", 0.5)
+                    .attr("x", value)
+            }
+        } else if(currentYear == 2020){
+            var value = firstTickEnd+(currentSliderPosition-1)*tickWidth
+            var rect = chart.append('rect')
+                .attr("width", tickWidth)
+                .attr("height", height)
+                .attr("fill", COLOR_HIGHLIGTH_ANALOG)
+                .attr("opacity", 0.5)
+                .attr("x", value)
+        }
     }
 
     /*
