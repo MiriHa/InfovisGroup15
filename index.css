@@ -510,3 +510,7 @@ text.year {
 .digital_text{
     color: #1e81b0;
 }
+
+.selected_year{
+    background-color: #d3d3d3;
+}

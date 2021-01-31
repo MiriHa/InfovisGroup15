@@ -462,31 +462,35 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
 
     function tooltipText(month, year, analog19, analog20, digital19, digital20) {
         var monthText = "<b>" + month + "</b>"
-        var year19 = "<p>2019:</p>"
+        var year19 = "<tr><td>2019</td>"
+        var emptyCell19 = "<tr><td></td>"
         if (year == 2019) {
-            year19 = "<p class='selected_year'>2019:</p>"
+            year19 = "<tr class='selected_year'><td>2019</td>"
+            emptyCell19 = "<tr class='selected_year'><td></td>"
         }
 
-        var year20 = "<p>2020:</p>"
+        var year20 = "<tr><td>2020</td>"
+        var emptyCell20 = "<tr><td></td>"
         if (year == 2020) {
-            year20 = "<p class='selected_year'>2020:</p>"
+            year20 = "<tr class='selected_year'><td>2020</td>"
+            emptyCell20 = "<tr class='selected_year'><td></td>"
         }
 
 
         if (analog19 !== "" && analog20 !== "" && digital19 === "" && digital20 === "") {
-            var ana19 = "<p class='analog_text'>" + analog19 + "</p>"
-            var ana20 = "<p class='analog_text'>" + analog20 + "</p>"
-            return monthText + year19 + ana19 + year20 + ana20
+            var ana19 = "<td class='analog_text'>" + analog19 + "</td></tr>"
+            var ana20 = "<td class='analog_text'>" + analog20 + "</td></tr>"
+            return monthText + "<table>" +year19 + ana19 + year20 + ana20+"</table>"
         } else if (analog19 === "" && analog20 === "" && digital19 !== "" && digital20 !== "") {
-            var dig19 = "<p class='digital_text'>" + digital19 + "</p>"
-            var dig20 = "<p class='digital_text'>" + digital20 + "</p>"
-            return monthText + year19 + dig19 + year20 + dig20
+            var dig19 = "<td class='digital_text'>" + digital19 + "</td></tr>"
+            var dig20 = "<td class='digital_text'>" + digital20 + "</td></tr>"
+            return monthText + "<table>"+ year19 + dig19 + year20 + dig20 + "</table>"
         } else if (analog19 !== "" && analog20 !== "" && digital19 !== "" && digital20 !== "") {
-            var ana19 = "<p class='analog_text'>" + analog19 + "</p>"
-            var ana20 = "<p class='analog_text'>" + analog20 + "</p>"
-            var dig19 = "<p class='digital_text'>" + digital19 + "</p><br>"
-            var dig20 = "<p class='digital_text'>" + digital20 + "</p>"
-            return monthText + year19 + ana19 + dig19 + year20 + ana20 + dig20
+            var ana19 = "<td class='analog_text'>" + analog19 + "</td></tr>"
+            var ana20 = "<td class='analog_text'>" + analog20 + "</td></tr>"
+            var dig19 = "<td class='digital_text'>" + digital19 + "</td></tr><br>"
+            var dig20 = "<td class='digital_text'>" + digital20 + "</td></tr>"
+            return monthText + "<table>"+ year19 + ana19 + emptyCell19 +dig19 + year20 + ana20 + emptyCell20 +dig20+ "</table>"
         }
     }
 
