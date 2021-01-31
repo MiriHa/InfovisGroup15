@@ -499,3 +499,76 @@ text.year {
     opacity: 0.4;
     color: white;
 }
+
+
+
+
+.analog_text{
+    color: #e28743;
+}
+
+.digital_text{
+    color: #1e81b0;
+}
+
+
+
+
+
+
+
+#popup_header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.all-data-categories{
+    width: 100%;
+    height: 250px;
+}
+
+.data_popup{
+    width: auto;
+    height: auto;
+    max-width: 960px;
+    max-height: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    grid-area: bubbles;
+}
+
+.all-data-categories li span {
+    display: block;
+    float: left;
+    height: 20px;
+    width: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    border: 1px solid #999;
+    color: #DBDBDB;
+}
+
+.all-data-categories p {
+    display: inline;
+}
+
+.data_popup ul{
+    width: auto;
+    height: auto;
+    max-width: 960px;
+    max-height: 700px;
+    grid-area: bubbles;
+}
+
+.data_popup ul li {
+    list-style: none;
+    margin-left: 5px;
+    line-height: 20px;
+    margin-bottom: 7px;
+    color: #DBDBDB;
+}
+
