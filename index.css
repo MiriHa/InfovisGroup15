@@ -532,11 +532,11 @@ text.year {
     height: auto;
     max-width: 960px;
     max-height: 700px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 40px;
-    margin-bottom: 40px;
     grid-area: bubbles;
+    margin: 10px auto;
+    padding: 18px;
+    background-color:var(--blue_background);
+    border-radius: 25px;
 }
 
 .all-data-categories li span {
@@ -570,5 +570,25 @@ text.year {
     line-height: 20px;
     margin-bottom: 7px;
     color: #DBDBDB;
+}
+
+
+#popup_body{
+    text-align: left;
+}
+
+#popup_body a:link{
+    color: var(--blue_areas);
+    text-decoration: none;
+}
+
+#popup_body a:visited{
+    color:var(--blue_areas);
+    text-decoration: none;
+}
+
+#popup_body a:hover{
+    color: red;
+    text-decoration: underline;
 }
 
