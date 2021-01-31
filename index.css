@@ -578,17 +578,17 @@ text.year {
 }
 
 #popup_body a:link{
-    color: var(--blue_areas);
+    color: #808080;
     text-decoration: none;
 }
 
 #popup_body a:visited{
-    color:var(--blue_areas);
+    color:#808080;
     text-decoration: none;
 }
 
 #popup_body a:hover{
-    color: red;
+    color: var(--blue_areas);
     text-decoration: underline;
 }
 
