@@ -372,6 +372,123 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
 
     highlightMonth();
     yearIndicator();
+    prepareDataForTooltip()
+
+
+    function prepareDataForTooltip() {
+        var year = currentYear
+        const date = new Date(year, currentSliderPosition, 1);
+        const month = date.toLocaleString('default', {month: 'long'});
+        console.log("selected month = " + month)
+        var analog19 = ""
+        var analog20 = ""
+        var digital19 = ""
+        var digital20 = ""
+        var currentSelectedMonth = currentSliderPosition + 1
+        var monthNumber = currentSelectedMonth.toString()
+        if (currentSelectedMonth < 10) {
+            monthNumber = "0" + currentSelectedMonth
+        }
+
+        if (aData > 0 && dData === 0) {
+            analogData.forEach(function (d) {
+                if (d.ser1 === ("2019" + monthNumber)) {
+                    analog19 = d.ser2
+                } else if (d.ser1 === ("2020" + monthNumber)) {
+                    analog20 = d.ser2
+                }
+            })
+        } else if (aData === 0 && dData > 0) {
+            digitalData.forEach(function (d) {
+                if (d.ser1 === ("2019" + monthNumber)) {
+                    digital19 = d.ser2
+                } else if (d.ser1 === ("2020" + monthNumber)) {
+                    digital20 = d.ser2
+                }
+            })
+        } else if (aData > 0 && dData > 0) {
+            // both
+            analogData.forEach(function (d) {
+                if (d.ser1 === ("2019" + monthNumber)) {
+                    analog19 = d.ser2
+                } else if (d.ser1 === ("2020" + monthNumber)) {
+                    analog20 = d.ser2
+                }
+            })
+            digitalData.forEach(function (d) {
+                if (d.ser1 === ("2019" + monthNumber)) {
+                    digital19 = d.ser2
+                } else if (d.ser1 === ("2020" + monthNumber)) {
+                    digital20 = d.ser2
+                }
+            })
+        }
+
+        tooltipForHighlight(month, year, analog19, analog20, digital19, digital20)
+    }
+
+
+    function tooltipForHighlight(month, year, analog19, analog20, digital19, digital20) {
+        var tooltip = d3.select("#bottomDiagram")
+            .append("div")
+            .style("opacity", 0)
+            .attr("class", "tooltip")
+            .style("background-color", "white")
+            .style("border-radius", "5px")
+            .style("padding", "10px")
+            .style("color", "#39475c")
+            .style("position", "absolute")
+
+        chart.selectAll(".highlight")
+            .on('mouseenter', function () {
+                console.log("mouse over rect")
+                var mouse = d3.pointer(event, chart.node());
+                console.log("mouseover: " + mouse)
+                // TODO: tooltip is not positioned corectly
+                tooltip.transition().duration(200).style("opacity", .9);
+                tooltip
+                    .html(tooltipText(month, year, analog19, analog20, digital19, digital20))
+                    .style("left", mouse[0])
+                    .style("top", mouse[1])
+
+            })
+            .on('mouseleave', function () {
+                console.log("mouse leave rect")
+                var mouse = d3.pointer(event, chart.node());
+                console.log("mouseleave: " + mouse)
+                tooltip.transition().duration(500).style("opacity", 0);
+            })
+    }
+
+    function tooltipText(month, year, analog19, analog20, digital19, digital20) {
+        var monthText = "<b>" + month + "</b>"
+        var year19 = "<p>2019:</p>"
+        if (year == 2019) {
+            year19 = "<p class='selected_year'>2019:</p>"
+        }
+
+        var year20 = "<p>2020:</p>"
+        if (year == 2020) {
+            year20 = "<p class='selected_year'>2020:</p>"
+        }
+
+
+        if (analog19 !== "" && analog20 !== "" && digital19 === "" && digital20 === "") {
+            var ana19 = "<p class='analog_text'>" + analog19 + "</p>"
+            var ana20 = "<p class='analog_text'>" + analog20 + "</p>"
+            return monthText + year19 + ana19 + year20 + ana20
+        } else if (analog19 === "" && analog20 === "" && digital19 !== "" && digital20 !== "") {
+            var dig19 = "<p class='digital_text'>" + digital19 + "</p>"
+            var dig20 = "<p class='digital_text'>" + digital20 + "</p>"
+            return monthText + year19 + dig19 + year20 + dig20
+        } else if (analog19 !== "" && analog20 !== "" && digital19 !== "" && digital20 !== "") {
+            var ana19 = "<p class='analog_text'>" + analog19 + "</p>"
+            var ana20 = "<p class='analog_text'>" + analog20 + "</p>"
+            var dig19 = "<p class='digital_text'>" + digital19 + "</p><br>"
+            var dig20 = "<p class='digital_text'>" + digital20 + "</p>"
+            return monthText + year19 + ana19 + dig19 + year20 + ana20 + dig20
+        }
+    }
 
 
     // highlights the in slider selected month, and also the depending one of the other year

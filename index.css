@@ -499,3 +499,14 @@ text.year {
     opacity: 0.4;
     color: white;
 }
+
+
+
+
+.analog_text{
+    color: #e28743;
+}
+
+.digital_text{
+    color: #1e81b0;
+}
