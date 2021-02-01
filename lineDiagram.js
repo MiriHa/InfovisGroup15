@@ -1,13 +1,11 @@
 // var currentDataTitle; // name of the magazin / newspaper etc.
 var detailLevel = 0;
-var lineValue // test
-var file1Data // test
-var file2Data // test
+const TAG = "LineDiagram "
 
 function parser(analog, digital) {
     // Get the title of the current selection; relevant for the tooltip
-    function getDataTitle(d){
-        currentDataTitle = d.Titel; 
+    function getDataTitle(d) {
+        currentDataTitle = d.Titel;
     }
 
     console.log("Parser:")
@@ -31,18 +29,18 @@ function parser(analog, digital) {
 
     // Dictionary of all .csv files (aka data sets)
     const csv_files_analog = new Map([
-        [SPORT , PATH_ANALOG_SPORT],
-        [NEWS , PATH_ANALOG_NEWS],
-        [HEALTH , PATH_ANALOG_HEALTH],
-        [FREETIME , PATH_ANALOG_FREETIME]
+            [SPORT, PATH_ANALOG_SPORT],
+            [NEWS, PATH_ANALOG_NEWS],
+            [HEALTH, PATH_ANALOG_HEALTH],
+            [FREETIME, PATH_ANALOG_FREETIME]
         ]
     )
 
     const csv_files_digital = new Map([
-            [SPORT , PATH_DIGITAL_SPORT],
-            [NEWS , PATH_DIGITAL_NEWS],
-            [HEALTH , PATH_DIGITAL_HEALTH],
-            [FREETIME , PATH_DIGITAL_FREETIME]
+            [SPORT, PATH_DIGITAL_SPORT],
+            [NEWS, PATH_DIGITAL_NEWS],
+            [HEALTH, PATH_DIGITAL_HEALTH],
+            [FREETIME, PATH_DIGITAL_FREETIME]
         ]
     )
 
@@ -60,27 +58,27 @@ function parser(analog, digital) {
 
 
     if (path_csv_analog != null) {
-        if(path_csv_digital != null){
+        if (path_csv_digital != null) {
             //both
             Promise.all([
                 // Open file(s)
                 d3.csv(path_csv_analog),
                 d3.csv(path_csv_digital),
-            ]).then(function(files) {
-                console.log("loading both successful")
+            ]).then(function (files) {
+                console.log(TAG + "- parser: loading both successful")
                 // files[0] will contain file1.csv
                 // files[1] will contain file2.csv
-                file1Data = files[0]
-                file2Data = files[1]
+                var file1Data = files[0]
+                var file2Data = files[1]
 
-                file1Data.slice().reverse().forEach(function (d){
+                file1Data.slice().reverse().forEach(function (d) {
                     // Build analogData block (fill array)
-                    if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+                    if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                         var feed = {ser1: d.Monat, ser2: Number(d.VerkaufLinear)};
-                        if(analogSource === ""){
+                        if (analogSource === "") {
                             analogSource = SOURCE_ANALOG + d.Quellzusatz
                         }
-                        if(analogTitle === ""){
+                        if (analogTitle === "") {
                             analogTitle = d.Titel; // getDataTitle(d)  vs. d.Titel
                         }
                         analogData.push(feed);
@@ -88,39 +86,38 @@ function parser(analog, digital) {
 
                 })
 
-                file2Data.slice().reverse().forEach(function (d){
+                file2Data.slice().reverse().forEach(function (d) {
                     // Build digitalData block (fill array)
-                    if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+                    if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                         var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
-                        if(digitalSource === ""){
+                        if (digitalSource === "") {
                             digitalSource = SOURCE_DIGITAL
                         }
-                        if(digitalTitle === ""){
+                        if (digitalTitle === "") {
                             digitalTitle = d.Bezeichnung
                         }
                         digitalData.push(feed);
                     }
                 })
 
-                visualizeLineDiagram(analogData,digitalData, analogSource, digitalSource, analogTitle, digitalTitle)
+                visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitle, digitalTitle)
 
-            }).catch(function(err) {
-                // handle error
-                console.log("loading error" + err)
+            }).catch(function (err) {
+                console.log(TAG + "- parser: loading error for analog and digital files: " + err)
             })
-        } else{
+        } else {
             // only analog
             d3.csv(path_csv_analog)
                 .then(function (data) {
-                    console.log("loaded analog successfully")
+                    console.log(TAG + "-parser: loaded analog successfully")
                     data.slice().reverse().forEach(function (d) {
                         // Build analogData block (fill array)
-                        if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+                        if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                             var feed = {ser1: d.Monat, ser2: Number(d.VerkaufLinear)};
-                            if(analogSource === ""){
+                            if (analogSource === "") {
                                 analogSource = SOURCE_ANALOG + d.Quellzusatz
                             }
-                            if(analogTitle === ""){
+                            if (analogTitle === "") {
                                 analogTitle = d.Titel; // getDataTitle(d)  vs. d.Titel 
                             }
                             analogData.push(feed);
@@ -131,7 +128,7 @@ function parser(analog, digital) {
                     visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitle, digitalTitle)
                 })
                 .catch(function (error) {
-                    console.log("loading analog error " + error)
+                    console.log(TAG + "-parser: loading analog file error " + error)
                 })
         }
 
@@ -139,15 +136,15 @@ function parser(analog, digital) {
         // only digital
         d3.csv(path_csv_digital)
             .then(function (data) {
-                console.log("loaded digital successfully")
+                console.log(TAG + "-parser: loaded digital successfully")
                 data.slice().reverse().forEach(function (d) {
-                    // Build analogData block (fill array)
-                    if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+                    // Build digitalData block (fill array)
+                    if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                         var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
-                        if(digitalSource === ""){
+                        if (digitalSource === "") {
                             digitalSource = SOURCE_DIGITAL
                         }
-                        if(digitalTitle === ""){
+                        if (digitalTitle === "") {
                             digitalTitle = d.Bezeichnung
                         }
                         digitalData.push(feed);
@@ -157,11 +154,9 @@ function parser(analog, digital) {
                 visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitle, digitalTitle)
             })
             .catch(function (error) {
-                console.log("loading digital error " + error)
+                console.log(TAG + "-parser: loading digital file error " + error)
             })
     } else {
-        // no data
-        console.log("parser no data")
         // compute all analog and digital
         Promise.all([
             // Open file(s)
@@ -173,10 +168,8 @@ function parser(analog, digital) {
             d3.csv(csv_files_digital.get(NEWS)),
             d3.csv(csv_files_digital.get(HEALTH)),
             d3.csv(csv_files_digital.get(FREETIME)),
-        ]).then(function(files) {
-            console.log("parser loading all successful")
-            // files[0] will contain file1.csv
-            // files[1] will contain file2.csv
+        ]).then(function (files) {
+            console.log(TAG + "- parser: loading all files successful")
             var fileA1 = files[0]
             var fileA2 = files[1]
             var fileA3 = files[2]
@@ -191,21 +184,21 @@ function parser(analog, digital) {
             var analogData3 = []
             var analogData4 = []
 
-            fileA1.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+            fileA1.slice().reverse().forEach(function (d) {
+                if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                     var feed = {ser1: d.Monat, ser2: Number(d.VerkaufLinear)};
-                    if(analogSource === ""){
+                    if (analogSource === "") {
                         analogSource = SOURCE_ANALOG
                     }
                     analogData1.push(feed);
                 }
             })
 
-            fileA2.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
-                    analogData1.forEach(function(a){
-                        if(a.ser1 == d.Monat){
-                            var newSer2 = a.ser2+Number(d.VerkaufLinear)
+            fileA2.slice().reverse().forEach(function (d) {
+                if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+                    analogData1.forEach(function (a) {
+                        if (a.ser1 == d.Monat) {
+                            var newSer2 = a.ser2 + Number(d.VerkaufLinear)
                             var feed = {ser1: d.Monat, ser2: newSer2};
                             analogData2.push(feed)
                         }
@@ -213,11 +206,11 @@ function parser(analog, digital) {
                 }
             })
 
-            fileA3.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
-                    analogData2.forEach(function(a){
-                        if(a.ser1 == d.Monat){
-                            var newSer2 = a.ser2+Number(d.VerkaufLinear)
+            fileA3.slice().reverse().forEach(function (d) {
+                if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+                    analogData2.forEach(function (a) {
+                        if (a.ser1 == d.Monat) {
+                            var newSer2 = a.ser2 + Number(d.VerkaufLinear)
                             var feed = {ser1: d.Monat, ser2: newSer2};
                             analogData3.push(feed)
                         }
@@ -225,11 +218,11 @@ function parser(analog, digital) {
                 }
             })
 
-            fileA4.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
-                    analogData3.forEach(function(a){
-                        if(a.ser1 == d.Monat){
-                            var newSer2 = a.ser2+Number(d.VerkaufLinear)
+            fileA4.slice().reverse().forEach(function (d) {
+                if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+                    analogData3.forEach(function (a) {
+                        if (a.ser1 == d.Monat) {
+                            var newSer2 = a.ser2 + Number(d.VerkaufLinear)
                             var feed = {ser1: d.Monat, ser2: newSer2};
                             analogData4.push(feed)
                         }
@@ -238,8 +231,8 @@ function parser(analog, digital) {
             })
 
             var analogData5 = []
-            analogData4.forEach(function(b){
-                var feed = {ser1: b.ser1, ser2: (b.ser2/4)};
+            analogData4.forEach(function (b) {
+                var feed = {ser1: b.ser1, ser2: (b.ser2 / 4)};
                 analogData5.push(feed)
             })
             analogData = analogData5
@@ -250,21 +243,21 @@ function parser(analog, digital) {
             var digitalData3 = []
             var digitalData4 = []
 
-            fileD1.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+            fileD1.slice().reverse().forEach(function (d) {
+                if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                     var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
-                    if(digitalSource === ""){
+                    if (digitalSource === "") {
                         digitalSource = SOURCE_DIGITAL
                     }
                     digitalData1.push(feed);
                 }
             })
 
-            fileD2.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
-                    digitalData1.forEach(function(a){
-                        if(a.ser1 == d.Monat){
-                            var newSer2 = a.ser2+Number(d.KatVisits)
+            fileD2.slice().reverse().forEach(function (d) {
+                if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+                    digitalData1.forEach(function (a) {
+                        if (a.ser1 == d.Monat) {
+                            var newSer2 = a.ser2 + Number(d.KatVisits)
                             var feed = {ser1: d.Monat, ser2: newSer2};
                             digitalData2.push(feed)
                         }
@@ -272,11 +265,11 @@ function parser(analog, digital) {
                 }
             })
 
-            fileD3.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
-                    digitalData2.forEach(function(a){
-                        if(a.ser1 == d.Monat){
-                            var newSer2 = a.ser2+Number(d.KatVisits)
+            fileD3.slice().reverse().forEach(function (d) {
+                if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+                    digitalData2.forEach(function (a) {
+                        if (a.ser1 == d.Monat) {
+                            var newSer2 = a.ser2 + Number(d.KatVisits)
                             var feed = {ser1: d.Monat, ser2: newSer2};
                             digitalData3.push(feed)
                         }
@@ -284,11 +277,11 @@ function parser(analog, digital) {
                 }
             })
 
-            fileD4.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
-                    digitalData3.forEach(function(a){
-                        if(a.ser1 == d.Monat){
-                            var newSer2 = a.ser2+Number(d.KatVisits)
+            fileD4.slice().reverse().forEach(function (d) {
+                if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+                    digitalData3.forEach(function (a) {
+                        if (a.ser1 == d.Monat) {
+                            var newSer2 = a.ser2 + Number(d.KatVisits)
                             var feed = {ser1: d.Monat, ser2: newSer2};
                             digitalData4.push(feed)
                         }
@@ -297,17 +290,16 @@ function parser(analog, digital) {
             })
 
             var digitalData5 = []
-            digitalData4.forEach(function(b){
-                var feed = {ser1: b.ser1, ser2: (b.ser2/4)};
+            digitalData4.forEach(function (b) {
+                var feed = {ser1: b.ser1, ser2: (b.ser2 / 4)};
                 digitalData5.push(feed)
             })
             digitalData = digitalData5
 
-            visualizeLineDiagram(analogData,digitalData, analogSource, digitalSource, analogTitle, digitalTitle)
+            visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitle, digitalTitle)
 
-        }).catch(function(err) {
-            // handle error
-            console.log("loading error" + err)
+        }).catch(function (err) {
+            console.log(TAG + "- parser: loading all files error" + err)
         })
     }
 }
