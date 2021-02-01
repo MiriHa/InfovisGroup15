@@ -97,7 +97,7 @@ json1 = {
 
 var bubbleName;
 
-// Scroll to the bootom of the page when arrow clicked
+// Scroll to the bottom of the page when the arrow in the intro is clicked
 function scrollDown(){
     window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
 }

@@ -1,19 +1,15 @@
-/**
- *  Info text of used data
- */
-
 var popup = d3.select("#data_popup")
 var infoBtn = d3.select("#info_button")
 
 /**
  * Opens the popup with information about the data and makes button to open the popub invisible
  */
+
 d3.select("#info_button").on("click", function(d){
     console.log("open popup")
     popup
         .style("visibility", "visible")
         .style("top",100)
-        .style("left",10)
     infoBtn
         .style("visibility", "hidden")
 })
@@ -30,6 +26,3 @@ function closePopup(){
         .style("visibility", "visible")
 }
 
-function scrollDown(){
-    window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
-}
