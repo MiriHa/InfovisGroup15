@@ -14,19 +14,19 @@ const data_monthly = [
     {ser1: "Dez", ser2: 1760520.0}
 ];
 
-const data_total = [
-    {ser1: "Jan", ser2: 18.0},
-    {ser1: "Feb", ser2: 561.0},
-    {ser1: "Mär", ser2: 588179.0},
-    {ser1: "Apr", ser2: 3942925.0},
-    {ser1: "Mai", ser2: 5427815.0},
-    {ser1: "Jun", ser2: 5670762.0},
-    {ser1: "Jul", ser2: 6265079.0},
-    {ser1: "Aug", ser2: 7024733.0},
-    {ser1: "Sep", ser2: 8023521.0},
-    {ser1: "Okt", ser2: 11653042.0},
-    {ser1: "Nov", ser2: 24564361.0},
-    {ser1: "Dez", ser2: 44141683.0}
+const data_new = [
+    {ser1: "Jan", ser2: 5.0},
+    {ser1: "Feb", ser2: 74.0},
+    {ser1: "Mär", ser2: 71729.0},
+    {ser1: "Apr", ser2: 91201.0},
+    {ser1: "Mai", ser2: 20401.0},
+    {ser1: "Jun", ser2: 12008.0},
+    {ser1: "Jul", ser2: 14981.0},
+    {ser1: "Aug", ser2: 34403.0},
+    {ser1: "Sep", ser2: 48111.0},
+    {ser1: "Okt", ser2: 238877.0},
+    {ser1: "Nov", ser2: 538122.0},
+    {ser1: "Dez", ser2: 690608.0}
 ]
 
 // set the dimensions and margins of the graph
@@ -50,7 +50,7 @@ function changeYear() {
         currentCase = TOTAL_CASE
         shownCaseButton = MONTH_CASE
         var svg = d3.select("#topDiagram").selectAll("svg").remove()
-        update(data_total)
+        update(data_new)
     }
 
 }
