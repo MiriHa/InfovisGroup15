@@ -1,13 +1,9 @@
-// var currentDataTitle; // name of the magazin / newspaper etc.
-var detailLevel = 0;
-var lineValue // test
-var file1Data // test
-var file2Data // test
+const TAG = "LineDiagram "
 
 function parser(analog, digital) {
     // Get the title of the current selection; relevant for the tooltip
-    function getDataTitle(d){
-        currentDataTitle = d.Titel; 
+    function getDataTitle(d) {
+        currentDataTitle = d.Titel;
     }
 
     console.log("Parser:")
@@ -31,18 +27,18 @@ function parser(analog, digital) {
 
     // Dictionary of all .csv files (aka data sets)
     const csv_files_analog = new Map([
-        [SPORT , PATH_ANALOG_SPORT],
-        [NEWS , PATH_ANALOG_NEWS],
-        [HEALTH , PATH_ANALOG_HEALTH],
-        [FREETIME , PATH_ANALOG_FREETIME]
+            [SPORT, PATH_ANALOG_SPORT],
+            [NEWS, PATH_ANALOG_NEWS],
+            [HEALTH, PATH_ANALOG_HEALTH],
+            [FREETIME, PATH_ANALOG_FREETIME]
         ]
     )
 
     const csv_files_digital = new Map([
-            [SPORT , PATH_DIGITAL_SPORT],
-            [NEWS , PATH_DIGITAL_NEWS],
-            [HEALTH , PATH_DIGITAL_HEALTH],
-            [FREETIME , PATH_DIGITAL_FREETIME]
+            [SPORT, PATH_DIGITAL_SPORT],
+            [NEWS, PATH_DIGITAL_NEWS],
+            [HEALTH, PATH_DIGITAL_HEALTH],
+            [FREETIME, PATH_DIGITAL_FREETIME]
         ]
     )
 
@@ -60,27 +56,27 @@ function parser(analog, digital) {
 
 
     if (path_csv_analog != null) {
-        if(path_csv_digital != null){
+        if (path_csv_digital != null) {
             //both
             Promise.all([
                 // Open file(s)
                 d3.csv(path_csv_analog),
                 d3.csv(path_csv_digital),
-            ]).then(function(files) {
-                console.log("loading both successful")
+            ]).then(function (files) {
+                console.log(TAG + "- parser: loading both successful")
                 // files[0] will contain file1.csv
                 // files[1] will contain file2.csv
-                file1Data = files[0]
-                file2Data = files[1]
+                var file1Data = files[0]
+                var file2Data = files[1]
 
-                file1Data.slice().reverse().forEach(function (d){
+                file1Data.slice().reverse().forEach(function (d) {
                     // Build analogData block (fill array)
-                    if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+                    if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                         var feed = {ser1: d.Monat, ser2: Number(d.VerkaufLinear)};
-                        if(analogSource === ""){
+                        if (analogSource === "") {
                             analogSource = SOURCE_ANALOG + d.Quellzusatz
                         }
-                        if(analogTitle === ""){
+                        if (analogTitle === "") {
                             analogTitle = d.Titel; // getDataTitle(d)  vs. d.Titel
                         }
                         analogData.push(feed);
@@ -88,40 +84,39 @@ function parser(analog, digital) {
 
                 })
 
-                file2Data.slice().reverse().forEach(function (d){
+                file2Data.slice().reverse().forEach(function (d) {
                     // Build digitalData block (fill array)
-                    if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+                    if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                         var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
-                        if(digitalSource === ""){
+                        if (digitalSource === "") {
                             digitalSource = SOURCE_DIGITAL
                         }
-                        if(digitalTitle === ""){
+                        if (digitalTitle === "") {
                             digitalTitle = d.Bezeichnung
                         }
                         digitalData.push(feed);
                     }
                 })
 
-                visualizeLineDiagram(analogData,digitalData, analogSource, digitalSource, analogTitle, digitalTitle)
+                visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitle, digitalTitle)
 
-            }).catch(function(err) {
-                // handle error
-                console.log("loading error" + err)
+            }).catch(function (err) {
+                console.log(TAG + "- parser: loading error for analog and digital files: " + err)
             })
-        } else{
+        } else {
             // only analog
             d3.csv(path_csv_analog)
                 .then(function (data) {
-                    console.log("loaded analog successfully")
+                    console.log(TAG + "-parser: loaded analog successfully")
                     data.slice().reverse().forEach(function (d) {
                         // Build analogData block (fill array)
-                        if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+                        if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                             var feed = {ser1: d.Monat, ser2: Number(d.VerkaufLinear)};
-                            if(analogSource === ""){
+                            if (analogSource === "") {
                                 analogSource = SOURCE_ANALOG + d.Quellzusatz
                             }
-                            if(analogTitle === ""){
-                                analogTitle = d.Titel; // getDataTitle(d)  vs. d.Titel 
+                            if (analogTitle === "") {
+                                analogTitle = d.Titel; // getDataTitle(d)  vs. d.Titel
                             }
                             analogData.push(feed);
                         }
@@ -131,7 +126,7 @@ function parser(analog, digital) {
                     visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitle, digitalTitle)
                 })
                 .catch(function (error) {
-                    console.log("loading analog error " + error)
+                    console.log(TAG + "-parser: loading analog file error " + error)
                 })
         }
 
@@ -139,15 +134,15 @@ function parser(analog, digital) {
         // only digital
         d3.csv(path_csv_digital)
             .then(function (data) {
-                console.log("loaded digital successfully")
+                console.log(TAG + "-parser: loaded digital successfully")
                 data.slice().reverse().forEach(function (d) {
-                    // Build analogData block (fill array)
-                    if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+                    // Build digitalData block (fill array)
+                    if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                         var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
-                        if(digitalSource === ""){
+                        if (digitalSource === "") {
                             digitalSource = SOURCE_DIGITAL
                         }
-                        if(digitalTitle === ""){
+                        if (digitalTitle === "") {
                             digitalTitle = d.Bezeichnung
                         }
                         digitalData.push(feed);
@@ -157,11 +152,9 @@ function parser(analog, digital) {
                 visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitle, digitalTitle)
             })
             .catch(function (error) {
-                console.log("loading digital error " + error)
+                console.log(TAG + "-parser: loading digital file error " + error)
             })
     } else {
-        // no data
-        console.log("parser no data")
         // compute all analog and digital
         Promise.all([
             // Open file(s)
@@ -173,10 +166,8 @@ function parser(analog, digital) {
             d3.csv(csv_files_digital.get(NEWS)),
             d3.csv(csv_files_digital.get(HEALTH)),
             d3.csv(csv_files_digital.get(FREETIME)),
-        ]).then(function(files) {
-            console.log("parser loading all successful")
-            // files[0] will contain file1.csv
-            // files[1] will contain file2.csv
+        ]).then(function (files) {
+            console.log(TAG + "- parser: loading all files successful")
             var fileA1 = files[0]
             var fileA2 = files[1]
             var fileA3 = files[2]
@@ -191,21 +182,21 @@ function parser(analog, digital) {
             var analogData3 = []
             var analogData4 = []
 
-            fileA1.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+            fileA1.slice().reverse().forEach(function (d) {
+                if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                     var feed = {ser1: d.Monat, ser2: Number(d.VerkaufLinear)};
-                    if(analogSource === ""){
+                    if (analogSource === "") {
                         analogSource = SOURCE_ANALOG
                     }
                     analogData1.push(feed);
                 }
             })
 
-            fileA2.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
-                    analogData1.forEach(function(a){
-                        if(a.ser1 == d.Monat){
-                            var newSer2 = a.ser2+Number(d.VerkaufLinear)
+            fileA2.slice().reverse().forEach(function (d) {
+                if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+                    analogData1.forEach(function (a) {
+                        if (a.ser1 == d.Monat) {
+                            var newSer2 = a.ser2 + Number(d.VerkaufLinear)
                             var feed = {ser1: d.Monat, ser2: newSer2};
                             analogData2.push(feed)
                         }
@@ -213,11 +204,11 @@ function parser(analog, digital) {
                 }
             })
 
-            fileA3.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
-                    analogData2.forEach(function(a){
-                        if(a.ser1 == d.Monat){
-                            var newSer2 = a.ser2+Number(d.VerkaufLinear)
+            fileA3.slice().reverse().forEach(function (d) {
+                if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+                    analogData2.forEach(function (a) {
+                        if (a.ser1 == d.Monat) {
+                            var newSer2 = a.ser2 + Number(d.VerkaufLinear)
                             var feed = {ser1: d.Monat, ser2: newSer2};
                             analogData3.push(feed)
                         }
@@ -225,11 +216,11 @@ function parser(analog, digital) {
                 }
             })
 
-            fileA4.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
-                    analogData3.forEach(function(a){
-                        if(a.ser1 == d.Monat){
-                            var newSer2 = a.ser2+Number(d.VerkaufLinear)
+            fileA4.slice().reverse().forEach(function (d) {
+                if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+                    analogData3.forEach(function (a) {
+                        if (a.ser1 == d.Monat) {
+                            var newSer2 = a.ser2 + Number(d.VerkaufLinear)
                             var feed = {ser1: d.Monat, ser2: newSer2};
                             analogData4.push(feed)
                         }
@@ -238,8 +229,8 @@ function parser(analog, digital) {
             })
 
             var analogData5 = []
-            analogData4.forEach(function(b){
-                var feed = {ser1: b.ser1, ser2: (b.ser2/4)};
+            analogData4.forEach(function (b) {
+                var feed = {ser1: b.ser1, ser2: (b.ser2 / 4)};
                 analogData5.push(feed)
             })
             analogData = analogData5
@@ -250,21 +241,21 @@ function parser(analog, digital) {
             var digitalData3 = []
             var digitalData4 = []
 
-            fileD1.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+            fileD1.slice().reverse().forEach(function (d) {
+                if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
                     var feed = {ser1: d.Monat, ser2: Number(d.KatVisits)};
-                    if(digitalSource === ""){
+                    if (digitalSource === "") {
                         digitalSource = SOURCE_DIGITAL
                     }
                     digitalData1.push(feed);
                 }
             })
 
-            fileD2.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
-                    digitalData1.forEach(function(a){
-                        if(a.ser1 == d.Monat){
-                            var newSer2 = a.ser2+Number(d.KatVisits)
+            fileD2.slice().reverse().forEach(function (d) {
+                if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+                    digitalData1.forEach(function (a) {
+                        if (a.ser1 == d.Monat) {
+                            var newSer2 = a.ser2 + Number(d.KatVisits)
                             var feed = {ser1: d.Monat, ser2: newSer2};
                             digitalData2.push(feed)
                         }
@@ -272,11 +263,11 @@ function parser(analog, digital) {
                 }
             })
 
-            fileD3.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
-                    digitalData2.forEach(function(a){
-                        if(a.ser1 == d.Monat){
-                            var newSer2 = a.ser2+Number(d.KatVisits)
+            fileD3.slice().reverse().forEach(function (d) {
+                if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+                    digitalData2.forEach(function (a) {
+                        if (a.ser1 == d.Monat) {
+                            var newSer2 = a.ser2 + Number(d.KatVisits)
                             var feed = {ser1: d.Monat, ser2: newSer2};
                             digitalData3.push(feed)
                         }
@@ -284,11 +275,11 @@ function parser(analog, digital) {
                 }
             })
 
-            fileD4.slice().reverse().forEach(function (d){
-                if(Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
-                    digitalData3.forEach(function(a){
-                        if(a.ser1 == d.Monat){
-                            var newSer2 = a.ser2+Number(d.KatVisits)
+            fileD4.slice().reverse().forEach(function (d) {
+                if (Number(d.Monat) >= firstDataPoint && Number(d.Monat) <= lastDataPoint) {
+                    digitalData3.forEach(function (a) {
+                        if (a.ser1 == d.Monat) {
+                            var newSer2 = a.ser2 + Number(d.KatVisits)
                             var feed = {ser1: d.Monat, ser2: newSer2};
                             digitalData4.push(feed)
                         }
@@ -297,17 +288,16 @@ function parser(analog, digital) {
             })
 
             var digitalData5 = []
-            digitalData4.forEach(function(b){
-                var feed = {ser1: b.ser1, ser2: (b.ser2/4)};
+            digitalData4.forEach(function (b) {
+                var feed = {ser1: b.ser1, ser2: (b.ser2 / 4)};
                 digitalData5.push(feed)
             })
             digitalData = digitalData5
 
-            visualizeLineDiagram(analogData,digitalData, analogSource, digitalSource, analogTitle, digitalTitle)
+            visualizeLineDiagram(analogData, digitalData, analogSource, digitalSource, analogTitle, digitalTitle)
 
-        }).catch(function(err) {
-            // handle error
-            console.log("loading error" + err)
+        }).catch(function (err) {
+            console.log(TAG + "- parser: loading all files error" + err)
         })
     }
 }
@@ -324,10 +314,16 @@ var tooltip_line = d3.select("#bottomDiagram")
     .style("color", "white")
     .style("position", "absolute")
 
-
-// Visualize the line diagram
-function visualizeLineDiagram(analogData="", digitalData="", analogSource="", digitalSource="", analogTitle="", digitalTitle="") {
-
+/**
+ * All stuff to draw line diagram with all features
+ * @param analogData Data to show
+ * @param digitalData Data to show
+ * @param analogSource Source of analog data
+ * @param digitalSource Source of digital data
+ * @param analogTitle Title of analog data
+ * @param digitalTitle Title of digital data
+ */
+function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = "", digitalSource = "", analogTitle = "", digitalTitle = "") {
     // set the dimensions and margins of the graph
     const Margin = DIAGRAM_MARGIN;
     const width = DIAGRAM_WIDTH - Margin;
@@ -352,6 +348,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
     // Init Chart
     initChart();
 
+    // depending on the data decide what to do
     if (aData > 0 && dData === 0) {
         axes(analogData);
         line(analogData, ANALOG);
@@ -388,6 +385,9 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
     prepareDataForTooltip()
 
 
+    /**
+     * Preparation of all data that should be displayed in tooltip
+     */
     function prepareDataForTooltip() {
         var year = currentYear
         const date = new Date(year, currentSliderPosition, 1);
@@ -440,8 +440,18 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         tooltipForHighlight(month, currentSelectedMonth, year, analog19, analog20, digital19, digital20)
     }
 
-
-    function tooltipForHighlight(month, monthNumber ,year, analog19, analog20, digital19, digital20) {
+    /**
+     * When hovering over the highlight rect the tooltpip should be made visible
+     *
+     * @param month Name of current month
+     * @param monthNumber Number of current month as we know (Jan-01;Dec-12)
+     * @param year Selected year
+     * @param analog19 Datapoint of analog data of the month in 2019
+     * @param analog20 Datapoint of analog data of the month in 2020
+     * @param digital19 Datapoint of digital data of the month in 2019
+     * @param digital20 Datapoint of digital data of the month in 2020
+     */
+    function tooltipForHighlight(month, monthNumber, year, analog19, analog20, digital19, digital20) {
         chart.selectAll(".highlight")
             .on('mouseover', function () {
                 console.log("mouse over rect")
@@ -451,18 +461,18 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
                 tooltip_line.transition().duration(100).style("opacity", 0.9);
                 tooltip_line
                     .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
-                    .style("left", mouse[0]+5+"px")
-                    .style("top", mouse[1]+5+"px")
+                    .style("left", mouse[0] + 5 + "px")
+                    .style("top", mouse[1] + 5 + "px")
 
             })
-            .on('mousemove',function(){
+            .on('mousemove', function () {
                 var dia = d3.select("bottomDiagram")
                 var mouse = d3.pointer(event, dia.node());
                 tooltip_line.transition().duration(100).style("opacity", 0.9);
                 tooltip_line
                     .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
-                    .style("left", mouse[0]+5+"px")
-                    .style("top", mouse[1]+5+"px")
+                    .style("left", mouse[0] + 5 + "px")
+                    .style("top", mouse[1] + 5 + "px")
             })
             .on('mouseout', function () {
                 console.log("mouse leave rect")
@@ -470,6 +480,19 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             });
     }
 
+    /**
+     * Prepares the text that should be visible in tooltip
+     *
+     * @param month Name of current month
+     * @param monthNumber Number of current month as we know (Jan-01;Dec-12)
+     * @param year Selected year
+     * @param analog19 Datapoint of analog data of the month in 2019
+     * @param analog20 Datapoint of analog data of the month in 2020
+     * @param digital19 Datapoint of digital data of the month in 2019
+     * @param digital20 Datapoint of digital data of the month in 2020
+     *
+     * @returns {string} Formated text
+     */
     function tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20) {
         var monthText = "<b>" + month + "</b>"
         var year19 = "<tr><td>2019</td>"
@@ -524,7 +547,10 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         }
     }
 
-    // Highlights the in slider selected month, and also the depending one of the other year
+
+    /**
+     * Highlights the in slider selected month, and also the depending one of the other year
+     */
     function highlightMonth() {
         var tickWidth = width
         if (aData != 0) {
@@ -537,60 +563,62 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         var firstValue = 0.5
         var firstTickEnd = firstTickWidth + firstValue
 
-        if (currentYear == 2019) {
-            console.log("lineDiagramm year 2019")
-            if (currentSliderPosition == 0) {
+        var valueOther
+        var value
+
+        if (currentYear === 2019) {
+            console.log(TAG + "- visualize: highlight in year 2019")
+            if (currentSliderPosition === 0) {
                 // 0-firstTick
                 drawRect(firstValue, firstTickWidth, true)
 
-
-                var valueOther = firstTickEnd + (currentSliderPosition + 12 - 1) * tickWidth
+                valueOther = firstTickEnd + (currentSliderPosition + 12 - 1) * tickWidth
                 drawRect(valueOther, tickWidth, false)
 
             } else {
                 //firstTick+(n-1)*tickWidth - firstTick+n*tickWidth
-                var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth
+                value = firstTickEnd + (currentSliderPosition - 1) * tickWidth
                 drawRect(value, tickWidth, true)
 
                 if (currentSliderPosition < 8) {
-                    var valueOther = firstTickEnd + (currentSliderPosition + 12 - 1) * tickWidth
+                    valueOther = firstTickEnd + (currentSliderPosition + 12 - 1) * tickWidth
                     drawRect(valueOther, tickWidth, false)
 
-                } else if (currentSliderPosition == 8) {
-                    var valueOther = firstTickEnd + (currentSliderPosition + 12 - 1) * tickWidth
+                } else if (currentSliderPosition === 8) {
+                    valueOther = firstTickEnd + (currentSliderPosition + 12 - 1) * tickWidth
                     drawRect(valueOther, firstTickWidth, false)
                 }
             }
-        } else if (currentYear == 2020) {
-            console.log("lineDiagramm year 2020")
+        } else if (currentYear === 2020) {
+            console.log(TAG + "- visualize: highlight in year 2020")
             if (currentSliderPosition < 8) {
-                var value = firstTickEnd + (currentSliderPosition + 12 - 1) * tickWidth
-                console.log("value: " + value)
+                value = firstTickEnd + (currentSliderPosition + 12 - 1) * tickWidth
                 drawRect(value, tickWidth, true)
 
-                if (currentSliderPosition == 0) {
+                if (currentSliderPosition === 0) {
                     drawRect(firstValue, firstTickWidth, false)
-
                 } else {
-                    var valueOther = firstTickEnd + (currentSliderPosition - 1) * tickWidth
+                    valueOther = firstTickEnd + (currentSliderPosition - 1) * tickWidth
                     drawRect(valueOther, tickWidth, false)
-
                 }
-            } else if (currentSliderPosition == 8) {
-                var value = firstTickEnd + (currentSliderPosition + 12 - 1) * tickWidth
-                console.log("value: " + value)
+            } else if (currentSliderPosition === 8) {
+                value = firstTickEnd + (currentSliderPosition + 12 - 1) * tickWidth
                 drawRect(value, firstTickWidth, true)
 
-
-                var valueOther = firstTickEnd + (currentSliderPosition - 1) * tickWidth
+                valueOther = firstTickEnd + (currentSliderPosition - 1) * tickWidth
                 drawRect(valueOther, tickWidth, false)
-
             } else {
-                var valueOther = firstTickEnd + (currentSliderPosition - 1) * tickWidth
+                valueOther = firstTickEnd + (currentSliderPosition - 1) * tickWidth
                 drawRect(valueOther, tickWidth, false);
             }
         }
 
+        /**
+         * Draws a rectangle at
+         * @param xValue x-position of rect
+         * @param width Widht of rect
+         * @param current If it's of the current selected year
+         */
         function drawRect(xValue = 0, width = tickWidth, current = true) {
             var color = COLOR_HIGHLIGTH_MONTH
             var opacity = OPACITY_HIGHLIGHT_MONTH
@@ -608,9 +636,10 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         }
     }
 
-    // draws a line when a new year starts and display year
+    /**
+     * Draws a line when a new year starts and display year
+     */
     function yearIndicator() {
-        // TODO change colors of text doesn't work
         var tickWidth = width
         if (aData != 0) {
             tickWidth = width / (aData - 1)
@@ -628,14 +657,11 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .attr("x2", 0)
             .attr("y1", 0)
             .attr("y2", height)
-            //.attr("stroke-width", strokeWidth)
-            //.attr("stroke", COLOR_YEAR)
         year19.append('text')
             .attr('class', 'year')
             .attr('text-anchor', 'left')
             .attr("x", xPosition)
             .attr("y", yPosition)
-            //.attr('color', COLOR_YEAR)
             .text('2019')
 
         var firstTickWidth = tickWidth / 2
@@ -659,24 +685,12 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .text('2020')
     }
 
+    /**
+     * Initializes chart with all necessary stuff
+     */
     function initChart() {
         chart = svg.append('g')
             .attr("transform", "translate(" + Margin + "," + Margin + ")")
-            /* tooltip testing */
-            /*.on("mouseover", function (d) {
-                console.log("in mouseover")
-                var matrix = this.getScreenCTM() // Get the position of the hovered object
-                    .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
-                tooltip.transition().duration(200).style("opacity", .9);
-                tooltip.html(showTooltip(d)) 
-                    .style("left", (window.pageXOffset + matrix.e + 10) + "px")
-                    .style("top", (window.pageYOffset + matrix.f - 10) + "px");
-            })
-            //Remove the tooltip
-            .on("mouseout", function (d) {
-                console.log("in mouseout")
-                tooltip.transition().duration(500).style("opacity", 0);
-            });*/
 
         // Initialise a X axis:
         x = d3.scalePoint().range([0, width]);
@@ -684,20 +698,19 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .scale(x)
             .tickFormat(function (d) {
 
-                var year = d.substring(0,4)
+                var year = d.substring(0, 4)
                 // Format number to date object
                 const date = new Date(d.replace(/(\d\d\d\d)(\d\d)/, '$1-$2'))
 
                 // short = short name of the months
                 // long = full name of the months
-                const month = date.toLocaleString('default', { month: 'short' });
+                const month = date.toLocaleString('default', {month: 'short'});
 
                 var new_date = month
 
                 return new_date
             })
-            // TODO: decide if
-            // vertical lines
+            // draw vertical lines
             .tickSize(-height);
         chart.append('g')
             .attr("transform", "translate(0," + height + ")")
@@ -708,13 +721,13 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         yAxis = d3.axisLeft()
             .scale(y)
             .tickFormat(function (d) {
-                    if ((d / 1000000) >= 1) {
-                        d = d / 1000000 + "M";
-                    } else if ((d / 1000) >= 1) {
-                        d = d / 1000 + "K";
-                    }
+                if ((d / 1000000) >= 1) {
+                    d = d / 1000000 + "M";
+                } else if ((d / 1000) >= 1) {
+                    d = d / 1000 + "K";
+                }
                 return d;
-                });
+            });
         chart.append('g')
             .attr("class", "myYaxis")
 
@@ -724,113 +737,28 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         var label_xAxis = "Verkauf / Besuche"
 
         // Analog only
-        if(analogSource !== "" && digitalSource === ""){
+        if (analogSource !== "" && digitalSource === "") {
             source += analogSource
             label_xAxis = "Verkauf"
             title = analogTitle
-            detailLevel = 1; // relevant for the tooltip
 
-        // Digital only
-        } else if(analogSource === "" && digitalSource !== ""){
+            // Digital only
+        } else if (analogSource === "" && digitalSource !== "") {
             source += digitalSource
             label_xAxis = "Besuche"
             title = digitalTitle
-            detailLevel = 2; // relevant for the tooltip
 
-        // Digital & Analog
-        } else if(analogSource !== "" && digitalSource !== ""){
+            // Digital & Analog
+        } else if (analogSource !== "" && digitalSource !== "") {
             source = source + analogSource + ", " + digitalSource
-            if(analogTitle !== "" && digitalTitle !== ""){
+            if (analogTitle !== "" && digitalTitle !== "") {
                 title = analogTitle + " vs. " + digitalTitle
             }
-            detailLevel = 3;
         }
         // None (Sum diagram of analog + digital)
         else {
             source = ""
         }
-      
-        /*
-        // ------------------------- tooltip: ---------------------------------------------- //
-        // append the x line
-        chart.append("line")
-            .attr("class", "x")
-            .style("stroke", "#DBDBDB")
-            .style("stroke-dasharray", "3,3")
-            .style("opacity", 0.5)
-            .attr("y1", 0)
-            .attr("y2", height);
-
-        // append the y line
-        chart.append("line")
-            .attr("class", "y")
-            .style("stroke", "#DBDBDB")
-            .style("stroke-dasharray", "3,3")
-            .style("opacity", 0.5)
-            .attr("x1", width)
-            .attr("x2", width);
-
-        // append the circle at the intersection 
-        chart.append("circle")
-            .attr("class", "y")
-            .style("fill", "none")
-            .style("stroke", "#DBDBDB")
-            .attr("r", 4);
-
-         // place the value at the intersection
-        chart.append("text")
-            .attr("class", "y1")
-            .style("stroke", "white")
-            .style("stroke-width", "3.5px")
-            .style("opacity", 0.8)
-            .attr("dx", 8)
-            .attr("dy", "-.3em");
-        chart.append("text")
-            .attr("class", "y2")
-            .attr("dx", 8)
-            .attr("dy", "-.3em");
-
-        // append the rectangle to capture mouse
-        svg.append("rect")
-            .attr("width", width)
-            .attr("height", height)
-            .style("fill", "none")
-            .style("pointer-events", "all")
-            .on("mouseover", function() { chart.style("display", null); })
-            .on("mouseout", function() { chart.style("display", "none"); })
-            .on("mousemove", mousemove);
-        
-        function mousemove() {
-            var x0 = x.invert(d3.pointer(event,this)[0]),
-            //var x0 = scalePointPosition();
-                i = bisectDate(data, x0, 1),
-                d0 = data[i - 1],
-                d1 = data[i],
-                d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-        }
-
-        function scalePointPosition() {
-            var xPos = d3.pointer(event, this)[0];
-            var domain = x.domain(); 
-            var range = x.range();
-            var rangePoints = d3.range(range[0], range[1], x.step())
-            var yPos = domain[d3.bisect(rangePoints, xPos) -1];
-            console.log(yPos);
-        }
-        
-      
-        // Create the tooltip div 
-        var tooltip = d3.select("#bottomDiagram")
-            .append("div")
-            .style("opacity", 0)
-            .attr("class", "tooltip")
-            .style("background-color", "#39475c")
-            .style("border-radius", "8px")
-            .style("padding", "8px")
-            .style("color", "white")
-            .style("position", "absolute")
-
-        // ------------------------- tooltip ---------------------------------------------- //*/
 
         // Label for yAxis
         svg.append('text')
@@ -856,22 +784,6 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .attr('y', 30)
             .attr('text-anchor', 'middle')
             .text(title)
-            /* tooltip testing */
-            /*.on("mouseover", function (d) {
-                console.log("in mouseover")
-                var matrix = this.getScreenCTM() // Get the position of the hovered object
-                    .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
-                tooltip.transition().duration(200).style("opacity", .9);
-                tooltip.html(tooltipDetails()) 
-                    .style("left", (window.pageXOffset + matrix.e + 10) + "px")
-                    .style("top", (window.pageYOffset + matrix.f - 10) + "px");
-            })
-            //Remove the tooltip
-            .on("mouseout", function (d) {
-                console.log("in mouseout")
-                tooltip.transition().duration(500).style("opacity", 0);
-            })*/
-
 
         // Label for Source
         svg.append('text')
@@ -884,48 +796,6 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
 
     }
 
-    /*
-    // ------------------------------------------ tooltip --------------------------------------------//
-    // Create the details of the tooltip
-    function tooltipDetails(){
-        var details;
-        // only analog data
-        if(detailLevel == 1)
-        {
-            details = ("Kategorie: "  + getMediaName() + "</br>Titel: " + analogTitle);
-        } 
-        
-        // only digital data
-        else if(detailLevel == 2)
-        {
-            details = ("Kategorie: "  + getMediaName() + "</br>Titel: " + digitalTitle);
-        } 
-        
-        // both analog and digital data
-        else if(detailLevel == 3)
-        {
-            details = ("Kategorie: "  + getMediaName() + "</br>Titel 1: " + analogTitle 
-                 + "</br>Titel 2: " + digitalTitle);
-        }
-
-        // no data
-        else 
-        {   details = " "
-        }
-
-        console.log(details);
-        return details;
-    }
-
-    // ------------------------------------------ tooltip --------------------------------------------//
-
-    function showTooltip(d){
-        var details;
-        details = ("Wert: "  + y(d.ser2));
-        console.log(details);
-        return details;
-    }*/
-
     function axes(data) {
         x.domain(data.map((s) => s.ser1))
         chart.selectAll(".myXaxis")
@@ -937,13 +807,10 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             return d.ser2
         })]);
         chart.selectAll(".myYaxis")
-            //.transition()
-            //.duration(2000)
             .attr('class', 'tick_Scales')
             .call(yAxis);
 
-        // TODO: decide if
-        // horizontal lines
+        // draws horizontal lines
         const makeYLines = () => d3.axisLeft()
             .scale(y)
 
@@ -965,12 +832,9 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         // create the Y axis
         y.domain([0, yMax]);
         chart.selectAll(".myYaxis")
-            //.transition()
-            //.duration(2000)
             .attr('class', 'tick_Scales')
             .call(yAxis);
-        // TODO: decide if
-        // horizontal lines
+        // draws horizontal lines
         const makeYLines = () => d3.axisLeft()
             .scale(y)
 
@@ -992,9 +856,9 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
 
         var color
 
-        if(aOrD === ANALOG){
+        if (aOrD === ANALOG) {
             color = COLOR_ANALOG
-        } else{
+        } else {
             color = COLOR_DIGITAL
         }
 
@@ -1004,8 +868,6 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .append("path")
             .attr("class", aOrD)
             .merge(u)
-            //.transition()
-            //.duration(2000)
             .attr("d", d3.line()
                 .x(function (d) {
                     return x(d.ser1);
@@ -1016,11 +878,8 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             .attr("fill", "none")
             .attr("stroke", color)
             .attr("stroke-width", 2.5)
-            
     }
 }
-//Show the sum chart after loading the page for the first time
-//visualizeLineDiagram();
 
 // when loading the page load all datasets and calculate sum
-parser("","")
+parser("", "")
