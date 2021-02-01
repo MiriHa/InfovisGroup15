@@ -23,7 +23,7 @@ body {
     margin-top: 20px;
     margin-left: 10px;
     margin-right: 10px;
-    padding-top: 15vh;
+    padding-top: 5vh;
 }
 
 #title{
@@ -35,7 +35,7 @@ body {
     font-weight: bold;
     text-align: left;
     color: #DBDBDB;
-    font-size: 9vh;
+    font-size: 4vw;
 }
 
 .explanation{
@@ -231,7 +231,6 @@ body {
       margin-left: auto;
       margin-right: auto;
       margin-top: 40px;
-      margin-bottom: 40px;
       grid-area: bubbles;
 }
 

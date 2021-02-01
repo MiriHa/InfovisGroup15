@@ -123,7 +123,7 @@ var ClickDigital = true;
 var ClickAnalog = true;
 
 
-var tooltip = d3.select("#bubbles")
+var tooltip_line = d3.select("#bubbles")
     .append("div")
     .style("opacity", 0)
     .attr("class", "tooltip")
@@ -187,15 +187,15 @@ function visualizeBubbles() {
         .on("mouseover", function (d) {
             var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
                 .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
-            tooltip.transition().duration(200).style("opacity", .9);
+            tooltip_line.transition().duration(200).style("opacity", .9);
             var id = this.id
-            tooltip.html(tooltipDetailsMainBubbles(id))
+            tooltip_line.html(tooltipDetailsMainBubbles(id))
                 .style("left", (window.pageXOffset + matrix.e + 30) + "px")
                 .style("top", (window.pageYOffset + matrix.f - 70) + "px");
         })
         /* Handle mousehovering event: Remove the tooltip */
         .on("mouseout", function (d) {
-            tooltip.transition().duration(500).style("opacity", 0);
+            tooltip_line.transition().duration(500).style("opacity", 0);
         })
         /* Handle mouseclick event */
         .on("click", function (d) { return bubbleClick(d3.select(this)) }) //noch testen
@@ -245,15 +245,15 @@ function visualizeBubbles() {
         .on("mouseover", function (d) {
                       var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
                 .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
-            tooltip.transition().duration(200).style("opacity", .9);
+            tooltip_line.transition().duration(200).style("opacity", .9);
             var id = this.id
-            tooltip.html(tooltipDetails(id, currentMonth))
+            tooltip_line.html(tooltipDetails(id, currentMonth))
                 .style("left", (window.pageXOffset + matrix.e + 30) + "px")
                 .style("top", (window.pageYOffset + matrix.f - 59) + "px");
         })
         /* Remove the tooltip */
         .on("mouseout", function (d) {
-                      tooltip.transition().duration(500).style("opacity", 0);
+                      tooltip_line.transition().duration(500).style("opacity", 0);
         })
 
     elemEnter.append("svg:image")
@@ -269,15 +269,15 @@ function visualizeBubbles() {
         .on("mouseover", function (d) {
                      var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
                 .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
-            tooltip.transition().duration(200).style("opacity", .9);
+            tooltip_line.transition().duration(200).style("opacity", .9);
             var id = this.id
-            tooltip.html(tooltipDetails(id, currentMonth))
+            tooltip_line.html(tooltipDetails(id, currentMonth))
                 .style("left", (window.pageXOffset + matrix.e + 30) + "px")
                 .style("top", (window.pageYOffset + matrix.f - 59) + "px");
         })
         /* Remove the tooltip */
         .on("mouseout", function (d) {
-                       tooltip.transition().duration(500).style("opacity", 0);
+                       tooltip_line.transition().duration(500).style("opacity", 0);
         })
         // Klaus: Added this .on() to be able to click the sub-bubbles
         /* Handle mouseclick event */
