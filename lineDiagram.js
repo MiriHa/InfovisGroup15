@@ -394,9 +394,7 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
         var digital19 = ""
         var digital20 = ""
         var currentSelectedMonth = currentSliderPosition + 1
-        var monthNumber = value
-        var value = Math.round(Number(d.ser2))
-        var formatValue = formatNumber(value)
+        var monthNumber = currentSelectedMonth
 
         if (currentSelectedMonth < 10) {
             monthNumber = "0" + currentSelectedMonth
