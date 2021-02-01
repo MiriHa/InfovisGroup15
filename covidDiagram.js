@@ -234,13 +234,19 @@ function update() {
         const month = date.toLocaleString('default', {month: 'long'});
 
         var datapoint = ""
+        var dataValue
         if (currentCase == MONTH_CASE) {
-            datapoint = data_new[currentSliderPosition].ser2
+            dataValue = data_new[currentSliderPosition].ser2
+            datapoint = formatNumber(dataValue)
         } else {
-            datapoint = data_monthly[currentSliderPosition].ser2
+            dataValue = data_monthly[currentSliderPosition].ser2
+            datapoint = formatNumber(dataValue)
         }
 
         tooltipForHighlight(month, datapoint)
+        function formatNumber(num) {
+            return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+        }
     }
 
 
