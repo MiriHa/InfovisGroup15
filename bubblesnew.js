@@ -97,6 +97,7 @@ json1 = {
 
 var bubbleName;
 
+
 // Scroll to the bottom of the page when the arrow in the intro is clicked
 function scrollDown(){
     window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
@@ -106,7 +107,7 @@ function scrollDown(){
 function computeMainBubbles(bubbleRadi, month) {
     var summedig = 0;
     for (let bubb = 3; bubb < 7; bubb++) {
-        summedig = summedig + bubbleRadi[month][bubb] + 10
+        summedig = summedig + bubbleRadi[month][bubb] + bubblescale
 
     }
     bubbleRadi[month][1] = summedig / 4;
@@ -114,7 +115,7 @@ function computeMainBubbles(bubbleRadi, month) {
 
     var summeana = 0;
     for (let bubb = 7; bubb < 11; bubb++) {
-        summeana = summeana + bubbleRadi[month][bubb] + 10
+        summeana = summeana + bubbleRadi[month][bubb] + bubblescale
 
     }
     bubbleRadi[month][2] = summeana / 4;
@@ -131,11 +132,10 @@ var tooltip_bubbles = d3.select("#bubbles")
     .append("div")
     .style("opacity", 0)
     .attr("class", "tooltip")
-    .style("background-color", COLOR_YEAR) 
+    .style("background-color", "white") // "#39475c")
     .style("border-radius", "5px")
     .style("padding", "10px")
-    .style("color", COLOR_BACKGROUND_LIGHT)
-    .style("text-align", "left")
+    .style("color", "#39475c")
     .style("position", "absolute")
 
 // Visualize the bubble chart. Is called every time you move the timer 
@@ -182,7 +182,7 @@ function visualizeBubbles() {
     var circle = elemEnter.append("circle")
         .filter(function (d) { return d.id < 3 })
         .attr("id", function (d) { return d.id })
-        .attr("r", function (d) { if (bubbleRadi[currentMonth][d.id] == 0) { return 50 } else { return bubbleRadi[currentMonth][d.id] + 10 } })
+        .attr("r", function (d) { if (bubbleRadi[currentMonth][d.id] == 0) { return 50 } else { return bubbleRadi[currentMonth][d.id] + bubblescale } })
         .attr("stroke", "black")
         .attr("fill", function (d) { return d.c })
         .style("opacity", function (d) { if (currentYear == 2020 && currentMonth > 9) { return 0.5 } else { 1 } })
@@ -240,7 +240,7 @@ function visualizeBubbles() {
     elemEnter.append("circle")
         .filter(function (d) { return d.id > 2 })
         .attr("id", function (d) { return d.id })
-        .attr("r", function (d) { if (bubbleRadi[currentMonth][d.id] == 0) { return 50 } else { return bubbleRadi[currentMonth][d.id] + 10 } })
+        .attr("r", function (d) { if (bubbleRadi[currentMonth][d.id] == 0) { return 50 } else { return bubbleRadi[currentMonth][d.id] + bubblescale } })
         .attr("stroke", "black")
         .attr("fill", function (d) { return d.c })
         .style("opacity", function (d) { if (currentYear == 2020 &&currentMonth > 9) { return 0.5 } else { 1 } })
@@ -319,7 +319,7 @@ function visualizeBubbles() {
     }
 
 
-    //Get the Text for the tooltip
+    //Get the Text for the Tooltip
     function tooltipDetails(currentid, currentMonth) {
         var details;
 
