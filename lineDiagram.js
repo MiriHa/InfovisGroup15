@@ -312,6 +312,16 @@ function parser(analog, digital) {
     }
 }
 
+var tooltip = d3.select("#bottomDiagram")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white")
+    .style("border-radius", "5px")
+    .style("padding", "10px")
+    .style("color", "#39475c")
+    .style("position", "absolute")
+
 function visualizeLineDiagram(analogData="", digitalData="", analogSource="", digitalSource="", analogTitle="", digitalTitle="") {
 
 
@@ -429,35 +439,87 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
 
 
     function tooltipForHighlight(month, monthNumber ,year, analog19, analog20, digital19, digital20) {
-        var tooltip = d3.select("#bottomDiagram")
-            .append("div")
-            .style("opacity", 0)
-            .attr("class", "tooltip")
-            .style("background-color", "white")
-            .style("border-radius", "5px")
-            .style("padding", "10px")
-            .style("color", "#39475c")
-            .style("position", "absolute")
+
+
+        //var all = d3.select(".body")
+
 
         chart.selectAll(".highlight")
             .on('mouseenter', function () {
                 console.log("mouse over rect")
-                var mouse = d3.pointer(event, chart.node());
+                //var mouse = d3.pointer(event, chart.node());
+                var mouse = d3.pointer(event, all.node());
                 console.log("mouseover: " + mouse)
                 // TODO: tooltip is not positioned corectly
-                tooltip.transition().duration(200).style("opacity", .9);
+                tooltip.transition().duration(5).style("opacity", 0.9);
                 tooltip
                     .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
-                    .style("left", mouse[0])
-                    .style("top", mouse[1])
+                    .style("left", mouse[0]+"px")
+                    .style("top", mouse[1]+"px")
 
             })
-            .on('mouseleave', function () {
+            .on('mouseover', function () {
+                console.log("mouse over rect")
+                //var mouse = d3.pointer(event, chart.node());
+                var all = d3.select("body")
+                var mouse = d3.pointer(event, all.node());
+                console.log("mouseover: " + mouse)
+                // TODO: tooltip is not positioned corectly
+                tooltip.transition().duration(0).style("opacity", 0.9);
+                tooltip
+                    .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
+                    .style("left", mouse[0]+"px")
+                    .style("top", mouse[1]+"px")
+            })
+            .on('mouseout', function () {
                 console.log("mouse leave rect")
                 var mouse = d3.pointer(event, chart.node());
                 console.log("mouseleave: " + mouse)
-                tooltip.transition().duration(500).style("opacity", 0);
+                tooltip.transition().duration(400).style("opacity", 0);
             })
+            .on('mouseleave', function () {
+                console.log("mouse leave rect")
+                tooltip.transition().duration(2000).style("opacity", 0);
+            })
+            /*.on('mouseenter', function () {
+                console.log("mouse over rect")
+                //var mouse = d3.pointer(event, chart.node());
+                var mouse = d3.pointer(event, all.node());
+                console.log("mouseover: " + mouse)
+                // TODO: tooltip is not positioned corectly
+                tooltip.transition().duration(5).style("opacity", 0.9);
+                tooltip
+                    .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
+                    .style("left", mouse[0]+"px")
+                    .style("top", mouse[1]+"px")
+
+            })*/
+            /*.on("mouseover", function () {
+                console.log("mouse over rect")
+                //var mouse = d3.pointer(event, chart.node());
+                var all = d3.select("body")
+                var mouse = d3.pointer(event, all.node());
+                console.log("mouseover: " + mouse)
+                // TODO: tooltip is not positioned corectly
+                tooltip.transition().duration(5).style("opacity", 0.9);
+                tooltip
+                    .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
+                    .style("left", mouse[0]+"px")
+                    .style("top", mouse[1]+"px")
+
+            })
+            .on("mouseout", function () {
+                console.log("mouse leave rect")
+                /!*var mouse = d3.pointer(event, chart.node());
+                console.log("mouseleave: " + mouse)*!/
+                tooltip.transition().duration(2000).style("opacity", 0);
+            })*/
+            /*.on('mouseleave', function () {
+                console.log("mouse leave rect")
+                /!*var mouse = d3.pointer(event, chart.node());
+                console.log("mouseleave: " + mouse)*!/
+                tooltip.transition().duration(2000).style("opacity", 0);
+            })*/
     }
 
     function tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20) {
