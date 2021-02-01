@@ -97,6 +97,11 @@ json1 = {
 
 var bubbleName;
 
+// Scroll to the bottom of the page when the arrow in the intro is clicked
+function scrollDown(){
+    window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
+}
+
 
 function computeMainBubbles(bubbleRadi, month) {
     var summedig = 0;
