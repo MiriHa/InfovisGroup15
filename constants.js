@@ -9,8 +9,8 @@ const SPORT = "Sport"
 //colors
 const COLOR_ANALOG = "#e28743"
 const COLOR_DIGITAL = "#1e81b0"
-const COLOR_HIGHLIGTH_ANALOG = "#a84d0a" //Analog in bubbles.js zeile 303 gesetzt
-const COLOR_HIGHLIGTH_DIGITAL = "#08456e" //analog in bubbles.js isn zeile 358 gestzt
+const COLOR_HIGHLIGTH_ANALOG = "#a84d0a" 
+const COLOR_HIGHLIGTH_DIGITAL = "#08456e" 
 const COLOR_BACKGROUND_DARK =" #1b2636"
 const COLOR_BACKGROUND_LIGHT = "#39475c"
 const COLOR_WHITE = "#dbdbdb"
@@ -37,23 +37,6 @@ const PATH_DIGITAL_NEWS = "data/digital/format/digital_sueddeutsche.CSV"
 const PATH_DIGITAL_HEALTH = "data/digital/format/digital_apothekenUmschau.CSV"
 const PATH_DIGITAL_FREETIME = "data/digital/format/digital_burdaStyle.CSV"
 
-
-/*var radius = [
-    [0,0,0,0,0,0,0,0,0,0],
-    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Jan
-    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Feb
-    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Mrz
-    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Apr
-    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Mai
-    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Jun
-    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Jul
-    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Aug
-    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Sep
-    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100],  // Okt
-    [0, 90, 90, 60, 60, 60, 60, 60, 60, 60, 60],   // Nov
-    [0, 90, 90, 60, 80, 90, 60, 70, 80, 90, 100]   // Dez
-]*/
-
 var radius = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],   // Jan
@@ -70,7 +53,7 @@ var radius = [
     [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0]]  // Dez
 
 
-//For the Tooltip, save the amount and title to display
+//For the tooltip, save the amount and title to display
 var amountCollection = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 90, 90, 0, 0, 0, 0, 0, 0, 0, 0],   // Jan
@@ -109,7 +92,6 @@ const MONTH_CASE = "month"
 
 var currentCase = TOTAL_CASE
 var shownCaseButton = MONTH_CASE
-
 
 
 function resetRadiusandCollection(){

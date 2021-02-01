@@ -375,6 +375,12 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
     yearIndicator();
     prepareDataForTooltip()
 
+    // format number with dots every 3 digits
+    function formatNumber(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    }
+
+
 
     /**
      * Preparation of all data that should be displayed in tooltip
@@ -388,7 +394,8 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
         var digital19 = ""
         var digital20 = ""
         var currentSelectedMonth = currentSliderPosition + 1
-        var monthNumber = currentSelectedMonth.toString()
+        var monthNumber = currentSelectedMonth
+
         if (currentSelectedMonth < 10) {
             monthNumber = "0" + currentSelectedMonth
         }

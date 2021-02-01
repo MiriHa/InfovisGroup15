@@ -364,6 +364,10 @@ function visualizeBubbles() {
         done = true;
     }
 
+    // format number with dots every 3 digits
+    function formatNumber(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    }
 
     //Get the Text for the Tooltip
     /**
@@ -376,9 +380,10 @@ function visualizeBubbles() {
         var details;
 
         if (currentid > 2 && currentid < 7) {
-            details = ("<b>Kategorie:</b> " + idToLabel(currentid) + "</br><b>Quelle:</b> " + titleCollection[currentid] + "</br><b>Verkaufszahlen:</b> " + amountCollection[currentMonth][currentid]);
-        } else if (currentid > 6 && currentid < 11) {
-            details = ("<b>Kategorie:</b> " + idToLabel(currentid) + "</br><b>Quelle:</b> " + titleCollection[currentid] + "</br><b>Besuche:</b> " + amountCollection[currentMonth][currentid]);
+            details = ("<b>Kategorie:</b> " + idToLabel(currentid) + "</br><b>Quelle:</b> " + titleCollection[currentid] + "</br><b>Verkaufszahlen:</b> " + formatNumber(amountCollection[currentMonth][currentid]));
+        }
+        else if (currentid > 6 && currentid < 11) {
+            details = ("<b>Kategorie:</b> " + idToLabel(currentid) + "</br><b>Quelle:</b> " + titleCollection[currentid] + "</br><b>Besuche:</b> " + formatNumber(amountCollection[currentMonth][currentid]));
         } else {
             details = ("Nothing here");
         }

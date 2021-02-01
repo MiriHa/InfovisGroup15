@@ -115,7 +115,7 @@ function update() {
         .attr('class', 'tick_Scales')
         .call(xAxis);
 
-    // create the Y axis
+    // Create the Y axis
     y.domain([0, d3.max(data, function (d) {
         return Number(d.ser2)
     })]);
@@ -357,7 +357,4 @@ function update() {
     }
 }
 
-update();
-/*
-    !DO NOT DELETE!
-*/
+update(); // !do not delete!
