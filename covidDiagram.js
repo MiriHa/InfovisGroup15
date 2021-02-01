@@ -203,7 +203,7 @@ function update() {
     if (currentCase == TOTAL_CASE) {
         title = "Corona-Fälle insgesamt (Deutschland 2020)"
     } else {
-        title = "Neue Corona-Fälle (Deutschland 2020)"
+        title = "Monatliche Corona Neuinfekionen (Deutschland 2020)"
     }
 
     svg.append('text')
