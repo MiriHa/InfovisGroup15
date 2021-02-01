@@ -58,10 +58,17 @@ function changeCase() {
 }
 
 // Create a function that takes a dataset as input and update the plot:
-function update(data) {
+function update() {
+    var data = data_monthly
+    if(currentCase == MONTH_CASE){
+        data = data_new
+    } else {
+        data = data_monthly
+    }
 
+    var svg = d3.select("#bottomDiagram").selectAll("svg").remove()
     // append the svg object to the body of the page
-    var svg = d3.select("#topDiagram").append("svg")
+    svg = d3.select("#topDiagram").append("svg")
 
     // Init Chart
     const chart = svg.append('g')
@@ -187,9 +194,60 @@ function update(data) {
         .attr('y', height * 1.63)
         .attr('text-anchor', 'start')
         .text('Quelle: https://data.europa.eu/euodp/en/data/dataset/covid-19-coronavirus-data')
+
+    highlightMonth()
+
+
+    // highlights the in slider selected month, and also the depending one of the other year
+    function highlightMonth() {
+        console.log("highlight month covid")
+        var tickWidth = width / (data_monthly.length - 1)
+        console.log("covid year: " + currentYear)
+
+
+        var firstTickWidth = tickWidth / 2
+        var firstValue = 0.5
+        var firstTickEnd = firstTickWidth + firstValue
+
+        if (currentYear == 2020) {
+            console.log("covid year 2020")
+            console.log("covid slider: " + currentSliderPosition)
+            if (currentSliderPosition == 0) {
+                // 0-firstTick
+                console.log("if slider 0")
+                drawRect(firstValue, firstTickWidth, true)
+            } else if (currentSliderPosition == 11) {
+                console.log("if slider 11")
+                var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth
+                drawRect(value, firstTickWidth, true)
+            } else {
+                console.log("if slider else")
+                //firstTick+(n-1)*tickWidth - firstTick+n*tickWidth
+                var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth
+                drawRect(value, tickWidth, true)
+            }
+        }
+    }
+
+
+    function drawRect(xValue = 0, width = tickWidth, current = true) {
+        var color = COLOR_HIGHLIGTH_MONTH
+        var opacity = OPACITY_HIGHLIGHT_MONTH
+        if (!current) {
+            color = COLOR_HIGHLIGTH_MONTH_OTHER_YEAR
+            opacity = OPACITY_HIGHLIGHT_MONTH_OTHER_YEAR
+        }
+        chart.append('rect')
+            .attr("class", "highlight")
+            .attr("x", xValue)
+            .attr("width", width)
+            .attr("height", height)
+            .attr("fill", color)
+            .attr("opacity", opacity)
+    }
 }
 
-update(data_monthly);
+update();
 /*
     !DO NOT DELETE!
 */
