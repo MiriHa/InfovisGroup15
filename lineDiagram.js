@@ -748,6 +748,7 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
      */
     function initChart() {
         chart = svg.append('g')
+        .attr("class","chartRrezie")
         .attr("transform", "translate(" + Margin + "," + -35 + ")");
 
         // Initialise a X axis:

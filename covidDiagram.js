@@ -103,13 +103,10 @@ function update() {
         .append("svg")
         .attr("viewBox", `0 0 ${620} ${170}`)
         .attr("class","svgResize")
-       // .attr("transform", "translate(" + Margin + "," + Margin + ")");
 
     // Init Chart
     const chart = svg.append('g')
-        // .attr("viewBox", `0 0 ${width} ${height}`)
-        // .attr("width","300")
-        .attr("height", "500")
+        .attr("class","chartRrezie")
         .attr("transform", "translate(" + Margin + "," + -55 + ")");
 
     // Initialise the X axis:
