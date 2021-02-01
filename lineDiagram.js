@@ -1,14 +1,7 @@
 const TAG = "LineDiagram "
 
 function parser(analog, digital) {
-    // Get the title of the current selection; relevant for the tooltip
-    function getDataTitle(d) {
-        currentDataTitle = d.Titel;
-    }
-
-    console.log("Parser:")
-    console.log(analog)
-    console.log(digital)
+    console.log(TAG + "- parser")
 
     // Variables
     var analogData = []
@@ -310,11 +303,11 @@ var tooltip_line = d3.select("#bottomDiagram")
     .attr("class", "tooltip_line")
     .style("background-color", COLOR_WHITE)
     .style("border-radius", "5px")
-    .style("padding", "5px") 
+    .style("padding", "5px")
     .style("color", COLOR_BACKGROUND_LIGHT)
     .style("text-align", "left")
     .style("position", "absolute")
-    
+
 /**
  * All stuff to draw line diagram with all features
  * @param analogData Data to show
@@ -355,14 +348,11 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
         line(analogData, ANALOG);
 
     } else if (aData === 0 && dData > 0) {
-        console.log("draw only digital data")
         axes(digitalData);
         line(digitalData, DIGITAL);
 
     } else if (aData > 0 && dData > 0) {
         // both
-        console.log("both data")
-
         var max = 0
         analogData.forEach(function (a) {
             if (a.ser2 > max) {
@@ -390,7 +380,7 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
     }
 
-    
+
 
     /**
      * Preparation of all data that should be displayed in tooltip
@@ -399,7 +389,6 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
         var year = currentYear
         const date = new Date(year, currentSliderPosition, 1);
         const month = date.toLocaleString('default', {month: 'long'});
-        console.log("selected month = " + month)
         var analog19 = ""
         var analog20 = ""
         var digital19 = ""
@@ -408,46 +397,76 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
         var monthNumber = value
         var value = Math.round(Number(d.ser2))
         var formatValue = formatNumber(value)
-        
+
         if (currentSelectedMonth < 10) {
             monthNumber = "0" + currentSelectedMonth
         }
 
         if (aData > 0 && dData === 0) {
             analogData.forEach(function (d) {
+                var dataValue
+                var formatValue
                 if (d.ser1 === ("2019" + monthNumber)) {
+                    dataValue = Math.round(Number(d.ser2))
+                    formatValue = formatNumber(dataValue)
                     analog19 = formatValue
                 } else if (d.ser1 === ("2020" + monthNumber)) {
+                    dataValue = Math.round(Number(d.ser2))
+                    formatValue = formatNumber(dataValue)
                     analog20 = formatValue
+
                 }
             })
         } else if (aData === 0 && dData > 0) {
             digitalData.forEach(function (d) {
+                var dataValue
+                var formatValue
                 if (d.ser1 === ("2019" + monthNumber)) {
+                    dataValue = Math.round(Number(d.ser2))
+                    formatValue = formatNumber(dataValue)
                     digital19 = formatValue
                 } else if (d.ser1 === ("2020" + monthNumber)) {
+                    dataValue = Math.round(Number(d.ser2))
+                    formatValue = formatNumber(dataValue)
                     digital20 = formatValue
                 }
             })
         } else if (aData > 0 && dData > 0) {
             // both
             analogData.forEach(function (d) {
+                var dataValue
+                var formatValue
                 if (d.ser1 === ("2019" + monthNumber)) {
+                    dataValue = Math.round(Number(d.ser2))
+                    formatValue = formatNumber(dataValue)
                     analog19 = formatValue
                 } else if (d.ser1 === ("2020" + monthNumber)) {
+                    dataValue = Math.round(Number(d.ser2))
+                    formatValue = formatNumber(dataValue)
                     analog20 = formatValue
+
                 }
             })
             digitalData.forEach(function (d) {
+                var dataValue
+                var formatValue
                 if (d.ser1 === ("2019" + monthNumber)) {
+                    dataValue = Math.round(Number(d.ser2))
+                    formatValue = formatNumber(dataValue)
                     digital19 = formatValue
                 } else if (d.ser1 === ("2020" + monthNumber)) {
+                    dataValue = Math.round(Number(d.ser2))
+                    formatValue = formatNumber(dataValue)
                     digital20 = formatValue
                 }
             })
         }
 
         tooltipForHighlight(month, currentSelectedMonth, year, analog19, analog20, digital19, digital20)
+
+        function formatNumber(num) {
+            return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+        }
     }
 
     /**
@@ -466,17 +485,16 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
 
         chart.selectAll(".highlight")
             .on('mouseover', function () {
-                console.log("mouse over rect")
+                console.log(TAG + "- tooltipForHighlight: mouse over rect")
                 var dia = d3.select("bottomDiagram")
                 var mouse = d3.pointer(event, dia.node());
-                console.log("mouseover: " + mouse)
                 tooltip_line.transition().duration(100).style("opacity", 0.96);
-                if(currentSliderPosition < 4){
+                if (currentSliderPosition < 4) {
                     tooltip_line
                         .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
                         .style("left", mouse[0] + 5 + "px")
                         .style("top", mouse[1] + 5 + "px")
-                } else if(currentSliderPosition > 8){
+                } else if (currentSliderPosition > 8) {
                     tooltip_line
                         .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
                         .style("left", mouse[0] + 5 + "px")
@@ -496,12 +514,12 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
                 var dia = d3.select("bottomDiagram")
                 var mouse = d3.pointer(event, dia.node());
                 tooltip_line.transition().duration(100).style("opacity", 0.96);
-                if(currentSliderPosition < 4){
+                if (currentSliderPosition < 4) {
                     tooltip_line
                         .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
                         .style("left", mouse[0] + 5 + "px")
                         .style("top", mouse[1] + 5 + "px")
-                }else if(currentSliderPosition > 8){
+                } else if (currentSliderPosition > 8) {
                     tooltip_line
                         .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
                         .style("left", mouse[0] + 5 + "px")
@@ -511,12 +529,12 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
                         .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
 
                     tooltip_line
-                        .style("left", mouse[0] -positionLeft + "px")
+                        .style("left", mouse[0] - positionLeft + "px")
                         .style("top", mouse[1] + 5 + "px")
                 }
             })
             .on('mouseout', function () {
-                console.log("mouse leave rect")
+                console.log(TAG + "- tooltipForHighlight: mouse leave rect")
                 tooltip_line.transition().duration(400).style("opacity", 0);
             });
     }
@@ -608,7 +626,6 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
         var value
 
         if (currentYear === 2019) {
-            console.log(TAG + "- visualize: highlight in year 2019")
             if (currentSliderPosition === 0) {
                 // 0-firstTick
                 drawRect(firstValue, firstTickWidth, true)
@@ -631,7 +648,6 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
                 }
             }
         } else if (currentYear === 2020) {
-            console.log(TAG + "- visualize: highlight in year 2020")
             if (currentSliderPosition < 8) {
                 value = firstTickEnd + (currentSliderPosition + 12 - 1) * tickWidth
                 drawRect(value, tickWidth, true)
