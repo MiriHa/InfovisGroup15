@@ -85,9 +85,9 @@ body {
 /* Grid Items */
 .bubbleChartItem {
     text-align: center;
-    max-height: 1000px;
+    min-height: 770px;
     /*height: 95vh; for window height */
-    height: auto;
+    height: 97vh;
     border-radius: 22px;
     background-color: var(--blue_areas);
     padding: 10px;
@@ -107,8 +107,9 @@ body {
 
 .diagrammItemTop{
     width: 100%;
-    height: 100%;
-    padding: 15px;
+    height: 48vh;
+    min-height: 380px;
+    padding: 5px; 
     padding-left: 25px;
     /*background-color: #f3f4ff;*/
     background-color:var(--blue_areas);
@@ -120,7 +121,8 @@ body {
 
 .diagrammItemBottom{
     width: 100%;
-    height: 100%;
+    height: 48vh;
+    min-height: 380px;
     padding: 15px;
     /*background-color: #f3f4ff;*/
     background-color: var(--blue_areas);
@@ -228,11 +230,12 @@ body {
     grid-area:  message;
     opacity: 0;
 }
-    
+
+/* Bubbeldiagramm */
 
 .bubbles {
       width: auto;
-      height: auto;
+      height: 100%;
       max-width: 960px;
       max-height: 700px;
       margin-left: auto;
@@ -245,9 +248,12 @@ body {
 
 /* Diagramms */
 svg {
-    /*Do not delete*/
     width: 100%;
-    height: 100%;
+    height: 100%; 
+} 
+
+#diagramScale{
+    height: 70%;
 }
 
 .bar {
@@ -308,12 +314,11 @@ text.label {
 
 text.source {
     /*Text of the Source.*/
-    font-size: 12px;
+    font-size: 8px;
     font-style: italic;
     fill: #DBDBDB;
     opacity: 0.7;
 }
-
 
 /* Slider */
 .circumference{
@@ -502,14 +507,24 @@ text.year {
 
 .data_popup{
     width: auto;
-    height: auto;
-    max-width: 960px;
-    max-height: 700px;
-    grid-area: bubbles;
-    margin: 10px auto;
+    height: 100%;
+    max-width: 45vw;
+    max-height: 95vh;
+    grid-area: legend;
+    position:absolute;
+    margin: 8px auto;
     padding: 18px;
     background-color:var(--blue_background);
     border-radius: 25px;
+/* 
+    width: auto;
+    height: 100%;
+    max-width: 960px;
+    max-height: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px;
+    grid-area: bubbles; */
 }
 
 .all-data-categories li span {
@@ -519,7 +534,7 @@ text.year {
     width: 20px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 40px;
+    margin-top: 20px;
     margin-bottom: 40px;
     border: 1px solid #999;
     color: #DBDBDB;
@@ -532,9 +547,9 @@ text.year {
 .data_popup ul{
     width: auto;
     height: auto;
-    max-width: 960px;
-    max-height: 700px;
-    grid-area: bubbles;
+    max-width: 45vw;
+    max-height: 95vh;
+    grid-area: legend;
 }
 
 .data_popup ul li {
@@ -616,4 +631,71 @@ text.year {
         text-align: justify;
     }
 
+
+    #popup_header{
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .all-data-categories{
+        width: 100%;
+        height: 250px;
+    }
+    
+    .data_popup{
+        width: 100%;
+        height: 100%;
+        max-width: 90vw;
+        max-height: 99vh;
+        grid-area: legend;
+        position:absolute;
+        margin: 8px auto;
+        padding: 18px;
+        background-color:var(--blue_background);
+        border-radius: 25px;
+    /* 
+        width: auto;
+        height: 100%;
+        max-width: 960px;
+        max-height: 700px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 40px;
+        grid-area: bubbles; */
+    }
+    
+    .all-data-categories li span {
+        display: block;
+        float: left;
+        height: 20px;
+        width: 20px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 20px;
+        margin-bottom: 40px;
+        border: 1px solid #999;
+        color: #DBDBDB;
+    }
+    
+    .all-data-categories p {
+        display: inline;
+    }
+    
+    .data_popup ul{
+        width: auto;
+        height: auto;
+        max-width: 90vw;
+        max-height: 99vh;
+        grid-area: legend;
+    }
+    
+    .data_popup ul li {
+        list-style: none;
+        margin-left: 5px;
+        line-height: 20px;
+        margin-bottom: 7px;
+        color: #DBDBDB;
+    }
+
 }
+

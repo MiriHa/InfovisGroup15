@@ -16,9 +16,9 @@
             <p id="titletext">Pressenutzung <br> während der Corona Pandemie 2020</p>
         </div>
         <div id="explanation" class=explanation>
-            <p id=explanationText>Diese Visualisierung ermöglicht es, die <b>Verkaufszahlen</b>
-                gedruckter Exemplare und <b>online
-                Besuche</b> ausgewählter Pressezeitungen während der Corona-Pandemie miteinander zu
+            <p id=explanationText>Diese Visualisierung will es ermöglichen, die <b>Verkaufszahlen</b>
+                gedruckter Exemplare und die <b>online
+                    Besuche</b> ausgewählter Pressezeitungen während der Corona-Pandemie miteinander zu
                 vergleichen.<br> <br>
                 Hinter dieser Seite steht <b>Gruppe 15</b>, das sind Lisa Görtz, Klaus Moser, Miriam Halsner, Manuela Eska und Anna Rüth, die
                 im Rahmen der Vorlesung "Informationsvisualisierung" im WS2020/21 an der Ludwig-Maximilians-Universität München entstand.<br> <br>
@@ -46,11 +46,6 @@
                             <li><img class="legendPic" id=sportPic src="icons/sport.png">Sport</li>
                         </ul>
                     </div>
-                    <div id="info_form">
-                        <button id="info_button" class="button">Über die Daten</button>
-                        <!--<input class="legendPic" type="image" id="info_button" src="icons/health.png">
-                        <label for="info_button">Über die Daten</label>-->
-                    </div>
                 </div>
                 <div id="slider" class="slider">
                     <div id="yearSwitchContainer">
@@ -63,9 +58,16 @@
                         </p>
                     </div>
                 </div>
-                <div id="additionalSpace" class="message">
-                    <p id=ErrorText> Leider keine aktuellen Daten für diesen Zeitraum vorhanden!
-                    </p>
+                <div>
+                    <div id="info_form">
+                        <button id="info_button" class="button">Über die Daten</button>
+                        <!--<input class="legendPic" type="image" id="info_button" src="icons/health.png">
+                        <label for="info_button">Über die Daten</label>-->
+                    </div>
+                    <div id="additionalSpace" class="message">
+                        <p id=ErrorText> Leider keine aktuellen Daten für diesen Zeitraum vorhanden!
+                        </p>
+                    </div>
                 </div>
                 <div id="bubbles" class="bubbles"></div>
                 <div id="data_popup" class="data_popup" style="visibility: hidden">
@@ -80,48 +82,58 @@
                                     <p class="analog_text">Apotheken Umschau</p>
                                     <p> & </p>
                                     <p class="digital_text">Apotheken-Umschau.de</p><br>
-                                    <p>Ein Gesundheitsmagazin, das in Apotheken als Kundenzeitschrift ausliegt. Ziel ist
-                                        es, die Menschen bestm&ouml;glich zu medizinischen Themen zu informieren</p><br>
-                                    <a target="_blank" href="https://www.apotheken-umschau.de/">https://www.apotheken-umschau.de/</a></li>
-                                </ul>
+                                    <p>Ein Gesundheitsmagazin, das in Apotheken als Kundenzeitschrift ausliegt. Ziel
+                                        ist
+                                        es, die Menschen bestm&ouml;glich zu medizinischen Themen zu informieren</p>
+                                    <br>
+                                    <a target="_blank"
+                                        href="https://www.apotheken-umschau.de/">https://www.apotheken-umschau.de/</a>
                             </li>
+                        </ul>
+                        </li>
 
-                            <li><img class="legendPic" src="icons/newsPaper_icon.png"> Nachrichten
-                                <ul>
-                                    <li><p class="analog_text">S&uuml;ddeutche Zeitung</p>
-                                        <p> & </p>
-                                        <p class="digital_text">S&uuml;ddeutsche.de</p><br>
-                                        <p>Eine überregionale Tageszeitung in Druck und Online</p><br>
-                                        <a target="_blank" href="https://www.sueddeutsche.de/">https://www.sueddeutsche.de/</a>
-                                    </li>
-                                </ul>
-                            </li>
+                        <li><img class="legendPic" src="icons/newsPaper_icon.png"> Nachrichten
+                            <ul>
+                                <li>
+                                    <p class="analog_text">S&uuml;ddeutche Zeitung</p>
+                                    <p> & </p>
+                                    <p class="digital_text">S&uuml;ddeutsche.de</p><br>
+                                    <p>Eine überregionale Tageszeitung in Druck und Online</p><br>
+                                    <a target="_blank"
+                                        href="https://www.sueddeutsche.de/">https://www.sueddeutsche.de/</a>
+                                </li>
+                            </ul>
+                        </li>
 
-                            <li><img class="legendPic" src="icons/music.png">Freizeit
-                                <ul>
-                                    <li><p class="analog_text">burda style</p>
-                                        <p> & </p>
-                                        <p class="digital_text">BurdaStyle.de</p>
-                                        <br>
-                                        <p>Ein Mode- und N&auml;hmagazin</p><br>
-                                        <a target="_blank"
-                                           href="https://www.burdastyle.de/">https://www.burdastyle.de/</a></li>
-                                </ul>
-                            </li>
+                        <li><img class="legendPic" src="icons/music.png">Freizeit
+                            <ul>
+                                <li>
+                                    <p class="analog_text">burda style</p>
+                                    <p> & </p>
+                                    <p class="digital_text">BurdaStyle.de</p>
+                                    <br>
+                                    <p>Ein Mode- und N&auml;hmagazin</p><br>
+                                    <a target="_blank" href="https://www.burdastyle.de/">https://www.burdastyle.de/</a>
+                                </li>
+                            </ul>
+                        </li>
 
-                            <li><img class="legendPic" src="icons/sport.png">Sport
-                                <ul>
-                                    <li><p class="analog_text">klettern</p><br>
-                                        <p>Eine Zeitschrift die sich mit den verschiedenen Kletterarten, wie Fels- oder
-                                            Sportklettern, sowie Bouldern und Bergsteigen besch&auml;ftigt </p><br>
-                                        <a target="_blank" href="https://shop.motorpresse.de/klettern/start/">https://shop.motorpresse.de/klettern/start/</a>
-                                    </li>
-                                    <li><p class="digital_text">Bergsteiger.de</p><br>
-                                        <p>Bringt Inhalte rund ums Thema Bergsteigen</p><br>
-                                        <a target="_blank" href="https://bergsteiger.de/">https://bergsteiger.de/</a>
-                                    </li>
-                                </ul>
-                            </li>
+                        <li><img class="legendPic" src="icons/sport.png">Sport
+                            <ul>
+                                <li>
+                                    <p class="analog_text">klettern</p><br>
+                                    <p>Eine Zeitschrift die sich mit den verschiedenen Kletterarten, wie Fels- oder
+                                        Sportklettern, sowie Bouldern und Bergsteigen besch&auml;ftigt </p><br>
+                                    <a target="_blank"
+                                        href="https://shop.motorpresse.de/klettern/start/">https://shop.motorpresse.de/klettern/start/</a>
+                                </li>
+                                <li>
+                                    <p class="digital_text">Bergsteiger.de</p><br>
+                                    <p>Bringt Inhalte rund ums Thema Bergsteigen</p><br>
+                                    <a target="_blank" href="https://bergsteiger.de/">https://bergsteiger.de/</a>
+                                </li>
+                            </ul>
+                        </li>
                         </ul>
                     </div>
                 </div>

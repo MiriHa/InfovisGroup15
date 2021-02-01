@@ -65,8 +65,31 @@ var tooltip_covid = d3.select("#topDiagram")
     .style("color", COLOR_BACKGROUND_LIGHT)
     .style("position", "absolute")
 
+
+function resizeAll() {
+  d3.selectAll('.svgResize').call(scaleSvg);
+}
+    
+function scaleSvg(sel) {
+    console.log("resize")
+    sel.each(function() {
+      // split the viewbox into its component parts
+      var vbArray = d3.select(this).attr('viewBox').split(' ');
+      // find the ratio of height to width
+      var heightWidthRatio = +vbArray[3] / +vbArray[2];
+      // get the width of the body (or you could use some other container)
+      var w = document.body.offsetWidth;
+      // set the width and height of the element
+      console.log("resize "+heightWidthRatio +" "+ w)
+      d3.select(this)
+        .attr('width', w)
+        .attr('height', w * heightWidthRatio);
+    });
+  }
+
 // Create a function that takes a dataset as input and update the plot:
 function update() {
+    resizeAll()
     var data = data_monthly
     if (currentCase == MONTH_CASE) {
         data = data_new
@@ -76,12 +99,18 @@ function update() {
 
     var svg = d3.select("#topDiagram").selectAll("svg").remove()
     // append the svg object to the body of the page
-    svg = d3.select("#topDiagram").append("svg")
+    svg = d3.select("#topDiagram")
+        .append("svg")
+        .attr("viewBox", `0 0 ${620} ${170}`)
+        .attr("class","svgResize")
+       // .attr("transform", "translate(" + Margin + "," + Margin + ")");
 
     // Init Chart
     const chart = svg.append('g')
-        .attr("viewBox", `0 0 ${width} ${height}`)
-        .attr("transform", "translate(" + Margin + "," + Margin + ")");
+        // .attr("viewBox", `0 0 ${width} ${height}`)
+        // .attr("width","300")
+        .attr("height", "500")
+        .attr("transform", "translate(" + Margin + "," + -55 + ")");
 
     // Initialise the X axis:
     let x = d3.scalePoint().range([0, width]);
@@ -181,8 +210,8 @@ function update() {
     // Label for yAxis
     svg.append('text')
         .attr('class', 'label')
-        .attr('x', -(height / 2) - Margin)
-        .attr('y', Margin / 8)
+        .attr('x', -(height / 5) - Margin +80)
+        .attr('y', Margin / 10 + 10)
         .attr('transform', 'rotate(-90)')
         .attr('text-anchor', 'middle')
         .text('Fälle')
@@ -190,8 +219,8 @@ function update() {
     // Label for xAxis
     svg.append('text')
         .attr('class', 'label')
-        .attr('x', width / 2 + Margin)
-        .attr('y', height + Margin * 1.5)
+        .attr('x', Margin/2.2)
+        .attr('y', height - Margin*0.55)
         .attr('text-anchor', 'middle')
         .text('Monate')
 
@@ -206,15 +235,15 @@ function update() {
     svg.append('text')
         .attr('class', 'title')
         .attr('x', width / 2 + Margin)
-        .attr('y', 30)
+        .attr('y', -66)
         .attr('text-anchor', 'middle')
         .text(title)
 
     // Source
     svg.append('text')
         .attr('class', 'source')
-        .attr('x', Margin / 2)
-        .attr('y', height * 1.63)
+        .attr('x', Margin)
+        .attr('y', height - Margin*0.29)
         .attr('text-anchor', 'start')
         .text('Quelle: https://data.europa.eu/euodp/en/data/dataset/covid-19-coronavirus-data')
 

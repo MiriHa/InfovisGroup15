@@ -337,7 +337,10 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
 
 
     // append the svg object to the body of the page
-    svg = d3.select("#bottomDiagram").append("svg")
+    svg = d3.select("#bottomDiagram")
+    .append("svg")
+    .attr("viewBox", `0 0 ${600} ${150}`)
+    .attr("class","svgResize")
 
     // Init Chart
     initChart();
@@ -745,7 +748,7 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
      */
     function initChart() {
         chart = svg.append('g')
-            .attr("transform", "translate(" + Margin + "," + Margin + ")")
+        .attr("transform", "translate(" + Margin + "," + -35 + ")");
 
         // Initialise a X axis:
         x = d3.scalePoint().range([0, width]);
@@ -805,7 +808,7 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
 
             // Digital & Analog
         } else if (analogSource !== "" && digitalSource !== "") {
-            source = source + analogSource + ", " + digitalSource
+            source = source + analogSource + ","
             if (analogTitle !== "" && digitalTitle !== "") {
                 title = analogTitle + " vs. " + digitalTitle
             }
@@ -818,8 +821,8 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
         // Label for yAxis
         svg.append('text')
             .attr('class', 'label')
-            .attr('x', -(height / 2) - Margin)
-            .attr('y', Margin / 8)
+            .attr('x', -(height / 5) - Margin +50)
+            .attr('y', Margin / 10 + 15)
             .attr('transform', 'rotate(-90)')
             .attr('text-anchor', 'middle')
             .text(label_xAxis)
@@ -827,8 +830,8 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
         // Label for xAxis
         svg.append('text')
             .attr('class', 'label')
-            .attr('x', width / 2 + Margin)
-            .attr('y', height + Margin * 1.5)
+            .attr('x', Margin/2.2)
+        .attr('y', height - Margin*0.28)
             .attr('text-anchor', 'middle')
             .text('Monate')
 
@@ -836,17 +839,23 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
         svg.append('text')
             .attr('class', 'title')
             .attr('x', width / 2 + Margin)
-            .attr('y', 30)
+            .attr('y', -57)
             .attr('text-anchor', 'middle')
             .text(title)
 
         // Label for Source
         svg.append('text')
             .attr('class', 'source')
-            .attr('x', Margin / 2)
-            .attr('y', height * 1.63)
+            .attr('x', Margin)
+            .attr('y', height - Margin*0.13)
             .attr('text-anchor', 'start')
             .text(source)
+        svg.append('text')
+            .attr('class', 'source')
+            .attr('x', Margin)
+            .attr('y', height - Margin*0.01)
+            .attr('text-anchor', 'start')
+            .text(digitalSource)
 
 
     }
