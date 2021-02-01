@@ -103,6 +103,12 @@ var shownButtonYear = 2019;
 
 var currentSliderPosition = 0;
 
+const TOTAL_CASE = "total"
+const MONTH_CASE = "month"
+
+var currentCase = TOTAL_CASE
+var shownCaseButton = MONTH_CASE
+
 
 
 function resetRadiusandCollection(){

@@ -14,46 +14,84 @@ const data_monthly = [
     {ser1: "Dez", ser2: 1760520.0}
 ];
 
+const data_new = [
+    {ser1: "Jan", ser2: 5.0},
+    {ser1: "Feb", ser2: 74.0},
+    {ser1: "Mär", ser2: 71729.0},
+    {ser1: "Apr", ser2: 91201.0},
+    {ser1: "Mai", ser2: 20401.0},
+    {ser1: "Jun", ser2: 12008.0},
+    {ser1: "Jul", ser2: 14981.0},
+    {ser1: "Aug", ser2: 34403.0},
+    {ser1: "Sep", ser2: 48111.0},
+    {ser1: "Okt", ser2: 238877.0},
+    {ser1: "Nov", ser2: 538122.0},
+    {ser1: "Dez", ser2: 690608.0}
+]
+
 // set the dimensions and margins of the graph
 const Margin = DIAGRAM_MARGIN;
 const width = DIAGRAM_WIDTH - Margin;
 const height = DIAGRAM_HEIGHT - Margin;
 
-// append the svg object to the body of the page
-var svg = d3.select("#topDiagram").append("svg")
 
-// Init Chart
-const chart = svg.append('g')
-    .attr("viewBox", `0 0 ${width} ${height}`)
-    .attr("transform", "translate(" + Margin + "," + Margin + ")");
+d3.select("#caseCheck")
+    .property('checked', true)
+    .on('change', changeCase)
 
-// Initialise the X axis:
-let x = d3.scalePoint().range([0,width]);
-let xAxis = d3.axisBottom()
-    .scale(x)
-    // TODO: decide if
-    // vertical lines
-    .tickSize(-height);
+function changeCase() {
+    console.log("changecase")
+    console.log("current Case: " + currentCase )
 
-chart.append('g')
-    .attr("transform", "translate(0," + height + ")")
-    .attr("class","myXaxis")
+    if (currentCase == TOTAL_CASE) {
+        currentCase = MONTH_CASE
+        shownCaseButton = TOTAL_CASE
+        var svg = d3.select("#topDiagram").selectAll("svg").remove()
+        update(data_new)
+    } else {
+        currentCase = TOTAL_CASE
+        shownCaseButton = MONTH_CASE
+        var svg = d3.select("#topDiagram").selectAll("svg").remove()
+        update(data_monthly)
+    }
 
-// Initialize the Y axis
-let y = d3.scaleLinear().range([height, 0]);
-let yAxis = d3.axisLeft()
-    .scale(y)
-    .tickFormat(function (d) {
-        if ((d / 1000) >= 1) {
-            d = d / 1000 + "K";
-        }
-        return d;
-    });
-chart.append('g')
-    .attr("class","myYaxis")
+}
 
 // Create a function that takes a dataset as input and update the plot:
 function update(data) {
+
+    // append the svg object to the body of the page
+    var svg = d3.select("#topDiagram").append("svg")
+
+    // Init Chart
+    const chart = svg.append('g')
+        .attr("viewBox", `0 0 ${width} ${height}`)
+        .attr("transform", "translate(" + Margin + "," + Margin + ")");
+
+    // Initialise the X axis:
+    let x = d3.scalePoint().range([0, width]);
+    let xAxis = d3.axisBottom()
+        .scale(x)
+        // TODO: decide if
+        // vertical lines
+        .tickSize(-height);
+
+    chart.append('g')
+        .attr("transform", "translate(0," + height + ")")
+        .attr("class", "myXaxis")
+
+    // Initialize the Y axis
+    let y = d3.scaleLinear().range([height, 0]);
+    let yAxis = d3.axisLeft()
+        .scale(y)
+        .tickFormat(function (d) {
+            if ((d / 1000) >= 1) {
+                d = d / 1000 + "K";
+            }
+            return d;
+        });
+    chart.append('g')
+        .attr("class", "myYaxis")
 
     // Create the X axis:
     x.domain(data.map((s) => s.ser1))
@@ -128,12 +166,19 @@ function update(data) {
         .text('Monate')
 
     // Title
+    var title = "Corona-Fälle insgesamt (Deutschland 2020)"
+    if(currentCase == TOTAL_CASE){
+        title = "Corona-Fälle insgesamt (Deutschland 2020)"
+    } else {
+        title = "Neue Corona-Fälle (Deutschland 2020)"
+    }
+
     svg.append('text')
         .attr('class', 'title')
         .attr('x', width / 2 + Margin)
         .attr('y', 30)
         .attr('text-anchor', 'middle')
-        .text('Corona-Fälle insgesamt (Deutschland 2020)')
+        .text(title)
 
     // Source
     svg.append('text')
