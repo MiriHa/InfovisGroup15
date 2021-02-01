@@ -41,7 +41,7 @@ d3.select("#caseCheck")
 
 function changeCase() {
     console.log("changecase")
-    console.log("current Case: " + currentCase )
+    console.log("current Case: " + currentCase)
 
     if (currentCase == TOTAL_CASE) {
         currentCase = MONTH_CASE
@@ -70,7 +70,7 @@ var tooltip_covid = d3.select("#topDiagram")
 // Create a function that takes a dataset as input and update the plot:
 function update() {
     var data = data_monthly
-    if(currentCase == MONTH_CASE){
+    if (currentCase == MONTH_CASE) {
         data = data_new
     } else {
         data = data_monthly
@@ -119,7 +119,9 @@ function update() {
         .call(xAxis);
 
     // create the Y axis
-    y.domain([0, d3.max(data, function(d) { return Number(d.ser2)}) ]);
+    y.domain([0, d3.max(data, function (d) {
+        return Number(d.ser2)
+    })]);
     chart.selectAll(".myYaxis")
         .transition()
         .duration(1000)
@@ -128,30 +130,44 @@ function update() {
 
     // Create a update selection: bind to the new data
     let u = chart.selectAll(".lineTest")
-        .data([data], function(d){ return d.ser1 });
+        .data([data], function (d) {
+            return d.ser1
+        });
 
     // Add area
     u.enter()
         .append("path")
-        .data([data], function(d){ return d.ser1 })
+        .data([data], function (d) {
+            return d.ser1
+        })
         .attr("fill", "darkred")
         .attr("stroke", "none")
         .attr("fill-opacity", .65)
         .attr("d", d3.area()
-            .x(function(d) { return x(d.ser1); })
-            .y0( height )
-            .y1(function(d) { return y(d.ser2); }))
+            .x(function (d) {
+                return x(d.ser1);
+            })
+            .y0(height)
+            .y1(function (d) {
+                return y(d.ser2);
+            }))
 
     // Add line
     u.enter()
         .append("path")
-        .data([data], function(d){ return d.ser1 })
+        .data([data], function (d) {
+            return d.ser1
+        })
         .attr("fill", "none")
         .attr("stroke", "red")
         .attr("stroke-width", 1.5)
         .attr("d", d3.line()
-            .x(function(d) { return x(d.ser1); })
-            .y(function(d) { return y(d.ser2); }))
+            .x(function (d) {
+                return x(d.ser1);
+            })
+            .y(function (d) {
+                return y(d.ser2);
+            }))
 
     // Horizontal Lines
     const makeYLines = () => d3.axisLeft()
@@ -184,7 +200,7 @@ function update() {
 
     // Title
     var title = "Corona-Fälle insgesamt (Deutschland 2020)"
-    if(currentCase == TOTAL_CASE){
+    if (currentCase == TOTAL_CASE) {
         title = "Corona-Fälle insgesamt (Deutschland 2020)"
     } else {
         title = "Neue Corona-Fälle (Deutschland 2020)"
@@ -209,14 +225,16 @@ function update() {
     prepareDataForTooltip()
 
 
+    /**
+     * Preparation of all data that should be displayed in tooltip
+     */
     function prepareDataForTooltip() {
         var year = currentYear
         const date = new Date(year, currentSliderPosition, 1);
         const month = date.toLocaleString('default', {month: 'long'});
-        console.log("selected month = " + month)
 
         var datapoint = ""
-        if(currentCase == MONTH_CASE){
+        if (currentCase == MONTH_CASE) {
             datapoint = data_new[currentSliderPosition].ser2
         } else {
             datapoint = data_monthly[currentSliderPosition].ser2
@@ -226,7 +244,13 @@ function update() {
     }
 
 
+    /**
+     * When hovering over the highlight rect the tooltpip should be made visible
+     * @param month Name of current month
+     * @param datapoint Data value
+     */
     function tooltipForHighlight(month, datapoint) {
+        var positionLeft = 170
         chart.selectAll(".highlight-covid")
             .on('mouseover', function () {
                 console.log("mouse over rect")
@@ -234,20 +258,35 @@ function update() {
                 var mouse = d3.pointer(event, dia.node());
                 console.log("mouseover: " + mouse)
                 tooltip_covid.transition().duration(100).style("opacity", 0.9);
-                tooltip_covid
-                    .html(tooltipText(month, datapoint))
-                    .style("left", mouse[0]+5+"px")
-                    .style("top", mouse[1]+5+"px")
+                if (currentSliderPosition < 9) {
+                    tooltip_covid
+                        .html(tooltipText(month, datapoint))
+                        .style("left", mouse[0] + 5 + "px")
+                        .style("top", mouse[1] + 5 + "px")
+                } else {
+                    tooltip_covid
+                        .html(tooltipText(month, datapoint))
+                        .style("left", mouse[0] - positionLeft + "px")
+                        .style("top", mouse[1] + 5 + "px")
+                }
+
 
             })
-            .on('mousemove',function(){
+            .on('mousemove', function () {
                 var dia = d3.select("bottomDiagram")
                 var mouse = d3.pointer(event, dia.node());
                 tooltip_covid.transition().duration(100).style("opacity", 0.9);
-                tooltip_covid
-                    .html(tooltipText(month, datapoint))
-                    .style("left", mouse[0]+5+"px")
-                    .style("top", mouse[1]+5+"px")
+                if (currentSliderPosition < 8) {
+                    tooltip_covid
+                        .html(tooltipText(month, datapoint))
+                        .style("left", mouse[0] + 5 + "px")
+                        .style("top", mouse[1] + 5 + "px")
+                } else {
+                    tooltip_covid
+                        .html(tooltipText(month, datapoint))
+                        .style("left", mouse[0] - positionLeft + "px")
+                        .style("top", mouse[1] + 5 + "px")
+                }
             })
             .on('mouseout', function () {
                 console.log("mouse leave rect")
@@ -255,58 +294,54 @@ function update() {
             });
     }
 
+    /**
+     * Prepares the text that should be visible in tooltip
+     * @param month Name of current month
+     * @param datapoint Data value
+     * @returns {string} Formated text
+     */
     function tooltipText(month, datapoint) {
-        var preText = ""
-        if(currentCase == MONTH_CASE){
-            preText = "<p>Neue F&auml;lle im </p>"
-        } else {
-            preText = "<p>Gesamtzahl der F&auml;lle seit Beginn im </p>"
-        }
+        var monthText = "<b>" + month + ":</b>"
+        var dataText = "<p> " + datapoint.toString() + "</p>"
 
-        var monthText = "<b>" + month + "</b>"
-        var dataText = "<p>"+ datapoint.toString()+"</p>"
-
-        //return preText + monthText + "<br>" + dataText
-        return monthText + "<br>" + dataText
+        return monthText + dataText
     }
 
 
-    // highlights the in slider selected month, and also the depending one of the other year
+    /**
+     * Highlights the in slider selected month, and also the depending one of the other year
+     */
     function highlightMonth() {
         console.log("highlight month covid")
         var tickWidth = width / (data_monthly.length - 1)
-        var drawTickWidth = tickWidth/2
-        console.log("covid year: " + currentYear)
+        var drawTickWidth = tickWidth / 2
 
 
         var firstTickWidth = drawTickWidth / 2
-        //var firstTickWidth = tickWidth
         var firstValue = 0.5
         var firstTickEnd = firstTickWidth + firstValue
 
         if (currentYear == 2020) {
-            console.log("covid year 2020")
-            console.log("covid slider: " + currentSliderPosition)
             if (currentSliderPosition == 0) {
                 // 0-firstTick
-                console.log("if slider 0")
                 drawRect(firstValue, firstTickWidth)
             } else if (currentSliderPosition == 11) {
-                console.log("if slider 11")
                 var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth + drawTickWidth
-                //var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth
                 drawRect(value, firstTickWidth)
             } else {
-                console.log("if slider else")
                 //firstTick+(n-1)*tickWidth - firstTick+n*tickWidth
-                var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth +drawTickWidth
-                //var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth
+                var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth + drawTickWidth
                 drawRect(value, drawTickWidth)
             }
         }
     }
 
-
+    /**
+     * Draws a rectangle at
+     *
+     * @param xValue x-position of rect
+     * @param width Widht of rect
+     */
     function drawRect(xValue = 0, width = tickWidth) {
         var color = COLOR_HIGHLIGTH_MONTH
         var opacity = OPACITY_HIGHLIGHT_MONTH
