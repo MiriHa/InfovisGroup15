@@ -16,8 +16,8 @@ const COLOR_BACKGROUND_LIGHT = "#39475c"
 const COLOR_YEAR = "#dbdbdb"
 const COLOR_HIGHLIGTH_MONTH = "#d3d3d3"
 const COLOR_HIGHLIGTH_MONTH_OTHER_YEAR = "#808080"
-const OPACITY_HIGHLIGHT_MONTH = 0.6
-const OPACITY_HIGHLIGHT_MONTH_OTHER_YEAR = 0.3
+const OPACITY_HIGHLIGHT_MONTH = 0.19
+const OPACITY_HIGHLIGHT_MONTH_OTHER_YEAR = 0.15
 
 const DIAGRAM_WIDTH = 580
 const DIAGRAM_HEIGHT = 300
@@ -90,6 +90,7 @@ var titleCollection = [0, 1, 2, 3, 4, 5 ,6 ,7, 8, 9]
 //for bubbleorder
 const bubDigitalPosX = 250;
 const bubDigitalPosY = 220;
+const bubblescale = 10;
 
 //for markedBubbles
 var clicked_Digital = 0;

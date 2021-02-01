@@ -97,6 +97,7 @@ json1 = {
 
 var bubbleName;
 
+
 // Scroll to the bottom of the page when the arrow in the intro is clicked
 function scrollDown(){
     window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
@@ -106,7 +107,7 @@ function scrollDown(){
 function computeMainBubbles(bubbleRadi, month) {
     var summedig = 0;
     for (let bubb = 3; bubb < 7; bubb++) {
-        summedig = summedig + bubbleRadi[month][bubb] + 10
+        summedig = summedig + bubbleRadi[month][bubb] + bubblescale
 
     }
     bubbleRadi[month][1] = summedig / 4;
@@ -114,21 +115,20 @@ function computeMainBubbles(bubbleRadi, month) {
 
     var summeana = 0;
     for (let bubb = 7; bubb < 11; bubb++) {
-        summeana = summeana + bubbleRadi[month][bubb] + 10
+        summeana = summeana + bubbleRadi[month][bubb] + bubblescale
 
     }
     bubbleRadi[month][2] = summeana / 4;
     // console.log("summeANA = " + summeana);
 }
 
-
 var selectedAnalogBubble = ""
 var selectedDigitalBubble = ""
 var ClickDigital = true;
 var ClickAnalog = true;
 
-
-var tooltip_line = d3.select("#bubbles")
+// Create the tooltip div
+var tooltip_bubbles = d3.select("#bubbles")
     .append("div")
     .style("opacity", 0)
     .attr("class", "tooltip")
@@ -138,10 +138,7 @@ var tooltip_line = d3.select("#bubbles")
     .style("color", "#39475c")
     .style("position", "absolute")
 
-
-
-
-/* Visualize the bubble chart. Is called every time you move the timer */
+// Visualize the bubble chart. Is called every time you move the timer 
 function visualizeBubbles() {
     console.log("visualizeBubbles")
     bubbleRadi = radius
@@ -185,7 +182,7 @@ function visualizeBubbles() {
     var circle = elemEnter.append("circle")
         .filter(function (d) { return d.id < 3 })
         .attr("id", function (d) { return d.id })
-        .attr("r", function (d) { if (bubbleRadi[currentMonth][d.id] == 0) { return 50 } else { return bubbleRadi[currentMonth][d.id] + 10 } })
+        .attr("r", function (d) { if (bubbleRadi[currentMonth][d.id] == 0) { return 50 } else { return bubbleRadi[currentMonth][d.id] + bubblescale } })
         .attr("stroke", "black")
         .attr("fill", function (d) { return d.c })
         .style("opacity", function (d) { if (currentYear == 2020 && currentMonth > 9) { return 0.5 } else { 1 } })
@@ -193,15 +190,15 @@ function visualizeBubbles() {
         .on("mouseover", function (d) {
             var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
                 .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
-            tooltip_line.transition().duration(200).style("opacity", .9);
+            tooltip_bubbles.transition().duration(200).style("opacity", .9);
             var id = this.id
-            tooltip_line.html(tooltipDetailsMainBubbles(id))
+            tooltip_bubbles.html(tooltipDetailsMainBubbles(id))
                 .style("left", (window.pageXOffset + matrix.e + 30) + "px")
                 .style("top", (window.pageYOffset + matrix.f - 70) + "px");
         })
         /* Handle mousehovering event: Remove the tooltip */
         .on("mouseout", function (d) {
-            tooltip_line.transition().duration(500).style("opacity", 0);
+            tooltip_bubbles.transition().duration(500).style("opacity", 0);
         })
         /* Handle mouseclick event */
         .on("click", function (d) { return bubbleClick(d3.select(this)) }) //noch testen
@@ -243,7 +240,7 @@ function visualizeBubbles() {
     elemEnter.append("circle")
         .filter(function (d) { return d.id > 2 })
         .attr("id", function (d) { return d.id })
-        .attr("r", function (d) { if (bubbleRadi[currentMonth][d.id] == 0) { return 50 } else { return bubbleRadi[currentMonth][d.id] + 10 } })
+        .attr("r", function (d) { if (bubbleRadi[currentMonth][d.id] == 0) { return 50 } else { return bubbleRadi[currentMonth][d.id] + bubblescale } })
         .attr("stroke", "black")
         .attr("fill", function (d) { return d.c })
         .style("opacity", function (d) { if (currentYear == 2020 &&currentMonth > 9) { return 0.5 } else { 1 } })
@@ -251,15 +248,15 @@ function visualizeBubbles() {
         .on("mouseover", function (d) {
                       var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
                 .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
-            tooltip_line.transition().duration(200).style("opacity", .9);
+            tooltip_bubbles.transition().duration(200).style("opacity", .9);
             var id = this.id
-            tooltip_line.html(tooltipDetails(id, currentMonth))
+            tooltip_bubbles.html(tooltipDetails(id, currentMonth))
                 .style("left", (window.pageXOffset + matrix.e + 30) + "px")
                 .style("top", (window.pageYOffset + matrix.f - 59) + "px");
         })
         /* Remove the tooltip */
         .on("mouseout", function (d) {
-                      tooltip_line.transition().duration(500).style("opacity", 0);
+                      tooltip_bubbles.transition().duration(500).style("opacity", 0);
         })
 
     elemEnter.append("svg:image")
@@ -275,15 +272,15 @@ function visualizeBubbles() {
         .on("mouseover", function (d) {
                      var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
                 .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
-            tooltip_line.transition().duration(200).style("opacity", .9);
+            tooltip_bubbles.transition().duration(200).style("opacity", .9);
             var id = this.id
-            tooltip_line.html(tooltipDetails(id, currentMonth))
+            tooltip_bubbles.html(tooltipDetails(id, currentMonth))
                 .style("left", (window.pageXOffset + matrix.e + 30) + "px")
                 .style("top", (window.pageYOffset + matrix.f - 59) + "px");
         })
         /* Remove the tooltip */
         .on("mouseout", function (d) {
-                       tooltip_line.transition().duration(500).style("opacity", 0);
+                       tooltip_bubbles.transition().duration(500).style("opacity", 0);
         })
         // Klaus: Added this .on() to be able to click the sub-bubbles
         /* Handle mouseclick event */
