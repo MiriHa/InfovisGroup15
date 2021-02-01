@@ -11,22 +11,25 @@
     <link rel="stylesheet" href="index.css">
     <script src="https://d3js.org/d3.v6.min.js"></script>
 
-    <div class="dataWrapper" id="dataWrapper">
-        <div class="header">
-            <h1>Pressenutzung während der Corona Pandemie 2020</h1>
-            <div id="explanation" class=explanation>
-                <p id=explanationText>Diese Visualisierung von Gruppe 15 entstand im Rahmen der Vorlesung
-                    Informationsvisualisierung and der LMU München und will es ermöglichen, die <b>Verkaufszahlen</b>
-                    gedruckter Exemplare und die <b>online
-                        Besuche</b> ausgewählter Pressezeitungen während der Corona-Pandemie miteinander zu
-                    verlgeichen.<br> <br>
-                    Dazu kann jeweils eine digitale und eine analoge Sektion ausgewählt werden, um sie in einem
-                    <b>Diagramm</b> vergleichen zu können. <br>
-                    Am <b>Slider</b> kann der jeweiligen Monat verändert werden.
-                </p>
-            </div>
+    <div class="introSlide">
+        <div id="title">
+            <p id="titletext">Pressenutzung <br> während der Corona Pandemie 2020</p>
         </div>
-
+        <div id="explanation" class=explanation>
+            <p id=explanationText>Diese Visualisierung will es ermöglichen, die <b>Verkaufszahlen</b>
+                gedruckter Exemplare und die <b>online
+                Besuche</b> ausgewählter Pressezeitungen während der Corona-Pandemie miteinander zu
+                verlgeichen.<br> <br>
+                Hinter diese Seite steht <b>Gruppe 15</b>, das sind Lisa Görtz, Klaus Moser, Miriam Halsner, Manuela Eska, Anna Rüth​ <br>
+                <br>
+                Dazu kann jeweils eine digitale und eine analoge Sektion ausgewählt werden, um sie in einem
+                <b>Diagramm</b> vergleichen zu können. <br>
+                Am <b>Slider</b> kann der jeweiligen Monat verändert werden.
+            </p>
+            <img id="arrow" src="icons/arrow.png"></img>
+        </div>
+    </div>
+    <div class="dataWrapper" id="dataWrapper">
         <div class="bubbleChartItem" id="bubbleChartContainer">
             <div class="chartGridContainer">
                 <div id="legende" class="legend">
@@ -51,11 +54,12 @@
                 <div id="slider" class="slider">
                     <div id="yearSwitchContainer">
                         <p id="yearSwitchLabel">2019
-                        <label class="switch" id="yearSwitch">
-                            <input type="checkbox" id="yearCheack" checked>
-                            <span class="switchHandle round"></span>
-                        </label>
-                        2020</p>
+                            <label class="switch" id="yearSwitch">
+                                <input type="checkbox" id="yearCheack" checked>
+                                <span class="switchHandle round"></span>
+                            </label>
+                            2020
+                        </p>
                     </div>
                 </div>
                 <div id="additionalSpace" class="message">
