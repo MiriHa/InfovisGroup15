@@ -565,6 +565,9 @@ text.year {
     text-decoration: underline;
 }
 
+.tooltip_covid p{
+    display: inline;
+}
 
 
 /* Handle smaller Window sizes */
