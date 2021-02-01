@@ -8,7 +8,7 @@
 
 
 ### Feature table:
-| Subject |Feature   |To-Do |
+| **Subject**|**Feature**|**To-Do**|
 |-----------|----------|------------|
 |Intro-Slide|Implementierung|done|
 |Intro-Slide|Scrollfunktion|done|
@@ -32,4 +32,5 @@
 |Legende|Implementierung|done|
 
 ### Anmerkungen:
-* Layout in Chrome instabil
+* Layout in Google Chrome instabil
+* Layout nicht für Smartphones optimiert
