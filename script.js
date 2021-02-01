@@ -1,8 +1,0 @@
-
-function visualizeSlider(){
-  
-}
-
-function visualizeBubbles(){
-  
-}

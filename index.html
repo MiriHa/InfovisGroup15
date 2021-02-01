@@ -1,34 +1,152 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <title>Project Group 15</title>
-    </head>
-    <body>
-        <h1>Medienkonsum während der Corona Pandemie</h1>
-        <link rel="stylesheet" href="index.css">
+<html lang="en" dir="ltr" xmlns="http://www.w3.org/1999/html">
 
-        <div id="dataWrapper">
-            <div id="bubbleChartContainer">
-                <div id="sliderContainer"></div>
-                
-                <div id="bubbleContainer">
-                    <div id="bubbleAnalog"> </div>
-                    <div id="bubbleDigital"> </div>
-                </div>
-                
-            </div>
-        
-            <div id="diagrammContainer">
-                <div id="upperDiagramm"></div>
-                <div id="bottomDiagramm"></div>
+<head>
+    <meta charset="utf-8">
+    <title>Project Group 15</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
 
-            </div>
+<body class="body">
+    <link rel="stylesheet" href="index.css">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
 
+    <div class="introSlide">
+        <div id="title">
+            <p id="titletext">Pressenutzung <br> während der Corona Pandemie 2020</p>
         </div>
-     
-        <script src ="https://d3js.org/d3.v6.min.js"></script>
-        <script src = "./script.js"></script>
-        <script src = "./values.js"></script>
-    </body>
+        <div id="explanation" class=explanation>
+            <p id=explanationText>Diese Visualisierung ermöglicht es, die <b>Verkaufszahlen</b>
+                gedruckter Exemplare und <b>online
+                Besuche</b> ausgewählter Pressezeitungen während der Corona-Pandemie miteinander zu
+                vergleichen.<br> <br>
+                Hinter dieser Seite steht <b>Gruppe 15</b>, das sind Lisa Görtz, Klaus Moser, Miriam Halsner, Manuela Eska und Anna Rüth, die
+                im Rahmen der Vorlesung "Informationsvisualisierung" im WS2020/21 an der Ludwig-Maximilians-Universität München entstand.<br> <br>
+                Es kann jeweils eine digitale und eine analoge Sektion ausgewählt werden, um sie in einem
+                <b>Diagramm</b> vergleichen zu können. <br>
+                Am <b>Slider</b> kann der jeweiligen Monat verändert werden.
+            </p>
+            <img id="arrow" src="icons/arrow.png" onclick="scrollDown()"></img>
+        </div>
+    </div>
+    </div>
+    <div class="dataWrapper" id="dataWrapper">
+        <div class="bubbleChartItem" id="bubbleChartContainer">
+            <div class="chartGridContainer">
+                <div id="legende" class="legend">
+                    <div class='legend-title'>Farben und Symbole</div>
+                    <div class='legend-scale'>
+                        <ul class='legend-labels'>
+                            <li><span style='background: #e28743'></span>Verkaufszahlen</li>
+                            <li><span style='background:#1e81b0;'></span>Online Besuche</li>
+                            <li><img class="legendPic" id=healthPic src="icons/health.png">Gesundheit</li>
+                            <li><img class="legendPic" id=nesPic src="icons/newsPaper_icon.png"> Nachrichten</li>
+                            <li><img class="legendPic" id=musicPic
+                                    src="icons/music.png">Freizeit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                            <li><img class="legendPic" id=sportPic src="icons/sport.png">Sport</li>
+                        </ul>
+                    </div>
+                    <div id="info_form">
+                        <button id="info_button" class="button">Über die Daten</button>
+                        <!--<input class="legendPic" type="image" id="info_button" src="icons/health.png">
+                        <label for="info_button">Über die Daten</label>-->
+                    </div>
+                </div>
+                <div id="slider" class="slider">
+                    <div id="yearSwitchContainer">
+                        <p id="yearSwitchLabel">2019
+                            <label class="switch" id="yearSwitch">
+                                <input type="checkbox" id="yearCheack" checked>
+                                <span class="switchHandle round"></span>
+                            </label>
+                            2020
+                        </p>
+                    </div>
+                </div>
+                <div id="additionalSpace" class="message">
+                    <p id=ErrorText> Leider keine aktuellen Daten für diesen Zeitraum vorhanden!
+                    </p>
+                </div>
+                <div id="bubbles" class="bubbles"></div>
+                <div id="data_popup" class="data_popup" style="visibility: hidden">
+                    <div id="popup_header">
+                        <h2>Über die Daten</h2>
+                        <button id="popup_close" class="button" onclick="closePopup()">X</button>
+                    </div>
+                    <div id="popup_body">
+                        <ul class="all-data-categories">
+                            <li><img class="legendPic" src="icons/health.png">Gesundheit
+                                <ul>
+                                    <p class="analog_text">Apotheken Umschau</p>
+                                    <p> & </p>
+                                    <p class="digital_text">Apotheken-Umschau.de</p><br>
+                                    <p>Ein Gesundheitsmagazin, das in Apotheken als Kundenzeitschrift ausliegt. Ziel ist
+                                        es, die Menschen bestm&ouml;glich zu medizinischen Themen zu informieren</p><br>
+                                    <a target="_blank" href="https://www.apotheken-umschau.de/">https://www.apotheken-umschau.de/</a></li>
+                                </ul>
+                            </li>
+
+                            <li><img class="legendPic" src="icons/newsPaper_icon.png"> Nachrichten
+                                <ul>
+                                    <li><p class="analog_text">S&uuml;ddeutche Zeitung</p>
+                                        <p> & </p>
+                                        <p class="digital_text">S&uuml;ddeutsche.de</p><br>
+                                        <p>Eine überregionale Tageszeitung in Druck und Online</p><br>
+                                        <a target="_blank" href="https://www.sueddeutsche.de/">https://www.sueddeutsche.de/</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li><img class="legendPic" src="icons/music.png">Freizeit
+                                <ul>
+                                    <li><p class="analog_text">burda style</p>
+                                        <p> & </p>
+                                        <p class="digital_text">BurdaStyle.de</p>
+                                        <br>
+                                        <p>Ein Mode- und N&auml;hmagazin</p><br>
+                                        <a target="_blank"
+                                           href="https://www.burdastyle.de/">https://www.burdastyle.de/</a></li>
+                                </ul>
+                            </li>
+
+                            <li><img class="legendPic" src="icons/sport.png">Sport
+                                <ul>
+                                    <li><p class="analog_text">klettern</p><br>
+                                        <p>Eine Zeitschrift die sich mit den verschiedenen Kletterarten, wie Fels- oder
+                                            Sportklettern, sowie Bouldern und Bergsteigen besch&auml;ftigt </p><br>
+                                        <a target="_blank" href="https://shop.motorpresse.de/klettern/start/">https://shop.motorpresse.de/klettern/start/</a>
+                                    </li>
+                                    <li><p class="digital_text">Bergsteiger.de</p><br>
+                                        <p>Bringt Inhalte rund ums Thema Bergsteigen</p><br>
+                                        <a target="_blank" href="https://bergsteiger.de/">https://bergsteiger.de/</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="diagrammItemTop" id="topDiagram">
+            <div id="caseSwitchContainer">
+                <p id="caseSwitchLabel">Neuinfektionen
+                    <label class="switch" id="caseSwitch">
+                        <input type="checkbox" id="caseCheck" checked>
+                        <span class="switchHandle round"></span>
+                    </label>
+                    Gesamtzahlen
+                </p>
+            </div>
+        </div>
+        <div class="diagrammItemBottom" id="bottomDiagram"></div>
+    </div>
+    <script type="text/javascript" src="dataPopup.js"></script>
+    <script type="text/javascript" src="constants.js"></script>
+    <script type="text/javascript" src="lineDiagram.js"></script>
+    <script type="text/javascript" src="covidDiagram.js"></script>
+    <script type="text/javascript" src="slider.js"></script>
+    <script type="text/javascript" src="bubbles.js"></script>
+</body>
+
 </html>

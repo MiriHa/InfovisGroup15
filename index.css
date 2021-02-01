@@ -1,0 +1,619 @@
+:root {
+    --blue_background: #39475c;
+    --blue_areas:  #1b2636;
+  }
+
+*{
+    box-sizing: border-box;
+}
+
+body {
+    /*font-family: 'Microsoft JhengHei', Verdana, sans-serif; font-family: 'Open Sans', sans-serif; oder Tahoma*/
+    font-family: 'Courier New', monospace;
+    background:  #39475c; /*#1b2636 */ /*background: #293950;*/
+    color: #DBDBDB;
+}
+
+
+/**
+* Introslide and Text
+**/
+.introSlide{
+    height: 95vh ;
+    background-color:var(--blue_areas);
+    border-radius: 25px;
+    margin-bottom: 5vh;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-top: 5vh;
+}
+
+#title{
+    margin-left: 4vw;
+    border-radius: 12px;
+   }
+
+#titletext{
+    font-weight: bold;
+    text-align: left;
+    color: #DBDBDB;
+    font-size: 4vw;
+}
+
+.explanation{
+    padding-left: 4vw;
+    padding-right: 7vw;;
+
+}
+
+#explanationText{
+    font-size: 2.3vh;
+    text-align: justify;
+}
+
+#arrow{
+    height:5vh;
+    position: absolute;
+    bottom: 8px;
+    left: 16px;
+    margin-left: 4vw;
+    margin-bottom: 7vh;
+}
+
+
+
+/**
+* Dashboard
+**/
+
+/* Whole data Container*/
+.dataWrapper {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
+    gap: 10px;
+    justify-items: stretch;
+    grid-template-areas:
+        "bubbleChart diagrammTop"
+        "bubbleChart diagrammBottom";
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 30px;
+}
+
+/* Grid Items */
+.bubbleChartItem {
+    text-align: center;
+    max-height: 1000px;
+    /*height: 95vh; for window height */
+    height: auto;
+    border-radius: 22px;
+    background-color: var(--blue_areas);
+    padding: 10px;
+    grid-area: bubbleChart;
+}
+
+.chartGridContainer{
+    display: grid;
+    grid-template-columns: 30% 40% 30%;
+    grid-template-rows: 30% 70%;
+    padding: 10px;
+    justify-items: stretch;
+    grid-template-areas: 
+        "legend slider message"
+        "bubbles bubbles bubbles";
+}
+
+.diagrammItemTop{
+    width: 100%;
+    height: 100%;
+    padding: 15px;
+    padding-left: 25px;
+    /*background-color: #f3f4ff;*/
+    background-color:var(--blue_areas);
+    border-radius: 25px;
+    grid-area: diagrammTop;
+    text-align: center;
+    align-self: stretch;
+}
+
+.diagrammItemBottom{
+    width: 100%;
+    height: 100%;
+    padding: 15px;
+    /*background-color: #f3f4ff;*/
+    background-color: var(--blue_areas);
+    border-radius: 25px;
+    grid-area: diagrammBottom;
+    text-align: center;
+    align-self: stretch;
+
+}
+
+.slider {
+    height: 250px;
+    width: 250px;
+    margin: 0 auto;
+    grid-area: slider;
+    
+}
+
+
+/* Legende */
+.legend{
+    height: 250px;
+    width: 100%;
+    max-width: 300px !important;
+    margin: 0 auto;
+    padding: 18px;
+    background-color:var(--blue_background);
+    border-radius: 25px;
+    grid-area:  legend;
+
+}
+
+.legend-title {
+    text-align: left;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 100%;
+    color: #DBDBDB;
+    }
+    
+.legend-scale ul {
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 0;
+    float: left;
+    list-style: none;
+    }
+
+.legend-scale {
+    width: 138px;
+    height: 100%;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    padding: 0;
+    float: left;
+    list-style: none;
+    font-size: 70%;
+}    
+
+.legend-labels{
+    width: 100%;
+    height: 100px;
+}
+
+.legend-scale ul li {
+    list-style: none;
+    float: left;
+    margin-left: 5px;
+    line-height: 20px;
+    margin-bottom: 12px;
+    color: #DBDBDB;
+    }
+
+  .legend-labels li span {
+    display: block;
+    float: left;
+    height: 20px;
+    width: 20px;
+    margin-right: 5px;
+    margin-left: 0;
+    border: 1px solid #999;
+    color: #DBDBDB;
+    }
+
+.legendPic{
+    float: left;
+    height: 20px;
+    width: 20px;
+    margin-right: 5px;
+    margin-left: 0;
+}
+
+
+.message{
+    font-size: 110%;
+    color: #DBDBDB;
+    text-align: center;
+    height: 180px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 10px;
+    margin-top: 40px;
+    background:  #39475c;
+    border-radius: 25px;
+    grid-area:  message;
+    opacity: 0;
+}
+    
+
+.bubbles {
+      width: auto;
+      height: auto;
+      max-width: 960px;
+      max-height: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 40px;
+      grid-area: bubbles;
+}
+
+
+
+/* Diagramms */
+svg {
+    /*Do not delete*/
+    width: 100%;
+    height: 100%;
+}
+
+.bar {
+    fill: #1e81b0; /*old: #2b59d8; orange: #e28743*/
+}
+
+line {
+    /*Diagonal lines of diagrams*/
+    stroke: gray;
+    stroke-width: 1;
+    opacity: 0.4;
+}
+
+line#limit {
+    stroke: #DBDBDB; /* #ff0000;*/
+    stroke-width: 3;
+    stroke-dasharray: 3 6;
+}
+
+.grid path {
+    stroke-width: 0;
+}
+
+.tick_Scales .tick{
+    /*Tick-Settings of the chart (X & Y-Scale!).*/
+    stroke-width: 0;
+    font-size: 14px;
+    color: #FFFFFF;
+    opacity: 0.5;
+}
+
+text.divergence {
+    /*Difference in bars.*/
+    font-size: 18px;
+    fill: #FFFFFF; /*#000000;*/
+}
+
+text.value {
+    /*Values on bars.*/
+    font-size: 18px;
+    fill: #ffffff
+}
+
+text.title {
+    /*Title of the chart.*/
+    font-size: 20px;
+    font-weight: 600;
+    fill: #DBDBDB;
+}
+
+text.label {
+    /*Label of the X/Y-Scale.*/
+    font-size: 14px;
+    font-weight: 500;
+    fill: #FFFFFF;
+    opacity: 0.7;
+}
+
+text.source {
+    /*Text of the Source.*/
+    font-size: 12px;
+    font-style: italic;
+    fill: #DBDBDB;
+    opacity: 0.7;
+}
+
+
+/* Slider */
+.circumference{
+    fill: #fff;
+    stroke: #d4d4d4;
+    stroke-width: 15px;
+    opacity: 0.6;
+}
+
+.handle circle:hover{
+    cursor: pointer;
+}
+
+.handle circle{
+    fill: #f5f5f5;
+    stroke:#f5f5f5;
+    stroke-width: 3px;
+}
+
+.handle circle.dragging{
+    fill:  #f5f5f5;
+    stroke: #bdbdbd;
+}
+
+.tick{
+    stroke-width: 5;
+    stroke: white;
+    fill: white;
+    border-radius: 5px;
+}
+
+/* text of slider*/
+#monthLable{
+    text-anchor: middle;
+    font-size: 19px;
+    fill: white;
+}
+
+#yearLable{
+    text-anchor: middle;
+    font-size: 14px;
+    fill: white;
+}
+
+#casesLable{
+    font-size: 12px;
+    fill: white;
+}
+
+#casesNumbers{
+    font-size: 25px;
+    fill: white
+}
+
+#lockdownIndicator{
+    font-size: 10px;
+    fill: white;
+}
+
+
+/* Sytle Buttons */
+.button{
+  background-color: var(--blue_background); /* Green */
+  border: none;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+}
+
+.button:hover{
+    background-color: #576d8f;
+}
+.button:active{
+    background-color: var(--blue_background);
+}
+
+
+/* Sytle the toggle switches */
+
+#yearSwitchLabel{
+    font-size: 14px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+/* Hide HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switchHandle {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color:grey;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.switchHandle:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .switchHandle {
+  background-color: grey;
+}
+
+input:focus + .switchHandle {
+  box-shadow: 0 0 1px grey;
+}
+
+input:checked + .switchHandle:before {
+  -webkit-transform: translateX(16px);
+  -ms-transform: translateX(16px);
+  transform: translateX(16px);
+}
+
+.switchHandle.round {
+  border-radius: 34px;
+}
+
+.switchHandle.round:before {
+  border-radius: 50%;
+}
+
+
+/* Styling the About Data Infobox*/
+
+text.year {
+    fill: white;
+    font-size: 17px;
+    opacity: 0.6;
+}
+
+#line_year {
+    stroke-width: 1;
+    /*stroke-dasharray: 5;*/
+    opacity: 0.4;
+    color: white;
+}
+
+.analog_text{
+    color: #e28743;
+}
+
+.digital_text{
+    color: #1e81b0;
+}
+
+.selected_year{
+    background-color: #d3d3d3;
+}
+
+
+#popup_header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.all-data-categories{
+    width: 100%;
+    height: 250px;
+}
+
+.data_popup{
+    width: auto;
+    height: auto;
+    max-width: 960px;
+    max-height: 700px;
+    grid-area: bubbles;
+    margin: 10px auto;
+    padding: 18px;
+    background-color:var(--blue_background);
+    border-radius: 25px;
+}
+
+.all-data-categories li span {
+    display: block;
+    float: left;
+    height: 20px;
+    width: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    border: 1px solid #999;
+    color: #DBDBDB;
+}
+
+.all-data-categories p {
+    display: inline;
+}
+
+.data_popup ul{
+    width: auto;
+    height: auto;
+    max-width: 960px;
+    max-height: 700px;
+    grid-area: bubbles;
+}
+
+.data_popup ul li {
+    list-style: none;
+    margin-left: 5px;
+    line-height: 20px;
+    margin-bottom: 7px;
+    color: #DBDBDB;
+}
+
+
+#popup_body{
+    text-align: left;
+}
+
+#popup_body a:link{
+    color: #808080;
+    text-decoration: none;
+}
+
+#popup_body a:visited{
+    color:#808080;
+    text-decoration: none;
+}
+
+#popup_body a:hover{
+    color: var(--blue_areas);
+    text-decoration: underline;
+}
+
+.tooltip_covid p{
+    display: inline;
+}
+
+
+/* Handle smaller Window sizes */
+
+@media only screen and (max-width: 1300px) {
+    .dataWrapper {
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 5% 1fr 600px 600px;
+        gap: 1em;
+        justify-items: stretch;
+        grid-template-areas: 
+            "header "
+            "bubbleChart"
+            "diagrammTop"
+            "diagrammBottom";
+        padding: 10px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .bubbleChartItem {
+        grid-area: bubbleChart;
+    
+    }
+    .diagrammItemTop {
+        grid-area: diagrammTop;
+        width: 100%;
+        height: 100%;
+        /*background-color: #f3f4ff;*/
+        background-color: var(--blue_areas);
+        border-radius: 25px;
+        grid-area: diagrammTop;
+        text-align: center;
+        max-height: 1200px;
+      
+    }
+    .diagrammItemBottom {
+        width: 100%;
+        grid-area: diagrammBottom;
+    }
+
+    #explanationText{
+        font-size: 100%;
+        color: #DBDBDB;
+        text-align: justify;
+    }
+
+}
