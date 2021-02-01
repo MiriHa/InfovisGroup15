@@ -136,6 +136,7 @@ var tooltip_bubbles = d3.select("#bubbles")
     .style("border-radius", "5px")
     .style("padding", "10px")
     .style("color", "#39475c")
+    .style("text-align", "left")
     .style("position", "absolute")
 
 // Visualize the bubble chart. Is called every time you move the timer
