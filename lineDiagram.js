@@ -848,13 +848,15 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
             .attr('text-anchor', 'start')
             .text(source)
 
-        svg.append('text')
-            .attr('class', 'source')
-            .attr('x', Margin / 2)
-            .attr('y', height * 1.7)
-            .attr('text-anchor', 'start')
-            .text(digitalSource)
-
+        // When both data, append extra digital source
+        if (analogSource !== "" && digitalSource !== ""){
+            svg.append('text')
+                .attr('class', 'source')
+                .attr('x', Margin / 2)
+                .attr('y', height * 1.7)
+                .attr('text-anchor', 'start')
+                .text(digitalSource)
+        }
 
     }
 
