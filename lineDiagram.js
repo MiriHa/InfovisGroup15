@@ -385,9 +385,12 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
     yearIndicator();
     prepareDataForTooltip()
 
+    // format number with dots every 3 digits
     function formatNumber(num) {
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
     }
+
+    
 
     /**
      * Preparation of all data that should be displayed in tooltip
@@ -401,11 +404,11 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
         var analog20 = ""
         var digital19 = ""
         var digital20 = ""
-        var value = Math.round(Number(d.ser2))
-                    var formatValue = formatNumber(value)
-                    analog19 = formatValue
         var currentSelectedMonth = currentSliderPosition + 1
         var monthNumber = value
+        var value = Math.round(Number(d.ser2))
+        var formatValue = formatNumber(value)
+        
         if (currentSelectedMonth < 10) {
             monthNumber = "0" + currentSelectedMonth
         }
@@ -413,33 +416,33 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
         if (aData > 0 && dData === 0) {
             analogData.forEach(function (d) {
                 if (d.ser1 === ("2019" + monthNumber)) {
-                    analog19 = d.ser2
+                    analog19 = formatValue
                 } else if (d.ser1 === ("2020" + monthNumber)) {
-                    analog20 = d.ser2
+                    analog20 = formatValue
                 }
             })
         } else if (aData === 0 && dData > 0) {
             digitalData.forEach(function (d) {
                 if (d.ser1 === ("2019" + monthNumber)) {
-                    digital19 = d.ser2
+                    digital19 = formatValue
                 } else if (d.ser1 === ("2020" + monthNumber)) {
-                    digital20 = d.ser2
+                    digital20 = formatValue
                 }
             })
         } else if (aData > 0 && dData > 0) {
             // both
             analogData.forEach(function (d) {
                 if (d.ser1 === ("2019" + monthNumber)) {
-                    analog19 = d.ser2
+                    analog19 = formatValue
                 } else if (d.ser1 === ("2020" + monthNumber)) {
-                    analog20 = d.ser2
+                    analog20 = formatValue
                 }
             })
             digitalData.forEach(function (d) {
                 if (d.ser1 === ("2019" + monthNumber)) {
-                    digital19 = d.ser2
+                    digital19 = formatValue
                 } else if (d.ser1 === ("2020" + monthNumber)) {
-                    digital20 = d.ser2
+                    digital20 = formatValue
                 }
             })
         }
