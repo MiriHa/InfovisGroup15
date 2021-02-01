@@ -15,6 +15,9 @@ body {
 }
 
 
+/**
+* Introslide and Text
+**/
 .introSlide{
     height: 95vh ;
     background-color:var(--blue_areas);
@@ -59,6 +62,12 @@ body {
 }
 
 
+
+/**
+* Dashboard
+**/
+
+/* Whole data Container*/
 .dataWrapper {
     display: grid;
     grid-template-columns: 50% 50%;
@@ -73,6 +82,7 @@ body {
     margin-bottom: 30px;
 }
 
+/* Grid Items */
 .bubbleChartItem {
     text-align: center;
     max-height: 1000px;
@@ -129,7 +139,8 @@ body {
     
 }
 
-/* Legend */
+
+/* Legende */
 .legend{
     height: 250px;
     width: 100%;
@@ -174,7 +185,7 @@ body {
     height: 100px;
 }
 
-  .legend-scale ul li {
+.legend-scale ul li {
     list-style: none;
     float: left;
     margin-left: 5px;
@@ -182,11 +193,6 @@ body {
     margin-bottom: 12px;
     color: #DBDBDB;
     }
-
- /* .legend-scale ul li:after {
-        content: " ";
-        white-space: pre;
-      } */
 
   .legend-labels li span {
     display: block;
@@ -206,6 +212,7 @@ body {
     margin-right: 5px;
     margin-left: 0;
 }
+
 
 .message{
     font-size: 110%;
@@ -235,6 +242,8 @@ body {
 }
 
 
+
+/* Diagramms */
 svg {
     /*Do not delete*/
     width: 100%;
@@ -365,6 +374,7 @@ text.source {
 }
 
 
+/* Sytle Buttons */
 .button{
   background-color: var(--blue_background); /* Green */
   border: none;
@@ -385,6 +395,8 @@ text.source {
 }
 
 
+/* Sytle the toggle switches */
+
 #yearSwitchLabel{
     font-size: 14px;
 }
@@ -396,14 +408,13 @@ text.source {
   height: 20px;
 }
 
-/* Hide default HTML checkbox */
+/* Hide HTML checkbox */
 .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
 
-/* The slider */
 .switchHandle {
   position: absolute;
   cursor: pointer;
@@ -442,7 +453,6 @@ input:checked + .switchHandle:before {
   transform: translateX(16px);
 }
 
-/* Rounded sliders */
 .switchHandle.round {
   border-radius: 34px;
 }
@@ -452,52 +462,7 @@ input:checked + .switchHandle:before {
 }
 
 
-
-@media only screen and (max-width: 1300px) {
-    .dataWrapper {
-        display: grid;
-        grid-template-columns: 100%;
-        grid-template-rows: 5% 1fr 600px 600px;
-        gap: 1em;
-        justify-items: stretch;
-        grid-template-areas: 
-            "header "
-            "bubbleChart"
-            "diagrammTop"
-            "diagrammBottom";
-        padding: 10px;
-        margin-left: 10px;
-        margin-right: 10px;
-    }
-
-    .bubbleChartItem {
-        grid-area: bubbleChart;
-    
-    }
-    .diagrammItemTop {
-        grid-area: diagrammTop;
-        width: 100%;
-        height: 100%;
-        /*background-color: #f3f4ff;*/
-        background-color: var(--blue_areas);
-        border-radius: 25px;
-        grid-area: diagrammTop;
-        text-align: center;
-        max-height: 1200px;
-      
-    }
-    .diagrammItemBottom {
-        width: 100%;
-        grid-area: diagrammBottom;
-    }
-
-    #explanationText{
-        font-size: 100%;
-        color: #DBDBDB;
-        text-align: justify;
-    }
-
-}
+/* Styling the About Data Infobox*/
 
 text.year {
     fill: white;
@@ -511,9 +476,6 @@ text.year {
     opacity: 0.4;
     color: white;
 }
-
-
-
 
 .analog_text{
     color: #e28743;
@@ -603,3 +565,55 @@ text.year {
     text-decoration: underline;
 }
 
+.tooltip_covid p{
+    display: inline;
+}
+
+
+/* Handle smaller Window sizes */
+
+@media only screen and (max-width: 1300px) {
+    .dataWrapper {
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 5% 1fr 600px 600px;
+        gap: 1em;
+        justify-items: stretch;
+        grid-template-areas: 
+            "header "
+            "bubbleChart"
+            "diagrammTop"
+            "diagrammBottom";
+        padding: 10px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .bubbleChartItem {
+        grid-area: bubbleChart;
+    
+    }
+    .diagrammItemTop {
+        grid-area: diagrammTop;
+        width: 100%;
+        height: 100%;
+        /*background-color: #f3f4ff;*/
+        background-color: var(--blue_areas);
+        border-radius: 25px;
+        grid-area: diagrammTop;
+        text-align: center;
+        max-height: 1200px;
+      
+    }
+    .diagrammItemBottom {
+        width: 100%;
+        grid-area: diagrammBottom;
+    }
+
+    #explanationText{
+        font-size: 100%;
+        color: #DBDBDB;
+        text-align: justify;
+    }
+
+}

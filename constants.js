@@ -90,6 +90,7 @@ var titleCollection = [0, 1, 2, 3, 4, 5 ,6 ,7, 8, 9]
 //for bubbleorder
 const bubDigitalPosX = 250;
 const bubDigitalPosY = 220;
+const bubblescale = 10;
 
 //for markedBubbles
 var clicked_Digital = 0;
