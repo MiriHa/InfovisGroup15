@@ -819,7 +819,7 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
         svg.append('text')
             .attr('class', 'label')
             .attr('x', -(height / 2) - Margin)
-            .attr('y', Margin / 8)
+            .attr('y', Margin / 4)
             .attr('transform', 'rotate(-90)')
             .attr('text-anchor', 'middle')
             .text(label_xAxis)
@@ -847,12 +847,13 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
             .attr('y', height * 1.63)
             .attr('text-anchor', 'start')
             .text(source)
+
         svg.append('text')
             .attr('class', 'source')
             .attr('x', Margin / 2)
             .attr('y', height * 1.7)
             .attr('text-anchor', 'start')
-            .text(analogSource)
+            .text(digitalSource)
 
 
     }
