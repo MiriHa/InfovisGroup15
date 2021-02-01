@@ -40,8 +40,6 @@ d3.select("#caseCheck")
     .on('change', changeCase)
 
 function changeCase() {
-    console.log("changecase")
-    console.log("current Case: " + currentCase)
 
     if (currentCase == TOTAL_CASE) {
         currentCase = MONTH_CASE
@@ -89,7 +87,6 @@ function update() {
     let x = d3.scalePoint().range([0, width]);
     let xAxis = d3.axisBottom()
         .scale(x)
-        // TODO: decide if
         // vertical lines
         .tickSize(-height);
 
@@ -244,6 +241,7 @@ function update() {
         }
 
         tooltipForHighlight(month, datapoint)
+
         function formatNumber(num) {
             return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
         }
@@ -259,10 +257,9 @@ function update() {
         var positionLeft = 170
         chart.selectAll(".highlight-covid")
             .on('mouseover', function () {
-                console.log("mouse over rect")
+                console.log("covidDiagram - tooltipForHighlight: mouse over rect")
                 var dia = d3.select("topDiagram")
                 var mouse = d3.pointer(event, dia.node());
-                console.log("mouseover: " + mouse)
                 tooltip_covid.transition().duration(100).style("opacity", 0.94);
                 if (currentSliderPosition < 9) {
                     tooltip_covid
@@ -295,7 +292,7 @@ function update() {
                 }
             })
             .on('mouseout', function () {
-                console.log("mouse leave rect")
+                console.log("covidDiagram - tooltipForHighlight: mouse leave rect")
                 tooltip_covid.transition().duration(400).style("opacity", 0);
             });
     }
@@ -318,7 +315,6 @@ function update() {
      * Highlights the in slider selected month, and also the depending one of the other year
      */
     function highlightMonth() {
-        console.log("highlight month covid")
         var tickWidth = width / (data_monthly.length - 1)
         var drawTickWidth = tickWidth / 2
 
