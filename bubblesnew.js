@@ -6,18 +6,18 @@ json1 = {
     "bubbles": [{
         // main bubbles
         "id": 1,
-        "x": bubDigitalPosX, //250
-        "y": bubDigitalPosY, //220
+        "x": bubDigitalPosX,
+        "y": bubDigitalPosY,
         "r": 90,
-        "c": COLOR_ANALOG, /* orange */
+        "c": COLOR_ANALOG,
         "label": ANALOG,
         "img": ""
     }, {
         "id": 2,
-        "x": bubDigitalPosX + 150, //400,
+        "x": bubDigitalPosX + 150,
         "y": bubDigitalPosY,
         "r": 90,
-        "c": COLOR_DIGITAL, /* blue */
+        "c": COLOR_DIGITAL,
         "label": DIGITAL,
         "img": ""
     },
@@ -25,70 +25,70 @@ json1 = {
     {
         "id": 3,
         "x": bubDigitalPosX,
-        "y": bubDigitalPosY - 150, //70
+        "y": bubDigitalPosY - 150,
         "r": 90,
-        "c": COLOR_ANALOG, /* orange */
+        "c": COLOR_ANALOG,
         "label": HEALTH,
         "img": "health.png"
 
     }, {
         "id": 4,
-        "x": bubDigitalPosX - 180, //70
-        "y": bubDigitalPosY - 70,//150
+        "x": bubDigitalPosX - 180,
+        "y": bubDigitalPosY - 70,
         "r": 90,
-        "c": COLOR_ANALOG, /* orange */
+        "c": COLOR_ANALOG,
         "label": NEWS,
         "img": "newsPaper_icon.png"
 
     }, {
         "id": 5,
-        "x": bubDigitalPosX - 180, //70,
-        "y": bubDigitalPosY + 110,//330,
+        "x": bubDigitalPosX - 180,
+        "y": bubDigitalPosY + 110,
         "r": 90,
-        "c": COLOR_ANALOG, /* orange */
+        "c": COLOR_ANALOG,
         "label": FREETIME,
         "img": "music.png"
     },
     {
         "id": 6,
         "x": bubDigitalPosX,
-        "y": bubDigitalPosY + 150,//370,
+        "y": bubDigitalPosY + 150,
         "r": 90,
-        "c": COLOR_ANALOG, /* orange */
+        "c": COLOR_ANALOG,
         "label": SPORT,
         "img": "sport.png"
     },
     //digital sub bubbles
     {
         "id": 7,
-        "x": bubDigitalPosX + 150,//400,
-        "y": bubDigitalPosY + 150,//370,
+        "x": bubDigitalPosX + 150,
+        "y": bubDigitalPosY + 150,
         "r": 90,
-        "c": COLOR_DIGITAL, /* blue */
+        "c": COLOR_DIGITAL,
         "label": SPORT,
         "img": "sport.png"
     }, {
         "id": 8,
-        "x": bubDigitalPosX + 150,//400,
-        "y": bubDigitalPosY - 150,//70,
+        "x": bubDigitalPosX + 150,
+        "y": bubDigitalPosY - 150,
         "r": 90,
-        "c": COLOR_DIGITAL, /* blue */
+        "c": COLOR_DIGITAL,
         "label": HEALTH,
         "img": "health.png"
     }, {
         "id": 9,
-        "x": bubDigitalPosX + 330,//580,
-        "y": bubDigitalPosY - 70,//150,
+        "x": bubDigitalPosX + 330,
+        "y": bubDigitalPosY - 70,
         "r": 90,
-        "c": COLOR_DIGITAL, /* blue */
+        "c": COLOR_DIGITAL,
         "label": NEWS,
         "img": "newsPaper_icon.png"
     }, {
         "id": 10,
-        "x": bubDigitalPosX + 330,//580,
-        "y": bubDigitalPosY + 110,//330,
+        "x": bubDigitalPosX + 330,
+        "y": bubDigitalPosY + 110,
         "r": 90,
-        "c": COLOR_DIGITAL, /* blue */
+        "c": COLOR_DIGITAL,
         "label": FREETIME,
         "img": "music.png"
     }
@@ -98,7 +98,9 @@ json1 = {
 var bubbleName;
 
 
-// Scroll to the bottom of the page when the arrow in the intro is clicked
+/**
+ * Scroll to the bottom of the page when the arrow in the intro is clicked
+ */
 function scrollDown(){
     window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
 }
@@ -111,7 +113,6 @@ function computeMainBubbles(bubbleRadi, month) {
 
     }
     bubbleRadi[month][1] = summedig / 4;
-    // console.log(" = " + summedig);
 
     var summeana = 0;
     for (let bubb = 7; bubb < 11; bubb++) {
@@ -119,13 +120,10 @@ function computeMainBubbles(bubbleRadi, month) {
 
     }
     bubbleRadi[month][2] = summeana / 4;
-    // console.log("summeANA = " + summeana);
 }
 
 var selectedAnalogBubble = ""
 var selectedDigitalBubble = ""
-var ClickDigital = true;
-var ClickAnalog = true;
 
 // Create the tooltip div
 var tooltip_bubbles = d3.select("#bubbles")
@@ -139,23 +137,19 @@ var tooltip_bubbles = d3.select("#bubbles")
     .style("text-align", "left")
     .style("position", "absolute")
 
-// Visualize the bubble chart. Is called every time you move the timer
+/**
+ * Visualize the bubble chart. Is called every time you move the timer
+ */
 function visualizeBubbles() {
     console.log("visualizeBubbles")
     bubbleRadi = radius
     var currentMonth = currentSliderPosition +1
 
+    // update the diagrams when slider is moved
     parser(selectedAnalogBubble, selectedDigitalBubble)
     update()
+
     computeMainBubbles(bubbleRadi, currentMonth);
-    //console.log(bubbleRadi)
-
-    //json Datei nutzen:
-    //id: analog(1,2-5) und digital (2, 6-9)
-
-    state = 0; //nur analog und digital anzeigen
-
-
 
     var width = 700,
         height = 420;
@@ -207,7 +201,7 @@ function visualizeBubbles() {
 
 
     elemEnter.selectAll("text").remove()
-    //Texte einfügen und später filtern
+    // add texts and filter later
     elemEnter.selectAll("text").remove()
     elemEnter.append("text")
         .filter(function (d) { return d.id < 3 })
@@ -218,24 +212,6 @@ function visualizeBubbles() {
         .style("font-size", "18px")
         .style("font-weight", "bold")
         .filter(function (d) { return d.id < 3 })
-    // Text doesn't have an id so inkorrekt tooltips gets display
-
-    /* Event handler for mouse hovering on bubbles (show tooltip) */
-    // .on("mouseover", function (d) {
-    //     console.log(" in mouseover")
-    //     var matrix = this.getScreenCTM() // Get the position of the hovered bubbles
-    //         .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
-    //     tooltip.transition().duration(200).style("opacity", .9);
-    //     var id = this.label //text has no ID
-    //     tooltip.html(id)
-    //         .style("left", (window.pageXOffset + matrix.e + 30) + "px")
-    //         .style("top", (window.pageYOffset + matrix.f - 70) + "px");
-    // })
-    // /* Remove the tooltip */
-    // .on("mouseout", function (d) {
-    //     console.log("in mouseout")
-    //     tooltip.transition().duration(500).style("opacity", 0);
-    // })
 
     /* Make other bubbles transparent */
     elemEnter.append("circle")
@@ -283,7 +259,6 @@ function visualizeBubbles() {
         .on("mouseout", function (d) {
                        tooltip_bubbles.transition().duration(500).style("opacity", 0);
         })
-        // Klaus: Added this .on() to be able to click the sub-bubbles
         /* Handle mouseclick event */
         .on("click", function (d) { return bubbleClick(d3.select(this)) })
 
@@ -296,7 +271,7 @@ function visualizeBubbles() {
                 markBubble(1);
                 markBubble(2);
             }
-            elemEnter.selectAll("circle")//.append("circle")
+            elemEnter.selectAll("circle")
                 .filter(function (d) {
                     return (d.id == A || d.id == D)
                 })
@@ -321,6 +296,12 @@ function visualizeBubbles() {
 
 
     //Get the Text for the Tooltip
+    /**
+     * Prepares the text that should be visible in tooltip
+     * @param currentid
+     * @param currentMonth
+     * @returns {string} Formated text
+     */
     function tooltipDetails(currentid, currentMonth) {
         var details;
 
