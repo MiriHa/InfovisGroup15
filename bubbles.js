@@ -353,7 +353,7 @@ function visualizeBubbles() {
                         }
                     })
                 .style("opacity", function (d) {
-                    if (currenYear == 2020 && currentMonth > 9) {
+                    if (currentYear == 2020 && currentMonth > 9) {
                         return 0.5
                     } else {
                         1
