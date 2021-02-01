@@ -406,39 +406,69 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
 
         if (aData > 0 && dData === 0) {
             analogData.forEach(function (d) {
+                var dataValue
+                var formatValue
                 if (d.ser1 === ("2019" + monthNumber)) {
-                    analog19 = d.ser2
+                    dataValue = Math.round(Number(d.ser2))
+                    formatValue = formatNumber(dataValue)
+                    analog19 = formatValue
                 } else if (d.ser1 === ("2020" + monthNumber)) {
-                    analog20 = d.ser2
+                    dataValue = Math.round(Number(d.ser2))
+                    formatValue = formatNumber(dataValue)
+                    analog20 = formatValue
+
                 }
             })
         } else if (aData === 0 && dData > 0) {
             digitalData.forEach(function (d) {
+                var dataValue
+                var formatValue
                 if (d.ser1 === ("2019" + monthNumber)) {
-                    digital19 = d.ser2
+                    dataValue = Math.round(Number(d.ser2))
+                    formatValue = formatNumber(dataValue)
+                    digital19 = formatValue
                 } else if (d.ser1 === ("2020" + monthNumber)) {
-                    digital20 = d.ser2
+                    dataValue = Math.round(Number(d.ser2))
+                    formatValue = formatNumber(dataValue)
+                    digital20 = formatValue
                 }
             })
         } else if (aData > 0 && dData > 0) {
             // both
             analogData.forEach(function (d) {
+                var dataValue
+                var formatValue
                 if (d.ser1 === ("2019" + monthNumber)) {
-                    analog19 = d.ser2
+                    dataValue = Math.round(Number(d.ser2))
+                    formatValue = formatNumber(dataValue)
+                    analog19 = formatValue
                 } else if (d.ser1 === ("2020" + monthNumber)) {
-                    analog20 = d.ser2
+                    dataValue = Math.round(Number(d.ser2))
+                    formatValue = formatNumber(dataValue)
+                    analog20 = formatValue
+
                 }
             })
             digitalData.forEach(function (d) {
+                var dataValue
+                var formatValue
                 if (d.ser1 === ("2019" + monthNumber)) {
-                    digital19 = d.ser2
+                    dataValue = Math.round(Number(d.ser2))
+                    formatValue = formatNumber(dataValue)
+                    digital19 = formatValue
                 } else if (d.ser1 === ("2020" + monthNumber)) {
-                    digital20 = d.ser2
+                    dataValue = Math.round(Number(d.ser2))
+                    formatValue = formatNumber(dataValue)
+                    digital20 = formatValue
                 }
             })
         }
 
         tooltipForHighlight(month, currentSelectedMonth, year, analog19, analog20, digital19, digital20)
+
+        function formatNumber(num) {
+            return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+        }
     }
 
     /**
