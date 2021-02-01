@@ -308,13 +308,13 @@ var tooltip_line = d3.select("#bottomDiagram")
     .append("div")
     .style("opacity", 0)
     .attr("class", "tooltip_line")
-    .style("background-color", "white")
+    .style("background-color", COLOR_YEAR)
     .style("border-radius", "5px")
     .style("padding", "5px") 
-    .style("color", "#39475c")
+    .style("color", COLOR_BACKGROUND_LIGHT)
+    .style("text-align", "left")
     .style("position", "absolute")
-
-
+    
 /**
  * All stuff to draw line diagram with all features
  * @param analogData Data to show
@@ -495,7 +495,7 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
      * @returns {string} Formated text
      */
     function tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20) {
-        var monthText = "<b>" + month + "</b>"
+        var monthText = "<b >" + month + "</b>"
         var year19 = "<tr><td>2019</td>"
         var emptyCell19 = "<tr><td></td>"
         if (year == 2019) {

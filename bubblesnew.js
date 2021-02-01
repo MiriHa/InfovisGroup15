@@ -131,10 +131,11 @@ var tooltip_bubbles = d3.select("#bubbles")
     .append("div")
     .style("opacity", 0)
     .attr("class", "tooltip")
-    .style("background-color", "white") // "#39475c")
+    .style("background-color", COLOR_YEAR) 
     .style("border-radius", "5px")
     .style("padding", "10px")
-    .style("color", "#39475c")
+    .style("color", COLOR_BACKGROUND_LIGHT)
+    .style("text-align", "left")
     .style("position", "absolute")
 
 // Visualize the bubble chart. Is called every time you move the timer 
@@ -318,7 +319,7 @@ function visualizeBubbles() {
     }
 
 
-    //Get the Text for the Tooltip
+    //Get the Text for the tooltip
     function tooltipDetails(currentid, currentMonth) {
         var details;
 
