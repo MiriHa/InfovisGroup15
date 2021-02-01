@@ -424,11 +424,11 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             })
         }
 
-        tooltipForHighlight(month, year, analog19, analog20, digital19, digital20)
+        tooltipForHighlight(month, currentSelectedMonth, year, analog19, analog20, digital19, digital20)
     }
 
 
-    function tooltipForHighlight(month, year, analog19, analog20, digital19, digital20) {
+    function tooltipForHighlight(month, monthNumber ,year, analog19, analog20, digital19, digital20) {
         var tooltip = d3.select("#bottomDiagram")
             .append("div")
             .style("opacity", 0)
@@ -447,7 +447,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
                 // TODO: tooltip is not positioned corectly
                 tooltip.transition().duration(200).style("opacity", .9);
                 tooltip
-                    .html(tooltipText(month, year, analog19, analog20, digital19, digital20))
+                    .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
                     .style("left", mouse[0])
                     .style("top", mouse[1])
 
@@ -460,7 +460,7 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             })
     }
 
-    function tooltipText(month, year, analog19, analog20, digital19, digital20) {
+    function tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20) {
         var monthText = "<b>" + month + "</b>"
         var year19 = "<tr><td>2019</td>"
         var emptyCell19 = "<tr><td></td>"
@@ -476,21 +476,42 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             emptyCell20 = "<tr class='selected_year'><td></td>"
         }
 
+        var noDataString = "keine Daten vorhanden"
 
-        if (analog19 !== "" && analog20 !== "" && digital19 === "" && digital20 === "") {
-            var ana19 = "<td class='analog_text'>" + analog19 + "</td></tr>"
-            var ana20 = "<td class='analog_text'>" + analog20 + "</td></tr>"
-            return monthText + "<table>" +year19 + ana19 + year20 + ana20+"</table>"
-        } else if (analog19 === "" && analog20 === "" && digital19 !== "" && digital20 !== "") {
-            var dig19 = "<td class='digital_text'>" + digital19 + "</td></tr>"
-            var dig20 = "<td class='digital_text'>" + digital20 + "</td></tr>"
-            return monthText + "<table>"+ year19 + dig19 + year20 + dig20 + "</table>"
-        } else if (analog19 !== "" && analog20 !== "" && digital19 !== "" && digital20 !== "") {
-            var ana19 = "<td class='analog_text'>" + analog19 + "</td></tr>"
-            var ana20 = "<td class='analog_text'>" + analog20 + "</td></tr>"
-            var dig19 = "<td class='digital_text'>" + digital19 + "</td></tr><br>"
-            var dig20 = "<td class='digital_text'>" + digital20 + "</td></tr>"
-            return monthText + "<table>"+ year19 + ana19 + emptyCell19 +dig19 + year20 + ana20 + emptyCell20 +dig20+ "</table>"
+        if ((analog19 !== "" || analog20 !== "") && digital19 === "" && digital20 === "") {
+            if (monthNumber > 9) {
+                var ana19 = "<td class='analog_text'>" + analog19 + "</td></tr>"
+                var ana20 = "<td>" + noDataString + "</td></tr>"
+                return monthText + "<table>" + year19 + ana19 + year20 + ana20 + "</table>"
+            } else {
+                var ana19 = "<td class='analog_text'>" + analog19 + "</td></tr>"
+                var ana20 = "<td class='analog_text'>" + analog20 + "</td></tr>"
+                return monthText + "<table>" + year19 + ana19 + year20 + ana20 + "</table>"
+            }
+        } else if (analog19 === "" && analog20 === "" && (digital19 !== "" || digital20 !== "")) {
+            if (monthNumber > 9) {
+                var dig19 = "<td class='digital_text'>" + digital19 + "</td></tr>"
+                var dig20 = "<td>" + noDataString + "</td></tr>"
+                return monthText + "<table>" + year19 + dig19 + year20 + dig20 + "</table>"
+            } else {
+                var dig19 = "<td class='digital_text'>" + digital19 + "</td></tr>"
+                var dig20 = "<td class='digital_text'>" + digital20 + "</td></tr>"
+                return monthText + "<table>" + year19 + dig19 + year20 + dig20 + "</table>"
+            }
+        } else if ((analog19 !== "" || analog20 !== "") && (digital19 !== "" || digital20 !== "")) {
+            if (monthNumber > 9) {
+                var ana19 = "<td class='analog_text'>" + analog19 + "</td></tr>"
+                var ana20 = "<td>" + noDataString + "</td></tr>"
+                var dig19 = "<td class='digital_text'>" + digital19 + "</td></tr><br>"
+                return monthText + "<table>" + year19 + ana19 + emptyCell19 + dig19 + year20 + ana20 + "</table>"
+            } else {
+                var ana19 = "<td class='analog_text'>" + analog19 + "</td></tr>"
+                var ana20 = "<td class='analog_text'>" + analog20 + "</td></tr>"
+                var dig19 = "<td class='digital_text'>" + digital19 + "</td></tr><br>"
+                var dig20 = "<td class='digital_text'>" + digital20 + "</td></tr>"
+                return monthText + "<table>" + year19 + ana19 + emptyCell19 + dig19 + year20 + ana20 + emptyCell20 + dig20 + "</table>"
+            }
+
         }
     }
 
