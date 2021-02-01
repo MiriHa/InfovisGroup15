@@ -4,6 +4,16 @@ var lineValue // test
 var file1Data // test
 var file2Data // test
 
+var tooltip_line = d3.select("#bottomDiagram")
+.append("div")
+.style("opacity", 0)
+.attr("class", "tooltip_line")
+.style("background-color", "white")
+.style("border-radius", "5px")
+.style("padding", "10px")
+.style("color", "#39475c")
+.style("position", "absolute");
+
 function parser(analog, digital) {
     // Get the title of the current selection; relevant for the tooltip
     function getDataTitle(d){
@@ -314,7 +324,6 @@ function parser(analog, digital) {
 
 function visualizeLineDiagram(analogData="", digitalData="", analogSource="", digitalSource="", analogTitle="", digitalTitle="") {
 
-
     // set the dimensions and margins of the graph
     const Margin = DIAGRAM_MARGIN;
     const width = DIAGRAM_WIDTH - Margin;
@@ -427,37 +436,47 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         tooltipForHighlight(month, currentSelectedMonth, year, analog19, analog20, digital19, digital20)
     }
 
-
     function tooltipForHighlight(month, monthNumber ,year, analog19, analog20, digital19, digital20) {
-        var tooltip = d3.select("#bottomDiagram")
-            .append("div")
-            .style("opacity", 0)
-            .attr("class", "tooltip")
-            .style("background-color", "white")
-            .style("border-radius", "5px")
-            .style("padding", "10px")
-            .style("color", "#39475c")
-            .style("position", "absolute")
-
+    
         chart.selectAll(".highlight")
-            .on('mouseenter', function () {
+        .on("mouseover", function (d) {
                 console.log("mouse over rect")
-                var mouse = d3.pointer(event, chart.node());
-                console.log("mouseover: " + mouse)
+                var all = d3.select("body")
+                var dia = d3.select("bottomDiagramm")
+                var mouse = d3.pointer(event, dia.node());
+                console.log("mouseover: " + mouse[0] + " " +mouse[1])
                 // TODO: tooltip is not positioned corectly
-                tooltip.transition().duration(200).style("opacity", .9);
-                tooltip
+                tooltip_line.transition().duration(100).style("opacity", 0.9);
+                tooltip_line
                     .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
-                    .style("left", mouse[0])
-                    .style("top", mouse[1])
-
+                    .style("left", mouse[0] + "px")
+                    .style("top", mouse[1] + "px")
             })
-            .on('mouseleave', function () {
+            // .on('mouseover', function () {
+            //     console.log("mouse over rect")
+            //     //var mouse = d3.pointer(event, chart.node());
+            //     var all = d3.select("body")
+            //     var mouse = d3.pointer(event, all.node());
+            //     console.log("mouseover: " + mouse)
+            //     // TODO: tooltip is not positioned corectly
+            //     tooltip_line.transition().duration(5).style("opacity", 0.9);
+            //     tooltip_line
+            //         .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
+            //         .style("left", mouse[0]+"px")
+            //         .style("top", mouse[1]+"px")
+            // })
+            .on('mouseout', function () {
                 console.log("mouse leave rect")
-                var mouse = d3.pointer(event, chart.node());
-                console.log("mouseleave: " + mouse)
-                tooltip.transition().duration(500).style("opacity", 0);
+                // var all = d3.select("bottomDiagram")
+                // var mouse = d3.pointer(event, all.node());
+                // console.log("mouseleave: " + mouse)
+                tooltip_line.transition().duration(400).style("opacity", 0);
             })
+
+
+    
+
+
     }
 
     function tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20) {
@@ -1020,3 +1039,6 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
 
 // when loading the page load all datasets and calculate sum
 parser("","")
+
+
+
