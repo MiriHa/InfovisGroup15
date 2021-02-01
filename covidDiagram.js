@@ -47,12 +47,12 @@ function changeCase() {
         currentCase = MONTH_CASE
         shownCaseButton = TOTAL_CASE
         var svg = d3.select("#topDiagram").selectAll("svg").remove()
-        update(data_new)
+        update()
     } else {
         currentCase = TOTAL_CASE
         shownCaseButton = MONTH_CASE
         var svg = d3.select("#topDiagram").selectAll("svg").remove()
-        update(data_monthly)
+        update()
     }
 
 }
@@ -66,7 +66,7 @@ function update() {
         data = data_monthly
     }
 
-    var svg = d3.select("#bottomDiagram").selectAll("svg").remove()
+    var svg = d3.select("#topDiagram").selectAll("svg").remove()
     // append the svg object to the body of the page
     svg = d3.select("#topDiagram").append("svg")
 
@@ -202,10 +202,12 @@ function update() {
     function highlightMonth() {
         console.log("highlight month covid")
         var tickWidth = width / (data_monthly.length - 1)
+        var drawTickWidth = tickWidth/2
         console.log("covid year: " + currentYear)
 
 
-        var firstTickWidth = tickWidth / 2
+        var firstTickWidth = drawTickWidth / 2
+        //var firstTickWidth = tickWidth
         var firstValue = 0.5
         var firstTickEnd = firstTickWidth + firstValue
 
@@ -218,13 +220,15 @@ function update() {
                 drawRect(firstValue, firstTickWidth, true)
             } else if (currentSliderPosition == 11) {
                 console.log("if slider 11")
-                var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth
+                var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth + drawTickWidth
+                //var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth
                 drawRect(value, firstTickWidth, true)
             } else {
                 console.log("if slider else")
                 //firstTick+(n-1)*tickWidth - firstTick+n*tickWidth
-                var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth
-                drawRect(value, tickWidth, true)
+                var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth +drawTickWidth
+                //var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth
+                drawRect(value, drawTickWidth, true)
             }
         }
     }
