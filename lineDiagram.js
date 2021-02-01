@@ -805,7 +805,7 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
 
             // Digital & Analog
         } else if (analogSource !== "" && digitalSource !== "") {
-            source = source + analogSource + ", " + digitalSource
+            source = source + analogSource + ", "
             if (analogTitle !== "" && digitalTitle !== "") {
                 title = analogTitle + " vs. " + digitalTitle
             }
@@ -847,6 +847,12 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
             .attr('y', height * 1.63)
             .attr('text-anchor', 'start')
             .text(source)
+        svg.append('text')
+            .attr('class', 'source')
+            .attr('x', Margin / 2)
+            .attr('y', height * 1.7)
+            .attr('text-anchor', 'start')
+            .text(analogSource)
 
 
     }
