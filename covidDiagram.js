@@ -64,7 +64,7 @@ var tooltip_covid = d3.select("#topDiagram")
     .style("background-color", COLOR_WHITE)
     .style("border-radius", "5px")
     .style("padding", "5px")
-    .style("color", "#39475c")
+    .style("color", COLOR_BACKGROUND_LIGHT)
     .style("position", "absolute")
 
 // Create a function that takes a dataset as input and update the plot:
