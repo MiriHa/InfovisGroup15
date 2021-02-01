@@ -1,15 +1,25 @@
+/**
+ *  Info text of used data
+ */
+
+var popup = d3.select("#data_popup")
+var infoBtn = d3.select("#info_button")
+var closeBtn = d3.select("close popup")
+
 d3.select("#info_button").on("click", function(d){
     //openDataPopup()
     console.log("open popup")
     var mouse = d3.pointer(event)
     console.log(mouse)
-    var popup = d3.select("#data_popup")
+    popup
         .style("visibility", "visible")
         .style("top",100)
         .style("left",10)
+    infoBtn
+        .style("visibility", "hidden")
 })
 
-var dataWrapper =document.getElementById("dataWrapper")
+var dataWrapper = document.getElementById("dataWrapper")
 
 /*var tooltip = d3.select("#data_popup")
     .style("position", "absolute")
@@ -25,6 +35,9 @@ function openDataPopup(){
 
 function closePopup(){
     console.log("close popup")
-    var popup = d3.select("#data_popup")
+    popup
         .style("visibility", "hidden")
+
+    infoBtn
+        .style("visibility", "visible")
 }
