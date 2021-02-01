@@ -450,6 +450,8 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
      * @param digital20 Datapoint of digital data of the month in 2020
      */
     function tooltipForHighlight(month, monthNumber, year, analog19, analog20, digital19, digital20) {
+        var positionLeft = 175
+
         chart.selectAll(".highlight")
             .on('mouseover', function () {
                 console.log("mouse over rect")
@@ -457,20 +459,49 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
                 var mouse = d3.pointer(event, dia.node());
                 console.log("mouseover: " + mouse)
                 tooltip_line.transition().duration(100).style("opacity", 0.9);
-                tooltip_line
-                    .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
-                    .style("left", mouse[0] + 5 + "px")
-                    .style("top", mouse[1] + 5 + "px")
+                if(currentSliderPosition < 4){
+                    tooltip_line
+                        .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
+                        .style("left", mouse[0] + 5 + "px")
+                        .style("top", mouse[1] + 5 + "px")
+                } else if(currentSliderPosition > 8){
+                    tooltip_line
+                        .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
+                        .style("left", mouse[0] + 5 + "px")
+                        .style("top", mouse[1] + 5 + "px")
+                } else {
+                    tooltip_line
+                        .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
+
+                    tooltip_line
+                        .style("left", mouse[0] - positionLeft + "px")
+                        .style("top", mouse[1] + 5 + "px")
+                }
+
 
             })
             .on('mousemove', function () {
                 var dia = d3.select("bottomDiagram")
                 var mouse = d3.pointer(event, dia.node());
                 tooltip_line.transition().duration(100).style("opacity", 0.9);
-                tooltip_line
-                    .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
-                    .style("left", mouse[0] + 5 + "px")
-                    .style("top", mouse[1] + 5 + "px")
+                if(currentSliderPosition < 4){
+                    tooltip_line
+                        .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
+                        .style("left", mouse[0] + 5 + "px")
+                        .style("top", mouse[1] + 5 + "px")
+                }else if(currentSliderPosition > 8){
+                    tooltip_line
+                        .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
+                        .style("left", mouse[0] + 5 + "px")
+                        .style("top", mouse[1] + 5 + "px")
+                } else {
+                    tooltip_line
+                        .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
+
+                    tooltip_line
+                        .style("left", mouse[0] -positionLeft + "px")
+                        .style("top", mouse[1] + 5 + "px")
+                }
             })
             .on('mouseout', function () {
                 console.log("mouse leave rect")
