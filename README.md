@@ -3,7 +3,7 @@
 
 * Checkout visualization at http://www.cip.ifi.lmu.de/~moserk/ :-)
 * Empfohlener Browser: Firefox, Edge
-* Final branch: Master
+* Final branch: Main
 * (Running prototype during the development on branch: Release2.0)
 
 
