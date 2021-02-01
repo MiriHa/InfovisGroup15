@@ -217,30 +217,26 @@ function update() {
             if (currentSliderPosition == 0) {
                 // 0-firstTick
                 console.log("if slider 0")
-                drawRect(firstValue, firstTickWidth, true)
+                drawRect(firstValue, firstTickWidth)
             } else if (currentSliderPosition == 11) {
                 console.log("if slider 11")
                 var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth + drawTickWidth
                 //var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth
-                drawRect(value, firstTickWidth, true)
+                drawRect(value, firstTickWidth)
             } else {
                 console.log("if slider else")
                 //firstTick+(n-1)*tickWidth - firstTick+n*tickWidth
                 var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth +drawTickWidth
                 //var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth
-                drawRect(value, drawTickWidth, true)
+                drawRect(value, drawTickWidth)
             }
         }
     }
 
 
-    function drawRect(xValue = 0, width = tickWidth, current = true) {
+    function drawRect(xValue = 0, width = tickWidth) {
         var color = COLOR_HIGHLIGTH_MONTH
         var opacity = OPACITY_HIGHLIGHT_MONTH
-        if (!current) {
-            color = COLOR_HIGHLIGTH_MONTH_OTHER_YEAR
-            opacity = OPACITY_HIGHLIGHT_MONTH_OTHER_YEAR
-        }
         chart.append('rect')
             .attr("class", "highlight")
             .attr("x", xValue)
