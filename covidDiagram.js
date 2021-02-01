@@ -89,8 +89,6 @@ function update() {
     let x = d3.scalePoint().range([0, width]);
     let xAxis = d3.axisBottom()
         .scale(x)
-        // TODO: decide if
-        // vertical lines
         .tickSize(-height);
 
     chart.append('g')
@@ -118,7 +116,7 @@ function update() {
         .attr('class', 'tick_Scales')
         .call(xAxis);
 
-    // create the Y axis
+    // Create the Y axis
     y.domain([0, d3.max(data, function (d) {
         return Number(d.ser2)
     })]);
@@ -355,7 +353,4 @@ function update() {
     }
 }
 
-update();
-/*
-    !DO NOT DELETE!
-*/
+update(); // !do not delete!
