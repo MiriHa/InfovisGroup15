@@ -506,7 +506,7 @@ text.year {
 
 .data_popup{
     width: auto;
-    height: 100%;
+    height: 90%;
     max-width: 45vw;
     max-height: 95vh;
     grid-area: legend;

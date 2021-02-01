@@ -1,5 +1,6 @@
 var popup = d3.select("#data_popup")
 var infoBtn = d3.select("#info_button")
+var legend = d3.select("#legende")
 
 /**
  * Opens the popup with information about the data and makes button to open the popub invisible
@@ -13,6 +14,8 @@ d3.select("#info_button").on("click", function(d){
         .style("left",10)
     infoBtn
         .style("visibility", "hidden")
+    legend
+        .style("visibility", "hidden")
 })
 
 /**
@@ -24,6 +27,8 @@ function closePopup(){
     popup
         .style("visibility", "hidden")
     infoBtn
+        .style("visibility", "visible")
+    legend
         .style("visibility", "visible")
 }
 
