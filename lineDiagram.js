@@ -461,7 +461,7 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
                 var dia = d3.select("bottomDiagram")
                 var mouse = d3.pointer(event, dia.node());
                 console.log("mouseover: " + mouse)
-                tooltip_line.transition().duration(100).style("opacity", 0.9);
+                tooltip_line.transition().duration(100).style("opacity", 0.96);
                 if(currentSliderPosition < 4){
                     tooltip_line
                         .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))
@@ -486,7 +486,7 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
             .on('mousemove', function () {
                 var dia = d3.select("bottomDiagram")
                 var mouse = d3.pointer(event, dia.node());
-                tooltip_line.transition().duration(100).style("opacity", 0.9);
+                tooltip_line.transition().duration(100).style("opacity", 0.96);
                 if(currentSliderPosition < 4){
                     tooltip_line
                         .html(tooltipText(month, monthNumber, year, analog19, analog20, digital19, digital20))

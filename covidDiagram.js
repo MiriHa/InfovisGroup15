@@ -257,7 +257,7 @@ function update() {
                 var dia = d3.select("topDiagram")
                 var mouse = d3.pointer(event, dia.node());
                 console.log("mouseover: " + mouse)
-                tooltip_covid.transition().duration(100).style("opacity", 0.9);
+                tooltip_covid.transition().duration(100).style("opacity", 0.94);
                 if (currentSliderPosition < 9) {
                     tooltip_covid
                         .html(tooltipText(month, datapoint))
@@ -275,7 +275,7 @@ function update() {
             .on('mousemove', function () {
                 var dia = d3.select("bottomDiagram")
                 var mouse = d3.pointer(event, dia.node());
-                tooltip_covid.transition().duration(100).style("opacity", 0.9);
+                tooltip_covid.transition().duration(100).style("opacity", 0.94);
                 if (currentSliderPosition < 8) {
                     tooltip_covid
                         .html(tooltipText(month, datapoint))
