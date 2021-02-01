@@ -131,7 +131,7 @@ var tooltip_bubbles = d3.select("#bubbles")
     .append("div")
     .style("opacity", 0)
     .attr("class", "tooltip")
-    .style("background-color", COLOR_YEAR) 
+    .style("background-color", COLOR_WHITE) 
     .style("border-radius", "5px")
     .style("padding", "10px")
     .style("color", COLOR_BACKGROUND_LIGHT)
@@ -345,11 +345,11 @@ function visualizeBubbles() {
 
     function Choosetextcolor(d) {
         if (currentYear==2020 && currentMonth > 9) { return "grey"; }
-        if (d.c == COLOR_DIGITAL) { /* blue */
-            return "white"; /* white */
+        if (d.c == COLOR_DIGITAL) { 
+            return COLOR_WHITE; 
         }
-        if (d.c == COLOR_ANALOG) { /* orange */
-            return "white";
+        if (d.c == COLOR_ANALOG) { 
+            return COLOR_WHITE;
         }
         console.log("keine Farbe");
         return "black";

@@ -10,6 +10,7 @@ d3.select("#info_button").on("click", function(d){
     popup
         .style("visibility", "visible")
         .style("top",100)
+        .style("left",10)
     infoBtn
         .style("visibility", "hidden")
 })
