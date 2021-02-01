@@ -1,5 +1,3 @@
-// var currentDataTitle; // name of the magazin / newspaper etc.
-var detailLevel = 0;
 const TAG = "LineDiagram "
 
 function parser(analog, digital) {
@@ -742,14 +740,12 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
             source += analogSource
             label_xAxis = "Verkauf"
             title = analogTitle
-            detailLevel = 1; // relevant for the tooltip
 
             // Digital only
         } else if (analogSource === "" && digitalSource !== "") {
             source += digitalSource
             label_xAxis = "Besuche"
             title = digitalTitle
-            detailLevel = 2; // relevant for the tooltip
 
             // Digital & Analog
         } else if (analogSource !== "" && digitalSource !== "") {
@@ -757,7 +753,6 @@ function visualizeLineDiagram(analogData = "", digitalData = "", analogSource = 
             if (analogTitle !== "" && digitalTitle !== "") {
                 title = analogTitle + " vs. " + digitalTitle
             }
-            detailLevel = 3;
         }
         // None (Sum diagram of analog + digital)
         else {
