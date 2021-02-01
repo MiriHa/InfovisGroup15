@@ -35,22 +35,24 @@ const width = DIAGRAM_WIDTH - Margin;
 const height = DIAGRAM_HEIGHT - Margin;
 
 
-var switchStatus =false
-d3.select("#caseCheck").on('change', changeYear)
+d3.select("#caseCheck")
+    .property('checked', true)
+    .on('change', changeCase)
 
-function changeYear() {
+function changeCase() {
     console.log("changecase")
+    console.log("current Case: " + currentCase )
 
     if (currentCase == TOTAL_CASE) {
         currentCase = MONTH_CASE
         shownCaseButton = TOTAL_CASE
         var svg = d3.select("#topDiagram").selectAll("svg").remove()
-        update(data_monthly)
+        update(data_new)
     } else {
         currentCase = TOTAL_CASE
         shownCaseButton = MONTH_CASE
         var svg = d3.select("#topDiagram").selectAll("svg").remove()
-        update(data_new)
+        update(data_monthly)
     }
 
 }
