@@ -57,6 +57,16 @@ function changeCase() {
 
 }
 
+var tooltip_covid = d3.select("#topDiagram")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip_covid")
+    .style("background-color", "white")
+    .style("border-radius", "5px")
+    .style("padding", "5px")
+    .style("color", "#39475c")
+    .style("position", "absolute")
+
 // Create a function that takes a dataset as input and update the plot:
 function update() {
     var data = data_monthly
@@ -196,6 +206,69 @@ function update() {
         .text('Quelle: https://data.europa.eu/euodp/en/data/dataset/covid-19-coronavirus-data')
 
     highlightMonth()
+    prepareDataForTooltip()
+
+
+    function prepareDataForTooltip() {
+        var year = currentYear
+        const date = new Date(year, currentSliderPosition, 1);
+        const month = date.toLocaleString('default', {month: 'long'});
+        console.log("selected month = " + month)
+
+        var datapoint = ""
+        if(currentCase == MONTH_CASE){
+            datapoint = data_new[currentSliderPosition].ser2
+        } else {
+            datapoint = data_monthly[currentSliderPosition].ser2
+        }
+
+        tooltipForHighlight(month, datapoint)
+    }
+
+
+    function tooltipForHighlight(month, datapoint) {
+        chart.selectAll(".highlight-covid")
+            .on('mouseover', function () {
+                console.log("mouse over rect")
+                var dia = d3.select("topDiagram")
+                var mouse = d3.pointer(event, dia.node());
+                console.log("mouseover: " + mouse)
+                tooltip_covid.transition().duration(100).style("opacity", 0.9);
+                tooltip_covid
+                    .html(tooltipText(month, datapoint))
+                    .style("left", mouse[0]+5+"px")
+                    .style("top", mouse[1]+5+"px")
+
+            })
+            .on('mousemove',function(){
+                var dia = d3.select("bottomDiagram")
+                var mouse = d3.pointer(event, dia.node());
+                tooltip_covid.transition().duration(100).style("opacity", 0.9);
+                tooltip_covid
+                    .html(tooltipText(month, datapoint))
+                    .style("left", mouse[0]+5+"px")
+                    .style("top", mouse[1]+5+"px")
+            })
+            .on('mouseout', function () {
+                console.log("mouse leave rect")
+                tooltip_covid.transition().duration(400).style("opacity", 0);
+            });
+    }
+
+    function tooltipText(month, datapoint) {
+        var preText = ""
+        if(currentCase == MONTH_CASE){
+            preText = "<p>Neue F&auml;lle im </p>"
+        } else {
+            preText = "<p>Gesamtzahl der F&auml;lle seit Beginn im </p>"
+        }
+
+        var monthText = "<b>" + month + "</b>"
+        var dataText = "<p>"+ datapoint.toString()+"</p>"
+
+        //return preText + monthText + "<br>" + dataText
+        return monthText + "<br>" + dataText
+    }
 
 
     // highlights the in slider selected month, and also the depending one of the other year
@@ -238,7 +311,7 @@ function update() {
         var color = COLOR_HIGHLIGTH_MONTH
         var opacity = OPACITY_HIGHLIGHT_MONTH
         chart.append('rect')
-            .attr("class", "highlight")
+            .attr("class", "highlight-covid")
             .attr("x", xValue)
             .attr("width", width)
             .attr("height", height)
