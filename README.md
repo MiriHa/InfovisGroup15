@@ -2,35 +2,35 @@
 ## Medienkonsum während Covid-19
 
 * Checkout visualization at http://www.cip.ifi.lmu.de/~moserk/ :-)
-* Running prototype on branch: Release2.0
-* Empfohlener Browser: Firefox
+* Empfohlener Browser: Firefox, Edge
+* Final branch: Main
+* (Running prototype during the development on branch: Release2.0)
+
 
 ### Feature table:
-| Subject |Feature   |To-Do |
+| **Subject**|**Feature**|**To-Do**|
 |-----------|----------|------------|
+|Intro-Slide|Implementierung|done|
+|Intro-Slide|Scrollfunktion|done|
+|Popup (Infos über Daten)|Implementierung|done|
+|Popup (Infos über Daten)|Button-Funktionalität (Öffnen, Schließen)|done|
 |Kreis-Slider|Funktionalität des Zeitreglers|done|
 |Kreis-Slider|Beschriftung des Zeit-Reglers|done|
 |Kreis-Slider|Lockdown-Anzeige|done|
+|Kreis-Slider|Toggle zwischen den Jahren|done|
 |Bubble-Diagramm|Grundfunktionalität|done|
 |Bubble-Diagramm|Verknüpfung von Bubble- und Linien-Diagramm|done|
 |Bubble-Diagramm|Hovering für Tooltips|done|
 |Bubble-Diagramm|Verknüpfung mit Slider|done|
-|Bubble-Diagramm|Animationen|in progress|
-|Linien-Diagramm (Corona Fallzahlen)|Grund-Funktionalität|done|
-|Linien-Diagramm (Corona Fallzahlen)|Hovering for Tooltips| in progress|
+|Linien-Diagramm (Corona-Fallzahlen)|Grund-Funktionalität|done|
+|Linien-Diagramm (Corona-Fallzahlen)|Highlighting des ausgewählten Monats|done|
+|Linien-Diagramm (Corona-Fallzahlen)|Hovering for Tooltips|done|
+|Linien-Diagramm (Corona-Fallzahlen)|Toogle zwischen Gesamt-Fallzahlen und monatlichen Neuinfektionen|done|
 |Linien-Diagramm (Medien-Nutzung)|Grund-Funktionalität|done|
-|Linien-Diagramm (Medien-Nutzung)|Hovering for Tooltips| in progress|
-|Linien-Diagramm (Medien-Nutzung)|Animationen|done|
-
-
-
-### Funktionen, die zum Testen bereit sind:
-1. Verschieben des Kreis-Sliders
-2. Anklicken der Bubbles, die makiert werden
-3. Maus-Hovering über Bubbles zum Anzeigen für Labels (Tooltips)
-4. Anzeige von Daten im unteren Liniendiagramm zu ausgewählter Bubble
-5. Vergleich von digitalen und analogen Daten im unteren Liniendiagramm: Nacheinander 2 Bubbles anklicken
-
+|Linien-Diagramm (Medien-Nutzung)|Highlighting des ausgewählten Monats|done|
+|Linien-Diagramm (Medien-Nutzung)|Hovering für Tooltips|done|
+|Legende|Implementierung|done|
 
 ### Anmerkungen:
-* Layout funktioniert nur in Firefox (in Chrome und Edge ist der Header hinter den Diagrammen versteckt)
+* Layout in Google Chrome instabil
+* Layout nicht für Smartphones optimiert
