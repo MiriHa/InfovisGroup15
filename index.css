@@ -7,25 +7,70 @@
     box-sizing: border-box;
 }
 
+body {
+    /*font-family: 'Microsoft JhengHei', Verdana, sans-serif; font-family: 'Open Sans', sans-serif; oder Tahoma*/
+    font-family: 'Courier New', monospace;
+    background:  #39475c; /*#1b2636 */ /*background: #293950;*/
+    color: #DBDBDB;
+}
+
+
+.introSlide{
+    height: 95vh ;
+    background-color:var(--blue_areas);
+    border-radius: 25px;
+    margin-bottom: 5vh;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-top: 15vh;
+}
+
+#title{
+    margin-left: 4vw;
+    border-radius: 12px;
+   }
+
+#titletext{
+    font-weight: bold;
+    text-align: left;
+    color: #DBDBDB;
+    font-size: 9vh;
+}
+
+.explanation{
+    padding-left: 4vw;
+    padding-right: 7vw;;
+
+}
+
+#explanationText{
+    font-size: 2.3vh;
+    text-align: justify;
+}
+
+#arrow{
+    height:5vh;
+    position: absolute;
+    bottom: 8px;
+    left: 16px;
+    margin-left: 4vw;
+    margin-bottom: 7vh;
+}
+
+
 .dataWrapper {
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 2% 49% 49%;
+    grid-template-rows: 50% 50%;
     gap: 10px;
     justify-items: stretch;
-    grid-template-areas: 
-        "header header"
+    grid-template-areas:
         "bubbleChart diagrammTop"
         "bubbleChart diagrammBottom";
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 10px;
-}
-
-.header{
-    grid-area: header;
-    background-color: var(--blue_areas);
-    border-radius: 22px;
 }
 
 .bubbleChartItem {
@@ -74,38 +119,6 @@
     text-align: center;
     align-self: stretch;
 
-}
-
-body {
-    /*font-family: 'Microsoft JhengHei', Verdana, sans-serif; font-family: 'Open Sans', sans-serif; oder Tahoma*/
-    font-family: 'Courier New', monospace;
-    background:  #39475c; /*#1b2636 */ /*background: #293950;*/
-    color: #DBDBDB;
-}
-
-h1 {
-    font-weight: bold;
-    text-align: center;
-    color: #DBDBDB;
-    padding: 3px;
-    border-radius: 12px;
-}
-
-.explanation{
-    height: auto;
-    width: 100%;
-    margin: 0 auto;
-    grid-area: explanation;
-    border-radius: 25px;
-    padding-left: 50px;
-    padding-right: 50px;
-    padding-bottom: 8px;
-    background-color:var(--blue_areas);
-}
-
-#explanationText{
-    font-size: 110%;
-    text-align: justify;
 }
 
 .slider {
@@ -514,3 +527,80 @@ text.year {
 .selected_year{
     background-color: #d3d3d3;
 }
+
+
+#popup_header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.all-data-categories{
+    width: 100%;
+    height: 250px;
+}
+
+.data_popup{
+    width: auto;
+    height: auto;
+    max-width: 960px;
+    max-height: 700px;
+    grid-area: bubbles;
+    margin: 10px auto;
+    padding: 18px;
+    background-color:var(--blue_background);
+    border-radius: 25px;
+}
+
+.all-data-categories li span {
+    display: block;
+    float: left;
+    height: 20px;
+    width: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    border: 1px solid #999;
+    color: #DBDBDB;
+}
+
+.all-data-categories p {
+    display: inline;
+}
+
+.data_popup ul{
+    width: auto;
+    height: auto;
+    max-width: 960px;
+    max-height: 700px;
+    grid-area: bubbles;
+}
+
+.data_popup ul li {
+    list-style: none;
+    margin-left: 5px;
+    line-height: 20px;
+    margin-bottom: 7px;
+    color: #DBDBDB;
+}
+
+
+#popup_body{
+    text-align: left;
+}
+
+#popup_body a:link{
+    color: #808080;
+    text-decoration: none;
+}
+
+#popup_body a:visited{
+    color:#808080;
+    text-decoration: none;
+}
+
+#popup_body a:hover{
+    color: var(--blue_areas);
+    text-decoration: underline;
+}
+
