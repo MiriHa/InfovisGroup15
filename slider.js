@@ -40,18 +40,10 @@ var drag = d3.drag()
     .on("drag", dragged)
     .on("end", dragended);
 
-// var yearButton = d3.select("#yearCheck").on('change',changeYear);
-var switchStatus =false
-d3.select("#yearCheack").on('change', changeYear)
-// yearButton
-//     // .attr("class", "button")
-//     // .attr("id", "yearButton")
-//     // .attr("dy", "-6em")
-//     // .text("Wechsel zu " + shownButtonYear)
-//     // .classed("button", true)
-//     .on("change", changeYear);
+d3.select("#yearCheack")
+    .property('checked', true)
+    .on('change', changeYear);
 
-    // SaVaGe.ToggleSwitch({container: "#listener", onChange: function(toggler) { alert("The switch was clicked\nHis new value is: " + toggler.getValue()); }});
 
 var svg = d3.select("#slider").append("svg")
     .attr("id", "sliderContainer")
