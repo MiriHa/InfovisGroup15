@@ -499,3 +499,16 @@ input:checked + .switchHandle:before {
     }
 
 }
+
+text.year {
+    fill: white;
+    font-size: 17px;
+    opacity: 0.6;
+}
+
+#line_year {
+    stroke-width: 1;
+    /*stroke-dasharray: 5;*/
+    opacity: 0.4;
+    color: white;
+}
