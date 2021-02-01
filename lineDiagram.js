@@ -312,18 +312,21 @@ function parser(analog, digital) {
     }
 }
 
+
+// Create the tooltip div
 var tooltip_line = d3.select("#bottomDiagram")
     .append("div")
     .style("opacity", 0)
     .attr("class", "tooltip_line")
-    .style("background-color", "white")
+    .style("background-color", "#39475c")
     .style("border-radius", "5px")
-    .style("padding", "5px")
-    .style("color", "#39475c")
+    .style("padding", "5px") // 10
+    .style("color", "white")
     .style("position", "absolute")
 
-function visualizeLineDiagram(analogData="", digitalData="", analogSource="", digitalSource="", analogTitle="", digitalTitle="") {
 
+// Visualize the line diagram
+function visualizeLineDiagram(analogData="", digitalData="", analogSource="", digitalSource="", analogTitle="", digitalTitle="") {
 
     // set the dimensions and margins of the graph
     const Margin = DIAGRAM_MARGIN;
@@ -518,12 +521,10 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
                 var dig20 = "<td class='digital_text'>" + digital20 + "</td></tr>"
                 return monthText + "<table>" + year19 + ana19 + emptyCell19 + dig19 + year20 + ana20 + emptyCell20 + dig20 + "</table>"
             }
-
         }
     }
 
-
-    // highlights the in slider selected month, and also the depending one of the other year
+    // Highlights the in slider selected month, and also the depending one of the other year
     function highlightMonth() {
         var tickWidth = width
         if (aData != 0) {
@@ -531,7 +532,6 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
         } else if (dData != 0) {
             tickWidth = width / (dData - 1)
         }
-
 
         var firstTickWidth = tickWidth / 2
         var firstValue = 0.5
@@ -588,11 +588,8 @@ function visualizeLineDiagram(analogData="", digitalData="", analogSource="", di
             } else {
                 var valueOther = firstTickEnd + (currentSliderPosition - 1) * tickWidth
                 drawRect(valueOther, tickWidth, false);
-
             }
-
         }
-
 
         function drawRect(xValue = 0, width = tickWidth, current = true) {
             var color = COLOR_HIGHLIGTH_MONTH
