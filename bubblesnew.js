@@ -148,6 +148,7 @@ function visualizeBubbles() {
     var currentMonth = currentSliderPosition +1
 
     parser(selectedAnalogBubble, selectedDigitalBubble)
+    update()
     computeMainBubbles(bubbleRadi, currentMonth);
     //console.log(bubbleRadi)
 

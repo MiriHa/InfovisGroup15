@@ -47,21 +47,38 @@ function changeCase() {
         currentCase = MONTH_CASE
         shownCaseButton = TOTAL_CASE
         var svg = d3.select("#topDiagram").selectAll("svg").remove()
-        update(data_new)
+        update()
     } else {
         currentCase = TOTAL_CASE
         shownCaseButton = MONTH_CASE
         var svg = d3.select("#topDiagram").selectAll("svg").remove()
-        update(data_monthly)
+        update()
     }
 
 }
 
-// Create a function that takes a dataset as input and update the plot:
-function update(data) {
+var tooltip_covid = d3.select("#topDiagram")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip_covid")
+    .style("background-color", "white")
+    .style("border-radius", "5px")
+    .style("padding", "5px")
+    .style("color", "#39475c")
+    .style("position", "absolute")
 
+// Create a function that takes a dataset as input and update the plot:
+function update() {
+    var data = data_monthly
+    if(currentCase == MONTH_CASE){
+        data = data_new
+    } else {
+        data = data_monthly
+    }
+
+    var svg = d3.select("#topDiagram").selectAll("svg").remove()
     // append the svg object to the body of the page
-    var svg = d3.select("#topDiagram").append("svg")
+    svg = d3.select("#topDiagram").append("svg")
 
     // Init Chart
     const chart = svg.append('g')
@@ -187,9 +204,123 @@ function update(data) {
         .attr('y', height * 1.63)
         .attr('text-anchor', 'start')
         .text('Quelle: https://data.europa.eu/euodp/en/data/dataset/covid-19-coronavirus-data')
+
+    highlightMonth()
+    prepareDataForTooltip()
+
+
+    function prepareDataForTooltip() {
+        var year = currentYear
+        const date = new Date(year, currentSliderPosition, 1);
+        const month = date.toLocaleString('default', {month: 'long'});
+        console.log("selected month = " + month)
+
+        var datapoint = ""
+        if(currentCase == MONTH_CASE){
+            datapoint = data_new[currentSliderPosition].ser2
+        } else {
+            datapoint = data_monthly[currentSliderPosition].ser2
+        }
+
+        tooltipForHighlight(month, datapoint)
+    }
+
+
+    function tooltipForHighlight(month, datapoint) {
+        chart.selectAll(".highlight-covid")
+            .on('mouseover', function () {
+                console.log("mouse over rect")
+                var dia = d3.select("topDiagram")
+                var mouse = d3.pointer(event, dia.node());
+                console.log("mouseover: " + mouse)
+                tooltip_covid.transition().duration(100).style("opacity", 0.9);
+                tooltip_covid
+                    .html(tooltipText(month, datapoint))
+                    .style("left", mouse[0]+5+"px")
+                    .style("top", mouse[1]+5+"px")
+
+            })
+            .on('mousemove',function(){
+                var dia = d3.select("bottomDiagram")
+                var mouse = d3.pointer(event, dia.node());
+                tooltip_covid.transition().duration(100).style("opacity", 0.9);
+                tooltip_covid
+                    .html(tooltipText(month, datapoint))
+                    .style("left", mouse[0]+5+"px")
+                    .style("top", mouse[1]+5+"px")
+            })
+            .on('mouseout', function () {
+                console.log("mouse leave rect")
+                tooltip_covid.transition().duration(400).style("opacity", 0);
+            });
+    }
+
+    function tooltipText(month, datapoint) {
+        var preText = ""
+        if(currentCase == MONTH_CASE){
+            preText = "<p>Neue F&auml;lle im </p>"
+        } else {
+            preText = "<p>Gesamtzahl der F&auml;lle seit Beginn im </p>"
+        }
+
+        var monthText = "<b>" + month + "</b>"
+        var dataText = "<p>"+ datapoint.toString()+"</p>"
+
+        //return preText + monthText + "<br>" + dataText
+        return monthText + "<br>" + dataText
+    }
+
+
+    // highlights the in slider selected month, and also the depending one of the other year
+    function highlightMonth() {
+        console.log("highlight month covid")
+        var tickWidth = width / (data_monthly.length - 1)
+        var drawTickWidth = tickWidth/2
+        console.log("covid year: " + currentYear)
+
+
+        var firstTickWidth = drawTickWidth / 2
+        //var firstTickWidth = tickWidth
+        var firstValue = 0.5
+        var firstTickEnd = firstTickWidth + firstValue
+
+        if (currentYear == 2020) {
+            console.log("covid year 2020")
+            console.log("covid slider: " + currentSliderPosition)
+            if (currentSliderPosition == 0) {
+                // 0-firstTick
+                console.log("if slider 0")
+                drawRect(firstValue, firstTickWidth)
+            } else if (currentSliderPosition == 11) {
+                console.log("if slider 11")
+                var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth + drawTickWidth
+                //var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth
+                drawRect(value, firstTickWidth)
+            } else {
+                console.log("if slider else")
+                //firstTick+(n-1)*tickWidth - firstTick+n*tickWidth
+                var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth +drawTickWidth
+                //var value = firstTickEnd + (currentSliderPosition - 1) * tickWidth
+                drawRect(value, drawTickWidth)
+            }
+        }
+    }
+
+
+    function drawRect(xValue = 0, width = tickWidth) {
+        var color = COLOR_HIGHLIGTH_MONTH
+        var opacity = OPACITY_HIGHLIGHT_MONTH
+        chart.append('rect')
+            .attr("class", "highlight-covid")
+            .attr("x", xValue)
+            .attr("width", width)
+            .attr("height", height)
+            .attr("fill", color)
+            .attr("opacity", opacity)
+    }
 }
 
-update(data_monthly);
+update();
 /*
     !DO NOT DELETE!
 */

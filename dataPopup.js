@@ -4,14 +4,12 @@
 
 var popup = d3.select("#data_popup")
 var infoBtn = d3.select("#info_button")
-//var closeBtn = d3.select("close popup")
-var scrollDownBtn = d3.select("#arrow")
 
-infoBtn.on("click", function(d){
-    //openDataPopup()
+/**
+ * Opens the popup with information about the data and makes button to open the popub invisible
+ */
+d3.select("#info_button").on("click", function(d){
     console.log("open popup")
-    //var mouse = d3.pointer(event)
-    //console.log(mouse)
     popup
         .style("visibility", "visible")
         .style("top",100)
@@ -20,19 +18,10 @@ infoBtn.on("click", function(d){
         .style("visibility", "hidden")
 })
 
-/*var dataWrapper = document.getElementById("dataWrapper")
-var tooltip = d3.select("#data_popup")
-    .style("position", "absolute")
-    .style("visibility", "hidden");*/
-/*
-function openDataPopup(){
-    console.log("open popup")
-    var popup = d3.select("#data_popup")
-        .style("visibility", "visible")
-        .style("top",dataWrapper.offsetTop+90+"px")
-        .style("left",dataWrapper.offsetLeft+10+"px")
-}*/
-
+/**
+ * Closes the popup and makes button for popup visisble again
+ * Is called when the 'X' button of the popup is clicked
+ */
 function closePopup(){
     console.log("close popup")
     popup
@@ -44,4 +33,3 @@ function closePopup(){
 function scrollDown(){
     window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
 }
-
